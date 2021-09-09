@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>NPlatform.Infrastructure</id>
+    <version>5.0.2.3</version>
+    <authors>Dongliang Yi</authors>
+    <description>* V 5.0.2 增加 API端点配置
+* V 5.0.2  2021-2-3 在3.0版本上 增加对 .NET5 ,.NET 2.2的支持,实现 2.2,3.1 5.0多目标框架支持.增加基于Redis的分布式锁.</description>
+    <releaseNotes>更新</releaseNotes>
+    <dependencies>
+      <group targetFramework=".NETCoreApp3.1">
+        <dependency id="AutoMapper" version="8.0.0" exclude="Build,Analyzers" />
+        <dependency id="Com.Ctrip.Framework.Apollo.ConfigurationManager" version="2.4.3" exclude="Build,Analyzers" />
+        <dependency id="DotNetZip" version="1.13.3" exclude="Build,Analyzers" />
+        <dependency id="Jiguang.JPush" version="1.2.3" exclude="Build,Analyzers" />
+        <dependency id="MicroKnights.Log4NetAdoNetAppender" version="2.1.2" exclude="Build,Analyzers" />
+        <dependency id="MySql.Data" version="8.0.21" exclude="Build,Analyzers" />
+        <dependency id="NPOI" version="2.4.1" exclude="Build,Analyzers" />
+        <dependency id="Newtonsoft.Json" version="12.0.3" exclude="Build,Analyzers" />
+        <dependency id="QRCoder" version="1.4.1" exclude="Build,Analyzers" />
+        <dependency id="ServiceStack.Redis" version="5.4.0" exclude="Build,Analyzers" />
+        <dependency id="Snowflake.Core" version="2.0.0" exclude="Build,Analyzers" />
+        <dependency id="StackExchange.Redis" version="2.1.30" exclude="Build,Analyzers" />
+        <dependency id="System.CodeDom" version="4.7.0" exclude="Build,Analyzers" />
+        <dependency id="log4net" version="2.0.8" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net5.0">
+        <dependency id="AutoMapper" version="8.0.0" exclude="Build,Analyzers" />
+        <dependency id="Com.Ctrip.Framework.Apollo.ConfigurationManager" version="2.4.3" exclude="Build,Analyzers" />
+        <dependency id="DotNetZip" version="1.13.3" exclude="Build,Analyzers" />
+        <dependency id="Jiguang.JPush" version="1.2.3" exclude="Build,Analyzers" />
+        <dependency id="MicroKnights.Log4NetAdoNetAppender" version="2.1.2" exclude="Build,Analyzers" />
+        <dependency id="MySql.Data" version="8.0.21" exclude="Build,Analyzers" />
+        <dependency id="NPOI" version="2.4.1" exclude="Build,Analyzers" />
+        <dependency id="Newtonsoft.Json" version="12.0.3" exclude="Build,Analyzers" />
+        <dependency id="QRCoder" version="1.4.1" exclude="Build,Analyzers" />
+        <dependency id="ServiceStack.Redis" version="5.4.0" exclude="Build,Analyzers" />
+        <dependency id="Snowflake.Core" version="2.0.0" exclude="Build,Analyzers" />
+        <dependency id="StackExchange.Redis" version="2.1.30" exclude="Build,Analyzers" />
+        <dependency id="System.CodeDom" version="4.7.0" exclude="Build,Analyzers" />
+        <dependency id="log4net" version="2.0.8" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <contentFiles>
+      <files include="any/net5.0/Config/log4net.config" buildAction="Content" />
+      <files include="any/netcoreapp3.1/Config/log4net.config" buildAction="Content" />
+    </contentFiles>
+  </metadata>
+  <files>
+    <file src="D:\work\NoName\core\NPlatform.Infrastructure\bin\Debug\net5.0\NPlatform.Infrastructure.dll" target="lib\net5.0\NPlatform.Infrastructure.dll" />
+    <file src="D:\work\NoName\core\NPlatform.Infrastructure\bin\Debug\net5.0\NPlatform.Infrastructure.xml" target="lib\net5.0\NPlatform.Infrastructure.xml" />
+    <file src="D:\work\NoName\core\NPlatform.Infrastructure\bin\Debug\netcoreapp3.1\NPlatform.Infrastructure.dll" target="lib\netcoreapp3.1\NPlatform.Infrastructure.dll" />
+    <file src="D:\work\NoName\core\NPlatform.Infrastructure\bin\Debug\netcoreapp3.1\NPlatform.Infrastructure.xml" target="lib\netcoreapp3.1\NPlatform.Infrastructure.xml" />
+    <file src="D:\work\NoName\core\NPlatform.Infrastructure\Config\log4net.config" target="content\Config\log4net.config" />
+    <file src="D:\work\NoName\core\NPlatform.Infrastructure\Config\log4net.config" target="contentFiles\any\net5.0\Config\log4net.config" />
+    <file src="D:\work\NoName\core\NPlatform.Infrastructure\Config\log4net.config" target="contentFiles\any\netcoreapp3.1\Config\log4net.config" />
+  </files>
+</package>

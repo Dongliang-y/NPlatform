@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "R0k3NUeiXAsY6M5JOD29epQmg4TEEoPK6Kq+200uAn6i3KXwaQT5CFiOcL5pSWHQKz0w7OSM5qTWEHAX3py2GA==",
+  "success": true,
+  "projectFilePath": "D:\\work\\NoName\\core\\NPlatform.DapperRepository\\NPlatform.DapperRepository.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\PARATERA\\.nuget\\packages\\dapper\\2.0.90\\dapper.2.0.90.nupkg.sha512"
+  ],
+  "logs": []
+}
