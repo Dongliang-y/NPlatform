@@ -20,6 +20,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyProductAttribute("基础框架")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NPlatform")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.1")]
+[assembly: System.Reflection.AssemblyMetadataAttribute("RepositoryUrl", "https://github.com/Dongliang-y/NPlatform.git")]
 
 // 由 MSBuild WriteCodeFragment 类生成。
 

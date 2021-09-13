@@ -28,6 +28,9 @@
     <FileVersion>1.0.0.1</FileVersion>
     <PackageId>NPlatform</PackageId>
     <PackageReleaseNotes>单元测试通过，试运行。</PackageReleaseNotes>
+    <PackageProjectUrl>https://github.com/Dongliang-y/NPlatform</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Dongliang-y/NPlatform.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

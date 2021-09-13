@@ -31,7 +31,7 @@
   },
   "targets": {
     ".NETCoreApp,Version=v5.0": {
-      "NPlatform/5.0.1.6": {
+      "NPlatform/1.0.0.1": {
         "dependencies": {
           "AutoMapper": "8.0.0",
           "Autofac": "5.2.0",
@@ -4294,7 +4294,7 @@
     }
   },
   "libraries": {
-    "NPlatform/5.0.1.6": {
+    "NPlatform/1.0.0.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

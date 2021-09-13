@@ -47,12 +47,12 @@
     </contentFiles>
   </metadata>
   <files>
-    <file src="D:\work\NoName\core\NPlatform.Infrastructure\bin\Debug\net5.0\NPlatform.Infrastructure.dll" target="lib\net5.0\NPlatform.Infrastructure.dll" />
-    <file src="D:\work\NoName\core\NPlatform.Infrastructure\bin\Debug\net5.0\NPlatform.Infrastructure.xml" target="lib\net5.0\NPlatform.Infrastructure.xml" />
-    <file src="D:\work\NoName\core\NPlatform.Infrastructure\bin\Debug\netcoreapp3.1\NPlatform.Infrastructure.dll" target="lib\netcoreapp3.1\NPlatform.Infrastructure.dll" />
-    <file src="D:\work\NoName\core\NPlatform.Infrastructure\bin\Debug\netcoreapp3.1\NPlatform.Infrastructure.xml" target="lib\netcoreapp3.1\NPlatform.Infrastructure.xml" />
-    <file src="D:\work\NoName\core\NPlatform.Infrastructure\Config\log4net.config" target="content\Config\log4net.config" />
-    <file src="D:\work\NoName\core\NPlatform.Infrastructure\Config\log4net.config" target="contentFiles\any\net5.0\Config\log4net.config" />
-    <file src="D:\work\NoName\core\NPlatform.Infrastructure\Config\log4net.config" target="contentFiles\any\netcoreapp3.1\Config\log4net.config" />
+    <file src="D:\work\NoName\NPlatform\NPlatform.Infrastructure\bin\Debug\net5.0\NPlatform.Infrastructure.dll" target="lib\net5.0\NPlatform.Infrastructure.dll" />
+    <file src="D:\work\NoName\NPlatform\NPlatform.Infrastructure\bin\Debug\net5.0\NPlatform.Infrastructure.xml" target="lib\net5.0\NPlatform.Infrastructure.xml" />
+    <file src="D:\work\NoName\NPlatform\NPlatform.Infrastructure\bin\Debug\netcoreapp3.1\NPlatform.Infrastructure.dll" target="lib\netcoreapp3.1\NPlatform.Infrastructure.dll" />
+    <file src="D:\work\NoName\NPlatform\NPlatform.Infrastructure\bin\Debug\netcoreapp3.1\NPlatform.Infrastructure.xml" target="lib\netcoreapp3.1\NPlatform.Infrastructure.xml" />
+    <file src="D:\work\NoName\NPlatform\NPlatform.Infrastructure\Config\log4net.config" target="content\Config\log4net.config" />
+    <file src="D:\work\NoName\NPlatform\NPlatform.Infrastructure\Config\log4net.config" target="contentFiles\any\net5.0\Config\log4net.config" />
+    <file src="D:\work\NoName\NPlatform\NPlatform.Infrastructure\Config\log4net.config" target="contentFiles\any\netcoreapp3.1\Config\log4net.config" />
   </files>
 </package>

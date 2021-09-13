@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "e6azGhyGy2pAEXCcgXqrV8pnT67B9Dt5R8/cWI+BIRcqGG8T/QDsJ1X9Cmielvuk3uU7BPYjbk1/LXxhCM/siw==",
+  "dgSpecHash": "DfYL9jp4WyyJa+eYx7Dmid4WXprRi6HDaHYFuRtGg+/FhCaxnwGuqtO1qEBWmymrBp2xkxYUhUU7OsCq1qlIHg==",
   "success": true,
-  "projectFilePath": "D:\\work\\NoName\\core\\NPlatform\\NPlatform.csproj",
+  "projectFilePath": "D:\\work\\NoName\\NPlatform\\NPlatform\\NPlatform.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\PARATERA\\.nuget\\packages\\autofac\\5.2.0\\autofac.5.2.0.nupkg.sha512",
     "C:\\Users\\PARATERA\\.nuget\\packages\\autofac.extensions.dependencyinjection\\6.0.0\\autofac.extensions.dependencyinjection.6.0.0.nupkg.sha512",

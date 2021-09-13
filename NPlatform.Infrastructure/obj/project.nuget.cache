@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Qha2acjK0DHroMMziRvm/JqFbZLKpne1CqFKeEZEJPWkqEM7TvrrA8BwmZiJb20A26TDAuJdW4ivZxP+hMlVJQ==",
+  "dgSpecHash": "safIXNYVTXp346DDz/Qj623hiaroVzFhNl4xHhDWyTGhdfs+m5C0fZRQzwDyRnQQjbZ4xaQEYxsSF7l1hPlbKQ==",
   "success": true,
-  "projectFilePath": "D:\\work\\NoName\\core\\NPlatform.Infrastructure\\NPlatform.Infrastructure.csproj",
+  "projectFilePath": "D:\\work\\NoName\\NPlatform\\NPlatform.Infrastructure\\NPlatform.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\PARATERA\\.nuget\\packages\\automapper\\8.0.0\\automapper.8.0.0.nupkg.sha512",
     "C:\\Users\\PARATERA\\.nuget\\packages\\bouncycastle.netcore\\1.8.3\\bouncycastle.netcore.1.8.3.nupkg.sha512",
