@@ -1510,106 +1510,10 @@
             <param name="codeStr">要生成二维码的字符串</param>      
             <returns>二维码图片</returns>  
         </member>
-        <member name="T:NPlatform.Infrastructure.Redis.ComRedis">
+        <member name="T:NPlatform.Infrastructure.Redis.AuthRedis">
             <summary>
-            通用Redis缓存
+            授权相关的redis操作
             </summary>
-        </member>
-        <member name="F:NPlatform.Infrastructure.Redis.ComRedis.engine">
-            <summary>
-            通用Redis单例
-            </summary>
-        </member>
-        <member name="P:NPlatform.Infrastructure.Redis.ComRedis.Instance">
-            <summary>
-            获取单例
-            </summary>
-            <returns>对象</returns>
-        </member>
-        <member name="M:NPlatform.Infrastructure.Redis.ComRedis.Add``1(System.String,``0,System.String)">
-            <summary>
-            将缓存对象以json形式存储
-            </summary>
-            <typeparam name="T">泛型对象</typeparam>
-            <param name="key">缓存键</param>
-            <param name="t">值对象</param>
-            <param name="group">add添加到指定组，获取就从指定组获取</param>
-        </member>
-        <member name="M:NPlatform.Infrastructure.Redis.ComRedis.Add``1(System.String,``0,System.Int32,System.String)">
-            <summary>
-            将缓存对象以json形式存储
-            </summary>
-            <typeparam name="T">泛型对象</typeparam>
-            <param name="key">缓存键</param>
-            <param name="t">值对象</param>
-            <param name="group">add添加到指定组，获取就从指定组获取</param>
-        </member>
-        <member name="M:NPlatform.Infrastructure.Redis.ComRedis.Get``1(System.String,System.String)">
-            <summary>
-            获取泛型对象信息
-            </summary>
-            <typeparam name="T">泛型对象</typeparam>
-            <param name="key">缓存键</param>
-            <param name="group">获取指定组的缓存，add添加到指定组，获取就从指定组获取</param>
-            <returns>T</returns>
-        </member>
-        <member name="M:NPlatform.Infrastructure.Redis.ComRedis.Remove(System.String,System.String)">
-            <summary>
-            移除缓存
-            </summary>
-            <param name="key">缓存键</param>
-            <param name="group">从指定组里删除指定键的缓存</param>
-        </member>
-        <member name="M:NPlatform.Infrastructure.Redis.ComRedis.RemoveGroup(System.String)">
-            <summary>
-            根据组名清空缓存
-            </summary>
-            <param name="group">组名</param>
-        </member>
-        <member name="T:NPlatform.Infrastructure.Redis.TableRedis">
-            <summary>
-            表Redis缓存
-            </summary>
-        </member>
-        <member name="F:NPlatform.Infrastructure.Redis.TableRedis.inst">
-            <summary>
-            表Redis单例
-            </summary>
-        </member>
-        <member name="P:NPlatform.Infrastructure.Redis.TableRedis.Instance">
-            <summary>
-            获取单例
-            </summary>
-            <returns>对象</returns>
-        </member>
-        <member name="M:NPlatform.Infrastructure.Redis.TableRedis.Add``1(System.String,``0)">
-            <summary>
-            将缓存对象以json形式存储
-            </summary>
-            <typeparam name="T">泛型对象</typeparam>
-            <param name="module">模块类型</param>
-            <param name="t">值对象</param>
-        </member>
-        <member name="M:NPlatform.Infrastructure.Redis.TableRedis.Exists(System.String)">
-            <summary>
-            表是否有缓存
-            </summary>
-            <param name="key">缓存键</param>
-            <returns>bool</returns>
-        </member>
-        <member name="M:NPlatform.Infrastructure.Redis.TableRedis.Get``1(System.String)">
-            <summary>
-            获取泛型对象信息
-            </summary>
-            <typeparam name="T">泛型对象</typeparam>
-            <param name="module">模块类型</param>
-            <returns>对象</returns>
-        </member>
-        <member name="M:NPlatform.Infrastructure.Redis.TableRedis.Remove(System.String)">
-            <summary>
-            移除缓存
-            </summary>
-            <param name="module">模块类型</param>
         </member>
         <member name="T:NPlatform.Infrastructure.RedisConnection">
             <summary>
@@ -1668,18 +1572,18 @@
             <param name="sender"></param>
             <param name="e"></param>
         </member>
-        <member name="T:NPlatform.Infrastructure.RedisHelper">
+        <member name="T:NPlatform.Infrastructure.RedisTool">
             <summary>
             Redis操作
             </summary>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.#ctor(System.Int32)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.#ctor(System.Int32,System.String)">
             <summary>
             RedisHelper
             </summary>
             <param name="dbNum">库序号</param>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.StringSetAsync(System.String,System.String,System.Nullable{System.TimeSpan})">
+        <member name="M:NPlatform.Infrastructure.RedisTool.StringSetAsync(System.String,System.String,System.Nullable{System.TimeSpan})">
             <summary>
             保存单个key value
             </summary>
@@ -1688,7 +1592,7 @@
             <param name="expiry">过期时间</param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.StringSet(System.String,System.String,System.Nullable{System.TimeSpan})">
+        <member name="M:NPlatform.Infrastructure.RedisTool.StringSet(System.String,System.String,System.Nullable{System.TimeSpan})">
             <summary>
             保存单个key value
             </summary>
@@ -1697,14 +1601,14 @@
             <param name="expiry">过期时间</param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.StringSetAsync(System.Collections.Generic.List{System.Collections.Generic.KeyValuePair{StackExchange.Redis.RedisKey,StackExchange.Redis.RedisValue}})">
+        <member name="M:NPlatform.Infrastructure.RedisTool.StringSetAsync(System.Collections.Generic.List{System.Collections.Generic.KeyValuePair{StackExchange.Redis.RedisKey,StackExchange.Redis.RedisValue}})">
             <summary>
             保存多个key value
             </summary>
             <param name="keyValues">键值对</param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.StringSetAsync``1(System.String,``0,System.Nullable{System.TimeSpan})">
+        <member name="M:NPlatform.Infrastructure.RedisTool.StringSetAsync``1(System.String,``0,System.Nullable{System.TimeSpan})">
             <summary>
             保存一个对象
             </summary>
@@ -1714,7 +1618,7 @@
             <param name="expiry"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.StringSet``1(System.String,``0,System.Nullable{System.TimeSpan})">
+        <member name="M:NPlatform.Infrastructure.RedisTool.StringSet``1(System.String,``0,System.Nullable{System.TimeSpan})">
             <summary>
             保存一个对象
             </summary>
@@ -1724,7 +1628,7 @@
             <param name="expiry"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.StringSetWithType``1(System.String,``0,System.TimeSpan)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.StringSetWithType``1(System.String,``0,System.TimeSpan)">
             <summary>
             带类型的存储
             </summary>
@@ -1734,21 +1638,21 @@
             <param name="expiry"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.StringGetAsync(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.StringGetAsync(System.String)">
             <summary>
             获取单个key的值
             </summary>
             <param name="key">Redis Key</param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.StringGetAsync(System.Collections.Generic.List{System.String})">
+        <member name="M:NPlatform.Infrastructure.RedisTool.StringGetAsync(System.Collections.Generic.List{System.String})">
             <summary>
             获取多个Key
             </summary>
             <param name="listKey">Redis Key集合</param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.StringGetAsync``1(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.StringGetAsync``1(System.String)">
             <summary>
             获取一个key的对象
             </summary>
@@ -1756,7 +1660,7 @@
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.StringGet``1(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.StringGet``1(System.String)">
             <summary>
             获取一个key的对象
             </summary>
@@ -1764,7 +1668,7 @@
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.StringIncrementAsync(System.String,System.Double)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.StringIncrementAsync(System.String,System.Double)">
             <summary>
             为数字增长val
             </summary>
@@ -1772,7 +1676,7 @@
             <param name="val">可以为负</param>
             <returns>增长后的值</returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.StringDecrementAsync(System.String,System.Double)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.StringDecrementAsync(System.String,System.Double)">
             <summary>
             为数字减少val
             </summary>
@@ -1780,7 +1684,7 @@
             <param name="val">可以为负</param>
             <returns>减少后的值</returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.SetAdd(System.String,System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.SetAdd(System.String,System.String)">
             <summary>
             给集合添加一个值
             </summary>
@@ -1790,14 +1694,14 @@
             <param name="expiry"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.SetMembers(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.SetMembers(System.String)">
             <summary>
             取得集合下面所有的值
             </summary>
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.SetRemove``1(System.String,``0)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.SetRemove``1(System.String,``0)">
             <summary>
             从集合中移除一个元素
             </summary>
@@ -1806,7 +1710,7 @@
             <param name="obj"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.SetRemove(System.String,System.String[])">
+        <member name="M:NPlatform.Infrastructure.RedisTool.SetRemove(System.String,System.String[])">
             <summary>
             从集合中清除一系列的元素
             </summary>
@@ -1815,7 +1719,7 @@
             <param name="obj"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.HashExistsAsync(System.String,System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.HashExistsAsync(System.String,System.String)">
             <summary>
             判断某个数据是否已经被缓存
             </summary>
@@ -1823,7 +1727,7 @@
             <param name="dataKey"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.HashSetAsync``1(System.String,System.String,``0)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.HashSetAsync``1(System.String,System.String,``0)">
             <summary>
             存储数据到hash表
             </summary>
@@ -1833,7 +1737,7 @@
             <param name="t"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.HashDeleteAsync(System.String,System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.HashDeleteAsync(System.String,System.String)">
             <summary>
             移除hash中的某值
             </summary>
@@ -1841,7 +1745,7 @@
             <param name="dataKey"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.HashDeleteAsync(System.String,System.Collections.Generic.List{StackExchange.Redis.RedisValue})">
+        <member name="M:NPlatform.Infrastructure.RedisTool.HashDeleteAsync(System.String,System.Collections.Generic.List{StackExchange.Redis.RedisValue})">
             <summary>
             移除hash中的多个值
             </summary>
@@ -1849,7 +1753,7 @@
             <param name="dataKeys"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.HashGeAsync``1(System.String,System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.HashGeAsync``1(System.String,System.String)">
             <summary>
             从hash表获取数据
             </summary>
@@ -1858,7 +1762,7 @@
             <param name="dataKey"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.HashIncrementAsync(System.String,System.String,System.Double)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.HashIncrementAsync(System.String,System.String,System.Double)">
             <summary>
             为数字增长val
             </summary>
@@ -1867,7 +1771,7 @@
             <param name="val">可以为负</param>
             <returns>增长后的值</returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.HashDecrementAsync(System.String,System.String,System.Double)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.HashDecrementAsync(System.String,System.String,System.Double)">
             <summary>
             为数字减少val
             </summary>
@@ -1876,7 +1780,7 @@
             <param name="val">可以为负</param>
             <returns>减少后的值</returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.HashKeysAsync``1(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.HashKeysAsync``1(System.String)">
             <summary>
             获取hashkey所有Redis key
             </summary>
@@ -1884,28 +1788,28 @@
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.ListRemoveAsync``1(System.String,``0)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.ListRemoveAsync``1(System.String,``0)">
             <summary>
             移除指定ListId的内部List的值
             </summary>
             <param name="key"></param>
             <param name="value"></param>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.ListRangeAsync``1(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.ListRangeAsync``1(System.String)">
             <summary>
             获取指定key的List
             </summary>
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.ListRightPushAsync``1(System.String,``0)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.ListRightPushAsync``1(System.String,``0)">
             <summary>
             入队
             </summary>
             <param name="key"></param>
             <param name="value"></param>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.ListRightPopAsync``1(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.ListRightPopAsync``1(System.String)">
             <summary>
             出队
             </summary>
@@ -1913,7 +1817,7 @@
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.ListLeftPushs``1(System.String,System.Collections.Generic.List{``0})">
+        <member name="M:NPlatform.Infrastructure.RedisTool.ListLeftPushs``1(System.String,System.Collections.Generic.List{``0})">
             <summary>
             入栈
             </summary>
@@ -1921,7 +1825,7 @@
             <param name="key"></param>
             <param name="value"></param>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.ListLeftPushAsync``1(System.String,``0)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.ListLeftPushAsync``1(System.String,``0)">
             <summary>
             入栈
             </summary>
@@ -1929,7 +1833,7 @@
             <param name="key"></param>
             <param name="value"></param>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.ListLeftPopAsync``1(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.ListLeftPopAsync``1(System.String)">
             <summary>
             出栈
             </summary>
@@ -1937,14 +1841,14 @@
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.ListLengthAsync(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.ListLengthAsync(System.String)">
             <summary>
             获取集合中的数量
             </summary>
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.SortedSetAddAsync``1(System.String,``0,System.Double)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.SortedSetAddAsync``1(System.String,``0,System.Double)">
             <summary>
             添加
             </summary>
@@ -1953,56 +1857,56 @@
             <param name="score"></param>
             <returns><placeholder>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</placeholder></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.SortedSetRemoveAsync``1(System.String,``0)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.SortedSetRemoveAsync``1(System.String,``0)">
             <summary>
             删除
             </summary>
             <param name="key"></param>
             <param name="value"></param>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.SortedSetRangeByRankAsync``1(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.SortedSetRangeByRankAsync``1(System.String)">
             <summary>
             获取全部
             </summary>
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.SortedSetLengthAsync(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.SortedSetLengthAsync(System.String)">
             <summary>
             获取集合中的数量
             </summary>
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.KeyDelete(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.KeyDelete(System.String)">
             <summary>
             删除单个key
             </summary>
             <param name="key">redis key</param>
             <returns>是否删除成功</returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.KeyDelete(System.Collections.Generic.List{System.String})">
+        <member name="M:NPlatform.Infrastructure.RedisTool.KeyDelete(System.Collections.Generic.List{System.String})">
             <summary>
             删除多个key
             </summary>
             <param name="keys">rediskey</param>
             <returns>成功删除的个数</returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.KeyDeletePattern(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.KeyDeletePattern(System.String)">
             <summary>
             根据前缀删除
             </summary>
             <param name="pattern"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.KeyExists(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.KeyExists(System.String)">
             <summary>
             判断key是否存储
             </summary>
             <param name="key">redis key</param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.KeyRename(System.String,System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.KeyRename(System.String,System.String)">
             <summary>
             重新命名key
             </summary>
@@ -2010,7 +1914,7 @@
             <param name="newKey">新的redis key</param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.KeyExpire(System.String,System.Nullable{System.TimeSpan})">
+        <member name="M:NPlatform.Infrastructure.RedisTool.KeyExpire(System.String,System.Nullable{System.TimeSpan})">
             <summary>
             设置Key的时间
             </summary>
@@ -2018,14 +1922,14 @@
             <param name="expiry"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.Subscribe(System.String,System.Action{StackExchange.Redis.RedisChannel,StackExchange.Redis.RedisValue})">
+        <member name="M:NPlatform.Infrastructure.RedisTool.Subscribe(System.String,System.Action{StackExchange.Redis.RedisChannel,StackExchange.Redis.RedisValue})">
             <summary>
             Redis发布订阅  订阅
             </summary>
             <param name="subChannel"></param>
             <param name="handler"></param>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.Publish``1(System.String,``0)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.Publish``1(System.String,``0)">
             <summary>
             Redis发布订阅  发布
             </summary>
@@ -2034,48 +1938,48 @@
             <param name="msg"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.Unsubscribe(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.Unsubscribe(System.String)">
             <summary>
             Redis发布订阅  取消订阅
             </summary>
             <param name="channel"></param>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.UnsubscribeAll">
+        <member name="M:NPlatform.Infrastructure.RedisTool.UnsubscribeAll">
             <summary>
             Redis发布订阅  取消全部订阅
             </summary>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.CreateTransaction">
+        <member name="M:NPlatform.Infrastructure.RedisTool.CreateTransaction">
             <summary>
             创建事务
             </summary>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.GetDatabase">
+        <member name="M:NPlatform.Infrastructure.RedisTool.GetDatabase">
             <summary>
             获取DB
             </summary>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.GetServer(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.GetServer(System.String)">
             <summary>
             获取服务器
             </summary>
             <param name="hostAndPort"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.SetSysCustomKey(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.SetSysCustomKey(System.String)">
             <summary>
             设置前缀
             </summary>
             <param name="prefix"></param>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.ClearAll">
+        <member name="M:NPlatform.Infrastructure.RedisTool.ClearAll">
             <summary>
             清除所有缓存
             </summary>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.Lock(System.String,System.Int32)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.Lock(System.String,System.Int32)">
             <summary>
             获取锁。
             </summary>
@@ -2083,14 +1987,14 @@
             <param name="seconds">过期时间（秒）。</param>
             <returns>是否已锁。</returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.UnLock(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.UnLock(System.String)">
             <summary>
             释放锁。
             </summary>
             <param name="key">锁名称。</param>
             <returns>是否成功。</returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.LockAsync(System.String,System.Int32)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.LockAsync(System.String,System.Int32)">
             <summary>
             异步获取锁。
             </summary>
@@ -2098,7 +2002,7 @@
             <param name="seconds">过期时间（秒）。</param>
             <returns>是否成功。</returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisHelper.UnLockAsync(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisTool.UnLockAsync(System.String)">
             <summary>
             异步释放锁。
             </summary>

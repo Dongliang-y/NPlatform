@@ -19,21 +19,21 @@
             全局配置信息
             </summary>
         </member>
-        <member name="M:NPlatform.API.Controllers.BaseController.GetRequestArrayParams``1">
+        <member name="M:NPlatform.API.Controllers.BaseController.GetRequestParamsAsync``1">
             <summary>
             获取UI传递的js 数组参数 'Content-Type':'application/json' params:JSON.stringify(Array)
             </summary>
             <typeparam name="T"></typeparam>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.API.Controllers.BaseController.GetRequestStringParams">
+        <member name="M:NPlatform.API.Controllers.BaseController.GetRequestStrParamsAsync">
             <summary>
             获取UI传递的js 数组参数 'Content-Type':'application/json' params:JSON.stringify(Array)
             </summary>
             <typeparam name="T"></typeparam>
             <returns></returns>
         </member>
-        <member name="P:NPlatform.API.Controllers.BaseController.AuthInfo">
+        <member name="M:NPlatform.API.Controllers.BaseController.GetAuthInfo">
             <summary>
             获取认证的身份信息
             </summary>
@@ -1286,7 +1286,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.CommonRedisConst.GetOtherPhoneKey(System.String)">
+        <member name="M:NPlatform.CommonRedisConst.AuthInfoKey(System.String)">
             <summary>
             获取第三方登录时缓存手机号码的key
             </summary>

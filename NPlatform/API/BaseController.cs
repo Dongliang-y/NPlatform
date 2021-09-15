@@ -19,6 +19,7 @@ namespace NPlatform.API.Controllers
     using NPlatform.Infrastructure;
     using NPlatform.IOC;
     using NPlatform.Repositories;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// controler 基类
@@ -28,6 +29,11 @@ namespace NPlatform.API.Controllers
     [Authorize]
     public abstract class BaseController : ControllerBase
     {
+        AuthRedis redisAuth;
+        public BaseController(AuthRedis authRedis)
+        {
+            redisAuth = authRedis;
+        }
         /// <summary>
         /// 全局配置信息
         /// </summary>
@@ -47,11 +53,11 @@ namespace NPlatform.API.Controllers
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        protected T GetRequestArrayParams<T>()
+        protected async Task<T> GetRequestParamsAsync<T>()
         {
             using (var ms = new MemoryStream())
             {
-                Request.Body.CopyTo(ms);
+                await Request.Body.CopyToAsync(ms);
                 var b = ms.ToArray();
                 var postParamsString = Encoding.UTF8.GetString(b);
                 return NPlatform.Infrastructure.SerializerHelper.FromJson<T>(postParamsString);
@@ -63,11 +69,11 @@ namespace NPlatform.API.Controllers
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        protected virtual string GetRequestStringParams()
+        protected async virtual Task<string> GetRequestStrParamsAsync()
         {
             using (var ms = new MemoryStream())
             {
-                Request.Body.CopyTo(ms);
+                await Request.Body.CopyToAsync(ms);
                 var b = ms.ToArray();
                 var postParamsString = Encoding.UTF8.GetString(b);
                 return postParamsString;
@@ -80,63 +86,61 @@ namespace NPlatform.API.Controllers
         /// <summary>
         /// 获取认证的身份信息
         /// </summary>
-        protected virtual AuthInfoVO AuthInfo
+        protected virtual async Task<AuthInfoVO> GetAuthInfo()
         {
-            get
+            try
             {
-                try
+                if (this.authInfo == null)
                 {
-                    if (this.authInfo == null)
+                    var token = this.Request.Headers["Authorization"];
+                    authInfo = await redisAuth.StringGetAsync<AuthInfoVO>(CommonRedisConst.AuthInfoKey(token));
+                    if (authInfo == null)
                     {
-                        RedisHelper redis = new RedisHelper();
-                        authInfo = redis.StringGet<AuthInfoVO>(CommonRedisConst.GetOtherPhoneKey(AuthInfo.AccessToken));
-                        if (authInfo == null)
+                        var Claims = User.Claims;
+                        authInfo = new AuthInfoVO();
+                        authInfo.AccessToken = token;
+                        if (Claims.Any(t => t.Type == "id"))
                         {
-                            var Claims = User.Claims;
-                            authInfo = new AuthInfoVO();
-                            authInfo.AccessToken = this.Request.Headers["Authorization"];
-                            if (Claims.Any(t => t.Type == "id"))
-                            {
-                                authInfo.Id = Claims.FirstOrDefault(t => t.Type == "id").Value;
-                            }
-
-                            if (Claims.Any(t => t.Type == "client_id"))
-                            {
-                                authInfo.ClientId = Claims.FirstOrDefault(t => t.Type == "client_id").Value;
-                            }
-
-                            if (Claims.Any(t => t.Type == "roleid"))
-                            {
-                                authInfo.CurrentRoleId = Claims.FirstOrDefault(t => t.Type == "roleid").Value;
-                            }
-                            if (Claims.Any(t => t.Type.Contains("givenname")))
-                            {
-                                // Claims.FirstOrDefault(t => t.Subject.Name);
-                                authInfo.CnName = Claims.FirstOrDefault(t => t.Type.Contains("givenname")).Value;
-                            }
-                            if (Claims.Any(t => t.Type == "picture"))
-                            {
-                                authInfo.SignPic = Claims.FirstOrDefault(t => t.Type == "picture").Value;
-                            }
-
-                            if (Claims.Any(t => t.Type == "name"))
-                            {
-                                authInfo.Account = Claims.FirstOrDefault(t => t.Type == "name").Value;
-                            }
+                            authInfo.Id = Claims.FirstOrDefault(t => t.Type == "id").Value;
                         }
-                        return authInfo;
+
+                        if (Claims.Any(t => t.Type == "client_id"))
+                        {
+                            authInfo.ClientId = Claims.FirstOrDefault(t => t.Type == "client_id").Value;
+                        }
+
+                        if (Claims.Any(t => t.Type == "roleid"))
+                        {
+                            authInfo.CurrentRoleId = Claims.FirstOrDefault(t => t.Type == "roleid").Value;
+                        }
+                        if (Claims.Any(t => t.Type.Contains("givenname")))
+                        {
+                            // Claims.FirstOrDefault(t => t.Subject.Name);
+                            authInfo.CnName = Claims.FirstOrDefault(t => t.Type.Contains("givenname")).Value;
+                        }
+                        if (Claims.Any(t => t.Type == "picture"))
+                        {
+                            authInfo.SignPic = Claims.FirstOrDefault(t => t.Type == "picture").Value;
+                        }
+
+                        if (Claims.Any(t => t.Type == "name"))
+                        {
+                            authInfo.Account = Claims.FirstOrDefault(t => t.Type == "name").Value;
+                        }
                     }
-                    else
-                    {
-                        return authInfo;
-                    }
+                    return authInfo;
                 }
-                catch (Exception ex)
+                else
                 {
-                    LogerHelper.Error(ex.Message, "SYS", ex);
-                    return new AuthInfoVO();
+                    return authInfo;
                 }
             }
+            catch (Exception ex)
+            {
+                LogerHelper.Error(ex.Message, "SYS", ex);
+                return new AuthInfoVO();
+            }
+
         }
 
         /// <summary>

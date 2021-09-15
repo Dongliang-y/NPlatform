@@ -22,3 +22,4 @@ D:\work\NoName\NPlatform\NPlatform.Infrastructure\obj\Debug\netcoreapp3.1\NPlatf
 D:\work\NoName\NPlatform\NPlatform.Infrastructure\obj\Debug\netcoreapp3.1\NPlatform.Infrastructure.csproj.CoreCompileInputs.cache
 D:\work\NoName\NPlatform\NPlatform.Infrastructure\obj\Debug\netcoreapp3.1\NPlatform.Infrastructure.dll
 D:\work\NoName\NPlatform\NPlatform.Infrastructure\obj\Debug\netcoreapp3.1\NPlatform.Infrastructure.pdb
+D:\work\NoName\NPlatform\NPlatform.Infrastructure\obj\Debug\netcoreapp3.1\NPlatform.Infrastructure.csproj.AssemblyReference.cache

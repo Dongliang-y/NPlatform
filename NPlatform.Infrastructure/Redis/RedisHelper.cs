@@ -12,7 +12,7 @@ namespace NPlatform.Infrastructure
     /// <summary>
     /// Redis操作
     /// </summary>
-    public class RedisHelper
+    public abstract class RedisTool
     {
         private int DbNum { get; }
         private readonly ConnectionMultiplexer _conn;
@@ -25,11 +25,11 @@ namespace NPlatform.Infrastructure
         /// RedisHelper
         /// </summary>
         /// <param name="dbNum">库序号</param>
-        public RedisHelper(int dbNum = 0)
+        public RedisTool(int dbNum, string moduleName)
         {
             DbNum = dbNum;
             _conn = RedisConnection.Instance;
-            prefix = config.MachineID + config.ServiceID.ToString();
+            prefix = $"{moduleName}:{config.MachineID}:{ config.ServiceID}:";
         }
 
         #endregion 构造函数

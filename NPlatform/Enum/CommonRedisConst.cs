@@ -12,9 +12,9 @@ namespace NPlatform
         /// </summary>
         /// <param name="token">token</param>
         /// <returns></returns>
-        public static string GetOtherPhoneKey(string token)
+        public static string AuthInfoKey(string token)
         {
-            return "phone" + token;
+            return "AuthInfo:" + token;
         }
     }
 }

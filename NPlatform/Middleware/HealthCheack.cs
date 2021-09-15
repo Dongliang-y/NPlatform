@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace NPlatform.UI.Middleware
 {
     /// <summary>
-    /// 
+    /// 健康检查的用的中间件
     /// </summary>
     public class MyHealthChecks : IHealthCheck
     {
