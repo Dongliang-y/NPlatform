@@ -1,39 +1,24 @@
-# NPlatform
-
-#### 介绍
-{**以下是 Gitee 平台说明，您可以替换此简介**
-Gitee 是 OSCHINA 推出的基于 Git 的代码托管平台（同时支持 SVN）。专为开发者提供稳定、高效、安全的云端软件开发协作平台
-无论是个人、团队、或是企业，都能够用 Gitee 实现代码托管、项目管理、协作开发。企业项目请看 [https://gitee.com/enterprises](https://gitee.com/enterprises)}
-
-#### 软件架构
-软件架构说明
+# NoName
+    NoName 是一个旨在提供快速开发基于.NET CORE 的微服务系统的框架。
+    基于现有的.NET CORE生态中，框架比较少，ABP的庞大，高昂的学习成本和开发成本，让中小项目望而却步，自建框架或者使用不成熟的框架不仅开发成本高，对核心技术团队要求高，而且稳定性差。因此约各位志同道合之人，开发此框架，目标是面向中小项目以及各位自己业余项目（此处应有个表情）。
 
 
-#### 安装教程
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+## 文档的管理约定
+* 尽量使用markdown 编写文档 ，最终使用 doctoc 插件生成目录
 
 
-#### 特技
+## 技术栈约定
+* Mysql\redis\mongodb\InfluxDB
+* .NET CORE 5.0
+* EFCore
+* MVC5 + Razor + VUE
+* vant 做APP端
+* 网关ocelot + Consul服务管理
+* 事务
+* 全套使用 异步到底
+* 引入 ddd 部分理论， 引入事件驱动。
+* 仓储层实现读写分离。
+* 引入grpc、 web api
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+## 
