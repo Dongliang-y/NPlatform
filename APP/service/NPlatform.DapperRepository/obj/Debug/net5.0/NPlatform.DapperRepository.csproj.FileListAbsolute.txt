@@ -1,5 +1,0 @@
-D:\work\NoName\NPlatform\NPlatform.DapperRepository\obj\Debug\net5.0\NPlatform.DapperRepository.csproj.AssemblyReference.cache
-D:\work\NoName\NPlatform\NPlatform.DapperRepository\obj\Debug\net5.0\NPlatform.DapperRepository.GeneratedMSBuildEditorConfig.editorconfig
-D:\work\NoName\NPlatform\NPlatform.DapperRepository\obj\Debug\net5.0\NPlatform.DapperRepository.AssemblyInfoInputs.cache
-D:\work\NoName\NPlatform\NPlatform.DapperRepository\obj\Debug\net5.0\NPlatform.DapperRepository.AssemblyInfo.cs
-D:\work\NoName\NPlatform\NPlatform.DapperRepository\obj\Debug\net5.0\NPlatform.DapperRepository.csproj.CoreCompileInputs.cache
