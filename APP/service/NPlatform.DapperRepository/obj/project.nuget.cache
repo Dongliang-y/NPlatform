@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "Vz+CbGminRkepcbaUtIINqBdws4Qo/7RRyF8YB9c3MP/cY2TaLlGbiuF84kU/G2K1KsC+pq4hjWfATxHq7ECTQ==",
+  "success": true,
+  "projectFilePath": "D:\\work\\NoName\\NPlatform\\NPlatform.DapperRepository\\NPlatform.DapperRepository.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\PARATERA\\.nuget\\packages\\dapper\\2.0.90\\dapper.2.0.90.nupkg.sha512",
+    "C:\\Users\\PARATERA\\.nuget\\packages\\dapperextensions.lambda\\3.0.0.19\\dapperextensions.lambda.3.0.0.19.nupkg.sha512",
+    "C:\\Users\\PARATERA\\.nuget\\packages\\mongodb.bson\\2.13.1\\mongodb.bson.2.13.1.nupkg.sha512",
+    "C:\\Users\\PARATERA\\.nuget\\packages\\snowflake.core\\2.0.0\\snowflake.core.2.0.0.nupkg.sha512",
+    "C:\\Users\\PARATERA\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\5.0.0\\system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
