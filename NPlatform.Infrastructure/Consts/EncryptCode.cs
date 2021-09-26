@@ -18,6 +18,6 @@ namespace NPlatform.Infrastructure.Consts
 {
    public class EncryptCode
     {
-        public const string AES = "CSZJJW.20191213";
+        public const string AES = "aes.20210223";
     }
 }

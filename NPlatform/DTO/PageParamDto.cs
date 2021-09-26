@@ -52,7 +52,7 @@ namespace NPlatform.DTO
         /// 校验数据
         /// </summary>
         /// <returns></returns>
-        public ValidateResult Validate()
+        public INPResult Validate()
         {
             return this.Validates();
         }

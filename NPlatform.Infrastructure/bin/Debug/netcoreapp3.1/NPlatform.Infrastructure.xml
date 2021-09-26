@@ -179,209 +179,69 @@
             Token 过期时间
             </summary>
         </member>
-        <member name="T:NPlatform.Config.ConfigFactory`1">
-            <summary>
-            配置文件工厂
-            </summary>
-            <typeparam name="T">配置实体类</typeparam>
-        </member>
-        <member name="M:NPlatform.Config.ConfigFactory`1.GetFilePath">
-            <summary>
-            获取配置文件路径
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.Config.ConfigFactory`1.Save(`0)">
-            <summary>
-            保存配置文件
-            </summary>
-        </member>
-        <member name="M:NPlatform.Config.ConfigFactory`1.Build">
-            <summary>
-            创建配置对象
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:NPlatform.Config.CustomDic.Item(System.String)">
-            <summary>
-            实现[]操作
-            </summary>
-            <param name="key">对象的Id</param>
-            <returns>对象</returns>
-        </member>
-        <member name="T:NPlatform.Config.IConfig">
-            <summary>
-            config 接口
-            </summary>
-        </member>
-        <member name="T:NPlatform.Config.MemcachedConfig">
-            <summary>
-            Memcached 管理
-            </summary>
-        </member>
-        <member name="P:NPlatform.Config.MemcachedConfig.DefaultCacheHours">
-            <summary>
-            默认缓存时间，单位为小时~
-            </summary>
-        </member>
-        <member name="P:NPlatform.Config.MemcachedConfig.MaxPoolSize">
-            <summary>
-            最大连接数
-            </summary>
-        </member>
-        <member name="P:NPlatform.Config.MemcachedConfig.MemcachedProtocol">
-            <summary>
-            协议  Binary/Text
-            </summary>
-        </member>
-        <member name="P:NPlatform.Config.MemcachedConfig.MinPoolSize">
-            <summary>
-            最小连接数
-            </summary>
-        </member>
-        <member name="P:NPlatform.Config.MemcachedConfig.PassWord">
-            <summary>
-            登陆密码
-            </summary>
-        </member>
-        <member name="P:NPlatform.Config.MemcachedConfig.Servers">
-            <summary>
-            服务列表
-            </summary>
-        </member>
-        <member name="P:NPlatform.Config.MemcachedConfig.UserName">
-            <summary>
-            登陆用户
-            </summary>
-        </member>
-        <member name="P:NPlatform.Config.RedisConfig.RedisType">
-            <summary>
-            Gets or sets redis 安装模式，Normal 普通，Twemproxy 代理，Sentinel 哨兵
-            </summary>
-        </member>
-        <member name="P:NPlatform.Config.RedisConfig.Connections">
-            <summary>
-            Gets or sets 连接字符串  ,  [IP:port]
-            </summary>
-        </member>
-        <member name="P:NPlatform.Config.RedisConfig.Password">
-            <summary>
-            redis 密码
-            </summary>
-        </member>
-        <member name="P:NPlatform.Config.RedisConfig.AllowAdmin">
-            <summary>
-            AllowAdmin
-            </summary>
-        </member>
-        <member name="P:NPlatform.Config.RedisConfig.Pipe">
-            <summary>
-            redis 管道
-            </summary>
-        </member>
-        <member name="P:NPlatform.Config.RedisConfig.EnableCacheInterceptor">
-            <summary>
-            是否开启缓存方法拦截
-            </summary>
-        </member>
-        <member name="T:NPlatform.Config.NPlatformConfig">
+        <member name="T:NPlatform.Config.ServiceConfig">
             <summary>
             通用配置管理
             </summary>
         </member>
-        <member name="P:NPlatform.Config.NPlatformConfig.MachineID">
+        <member name="P:NPlatform.Config.ServiceConfig.ServiceName">
             <summary>
-            机器ID ，集群部署时的设备编号。
+            服务名称
             </summary>
         </member>
-        <member name="P:NPlatform.Config.NPlatformConfig.ServiceID">
+        <member name="P:NPlatform.Config.ServiceConfig.ServiceID">
             <summary>
             分布式部署时服务ID
             </summary>
         </member>
-        <member name="P:NPlatform.Config.NPlatformConfig.IsDebug">
-            <summary>
-            是否为调试模式
-            </summary>
-        </member>
-        <member name="P:NPlatform.Config.NPlatformConfig.Company">
-            <summary>
-            公司
-            </summary>
-        </member>
-        <member name="P:NPlatform.Config.NPlatformConfig.CompanyUrl">
-            <summary>
-            CompanyUrl
-            </summary>
-        </member>
-        <member name="P:NPlatform.Config.NPlatformConfig.ConnectionString">
-            <summary>
-            链接字符串
-            </summary>
-        </member>
-        <member name="P:NPlatform.Config.NPlatformConfig.DBProvider">
-            <summary>
-            数据 提供程序
-            </summary>
-        </member>
-        <member name="P:NPlatform.Config.NPlatformConfig.PlatformVersion">
+        <member name="P:NPlatform.Config.ServiceConfig.ServiceVersion">
             <summary>
             版本号
             </summary>
         </member>
-        <member name="P:NPlatform.Config.NPlatformConfig.ICP">
-            <summary>
-            ICP备案号
-            </summary>
-        </member>
-        <member name="P:NPlatform.Config.NPlatformConfig.IOCAssemblys">
+        <member name="P:NPlatform.Config.ServiceConfig.IOCAssemblys">
             <summary>
             需要注入的dll
             </summary>
         </member>
-        <member name="P:NPlatform.Config.NPlatformConfig.Authinfo">
-            <summary>
-            授权配置
-            </summary>
-        </member>
-        <member name="P:NPlatform.Config.NPlatformConfig.PlatformConfigs">
-            <summary>
-            配置信息
-            </summary>
-        </member>
-        <member name="P:NPlatform.Config.NPlatformConfig.DynamicConfigs">
-            <summary>
-            可变类型的配置项
-            </summary>
-        </member>
-        <member name="P:NPlatform.Config.NPlatformConfig.Support">
-            <summary>
-            技术支持
-            </summary>
-        </member>
-        <member name="P:NPlatform.Config.NPlatformConfig.SystemName">
-            <summary>
-            系统名称
-            </summary>
-        </member>
-        <member name="P:NPlatform.Config.NPlatformConfig.SystemUrl">
+        <member name="P:NPlatform.Config.ServiceConfig.ServiceEndPoint">
             <summary>
             系统地址
             </summary>
         </member>
-        <member name="P:NPlatform.Config.NPlatformConfig.Team">
+        <member name="P:NPlatform.Infrastructure.IRedisConfig.dbNum">
             <summary>
-            开发团队
+            当前服务的数据库序号
             </summary>
         </member>
-        <member name="P:NPlatform.Config.NPlatformConfig.UserConfigs">
+        <member name="P:NPlatform.Infrastructure.RedisConfig.RedisType">
             <summary>
-            配置信息JGAppSecret
+            Gets or sets redis 安装模式，Normal 普通，Twemproxy 代理，Sentinel 哨兵
             </summary>
         </member>
-        <member name="P:NPlatform.Config.NPlatformConfig.APIEndPoints">
+        <member name="P:NPlatform.Infrastructure.RedisConfig.Connections">
             <summary>
-            API调用端口,配置的格式   {QCM:{xxget:'',xxxDelete:''},MPM:{zzzAdd:'',zzzDelete:''}}
+            Gets or sets 连接字符串  ,  [IP:port]
+            </summary>
+        </member>
+        <member name="P:NPlatform.Infrastructure.RedisConfig.Password">
+            <summary>
+            redis 密码
+            </summary>
+        </member>
+        <member name="P:NPlatform.Infrastructure.RedisConfig.AllowAdmin">
+            <summary>
+            AllowAdmin
+            </summary>
+        </member>
+        <member name="P:NPlatform.Infrastructure.RedisConfig.Pipe">
+            <summary>
+            redis 管道
+            </summary>
+        </member>
+        <member name="P:NPlatform.Infrastructure.RedisConfig.EnableCacheInterceptor">
+            <summary>
+            是否开启缓存方法拦截
             </summary>
         </member>
         <member name="T:NPlatform.Infrastructure.EnumFormula">
@@ -1135,17 +995,6 @@
             <param name="strUrl">一般应用程序请求地址</param>
             <param name="inputStream">文件流</param>
         </member>
-        <member name="T:NPlatform.Infrastructure.IdGenerators.IdGenerator">
-            <summary>
-            ID 生成器
-            </summary>
-        </member>
-        <member name="M:NPlatform.Infrastructure.IdGenerators.IdGenerator.GenerateId">
-            <summary>
-            生成ID
-            </summary>
-            <returns></returns>
-        </member>
         <member name="T:NPlatform.Infrastructure.IOfficeHelper">
             <summary>
             Office 助手
@@ -1349,102 +1198,6 @@
             系统跟踪日志。
             </summary>
         </member>
-        <member name="T:NPlatform.Infrastructure.Loger.LogerHelper">
-            <summary>
-            日志记录类
-            使用前先加载配置 。
-            </summary>
-        </member>
-        <member name="P:NPlatform.Infrastructure.Loger.LogerHelper.LogRepository">
-            <summary>
-            loger reposityory
-            </summary>
-        </member>
-        <member name="P:NPlatform.Infrastructure.Loger.LogerHelper.Log">
-            <summary>
-            The loger.
-            </summary>
-        </member>
-        <member name="M:NPlatform.Infrastructure.Loger.LogerHelper.#cctor">
-            <summary>
-            Initializes static members of the <see cref="T:NPlatform.Infrastructure.Loger.LogerHelper"/> class.
-            构造
-            </summary>
-        </member>
-        <member name="M:NPlatform.Infrastructure.Loger.LogerHelper.Info(System.String,System.String)">
-            <summary>
-            记录
-            </summary>
-            <param name="msg">
-            The msg.
-            </param>
-            <param name="logType">
-            The log Type.
-            </param>
-        </member>
-        <member name="M:NPlatform.Infrastructure.Loger.LogerHelper.BusinessLog(NPlatform.Infrastructure.BusinessLog)">
-            <summary>
-            记录业务日志
-            </summary>
-            <param name="log">业务数据对象</param>
-        </member>
-        <member name="M:NPlatform.Infrastructure.Loger.LogerHelper.Debug(System.String,System.String)">
-            <summary>
-            调试日志
-            </summary>
-            <param name="msg">消息</param>
-            <param name="logType">消息类型</param>
-        </member>
-        <member name="M:NPlatform.Infrastructure.Loger.LogerHelper.Error(System.String,System.String)">
-            <summary>
-            异常日志
-            </summary>
-            <param name="msg">消息</param>
-            <param name="logType">消息类型</param>
-        </member>
-        <member name="M:NPlatform.Infrastructure.Loger.LogerHelper.Error(System.Exception,System.String)">
-            <summary>
-            异常日志
-            </summary>
-            <param name="ex">异常</param>
-            <param name="logType">消息类型</param>
-        </member>
-        <member name="M:NPlatform.Infrastructure.Loger.LogerHelper.Error(System.String,System.String,System.Exception)">
-            <summary>
-            异常日志
-            </summary>
-            <param name="msg">消息</param>
-            <param name="ex">异常</param>
-            <param name="logType">消息类型</param>
-        </member>
-        <member name="M:NPlatform.Infrastructure.Loger.LogerHelper.Error(NPlatform.Infrastructure.BusinessLog,System.Exception)">
-            <summary>
-            异常日志
-            </summary>
-            <param name="ex">异常</param>
-            <param name="log">业务消息</param>
-        </member>
-        <member name="M:NPlatform.Infrastructure.Loger.LogerHelper.Fatal(System.String,System.String,System.Exception)">
-            <summary>
-            异常日志
-            </summary>
-            <param name="ex">异常</param>
-            <param name="msg">消息</param>
-            <param name="module">模块</param>
-        </member>
-        <member name="M:NPlatform.Infrastructure.Loger.LogerHelper.Warn(System.String,System.String)">
-            <summary>
-            警告
-            </summary>
-            <param name="msg">消息</param>
-            <param name="logType">消息类型</param> 
-        </member>
-        <member name="M:NPlatform.Infrastructure.Loger.LogerHelper.Warn(NPlatform.Infrastructure.BusinessLog)">
-            <summary>
-            警告
-            </summary>
-            <param name="log">业务消息</param>
-        </member>
         <member name="T:NPlatform.Infrastructure.ConvertMoney">
             <summary>
             货币金额中文大写转换
@@ -1460,44 +1213,6 @@
             以下是货币金额英文大写转换方法
             </summary>
         </member>
-        <member name="T:NPlatform.Infrastructure.Push.PushHelper">
-            <summary>
-            发布消息
-            </summary>
-        </member>
-        <member name="F:NPlatform.Infrastructure.Push.PushHelper._config">
-            <summary>
-            全局配置信息
-            </summary>
-        </member>
-        <member name="P:NPlatform.Infrastructure.Push.PushHelper.Config">
-             private static JPushClient client = new JPushClient("8a01a3705d9dbdc5ba963488", "f6e046ded25bcd736a07b40b");
-            <summary>
-            全局配置信息
-            </summary>
-        </member>
-        <member name="M:NPlatform.Infrastructure.Push.PushHelper.SendMessage(System.String,System.String,System.Collections.Generic.List{System.String})">
-            <summary>
-            极光推送
-            </summary>
-            <param name="title">消息标题</param>
-            <param name="alert">消息内容</param>
-            <param name="registrationIds">推送用户的注册id</param>
-        </member>
-        <member name="M:NPlatform.Infrastructure.Push.PushHelper.SendSmsMessage(System.String,System.String)">
-            <summary>
-            短信推送
-            </summary>
-            <param name="mobile"></param>
-            <param name="content"></param>
-        </member>
-        <member name="M:NPlatform.Infrastructure.Push.PushHelper.GetHttpData(System.String)">
-            <summary>
-            获取发送结果
-            </summary>
-            <param name="url">地址</param>
-            <returns></returns>
-        </member>
         <member name="T:NPlatform.Infrastructure.QRCodeHelper">
             <summary>
             二维码工具类
@@ -1510,11 +1225,6 @@
             <param name="codeStr">要生成二维码的字符串</param>      
             <returns>二维码图片</returns>  
         </member>
-        <member name="T:NPlatform.Infrastructure.Redis.AuthRedis">
-            <summary>
-            授权相关的redis操作
-            </summary>
-        </member>
         <member name="T:NPlatform.Infrastructure.RedisConnection">
             <summary>
             ConnectionMultiplexer对象管理帮助类
@@ -1525,7 +1235,7 @@
             集群或者哨兵模式时，必须实现的委托。
             </summary>
         </member>
-        <member name="P:NPlatform.Infrastructure.RedisConnection.Instance">
+        <member name="M:NPlatform.Infrastructure.RedisConnection.CreateInstance(NPlatform.Infrastructure.IRedisConfig)">
             <summary>
             单例获取
             </summary>
@@ -1572,18 +1282,18 @@
             <param name="sender"></param>
             <param name="e"></param>
         </member>
-        <member name="T:NPlatform.Infrastructure.RedisTool">
+        <member name="T:NPlatform.Infrastructure.RedisService">
             <summary>
             Redis操作
             </summary>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.#ctor(System.Int32,System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisService.#ctor(NPlatform.Infrastructure.Config.AppConfigService)">
             <summary>
             RedisHelper
             </summary>
             <param name="dbNum">库序号</param>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.StringSetAsync(System.String,System.String,System.Nullable{System.TimeSpan})">
+        <member name="M:NPlatform.Infrastructure.RedisService.StringSetAsync(System.String,System.String,System.Nullable{System.TimeSpan})">
             <summary>
             保存单个key value
             </summary>
@@ -1592,7 +1302,7 @@
             <param name="expiry">过期时间</param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.StringSet(System.String,System.String,System.Nullable{System.TimeSpan})">
+        <member name="M:NPlatform.Infrastructure.RedisService.StringSet(System.String,System.String,System.Nullable{System.TimeSpan})">
             <summary>
             保存单个key value
             </summary>
@@ -1601,14 +1311,14 @@
             <param name="expiry">过期时间</param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.StringSetAsync(System.Collections.Generic.List{System.Collections.Generic.KeyValuePair{StackExchange.Redis.RedisKey,StackExchange.Redis.RedisValue}})">
+        <member name="M:NPlatform.Infrastructure.RedisService.StringSetAsync(System.Collections.Generic.List{System.Collections.Generic.KeyValuePair{StackExchange.Redis.RedisKey,StackExchange.Redis.RedisValue}})">
             <summary>
             保存多个key value
             </summary>
             <param name="keyValues">键值对</param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.StringSetAsync``1(System.String,``0,System.Nullable{System.TimeSpan})">
+        <member name="M:NPlatform.Infrastructure.RedisService.StringSetAsync``1(System.String,``0,System.Nullable{System.TimeSpan})">
             <summary>
             保存一个对象
             </summary>
@@ -1618,7 +1328,7 @@
             <param name="expiry"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.StringSet``1(System.String,``0,System.Nullable{System.TimeSpan})">
+        <member name="M:NPlatform.Infrastructure.RedisService.StringSet``1(System.String,``0,System.Nullable{System.TimeSpan})">
             <summary>
             保存一个对象
             </summary>
@@ -1628,7 +1338,7 @@
             <param name="expiry"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.StringSetWithType``1(System.String,``0,System.TimeSpan)">
+        <member name="M:NPlatform.Infrastructure.RedisService.StringSetWithType``1(System.String,``0,System.TimeSpan)">
             <summary>
             带类型的存储
             </summary>
@@ -1638,21 +1348,21 @@
             <param name="expiry"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.StringGetAsync(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisService.StringGetAsync(System.String)">
             <summary>
             获取单个key的值
             </summary>
             <param name="key">Redis Key</param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.StringGetAsync(System.Collections.Generic.List{System.String})">
+        <member name="M:NPlatform.Infrastructure.RedisService.StringGetAsync(System.Collections.Generic.List{System.String})">
             <summary>
             获取多个Key
             </summary>
             <param name="listKey">Redis Key集合</param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.StringGetAsync``1(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisService.StringGetAsync``1(System.String)">
             <summary>
             获取一个key的对象
             </summary>
@@ -1660,7 +1370,7 @@
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.StringGet``1(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisService.StringGet``1(System.String)">
             <summary>
             获取一个key的对象
             </summary>
@@ -1668,7 +1378,7 @@
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.StringIncrementAsync(System.String,System.Double)">
+        <member name="M:NPlatform.Infrastructure.RedisService.StringIncrementAsync(System.String,System.Double)">
             <summary>
             为数字增长val
             </summary>
@@ -1676,7 +1386,7 @@
             <param name="val">可以为负</param>
             <returns>增长后的值</returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.StringDecrementAsync(System.String,System.Double)">
+        <member name="M:NPlatform.Infrastructure.RedisService.StringDecrementAsync(System.String,System.Double)">
             <summary>
             为数字减少val
             </summary>
@@ -1684,7 +1394,7 @@
             <param name="val">可以为负</param>
             <returns>减少后的值</returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.SetAdd(System.String,System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisService.SetAdd(System.String,System.String)">
             <summary>
             给集合添加一个值
             </summary>
@@ -1694,14 +1404,14 @@
             <param name="expiry"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.SetMembers(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisService.SetMembers(System.String)">
             <summary>
             取得集合下面所有的值
             </summary>
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.SetRemove``1(System.String,``0)">
+        <member name="M:NPlatform.Infrastructure.RedisService.SetRemove``1(System.String,``0)">
             <summary>
             从集合中移除一个元素
             </summary>
@@ -1710,7 +1420,7 @@
             <param name="obj"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.SetRemove(System.String,System.String[])">
+        <member name="M:NPlatform.Infrastructure.RedisService.SetRemove(System.String,System.String[])">
             <summary>
             从集合中清除一系列的元素
             </summary>
@@ -1719,7 +1429,7 @@
             <param name="obj"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.HashExistsAsync(System.String,System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisService.HashExistsAsync(System.String,System.String)">
             <summary>
             判断某个数据是否已经被缓存
             </summary>
@@ -1727,7 +1437,7 @@
             <param name="dataKey"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.HashSetAsync``1(System.String,System.String,``0)">
+        <member name="M:NPlatform.Infrastructure.RedisService.HashSetAsync``1(System.String,System.String,``0)">
             <summary>
             存储数据到hash表
             </summary>
@@ -1737,7 +1447,7 @@
             <param name="t"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.HashDeleteAsync(System.String,System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisService.HashDeleteAsync(System.String,System.String)">
             <summary>
             移除hash中的某值
             </summary>
@@ -1745,7 +1455,7 @@
             <param name="dataKey"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.HashDeleteAsync(System.String,System.Collections.Generic.List{StackExchange.Redis.RedisValue})">
+        <member name="M:NPlatform.Infrastructure.RedisService.HashDeleteAsync(System.String,System.Collections.Generic.List{StackExchange.Redis.RedisValue})">
             <summary>
             移除hash中的多个值
             </summary>
@@ -1753,7 +1463,7 @@
             <param name="dataKeys"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.HashGeAsync``1(System.String,System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisService.HashGeAsync``1(System.String,System.String)">
             <summary>
             从hash表获取数据
             </summary>
@@ -1762,7 +1472,7 @@
             <param name="dataKey"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.HashIncrementAsync(System.String,System.String,System.Double)">
+        <member name="M:NPlatform.Infrastructure.RedisService.HashIncrementAsync(System.String,System.String,System.Double)">
             <summary>
             为数字增长val
             </summary>
@@ -1771,7 +1481,7 @@
             <param name="val">可以为负</param>
             <returns>增长后的值</returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.HashDecrementAsync(System.String,System.String,System.Double)">
+        <member name="M:NPlatform.Infrastructure.RedisService.HashDecrementAsync(System.String,System.String,System.Double)">
             <summary>
             为数字减少val
             </summary>
@@ -1780,7 +1490,7 @@
             <param name="val">可以为负</param>
             <returns>减少后的值</returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.HashKeysAsync``1(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisService.HashKeysAsync``1(System.String)">
             <summary>
             获取hashkey所有Redis key
             </summary>
@@ -1788,28 +1498,28 @@
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.ListRemoveAsync``1(System.String,``0)">
+        <member name="M:NPlatform.Infrastructure.RedisService.ListRemoveAsync``1(System.String,``0)">
             <summary>
             移除指定ListId的内部List的值
             </summary>
             <param name="key"></param>
             <param name="value"></param>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.ListRangeAsync``1(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisService.ListRangeAsync``1(System.String)">
             <summary>
             获取指定key的List
             </summary>
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.ListRightPushAsync``1(System.String,``0)">
+        <member name="M:NPlatform.Infrastructure.RedisService.ListRightPushAsync``1(System.String,``0)">
             <summary>
             入队
             </summary>
             <param name="key"></param>
             <param name="value"></param>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.ListRightPopAsync``1(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisService.ListRightPopAsync``1(System.String)">
             <summary>
             出队
             </summary>
@@ -1817,7 +1527,7 @@
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.ListLeftPushs``1(System.String,System.Collections.Generic.List{``0})">
+        <member name="M:NPlatform.Infrastructure.RedisService.ListLeftPushs``1(System.String,System.Collections.Generic.List{``0})">
             <summary>
             入栈
             </summary>
@@ -1825,7 +1535,7 @@
             <param name="key"></param>
             <param name="value"></param>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.ListLeftPushAsync``1(System.String,``0)">
+        <member name="M:NPlatform.Infrastructure.RedisService.ListLeftPushAsync``1(System.String,``0)">
             <summary>
             入栈
             </summary>
@@ -1833,7 +1543,7 @@
             <param name="key"></param>
             <param name="value"></param>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.ListLeftPopAsync``1(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisService.ListLeftPopAsync``1(System.String)">
             <summary>
             出栈
             </summary>
@@ -1841,14 +1551,14 @@
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.ListLengthAsync(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisService.ListLengthAsync(System.String)">
             <summary>
             获取集合中的数量
             </summary>
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.SortedSetAddAsync``1(System.String,``0,System.Double)">
+        <member name="M:NPlatform.Infrastructure.RedisService.SortedSetAddAsync``1(System.String,``0,System.Double)">
             <summary>
             添加
             </summary>
@@ -1857,56 +1567,56 @@
             <param name="score"></param>
             <returns><placeholder>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</placeholder></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.SortedSetRemoveAsync``1(System.String,``0)">
+        <member name="M:NPlatform.Infrastructure.RedisService.SortedSetRemoveAsync``1(System.String,``0)">
             <summary>
             删除
             </summary>
             <param name="key"></param>
             <param name="value"></param>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.SortedSetRangeByRankAsync``1(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisService.SortedSetRangeByRankAsync``1(System.String)">
             <summary>
             获取全部
             </summary>
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.SortedSetLengthAsync(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisService.SortedSetLengthAsync(System.String)">
             <summary>
             获取集合中的数量
             </summary>
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.KeyDelete(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisService.KeyDelete(System.String)">
             <summary>
             删除单个key
             </summary>
             <param name="key">redis key</param>
             <returns>是否删除成功</returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.KeyDelete(System.Collections.Generic.List{System.String})">
+        <member name="M:NPlatform.Infrastructure.RedisService.KeyDelete(System.Collections.Generic.List{System.String})">
             <summary>
             删除多个key
             </summary>
             <param name="keys">rediskey</param>
             <returns>成功删除的个数</returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.KeyDeletePattern(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisService.KeyDeletePattern(System.String)">
             <summary>
             根据前缀删除
             </summary>
             <param name="pattern"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.KeyExists(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisService.KeyExists(System.String)">
             <summary>
             判断key是否存储
             </summary>
             <param name="key">redis key</param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.KeyRename(System.String,System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisService.KeyRename(System.String,System.String)">
             <summary>
             重新命名key
             </summary>
@@ -1914,7 +1624,7 @@
             <param name="newKey">新的redis key</param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.KeyExpire(System.String,System.Nullable{System.TimeSpan})">
+        <member name="M:NPlatform.Infrastructure.RedisService.KeyExpire(System.String,System.Nullable{System.TimeSpan})">
             <summary>
             设置Key的时间
             </summary>
@@ -1922,14 +1632,14 @@
             <param name="expiry"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.Subscribe(System.String,System.Action{StackExchange.Redis.RedisChannel,StackExchange.Redis.RedisValue})">
+        <member name="M:NPlatform.Infrastructure.RedisService.Subscribe(System.String,System.Action{StackExchange.Redis.RedisChannel,StackExchange.Redis.RedisValue})">
             <summary>
             Redis发布订阅  订阅
             </summary>
             <param name="subChannel"></param>
             <param name="handler"></param>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.Publish``1(System.String,``0)">
+        <member name="M:NPlatform.Infrastructure.RedisService.Publish``1(System.String,``0)">
             <summary>
             Redis发布订阅  发布
             </summary>
@@ -1938,48 +1648,48 @@
             <param name="msg"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.Unsubscribe(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisService.Unsubscribe(System.String)">
             <summary>
             Redis发布订阅  取消订阅
             </summary>
             <param name="channel"></param>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.UnsubscribeAll">
+        <member name="M:NPlatform.Infrastructure.RedisService.UnsubscribeAll">
             <summary>
             Redis发布订阅  取消全部订阅
             </summary>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.CreateTransaction">
+        <member name="M:NPlatform.Infrastructure.RedisService.CreateTransaction">
             <summary>
             创建事务
             </summary>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.GetDatabase">
+        <member name="M:NPlatform.Infrastructure.RedisService.GetDatabase">
             <summary>
             获取DB
             </summary>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.GetServer(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisService.GetServer(System.String)">
             <summary>
             获取服务器
             </summary>
             <param name="hostAndPort"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.SetSysCustomKey(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisService.SetSysCustomKey(System.String)">
             <summary>
             设置前缀
             </summary>
             <param name="prefix"></param>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.ClearAll">
+        <member name="M:NPlatform.Infrastructure.RedisService.ClearAll">
             <summary>
             清除所有缓存
             </summary>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.Lock(System.String,System.Int32)">
+        <member name="M:NPlatform.Infrastructure.RedisService.Lock(System.String,System.Int32)">
             <summary>
             获取锁。
             </summary>
@@ -1987,14 +1697,14 @@
             <param name="seconds">过期时间（秒）。</param>
             <returns>是否已锁。</returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.UnLock(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisService.UnLock(System.String)">
             <summary>
             释放锁。
             </summary>
             <param name="key">锁名称。</param>
             <returns>是否成功。</returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.LockAsync(System.String,System.Int32)">
+        <member name="M:NPlatform.Infrastructure.RedisService.LockAsync(System.String,System.Int32)">
             <summary>
             异步获取锁。
             </summary>
@@ -2002,7 +1712,7 @@
             <param name="seconds">过期时间（秒）。</param>
             <returns>是否成功。</returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisTool.UnLockAsync(System.String)">
+        <member name="M:NPlatform.Infrastructure.RedisService.UnLockAsync(System.String)">
             <summary>
             异步释放锁。
             </summary>
@@ -2577,116 +2287,6 @@
             基础设施的Consts
             </summary>
         </member>
-        <member name="T:NPlatform.ModuleNames">
-            <summary>
-            模块定义
-            </summary>
-        </member>
-        <member name="F:NPlatform.ModuleNames.ALL">
-            <summary>
-            系统管理
-            </summary>
-        </member>
-        <member name="F:NPlatform.ModuleNames.SYS">
-            <summary>
-            系统管理
-            </summary>
-        </member>
-        <member name="F:NPlatform.ModuleNames.DM">
-            <summary>
-            图纸管理
-            </summary>
-        </member>
-        <member name="F:NPlatform.ModuleNames.DSM">
-            <summary>
-            进度计划
-            </summary>
-        </member>
-        <member name="F:NPlatform.ModuleNames.ATM">
-            <summary>
-            变更管理
-            </summary>
-        </member>
-        <member name="F:NPlatform.ModuleNames.BASE">
-            <summary>
-            配置管理
-            </summary>
-        </member>
-        <member name="F:NPlatform.ModuleNames.MPM">
-            <summary>
-            计量支付
-            </summary>
-        </member>
-        <member name="F:NPlatform.ModuleNames.PJE">
-            <summary>
-            概预算
-            </summary>
-        </member>
-        <member name="F:NPlatform.ModuleNames.FAM">
-            <summary>
-            工程决算
-            </summary>
-        </member>
-        <member name="F:NPlatform.ModuleNames.WORKFLOW">
-            <summary>
-            流程管理
-            </summary>
-        </member>
-        <member name="F:NPlatform.ModuleNames.RCM">
-            <summary>
-            报表设置
-            </summary>
-        </member>
-        <member name="F:NPlatform.ModuleNames.WFM">
-            <summary>
-            流程设置
-            </summary>
-        </member>
-        <member name="F:NPlatform.ModuleNames.Admin">
-            <summary>
-            后台管理
-            </summary>
-        </member>
-        <member name="F:NPlatform.ModuleNames.CM">
-            <summary>
-            合同管理
-            </summary>
-        </member>
-        <member name="F:NPlatform.ModuleNames.QCM">
-            <summary>
-            质量管理
-            </summary>
-        </member>
-        <member name="F:NPlatform.ModuleNames.SPM">
-            <summary>
-            监理计量
-            </summary>
-        </member>
-        <member name="F:NPlatform.ModuleNames.SAF">
-            <summary>
-            会议管理
-            </summary>
-        </member>
-        <member name="F:NPlatform.ModuleNames.LOG">
-            <summary>
-            人员管理
-            </summary>
-        </member>
-        <member name="F:NPlatform.ModuleNames.EM">
-            <summary>
-            设备管理
-            </summary>
-        </member>
-        <member name="F:NPlatform.ModuleNames.CEM">
-            <summary>
-            信誉评价
-            </summary>
-        </member>
-        <member name="F:NPlatform.ModuleNames.BIM">
-            <summary>
-            BIM管理
-            </summary>
-        </member>
         <member name="T:NPlatform.EPServer">
             <summary>
             平台的Server 助手类
@@ -2973,7 +2573,7 @@
             <param name="id">The Id.</param>
             <returns>True if the Id is empty.</returns>
         </member>
-        <member name="T:NPlatform.IdGenerators.SnowflakeHelper">
+        <member name="T:NPlatform.IdGenerators.SnowflakeGenerator">
             <summary>
             雪花算法
             </summary>

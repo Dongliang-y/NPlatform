@@ -9,7 +9,6 @@
 ** Ver.:  V1.0.0
 
 *********************************************************************************/
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +18,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using NPlatform;
+using System.Net;
+using System.Text.Json.Serialization;
 
 namespace NPlatform.Result
 {
@@ -26,45 +27,77 @@ namespace NPlatform.Result
     /// <summary>
     /// 操作结果
     /// </summary>
-    public class EPResult<T> : IEPResult<T>
+    public class SuccessResult<T> : INPResult
     {
         /// <summary>
         /// 需要返回的数据对象
         /// </summary>
         [DataMember]
-        [JsonProperty(PropertyName = "data")]
-        public T Data { get; set; }
+        [JsonPropertyName("data")]
+        public T Data { get; }
         /// <summary>
         /// 消息
         /// </summary>
         [DataMember]
-        [JsonProperty(PropertyName = "message")]
-        public string Message { get; set; }
+        [JsonPropertyName("message")]
+        public string Message { get;}
+
         /// <summary>
-        /// 是否成功
+        /// HTTP status code
         /// </summary>
         [DataMember]
-        [JsonProperty(PropertyName = "success")]
-        public bool Success { get; set; } = true;
+        [JsonPropertyName("httpcode")]
+        public HttpStatusCode HttpCode { get; } = HttpStatusCode.OK;
+
+        /// <summary>
+        ///  返回结果的服务id
+        /// </summary>
+        [DataMember]
+        [JsonPropertyName("serviceid")]
+        public string ServiceID { get; set; }
+
 
         /// <summary>
         /// 操作结果
         /// </summary>
-        public EPResult() { }
+        public SuccessResult() { }
+
+
         /// <summary>
         /// 成功的结果内容
         /// </summary>
         /// <param name="message">消息</param>
-        public EPResult(string message) 
+        public SuccessResult(string message) 
         {
             this.Message = message;
+
         }
+        /// <summary>
+        /// 成功的结果内容
+        /// </summary>
+        /// <param name="data">消息</param>
+        public SuccessResult(T data)
+        {
+            this.Data = data;
+        }
+
+        /// <summary>
+        /// 成功的结果内容
+        /// </summary>
+        /// <param name="message">消息</param>
+        /// <param name="httpCode">HttpStatusCode</param>
+        public SuccessResult(string message,HttpStatusCode httpCode)
+        {
+            this.Message = message;
+            this.HttpCode = httpCode;
+        }
+
         /// <summary>
         /// 成功的结果内容
         /// </summary>
         /// <param name="message">消息</param>
         /// <param name="data">消息</param>
-        public EPResult(string message, T data)
+        public SuccessResult(string message, T data)
         {
             this.Message = message;
             this.Data = data;
@@ -76,9 +109,10 @@ namespace NPlatform.Result
         /// <param name="success">是否成功，默认true</param>
         /// <param name="message">消息</param>
         /// <param name="result">T 类型对象</param>
-        public EPResult(bool success, string message, T result)
+        /// <param name="httpCode"></param>
+        public SuccessResult( string message, T result, HttpStatusCode httpCode)
         {
-            this.Success = success;
+            this.HttpCode = httpCode;
             this.Message = message;
             this.Data = result;
         }

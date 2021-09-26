@@ -4,7 +4,6 @@ using System.Linq;
 using NPlatform.Result;
 using NPlatform.Config;
 using Microsoft.AspNetCore.Authorization;
-using NPlatform.Infrastructure.Redis;
 using System.Web;
 using NPlatform.Infrastructure.Loger;
 
@@ -20,6 +19,9 @@ namespace NPlatform.API.Controllers
     using NPlatform.IOC;
     using NPlatform.Repositories;
     using System.Threading.Tasks;
+    using NPlatform.Infrastructure.Config;
+    using System.Net;
+    using Microsoft.Extensions.Logging;
 
     /// <summary>
     /// controler 基类
@@ -29,24 +31,24 @@ namespace NPlatform.API.Controllers
     [Authorize]
     public abstract class BaseController : ControllerBase
     {
-        AuthRedis redisAuth;
-        public BaseController(AuthRedis authRedis)
-        {
-            redisAuth = authRedis;
-        }
+        /// <summary>
+        /// redis service
+        /// </summary>
+        RedisService _RedisService { get; set; }
         /// <summary>
         /// 全局配置信息
         /// </summary>
-        private static NPlatformConfig _Config = new ConfigFactory<NPlatform.Config.NPlatformConfig>().Build();
+        public IAppConfigService Config { get; set; }
 
-        /// <summary>
-        /// 全局配置信息
-        /// </summary>
-        public static NPlatformConfig Config
+        public ILogger Logger { get; set; }
+
+        public BaseController(IAppConfigService config, RedisService service,ILogger loger)
         {
-            get { return _Config; }
-            
+            Config = config;
+            _RedisService = service;
+            this.Logger = loger;
         }
+
 
         /// <summary>
         /// 获取UI传递的js 数组参数 'Content-Type':'application/json' params:JSON.stringify(Array)
@@ -81,64 +83,73 @@ namespace NPlatform.API.Controllers
         }
 
 
-        private AuthInfoVO authInfo = null;
+        private SesstionInfo sesstion = null;
 
         /// <summary>
         /// 获取认证的身份信息
         /// </summary>
-        protected virtual async Task<AuthInfoVO> GetAuthInfo()
+        protected virtual async Task<SesstionInfo> GetSesstionInfo()
         {
             try
             {
-                if (this.authInfo == null)
+                if (this.sesstion == null)
                 {
                     var token = this.Request.Headers["Authorization"];
-                    authInfo = await redisAuth.StringGetAsync<AuthInfoVO>(CommonRedisConst.AuthInfoKey(token));
-                    if (authInfo == null)
+                    sesstion = await _RedisService.StringGetAsync<SesstionInfo>(CommonRedisConst.SesstionKey(token));
+                    if (sesstion == null)
                     {
                         var Claims = User.Claims;
-                        authInfo = new AuthInfoVO();
-                        authInfo.AccessToken = token;
+                        sesstion = new SesstionInfo();
+                        sesstion.AccessToken = token;
                         if (Claims.Any(t => t.Type == "id"))
                         {
-                            authInfo.Id = Claims.FirstOrDefault(t => t.Type == "id").Value;
+                            sesstion.Id = Claims.FirstOrDefault(t => t.Type == "id").Value;
                         }
 
                         if (Claims.Any(t => t.Type == "client_id"))
                         {
-                            authInfo.ClientId = Claims.FirstOrDefault(t => t.Type == "client_id").Value;
+                            sesstion.ClientId = Claims.FirstOrDefault(t => t.Type == "client_id").Value;
                         }
 
-                        if (Claims.Any(t => t.Type == "roleid"))
+                        if (Claims.Any(t => t.Type == "roles"))
                         {
-                            authInfo.CurrentRoleId = Claims.FirstOrDefault(t => t.Type == "roleid").Value;
+                            var roles = Claims.FirstOrDefault(t => t.Type == "roles").Value;
+                            if (string.IsNullOrEmpty(roles))
+                            {
+                                sesstion.Roles = new string[] { "default" };
+                            }
+                            else
+                            {
+                                sesstion.Roles = SerializerHelper.FromJson<string[]>(roles);
+                            }
                         }
+
                         if (Claims.Any(t => t.Type.Contains("givenname")))
                         {
                             // Claims.FirstOrDefault(t => t.Subject.Name);
-                            authInfo.CnName = Claims.FirstOrDefault(t => t.Type.Contains("givenname")).Value;
+                            sesstion.CnName = Claims.FirstOrDefault(t => t.Type.Contains("givenname")).Value;
                         }
-                        if (Claims.Any(t => t.Type == "picture"))
+                        if (Claims.Any(t => t.Type == "avatar"))
                         {
-                            authInfo.SignPic = Claims.FirstOrDefault(t => t.Type == "picture").Value;
+                            sesstion.Avatar = Claims.FirstOrDefault(t => t.Type == "avatar").Value;
                         }
 
                         if (Claims.Any(t => t.Type == "name"))
                         {
-                            authInfo.Account = Claims.FirstOrDefault(t => t.Type == "name").Value;
+                            sesstion.Account = Claims.FirstOrDefault(t => t.Type == "name").Value;
                         }
                     }
-                    return authInfo;
+                    return sesstion;
                 }
                 else
                 {
-                    return authInfo;
+                    return sesstion;
                 }
             }
             catch (Exception ex)
             {
-                LogerHelper.Error(ex.Message, "SYS", ex);
-                return new AuthInfoVO();
+                this.Logger.LogError(ex,ex.Message, "SYS");
+                return new SesstionInfo();
             }
 
         }
@@ -146,85 +157,59 @@ namespace NPlatform.API.Controllers
         /// <summary>
         ///  返回SuccessResult
         /// </summary>
-        protected virtual EPResult Success(string msg)
+        protected virtual INPResult Success(string msg)
         {
-            return new EPResult(msg);
+            return new SuccessResult<String>(msg);
         }
         /// <summary>
         ///  返回SuccessResult
         /// </summary>
-        protected virtual EPResult Success()
+        protected virtual INPResult Success()
         {
-            return new EPResult(string.Empty);
+            return new SuccessResult<string>(string.Empty);
         }
 
         /// <summary>
         ///  返回SuccessResult
         /// </summary>
-        protected virtual EPResult<T> DTOResult<T>(T obj)
+        protected virtual SuccessResult<T> Success<T>(T obj)
         {
-            return new EPResult<T>("", obj);
+            return new SuccessResult<T>(obj);
         }
 
         /// <summary>
         ///  返回SuccessResult<T/>
         /// </summary>
-        protected virtual EPResult<T> DTOResult<T>(string msg, T obj) 
+        protected virtual SuccessResult<T> Success<T>(string msg, T obj) 
         {
-            return new EPResult<T>(msg, obj);
+            return new SuccessResult<T>(msg, obj);
         }
 
         /// <summary>
         /// 返回错误信息
         /// </summary>
-        protected virtual IEPResult  Error(string msg)
+        protected virtual ErrorResult<object> Error(NPlatformException ex)
         {
-            var rst= new EPResult(msg);
-            rst.Success = false;
+            return  Error<object>(ex.Message);
+        }
+        /// <summary>
+        /// 返回错误信息
+        /// </summary>
+        protected virtual ErrorResult<object> Error(string msg,string modelName)
+        {
+            Logger.LogError(msg, modelName);
+            var rst = new ErrorResult<object>($"{msg}", HttpStatusCode.InternalServerError);
             return rst;
         }
-
         /// <summary>
         /// 返回错误信息
         /// </summary>
-        protected virtual IEPResult Error(NPlatformException ex)
+        protected virtual ErrorResult<T> Error<T>(string msg, HttpStatusCode httpStatusCode= HttpStatusCode.InternalServerError
+            , string modelName = null, NPlatform.NPlatformException ex=null)
         {
-            return  Error<IDTO>(ex.Message,ex,"");
-        }
-        /// <summary>
-        /// 返回错误信息
-        /// </summary>
-        protected virtual ErrorResult<T> Error<T>(string msg)
-        {
-            return new ErrorResult<T>(msg);
-        }
-        /// <summary>
-        /// 返回错误信息
-        /// </summary>
-        protected virtual ErrorResult<T> Error<T>(NPlatformException ex) 
-        {
-            return Error<T>(ex.Message, ex, "");
-        }
-        /// <summary>
-        /// 返回错误信息
-        /// </summary>
-        protected virtual ErrorResult<T> Error<T>(string msg, NPlatform.NPlatformException ex, string modelName)
-        {
-            if (ex.GetType().IsSubclassOf(typeof(LogicException)))
-            {
-                LogerHelper.Error(ex.Message, modelName, ex);
-                return Error<T>(ex.Message);
-            }
-            else if (ex.GetType().IsSubclassOf(typeof(ConfigException)))
-            {
-                LogerHelper.Error("系统配置加载异常!", modelName, ex);
-                return Error<T>("系统配置加载异常");
-            }
-            else
-            {
-                LogerHelper.Error(ex.Message,  modelName, ex);
-                return Error<T>(ex.Message);
-            }
+            Logger.LogError(ex,ex.Message, modelName);
+            var rst = new ErrorResult<T>($"{msg}{"-->" + ex.Message}", httpStatusCode);
+            return rst;
         }
         /// <summary>
         /// 树格式节点
@@ -237,15 +222,6 @@ namespace NPlatform.API.Controllers
             var trees = new TreeResult<T>();
             trees.AddRange(nodes);
             return trees;
-        }
-
-        /// <summary>
-        /// 返回数据集合
-        /// </summary>
-        protected virtual ListResult<T> PageData<T>(IEnumerable<T> list, long total)
-        {
-            var content = new ListResult<T>(list, total);
-            return content;
         }
 
         /// <summary>
@@ -264,21 +240,13 @@ namespace NPlatform.API.Controllers
             var content = new ListResult<T>(list, -1);
             return content;
         }
+
         /// <summary>
         ///  返回SuccessResult
         /// </summary>
-        protected virtual EPResult StrData(string msg)
+        protected virtual SuccessResult<String> StrData(string msg)
         {
-            return new EPResult(msg);
-        }
-
-        /// <summary>
-        /// 生成一个ID，基于平台的默认算法
-        /// </summary>
-        /// <returns>ID</returns>
-        protected string IDGenerate()
-        {
-            return new NPlatform.Infrastructure.IdGenerators.IdGenerator().GenerateId().ToString();
+            return new SuccessResult<String>(msg);
         }
     }
 }

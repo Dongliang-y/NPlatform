@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
@@ -31,21 +32,44 @@ namespace NPlatform.Result
         /// <summary>
         /// 数据列表内容对象
         /// </summary>
-        public ListResult(IEnumerable<T> list, long listCount)
+        public ListResult(IEnumerable<T> list, long total)
         {
-            Total = listCount;
+            Total = total;
             Data = list;
         }
         /// <summary>
-        /// 集合结果对象
+        /// 数据列表内容对象
         /// </summary>
-        public ListResult() { }
+        public ListResult(IEnumerable<T> list)
+        {
+            Total = list.Count() ;
+            Data = list;
+        }
+        /// <summary>
+        /// 数据列表内容对象
+        /// </summary>
+        public ListResult(IEnumerable<T> list, long total,HttpStatusCode httpCode)
+        {
+            Total = total;
+            Data = list;
+            this.HttpCode = httpCode;
+        }
+        /// <summary>
+        /// 数据列表内容对象
+        /// </summary>
+        public ListResult(IEnumerable<T> list, HttpStatusCode httpCode)
+        {
+            Total = list.Count();
+            Data = list;
+            this.HttpCode = httpCode;
+        }
+
         /// <summary>
         /// 数据总数
         /// </summary>
         [DataMember]
         [JsonPropertyName("total")]
-        public long Total { get; set; }
+        public long Total { get; }
 
         /// <summary>
         /// 数据行
@@ -55,20 +79,28 @@ namespace NPlatform.Result
         /// </summary>
         [DataMember]
         [JsonPropertyName("data")]
-        public IEnumerable<T> Data { get; set; }
+        public IEnumerable<T> Data { get; }
         /// <summary>
         /// 消息
         /// </summary>
         [DataMember]
         [JsonPropertyName("message")]
-        public string Message { get; set; }
+        public string Message { get;}
+
 
         /// <summary>
-        /// 是否成功！
+        /// HTTP状态码
         /// </summary>
         [DataMember]
-        [JsonPropertyName("success")]
-        public bool Success { get; set; } = true;
+        [JsonPropertyName("httpcode")]
+        public HttpStatusCode HttpCode { get;} = HttpStatusCode.OK;
+
+        /// <summary>
+        ///  返回结果的服务id
+        /// </summary>
+        [DataMember]
+        [JsonPropertyName("serviceid")]
+        public string ServiceID { get; set; }
 
         /// <summary>
         /// 返回结果的集合

@@ -19,6 +19,7 @@ D:\work\NoName\NPlatform\NPlatform.Infrastructure\bin\Debug\net5.0\NPlatform.Inf
 D:\work\NoName\NPlatform\NPlatform.Infrastructure\bin\Debug\net5.0\ref\NPlatform.Infrastructure.dll
 D:\work\NoName\NPlatform\NPlatform.Infrastructure\bin\Debug\net5.0\NPlatform.Infrastructure.pdb
 D:\work\NoName\NPlatform\NPlatform.Infrastructure\bin\Debug\net5.0\NPlatform.Infrastructure.xml
+D:\work\NoName\NPlatform\NPlatform.Infrastructure\obj\Debug\net5.0\NPlatform.Infrastructure.csproj.AssemblyReference.cache
 D:\work\NoName\NPlatform\NPlatform.Infrastructure\obj\Debug\net5.0\NPlatform.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
 D:\work\NoName\NPlatform\NPlatform.Infrastructure\obj\Debug\net5.0\NPlatform.Infrastructure.AssemblyInfoInputs.cache
 D:\work\NoName\NPlatform\NPlatform.Infrastructure\obj\Debug\net5.0\NPlatform.Infrastructure.AssemblyInfo.cs
@@ -26,4 +27,3 @@ D:\work\NoName\NPlatform\NPlatform.Infrastructure\obj\Debug\net5.0\NPlatform.Inf
 D:\work\NoName\NPlatform\NPlatform.Infrastructure\obj\Debug\net5.0\NPlatform.Infrastructure.dll
 D:\work\NoName\NPlatform\NPlatform.Infrastructure\obj\Debug\net5.0\ref\NPlatform.Infrastructure.dll
 D:\work\NoName\NPlatform\NPlatform.Infrastructure\obj\Debug\net5.0\NPlatform.Infrastructure.pdb
-D:\work\NoName\NPlatform\NPlatform.Infrastructure\obj\Debug\net5.0\NPlatform.Infrastructure.csproj.AssemblyReference.cache

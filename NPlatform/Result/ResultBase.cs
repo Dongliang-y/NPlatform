@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NPlatform.Infrastructure.Loger;
+using System.Net;
 
 namespace NPlatform.Result
 {
@@ -17,32 +18,40 @@ namespace NPlatform.Result
         /// <summary>
         ///  返回SuccessResult
         /// </summary>
-        protected virtual EPResult<bool> Success(string msg)
+        protected virtual INPResult Success(string msg)
         {
-            return new EPResult<bool>(true,msg,true);
+            return new SuccessResult<string>(msg);
         }
 
         /// <summary>
         ///  返回SuccessResult
         /// </summary>
-        protected virtual EPResult<bool> Success()
+        protected virtual INPResult Success()
         {
-            return new EPResult<bool>(true, string.Empty, true);
+            return new SuccessResult<string>();
         }
 
         /// <summary>
         ///  返回SuccessResult
         /// </summary>
-        protected virtual EPResult<T> Success<T>(string msg,T data)
+        protected virtual INPResult Success<T>(string msg,T data)
         {
-            return new EPResult<T>(true, msg,data);
+            return new SuccessResult<T>( msg,data);
         }
         /// <summary>
         ///  返回SuccessResult
         /// </summary>
-        protected virtual EPResult<T> Success<T>( T data)
+        protected virtual INPResult Success<T>(string msg, T data, HttpStatusCode httpCode)
         {
-            return new EPResult<T>(true, string.Empty, data);
+
+            return new SuccessResult<T>(msg, data,httpCode);
+        }
+        /// <summary>
+        ///  返回SuccessResult
+        /// </summary>
+        protected virtual INPResult Success<T>( T data)
+        {
+            return new SuccessResult<T>( string.Empty, data);
         }
         #endregion
 
@@ -51,7 +60,7 @@ namespace NPlatform.Result
         /// <summary>
         /// 返回错误信息
         /// </summary>
-        protected virtual IEPResult<bool> Error(string msg)
+        protected virtual INPResult Error(string msg)
         {
             return Error<bool>(msg);
         }
@@ -70,32 +79,22 @@ namespace NPlatform.Result
         /// </summary>
         /// <param name="pName">参数名</param>
         /// <returns>IEPResult</returns>
-        protected virtual IEPResult<bool> NotNullResult(string pName)
+        protected virtual INPResult NotNullError(string pName)
         {
             return Error<bool>($"{pName}参数不能为空！");
         }
 
         /// <summary>
-        /// 返回参数不能为空的提示 “{pName}参数不能为空！”
-        /// 使用：NotNullResult(nameof(参数名))
-        /// </summary>
-        /// <param name="pName">参数名</param>
-        /// <returns>IEPResult</returns>
-        protected virtual ErrorResult<T> NotNullResult<T>(string pName)
-        {
-            return new ErrorResult<T>($"{pName}参数不能为空！");
-        }
-        /// <summary>
         /// 返回错误信息
         /// </summary>
-        protected virtual IEPResult<bool> Error(string msg,Exception ex)
+        protected virtual INPResult Error(string msg,Exception ex)
         {
             return Error<bool>(msg,new NPlatformException(msg,ex, "500"));
         }
         /// <summary>
         /// 返回错误信息
         /// </summary>
-        protected virtual IEPResult<bool> Error(Exception ex)
+        protected virtual INPResult Error(Exception ex)
         {
             return Error<bool>(ex.Message, new NPlatformException("", ex, "500"));
         }
@@ -112,21 +111,7 @@ namespace NPlatform.Result
         /// </summary>
         protected virtual ErrorResult<T> Error<T>(string msg, NPlatform.NPlatformException ex)
         {
-            if (ex.GetType().IsSubclassOf(typeof(LogicException)))
-            {
-                LogerHelper.Error(ex.Message, "", ex);
-                return Error<T>(ex.Message);
-            }
-            else if (ex.GetType().IsSubclassOf(typeof(ConfigException)))
-            {
-                LogerHelper.Error("系统配置加载异常!", "", ex);
-                return Error<T>("系统配置加载异常");
-            }
-            else
-            {
-                LogerHelper.Error(ex.Message, "", ex);
-                return Error<T>(ex.Message);
-            }
+            return Error<T>($"{msg}--> {ex.Message}");
         }
 
         #endregion
@@ -144,15 +129,6 @@ namespace NPlatform.Result
             return trees;
         }
 
-        /// <summary>
-        /// 返回数据集合
-        /// </summary>
-        [Obsolete("PageData已过期，后续请使用ListResult。", false)]
-        protected virtual ListResult<T> PageData<T>(IEnumerable<T> list, long total)
-        {
-            var content = new ListResult<T>(list, total);
-            return content;
-        }
         /// <summary>
         /// 返回数据集合
         /// </summary>

@@ -19,7 +19,7 @@ namespace NPlatform
     /// <summary>
     /// 校验失败
     /// </summary>
-    public class ValidateException : LogicException
+    public class ValidateException : NPlatformException
     {
         /// <summary>
         /// 校验失败

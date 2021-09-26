@@ -5,7 +5,7 @@
     <Description>* V 5.0.2 增加 API端点配置
 * V 5.0.2  2021-2-3 在3.0版本上 增加对 .NET5 ,.NET 2.2的支持,实现 2.2,3.1 5.0多目标框架支持.增加基于Redis的分布式锁.</Description>
     <Product>NPlatform</Product>
-    <Company>ZJJW</Company>
+    <Company>NPlatform</Company>
     <Authors>Dongliang Yi</Authors>
     <Version>5.0.2.3</Version>
     <AssemblyVersion>5.0.2.3</AssemblyVersion>

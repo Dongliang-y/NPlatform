@@ -6,17 +6,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NPlatform.Config;
+using NPlatform.Infrastructure.Config;
 
 namespace NPlatform.Infrastructure
 {
     /// <summary>
     /// Redis操作
     /// </summary>
-    public abstract class RedisTool
+    public class RedisService
     {
         private int DbNum { get; }
         private readonly ConnectionMultiplexer _conn;
-        private NPlatformConfig config = new ConfigFactory<NPlatformConfig>().Build();
         private string prefix;
 
         #region 构造函数
@@ -25,11 +25,13 @@ namespace NPlatform.Infrastructure
         /// RedisHelper
         /// </summary>
         /// <param name="dbNum">库序号</param>
-        public RedisTool(int dbNum, string moduleName)
+        public RedisService(AppConfigService appConfigService)
         {
-            DbNum = dbNum;
-            _conn = RedisConnection.Instance;
-            prefix = $"{moduleName}:{config.MachineID}:{ config.ServiceID}:";
+            var redisConfig = appConfigService.GetRedisConfig();
+            var serviceConfig = appConfigService.GetServiceConfig();
+            DbNum = redisConfig.dbNum;
+            _conn = RedisConnection.CreateInstance(redisConfig);
+            prefix = $"{serviceConfig.ServiceName}:{ serviceConfig.ServiceID}:";
         }
 
         #endregion 构造函数

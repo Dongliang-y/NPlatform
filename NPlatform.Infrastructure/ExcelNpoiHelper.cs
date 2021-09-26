@@ -89,11 +89,11 @@ namespace NPlatform.Infrastructure
             var sheet = workbook.CreateSheet(strSheetName);
             {
                 var dsi = PropertySetFactory.CreateDocumentSummaryInformation();
-                dsi.Company = "长沙中交经纬";
+                dsi.Company = "";
                 workbook.DocumentSummaryInformation = dsi;
 
                 var si = PropertySetFactory.CreateSummaryInformation();
-                si.Author = "长沙中交经纬";
+                si.Author = "";
 
                 // 填加xls文件作者信息      
                 si.ApplicationName = "NPOI"; // 填加xls文件创建程序信息      

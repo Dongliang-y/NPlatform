@@ -12,6 +12,8 @@
     using NPlatform.Repositories;
     using NPlatform.Result;
     using Flurl.Http;
+    using NPlatform.Infrastructure.Config;
+
     /// <summary>
     /// 领域服务基类
     /// </summary>
@@ -19,9 +21,14 @@
     /// <typeparam name="TEntity">实体类型</typeparam>
     public abstract class BaseService : ResultBase, IDomainService
     {
-        public BaseService()
+        /// <summary>
+        /// 框架配置
+        /// </summary>
+        protected static AppConfigService Config { get; set; }
+
+        public BaseService(AppConfigService config,IOCService iocService)
         {
-            IPlatformHttpContext httpCtx = IOCManager.BuildService<IPlatformHttpContext>();
+            IPlatformHttpContext httpCtx = iocService.BuildService<IPlatformHttpContext>();
             if (httpCtx != null && httpCtx.Context!=null)
             {
                 var authorization = httpCtx.Context.Request.Headers["Authorization"];
@@ -31,12 +38,8 @@
                     t.Request.Headers.Add("Accept", "application/json, text/plain, */*");
                 };
             }
+            Config = config;
         }
-        /// <summary>
-        /// 框架配置
-        /// </summary>
-        protected static NPlatformConfig Config { get; } = new ConfigFactory<NPlatformConfig>().Build();
-
 
         /// <summary>
         /// 集合分页

@@ -18,7 +18,7 @@ namespace NPlatform.Result
     /// <summary>
     /// 数据列表内容对象
     /// </summary>
-    public interface IListResult<T>:IEPResult 
+    public interface IListResult<T>:INPResult 
     {
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace NPlatform.Result
         /// </summary>
         [DataMember]
              [JsonProperty(PropertyName = "total")]
-        long Total { get; set; }
+        long Total { get; }
 
         /// <summary>
         /// 数据行
@@ -36,18 +36,7 @@ namespace NPlatform.Result
         /// </summary>
         [DataMember]
             [JsonProperty(PropertyName = "data")]
-        IEnumerable<T> Data { get; set; }
-        /// <summary>
-        /// 消息
-        /// </summary>
-               [JsonProperty(PropertyName = "message")]
-        string Message { get; set; }
-
-        /// <summary>
-        /// 是否成功！
-        /// </summary>
-               [JsonProperty(PropertyName = "success")]
-        bool Success { get; set; }
+        IEnumerable<T> Data { get;}
 
         /// <summary>
         /// 把结果转成List集合

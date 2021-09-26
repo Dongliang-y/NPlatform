@@ -27,7 +27,7 @@ namespace NPlatform.DTO
         /// 为了兼容老接口,实现在service层的主动校验实体属性
         /// </summary>
         /// <returns></returns>
-        public ValidateResult Validate()
+        public INPResult Validate()
         {
             return this.Validates();
         }

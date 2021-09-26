@@ -18,6 +18,7 @@ using System.Net.Mime;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -28,20 +29,23 @@ namespace NPlatform.Result
     /// <summary>
     /// 
     /// </summary>
-    public interface IEPResult
+    public interface INPResult
     {
+        /// <summary>
+        /// 服务实例ID
+        /// </summary>
+        string ServiceID { get; set; }
         /// <summary>
         /// Gets or sets 信息
         /// </summary>
         [DataMember]
-                [JsonProperty(PropertyName = "message")]
-        string Message { get; set; }
+        [JsonProperty(PropertyName = "message")]
+        string Message { get; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether 成功否
+        /// http 状态码
         /// </summary>
-        [DataMember]
-        [JsonProperty(PropertyName = "success")]
-        bool Success { get; set; }
+        [JsonProperty(PropertyName = "HttpCode")]
+        public HttpStatusCode HttpCode { get;  }
     }
 }

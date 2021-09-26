@@ -13,7 +13,6 @@ namespace NPlatform.Infrastructure
     /// </summary>
     public static class RedisConnection
     {
-        private static readonly RedisConfig Config = new ConfigFactory<RedisConfig>().Build();
         /// <summary>
         /// 集群或者哨兵模式时，必须实现的委托。
         /// </summary>
@@ -26,26 +25,23 @@ namespace NPlatform.Infrastructure
         /// <summary>
         /// 单例获取
         /// </summary>
-        public static ConnectionMultiplexer Instance
+        public static ConnectionMultiplexer CreateInstance(IRedisConfig Config)
         {
-            get
-            {
                 if (instance == null)
                 {
                     lock (Locker)
                     {
                         if (instance == null || !instance.IsConnected)
                         {
-                            instance = GetManager();
+                            instance = GetManager(Config);
                         }
                     }
                 }
 
                 return instance;
-            }
         }
 
-        private static ConnectionMultiplexer GetManager()
+        private static ConnectionMultiplexer GetManager(IRedisConfig Config)
         {
             if (Config.Connections == null || Config.Connections.Length == 0)
             {
@@ -53,6 +49,7 @@ namespace NPlatform.Infrastructure
             }
 
             ConfigurationOptions option = new ConfigurationOptions();
+            option.DefaultDatabase = Config.dbNum;
             switch (Config.RedisType.ToLower().Trim())
             {
                 case "twemproxy":

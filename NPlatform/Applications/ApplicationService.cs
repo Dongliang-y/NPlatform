@@ -31,16 +31,18 @@ namespace NPlatform.Applications
     using NPlatform.Result;
     using NPlatform.Repositories;
     using NPlatform.Domains.Service;
+    using NPlatform.Infrastructure.Config;
 
     /// <summary>
     /// Application 基类
     /// </summary>
     public class ApplicationService : ResultBase, IApplication
     {
-        /// <summary>
-        /// The _ config.
-        /// </summary>
-        protected static NPlatformConfig Config { get; } = new ConfigFactory<NPlatformConfig>().Build();
+        protected static AppConfigService Config;
+        public ApplicationService(AppConfigService config)
+        {
+            Config=config;
+        }
 
         /// <summary>
         /// 集合分页

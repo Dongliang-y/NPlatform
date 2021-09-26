@@ -42,18 +42,18 @@ namespace NPlatform.IOC
     using NPlatform.Infrastructure.Loger;
     using NPlatform.Repositories;
     using Microsoft.Extensions.Configuration;
+    using NPlatform.Infrastructure.Config;
 
     /// <summary>
     /// ioc 管理类
     /// </summary>
-    public class IOCManager
+    public class IOCService
     {
+        public AppConfigService ConfigService;
         /// <summary>
         /// 异步锁
         /// </summary>
         private static readonly object SyncRoot = new object();
-
-        private static Config.RedisConfig redisConfig = new ConfigFactory<RedisConfig>().Build();
 
         /// <summary>
         /// IOC 容器对象
@@ -61,17 +61,18 @@ namespace NPlatform.IOC
         private static ILifetimeScope container;
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="IOCManager"/> class from being created. 
+        /// Prevents a default instance of the <see cref="IOCService"/> class from being created. 
         ///  IOC管理
         /// </summary>
-        private IOCManager()
+        public  IOCService(AppConfigService configService)
         {
+            ConfigService = configService;
         }
         /// <summary>
-        /// Prevents a default instance of the <see cref="IOCManager"/> class from being created. 
+        /// Prevents a default instance of the <see cref="IOCService"/> class from being created. 
         ///  IOC管理
         /// </summary>
-        public static void InitContainer()
+        public  void InitContainer()
         {
             ContainerBuilder builder = new ContainerBuilder();
             Install(null, builder);
@@ -80,7 +81,7 @@ namespace NPlatform.IOC
         /// <summary>
         /// IOC容器
         /// </summary>
-        public static ILifetimeScope Container
+        public  ILifetimeScope Container
         {
             get
             {
@@ -103,14 +104,14 @@ namespace NPlatform.IOC
         /// <summary>
         /// 默认配置
         /// </summary>
-        private static IRepositoryOptions DefaultOption { get; set; }
+        private  IRepositoryOptions DefaultOption { get; set; }
         /// <summary>
         /// 获取通用的服务实现，所有基于 “接口-实现”注入进来的都可以使用此方法。
         /// </summary>
         /// <typeparam name="TService">仓储接口定义</typeparam>
         /// <param name="name">类名</param>
         /// <returns>返回服务</returns>
-        public static T BuildByName<T>(string name) where T : class
+        public  T BuildByName<T>(string name) where T : class
         {
             object rst;
             if (Container.TryResolveNamed(name, typeof(T), out rst))
@@ -139,7 +140,7 @@ namespace NPlatform.IOC
         /// <returns>
         /// 仓储
         /// </returns>
-        public static TRepository BuildRepository<TRepository, TEntity>(IRepositoryOptions rspOption = null)
+        public  TRepository BuildRepository<TRepository, TEntity>(IRepositoryOptions rspOption = null)
         {
             if (rspOption == null)
             {
@@ -154,7 +155,7 @@ namespace NPlatform.IOC
         /// <typeparam name="TService">仓储接口定义</typeparam>
         /// <param name="arguments">服务构造参数</param>
         /// <returns>返回服务</returns>
-        public static TService BuildService<TService>(params object[] arguments)
+        public  TService BuildService<TService>(params object[] arguments)
         {
             Console.WriteLine(typeof(TService).FullName);
             if (arguments == null || arguments.Length == 0)
@@ -173,7 +174,7 @@ namespace NPlatform.IOC
         /// <returns>
         /// 返回工作单元
         /// </returns>
-        public static IUnitOfWork BuildUnitOfWork(IContextOptions option = null)
+        public  IUnitOfWork BuildUnitOfWork(IContextOptions option = null)
         {
             if (option == null)
             {
@@ -191,11 +192,11 @@ namespace NPlatform.IOC
         /// The rsp Options.
         /// </param>
         /// <param name="builder"></param>
-        public static void Install(IRepositoryOptions rspOptions, ContainerBuilder builder)
+        public  void Install(IRepositoryOptions rspOptions, ContainerBuilder builder)
         {
             DefaultOption = rspOptions ?? new Repositories.RepositoryOptions();
-            var cfg = new ConfigFactory<NPlatformConfig>().Build();
-            if (cfg.IOCAssemblys.Length == 0)
+            var serviceConfig = ConfigService.GetServiceConfig();
+            if (serviceConfig.IOCAssemblys.Length == 0)
             {
                 throw new NPlatformException("NPlatformConfig IOCAssemblys is null", "IOC Install");
             }
@@ -207,7 +208,7 @@ namespace NPlatform.IOC
 
             var path = System.IO.Directory.GetCurrentDirectory();
             List<Assembly> assemblys = new List<Assembly>();
-            foreach (var tmp in cfg.IOCAssemblys)
+            foreach (var tmp in serviceConfig.IOCAssemblys)
             {
                 try
                 {
@@ -285,7 +286,7 @@ namespace NPlatform.IOC
         /// 获取automapper配置
         /// </summary>
         /// <returns>返回map配置类型</returns>
-        public static IEnumerable<IClassMapperConfig> ResolveAutoMapper()
+        public IEnumerable<IClassMapperConfig> ResolveAutoMapper()
         {
             return Container.Resolve<IEnumerable<IClassMapperConfig>>();
         }

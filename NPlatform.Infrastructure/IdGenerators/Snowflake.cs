@@ -21,16 +21,32 @@ namespace NPlatform.IdGenerators
     /// <summary>
     /// 雪花算法
     /// </summary>
-    public static class SnowflakeHelper 
+    public  class SnowflakeGenerator 
     {
-        private static NPlatformConfig config = new ConfigFactory<NPlatformConfig>().Build();
-        private static readonly Snowflake.Core.IdWorker Snow = new Snowflake.Core.IdWorker(config.MachineID, config.ServiceID);
-        public static long GenerateId()
+        private static Snowflake.Core.IdWorker Snow=null;
+        private static long WorkerId, DatacenterId;
+
+        public  SnowflakeGenerator(long workerId, long datacenterId)
+        {
+            if (Snow == null)
+            {
+                Snow = new Snowflake.Core.IdWorker(workerId, datacenterId);
+            }
+        }
+        public SnowflakeGenerator(long workerId, long datacenterId,long sequence)
+        {
+            if (Snow == null)
+            {
+                Snow = new Snowflake.Core.IdWorker(workerId, datacenterId,sequence);
+            }
+        }
+
+        public long GenerateId()
         {
             return Snow.NextId();
         }
 
-        public static bool IsEmpty(object id)
+        public  bool IsEmpty(object id)
         {
             if (id == null)
             {

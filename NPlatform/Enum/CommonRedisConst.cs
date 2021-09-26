@@ -12,7 +12,7 @@ namespace NPlatform
         /// </summary>
         /// <param name="token">token</param>
         /// <returns></returns>
-        public static string AuthInfoKey(string token)
+        public static string SesstionKey(string token)
         {
             return "AuthInfo:" + token;
         }

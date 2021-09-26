@@ -23,12 +23,12 @@ using System.Collections.Generic;
 using System.Text;
 using NPlatform;
 
-namespace NPlatform
+namespace NPlatform.API.Controllers
 {
     /// <summary>
     /// 授权数据
     /// </summary>
-    public class AuthInfoVO : IVO
+    public class SesstionInfo
     {
         /// <summary>
         /// id
@@ -46,34 +46,9 @@ namespace NPlatform
         public string CnName { get; set; }
 
         /// <summary>
-        /// CA 的  KeySN
-        /// </summary>
-        public string CA { get; set; }
-        /// <summary>
-        /// 性别
-        /// </summary>
-        public int? UserSex { get; set; }
-
-        /// <summary>
-        /// 年龄
-        /// </summary>
-        public int? Age { get; set; }
-
-        /// <summary>
         /// 用户头像
         /// </summary>
-        public string UserPic { get; set; }
-
-        /// <summary>
-        /// 签字图片
-        /// </summary>
-        /// <value>The sign pic.</value>
-        public string SignPic { get; set; }
-
-        /// <summary>
-        /// 客户端Id
-        /// </summary>
-        public string ClientId { get; set; }
+        public string Avatar { get; set; }
 
         /// <summary>
         /// 联系电话
@@ -82,9 +57,9 @@ namespace NPlatform
         public string Telephone { get; set; }
 
         /// <summary>
-        /// 身份证
+        /// 邮箱
         /// </summary>
-        public string IdNumber { get; set; }
+        public string Email { get; set; }
 
         /// <summary>
         /// 令牌
@@ -92,52 +67,33 @@ namespace NPlatform
         public string AccessToken { get; set; }
 
         /// <summary>
-        /// 设备推送ID
+        /// 登陆人的角色
         /// </summary>
-        public  string RegisterId { get; set; }
+        public string[] Roles { get; set; }
 
         /// <summary>
-        /// 当前登录角色
+        /// 默认机构
         /// </summary>
-        public string CurrentRoleId { get; set; } = "";
-        /// <summary>
-        /// 当前登录角色类型
-        /// </summary>
-        public string CurrentRoleType { get; set; }
+        public string MainOrgCode { get; set; }
 
         /// <summary>
-        /// 默认项目
+        /// 默认机构名称
         /// </summary>
-        public string DefaultOrgCode { get; set; }
+        public string MainOrgName { get; set; }
 
         /// <summary>
-        /// 默认项目名称
-        /// </summary>
-        public string DefaultOrgName { get; set; }
-
-        /// <summary>
-        /// 职位
+        /// 岗位
         /// </summary>
         public string Post { get; set; }
 
         /// <summary>
-        /// 考勤员  0普通员工 1考勤员 2考勤管理员
+        /// 登录设备的唯一标识
         /// </summary>
-        public int? CheckWorker { get; set; } 
+        public string MacId { get; set; }
 
         /// <summary>
-        /// Macid
+        /// 登录终端的ID
         /// </summary>
-        public string Macid { get; set; }
-
-        /// <summary>
-        /// KeySN
-        /// </summary>
-        public string KeySN { get; set; }
-
-        /// <summary>
-        /// 地址
-        /// </summary>
-        public string Address { get; set; }
+        public string ClientId { get; set; }
     }
 }

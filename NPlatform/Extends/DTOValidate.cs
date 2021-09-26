@@ -28,7 +28,7 @@ namespace NPlatform
         /// <typeparam name="T">对象类型,必须为DTO</typeparam>
         /// <param name="dto">对象值</param>
         /// <returns></returns>
-        public static ValidateResult Validates(this IDTO dto)
+        public static INPResult Validates(this IDTO dto)
         {
             ValidationContext context = new ValidationContext(dto, serviceProvider: null, items: null);
             List<ValidationResult> results = new List<ValidationResult>();
@@ -41,13 +41,10 @@ namespace NPlatform
                 {
                     strErrors.AppendLine(validationResult.ErrorMessage);
                 }
-                return new ValidateResult() { Success = false, Message = strErrors.ToString(), Data = dto };
+                return new ErrorResult<IDTO>(strErrors.ToString());
             }
 
-            return new ValidateResult()
-            {
-                Success = true
-            };
+            return new SuccessResult<IDTO>(dto);
         }
     }
 }

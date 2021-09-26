@@ -11,7 +11,7 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("ZJJW")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("NPlatform")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("* V 5.0.2 增加 API端点配置\r\n* V 5.0.2  2021-2-3 在3.0版本上 增加对 .NET5 ,.NET 2.2的支持,实现 2.2,3" +
     ".1 5.0多目标框架支持.增加基于Redis的分布式锁.")]

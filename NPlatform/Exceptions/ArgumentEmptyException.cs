@@ -22,7 +22,7 @@ namespace NPlatform
     /// <summary>
     /// 参数为空异常
     /// </summary>
-    public class ArgumentEmptyException : LogicException
+    public class ArgumentEmptyException : NPlatformException
     {
         /// <summary>
         /// 参数为空异常

@@ -24,6 +24,6 @@ namespace NPlatform
         /// DTO值的合法性校验
         /// </summary>
         /// <returns></returns>
-        ValidateResult Validate();
+        INPResult Validate();
     }
 }

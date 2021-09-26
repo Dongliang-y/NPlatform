@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -18,6 +19,12 @@ namespace NPlatform.Result
         /// 树类型的结构
         /// </summary>
         public TreeResult() { }
+        /// <summary>
+        /// 树类型的结构
+        /// </summary>
+        public TreeResult(IEnumerable<T> treeNodes) {
+            this.AddRange(treeNodes);
+        }
 
         /// <summary>
         /// 消息
@@ -27,10 +34,17 @@ namespace NPlatform.Result
         public string Message { get; set; }
 
         /// <summary>
-        /// 是否成功
+        /// HttpStatusCode
         /// </summary>
         [DataMember]
-        [JsonPropertyName("success")]
-        public bool Success { get; set; } = true;
+        [JsonPropertyName("httpcode")]
+        public HttpStatusCode HttpCode { get; set; } = HttpStatusCode.OK;
+
+        /// <summary>
+        ///  返回结果的服务id
+        /// </summary>
+        [DataMember]
+        [JsonPropertyName("serviceid")]
+        public string ServiceID { get; set; }
     }
 }

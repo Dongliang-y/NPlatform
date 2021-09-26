@@ -13,7 +13,7 @@
 namespace NPlatform
 {
     /// <summary>
-    /// Dto 接口
+    /// viewmode  接口
     /// </summary>
     public interface IVO
     {

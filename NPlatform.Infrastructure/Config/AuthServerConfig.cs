@@ -20,7 +20,7 @@ namespace NPlatform.Config
     /// <summary>
     /// Auth 服务器信息配置
     /// </summary>
-    public class AuthServerConfig
+    public class AuthServerConfig : IAuthServerConfig
     {
         private string authorizationUrl;
         private string accessTokenLifetime;
@@ -28,36 +28,19 @@ namespace NPlatform.Config
         /// <summary>
         /// ApiScope 服务端有效
         /// </summary>
-        public CustomDic ApiScope { get; set; }
+        public string[] ApiScope { get; set; }
 
         /// <summary>
         /// 授权中心的地址
         /// </summary>
-        public string AuthorizationUrl
-        {
-            get
-            {
-                return ApolloConfiguration.GetConfig(nameof(NPlatformConfig), nameof(AuthorizationUrl), this.authorizationUrl);
-            }
-            set
-            {
-                this.authorizationUrl = value;
-            }
-        }
+        public string AuthorizationUrl { get; set; }
 
         /// <summary>
         /// Token 过期时间
         /// </summary>
         public string AccessTokenLifetime
         {
-            get
-            {
-                return ApolloConfiguration.GetConfig(nameof(NPlatformConfig), nameof(AccessTokenLifetime), this.accessTokenLifetime);
-            }
-            set
-            {
-                this.accessTokenLifetime = value;
-            }
+            get; set;
         }
     }
 }

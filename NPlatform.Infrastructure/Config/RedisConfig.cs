@@ -14,100 +14,43 @@ using Com.Ctrip.Framework.Apollo;
 using Newtonsoft.Json;
 using NPlatform.Config;
 
-namespace NPlatform.Config
+namespace NPlatform.Infrastructure
 {
-    public sealed class RedisConfig : IConfig
+    public sealed class RedisConfig : IRedisConfig
     {
         private string redisType;
 
         /// <summary>
         /// Gets or sets redis 安装模式，Normal 普通，Twemproxy 代理，Sentinel 哨兵
         /// </summary>
-        public string RedisType
-        {
-            get
-            {
-                return ApolloConfiguration.GetConfig(nameof(RedisConfig),nameof(RedisType), this.redisType);
-            }
-            set
-            {
-                this.redisType = value;
-            }
-        }
+        public string RedisType { get; set; }
 
         private string[] connections;
         /// <summary>
         /// Gets or sets 连接字符串  ,  [IP:port]
         /// </summary>
 
-        public string[] Connections
-        {
-            get
-            {
-                var conns= ApolloConfiguration.GetConfig(nameof(RedisConfig), nameof(Connections),"");
-                if(string.IsNullOrEmpty(conns))
-                {
-                    return new string[0];
-                }
-                else
-                {
-                    return conns.Split(",", System.StringSplitOptions.RemoveEmptyEntries);
-                }
-            }
-            set { connections = value; }
-        }
+        public string[] Connections { get; set; }
 
         private string password;
         /// <summary>
         /// redis 密码
         /// </summary>
-        public string Password
-        {
-            get
-            {
-                return ApolloConfiguration.GetConfig(nameof(RedisConfig), nameof(Password), this.password);
-            }
-            set { password = value; }
-        }
-
-        private bool allowAdmin;
+        public string Password { get; set; }
         /// <summary>
         /// AllowAdmin
         /// </summary>
-        public bool AllowAdmin
-        {
-            get
-            {
-                return ApolloConfiguration.GetConfig(nameof(RedisConfig), nameof(AllowAdmin), this.allowAdmin);
-            }
-            set { allowAdmin = value; }
-        }
-
-        private int pipe=15;
+        public bool AllowAdmin { get; set; }
         /// <summary>
         /// redis 管道
         /// </summary>
-        public int Pipe
-        {
-            get
-            {
-                return ApolloConfiguration.GetConfig(nameof(RedisConfig), nameof(Pipe), this.pipe);
-            }
-            set { pipe = value; }
-        }
-
-        private bool enableCacheInterceptor = false;
+        public int Pipe { get; set; }
 
         /// <summary>
         /// 是否开启缓存方法拦截
         /// </summary>
-        public bool EnableCacheInterceptor
-        {
-            get
-            {
-                return ApolloConfiguration.GetConfig(nameof(RedisConfig), nameof(EnableCacheInterceptor), this.enableCacheInterceptor);
-            }
-            set { enableCacheInterceptor = value; }
-        }
+        public bool EnableCacheInterceptor { get; set; }
+
+        public int dbNum { get; set; }
     }
 }
