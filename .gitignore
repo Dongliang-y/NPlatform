@@ -32,3 +32,7 @@
 *.out
 *.app
 /.vs/NPlatform/v16/*.suo
+/NPlatform/bin
+/NPlatform/obj
+/NPlatform.Infrastructure/obj
+/NPlatform.Infrastructure/bin

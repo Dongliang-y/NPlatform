@@ -46,6 +46,6 @@ namespace NPlatform.Result
         /// http 状态码
         /// </summary>
         [JsonProperty(PropertyName = "HttpCode")]
-        public HttpStatusCode HttpCode { get;  }
+        HttpStatusCode HttpCode { get;  }
     }
 }

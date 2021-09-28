@@ -7,18 +7,17 @@
     <RootNamespace>NPlatform</RootNamespace>
     <AssemblyName>NPlatform</AssemblyName>
     <AssemblyVersion>1.0.0.1</AssemblyVersion>
-    <Description>NPlatform 底层脚手架初始化性质的重构。
- 约束与规范了：
- applications
- DI
- Domains
- Repositories
- Result
- DTO
-
-
-### 更新记录：
-2021/9/8 NPlatform 底层脚手架初始化性质的重构。</Description>
+    <Description>Not Platform 底层脚手架
+支持 .NET CORE 3.1\5.0
+约束与规范了：
+      applications 应用层
+      DI 注入
+      Domains 领域
+      Repositories 仓储
+      Result 各层的结果返回格式
+      DTO 
+      Middleware 通用中间件
+      Filters 通用过滤器。</Description>
     <Version>1.0.0.1</Version>
     <Authors>DongliangYi</Authors>
     <Company></Company>
@@ -27,10 +26,13 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <FileVersion>1.0.0.1</FileVersion>
     <PackageId>NPlatform</PackageId>
-    <PackageReleaseNotes>单元测试通过，试运行。</PackageReleaseNotes>
+    <PackageReleaseNotes>2021/9/28 NPlatform 底层脚手架初始化。</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/Dongliang-y/NPlatform</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Dongliang-y/NPlatform.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <Copyright></Copyright>
+    <NeutralLanguage />
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
