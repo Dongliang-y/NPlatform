@@ -18,7 +18,7 @@
       DTO 
       Middleware 通用中间件
       Filters 通用过滤器。</Description>
-    <Version>1.0.0.4-alpha</Version>
+    <Version>1.0.0.5-alpha</Version>
     <Authors>DongliangYi</Authors>
     <Company></Company>
     <Product>基础框架</Product>
@@ -26,7 +26,8 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <FileVersion>1.0.0.2</FileVersion>
     <PackageId>NPlatform</PackageId>
-    <PackageReleaseNotes>2021/9/28 BaseController的 error 封装调整，NHealthChecks 调整
+    <PackageReleaseNotes>
+2021/9/28 BaseController的 error 封装调整，NHealthChecks 调整
 。
 2021/9/28 NPlatform 底层脚手架初始化。</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/Dongliang-y/NPlatform</PackageProjectUrl>

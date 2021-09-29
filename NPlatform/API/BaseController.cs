@@ -19,6 +19,7 @@ namespace NPlatform.API.Controllers
     using NPlatform.Infrastructure.Config;
     using System.Net;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Configuration;
 
     /// <summary>
     /// controler 基类
@@ -31,16 +32,21 @@ namespace NPlatform.API.Controllers
         /// <summary>
         /// redis service
         /// </summary>
-        RedisService _RedisService { get; set; }
+        IRedisService _RedisService
+        {
+            get
+            {
+                return IOC.IOCService.BuildService<IRedisService>();
+            }
+        }
         /// <summary>
         /// 全局配置信息
         /// </summary>
-        public IAppConfigService Config { get; set; }
+        public IConfiguration Config { get; set; }
 
-        public BaseController(IAppConfigService config, RedisService service)
+        public BaseController(IConfiguration config)
         {
             Config = config;
-            _RedisService = service;
         }
 
 

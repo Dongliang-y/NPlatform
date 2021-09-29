@@ -13,7 +13,7 @@ namespace NPlatform.Infrastructure
     /// <summary>
     /// Redis操作
     /// </summary>
-    public class RedisService
+    public class RedisService : IRedisService
     {
         private int DbNum { get; }
         private readonly ConnectionMultiplexer _conn;
@@ -25,10 +25,10 @@ namespace NPlatform.Infrastructure
         /// RedisHelper
         /// </summary>
         /// <param name="dbNum">库序号</param>
-        public RedisService(IConfiguration appConfigService)
+        public RedisService(IConfiguration config)
         {
-            var redisConfig = appConfigService.GetRedisConfig();
-            var serviceConfig = appConfigService.GetServiceConfig();
+            var redisConfig = config.GetRedisConfig();
+            var serviceConfig = config.GetServiceConfig();
             DbNum = redisConfig.dbNum;
             _conn = RedisConnection.CreateInstance(redisConfig);
             prefix = $"{serviceConfig.ServiceName}:{ serviceConfig.ServiceID}:";
@@ -812,7 +812,7 @@ namespace NPlatform.Infrastructure
         public async Task<bool> LockAsync(string key, int seconds)
         {
             key = SetPrefix(key);
-            var database= _conn.GetDatabase(DbNum);
+            var database = _conn.GetDatabase(DbNum);
             return await database.LockTakeAsync(key, prefix, TimeSpan.FromSeconds(seconds));
         }
 

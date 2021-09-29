@@ -26,9 +26,9 @@
         /// </summary>
         protected static IConfiguration Config { get; set; }
 
-        public BaseService(IConfiguration config,IOCService iocService)
+        public BaseService(IConfiguration config)
         {
-            IPlatformHttpContext httpCtx = iocService.BuildService<IPlatformHttpContext>();
+            IPlatformHttpContext httpCtx = IOCService.BuildService<IPlatformHttpContext>();
             if (httpCtx != null && httpCtx.Context!=null)
             {
                 var authorization = httpCtx.Context.Request.Headers["Authorization"];

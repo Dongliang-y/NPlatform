@@ -46,9 +46,8 @@ namespace NPlatform.IOC
     /// <summary>
     /// ioc 管理类
     /// </summary>
-    public class IOCService
+    public static class IOCService
     {
-        public IConfiguration ConfigService;
         /// <summary>
         /// 异步锁
         /// </summary>
@@ -63,24 +62,16 @@ namespace NPlatform.IOC
         /// Prevents a default instance of the <see cref="IOCService"/> class from being created. 
         ///  IOC管理
         /// </summary>
-        public  IOCService(IConfiguration configService)
-        {
-            ConfigService = configService;
-        }
-        /// <summary>
-        /// Prevents a default instance of the <see cref="IOCService"/> class from being created. 
-        ///  IOC管理
-        /// </summary>
-        public  void InitContainer()
+        public static void InitContainer(IConfiguration config)
         {
             ContainerBuilder builder = new ContainerBuilder();
-            Install(null, builder);
+            Install(null, builder,config);
             container = builder.Build().BeginLifetimeScope();
         }
         /// <summary>
         /// IOC容器
         /// </summary>
-        public  ILifetimeScope Container
+        public static ILifetimeScope Container
         {
             get
             {
@@ -103,14 +94,14 @@ namespace NPlatform.IOC
         /// <summary>
         /// 默认配置
         /// </summary>
-        private  IRepositoryOptions DefaultOption { get; set; }
+        private static IRepositoryOptions DefaultOption { get; set; }
         /// <summary>
         /// 获取通用的服务实现，所有基于 “接口-实现”注入进来的都可以使用此方法。
         /// </summary>
         /// <typeparam name="TService">仓储接口定义</typeparam>
         /// <param name="name">类名</param>
         /// <returns>返回服务</returns>
-        public  T BuildByName<T>(string name) where T : class
+        public static T BuildByName<T>(string name) where T : class
         {
             object rst;
             if (Container.TryResolveNamed(name, typeof(T), out rst))
@@ -139,7 +130,7 @@ namespace NPlatform.IOC
         /// <returns>
         /// 仓储
         /// </returns>
-        public  TRepository BuildRepository<TRepository, TEntity>(IRepositoryOptions rspOption = null)
+        public static TRepository BuildRepository<TRepository, TEntity>(IRepositoryOptions rspOption = null)
         {
             if (rspOption == null)
             {
@@ -154,7 +145,7 @@ namespace NPlatform.IOC
         /// <typeparam name="TService">仓储接口定义</typeparam>
         /// <param name="arguments">服务构造参数</param>
         /// <returns>返回服务</returns>
-        public  TService BuildService<TService>(params object[] arguments)
+        public static TService BuildService<TService>(params object[] arguments)
         {
             Console.WriteLine(typeof(TService).FullName);
             if (arguments == null || arguments.Length == 0)
@@ -173,7 +164,7 @@ namespace NPlatform.IOC
         /// <returns>
         /// 返回工作单元
         /// </returns>
-        public  IUnitOfWork BuildUnitOfWork(IContextOptions option = null)
+        public static IUnitOfWork BuildUnitOfWork(IContextOptions option = null)
         {
             if (option == null)
             {
@@ -191,10 +182,12 @@ namespace NPlatform.IOC
         /// The rsp Options.
         /// </param>
         /// <param name="builder"></param>
-        public  void Install(IRepositoryOptions rspOptions, ContainerBuilder builder)
+        public static void Install(IRepositoryOptions rspOptions, ContainerBuilder builder,IConfiguration config)
         {
             DefaultOption = rspOptions ?? new Repositories.RepositoryOptions();
-            var serviceConfig = ConfigService.GetServiceConfig();
+            var currentDic = System.IO.Directory.GetCurrentDirectory();
+
+            var serviceConfig = config.GetServiceConfig();
             if (serviceConfig.IOCAssemblys.Length == 0)
             {
                 throw new NPlatformException("NPlatformConfig IOCAssemblys is null", "IOC Install");
@@ -202,8 +195,6 @@ namespace NPlatform.IOC
 
             builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().AsImplementedInterfaces().PropertiesAutowired().InstancePerLifetimeScope().InstancePerDependency();
             builder.RegisterType<PlatformHttpContext>().As<IPlatformHttpContext>().AsImplementedInterfaces().PropertiesAutowired().InstancePerLifetimeScope().InstancePerDependency();
-            //builder.RegisterType<RedisHelper>().PropertiesAutowired().InstancePerLifetimeScope().InstancePerDependency().SingleInstance();
-            //builder.RegisterType<RedisCacheInterceptor>().PropertiesAutowired().InstancePerLifetimeScope().InstancePerDependency().SingleInstance();
 
             var path = System.IO.Directory.GetCurrentDirectory();
             List<Assembly> assemblys = new List<Assembly>();
@@ -214,9 +205,6 @@ namespace NPlatform.IOC
                     var assPath = Path.Combine(path, tmp);
                     Assembly service = Assembly.LoadFrom(assPath);
                     assemblys.Add(service);
-                    //    builder.RegisterGeneric(typeof(IClassMapperConfig<>)).InstancePerLifetimeScope();
-                    //    builder.re builder.RegisterGeneric(typeof(List<>)).As(typeof(IList<>)).InstancePerLifetimeScope();
-                    //IClassMapperConfig<IMapperConfigurationExpression>  
                 }
                 catch (FileNotFoundException ex)
                 {
@@ -285,7 +273,7 @@ namespace NPlatform.IOC
         /// 获取automapper配置
         /// </summary>
         /// <returns>返回map配置类型</returns>
-        public IEnumerable<IClassMapperConfig> ResolveAutoMapper()
+        public static IEnumerable<IClassMapperConfig> ResolveAutoMapper()
         {
             return Container.Resolve<IEnumerable<IClassMapperConfig>>();
         }
