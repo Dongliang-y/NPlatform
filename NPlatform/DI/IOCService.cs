@@ -48,7 +48,7 @@ namespace NPlatform.IOC
     /// </summary>
     public class IOCService
     {
-        public AppConfigService ConfigService;
+        public IConfiguration ConfigService;
         /// <summary>
         /// 异步锁
         /// </summary>
@@ -63,7 +63,7 @@ namespace NPlatform.IOC
         /// Prevents a default instance of the <see cref="IOCService"/> class from being created. 
         ///  IOC管理
         /// </summary>
-        public  IOCService(AppConfigService configService)
+        public  IOCService(IConfiguration configService)
         {
             ConfigService = configService;
         }

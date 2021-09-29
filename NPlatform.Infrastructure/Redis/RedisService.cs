@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NPlatform.Infrastructure.Config;
+using Microsoft.Extensions.Configuration;
 
 namespace NPlatform.Infrastructure
 {
@@ -24,7 +25,7 @@ namespace NPlatform.Infrastructure
         /// RedisHelper
         /// </summary>
         /// <param name="dbNum">库序号</param>
-        public RedisService(AppConfigService appConfigService)
+        public RedisService(IConfiguration appConfigService)
         {
             var redisConfig = appConfigService.GetRedisConfig();
             var serviceConfig = appConfigService.GetServiceConfig();

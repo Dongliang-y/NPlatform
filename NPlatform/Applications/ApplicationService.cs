@@ -31,14 +31,15 @@ namespace NPlatform.Applications
     using NPlatform.Repositories;
     using NPlatform.Domains.Service;
     using NPlatform.Infrastructure.Config;
+    using Microsoft.Extensions.Configuration;
 
     /// <summary>
     /// Application 基类
     /// </summary>
     public class ApplicationService : ResultBase, IApplication
     {
-        protected static AppConfigService Config;
-        public ApplicationService(AppConfigService config)
+        protected static IConfiguration Config;
+        public ApplicationService(IConfiguration config)
         {
             Config=config;
         }

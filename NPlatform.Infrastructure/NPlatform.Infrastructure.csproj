@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks>
-    <Description>2021/9/28 Not Platform 基础设施，
+    <Description>2021/9/29 配置扩展方法的调整，改为 服务配置、redis配置、授权配置3个节点
+2021/9/28 Not Platform 基础设施，
 支持 .net core 3.1\5.0
 用于定义一些通用工具类、通用的常量、配置约定、等。
 
@@ -10,7 +11,7 @@
     <Product>NPlatform</Product>
     <Company>NPlatform</Company>
     <Authors>Dongliang Yi</Authors>
-    <Version>1.0.0.4-alpha</Version>
+    <Version>1.0.0.5-alpha</Version>
     <AssemblyVersion>1.0.0.2</AssemblyVersion>
     <FileVersion>1.0.0.2</FileVersion>
     <ApplicationIcon />

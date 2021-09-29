@@ -10,36 +10,31 @@
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Text;
 
 namespace NPlatform.Infrastructure.Config
 {
-    public class AppConfigService : IAppConfigService
+    public static class NConfigExtensions
     {
-        IConfiguration configuration;
-        public AppConfigService(IConfiguration config)
-        {
-            configuration = config;
-        }
-
         /// <summary>
         /// redis 配置
         /// </summary>
         /// <returns></returns>
-        public IRedisConfig GetRedisConfig()
+        public static IRedisConfig GetRedisConfig(this IConfiguration configuration)
         {
             var cfgRedis= configuration[nameof(RedisConfig)];
             IRedisConfig config = SerializerHelper.FromJson<RedisConfig>(cfgRedis);
             return config;
         }
-        public IServiceConfig GetServiceConfig()
+        public static IServiceConfig GetServiceConfig(this IConfiguration configuration)
         {
             var cfgRedis = configuration[nameof(ServiceConfig)];
             IServiceConfig config = SerializerHelper.FromJson<ServiceConfig>(cfgRedis);
             return config;
         }
 
-        public IAuthServerConfig GetAuthConfig()
+        public static IAuthServerConfig GetAuthConfig(this IConfiguration configuration)
         {
             var cfgRedis = configuration[nameof(AuthServerConfig)];
             IAuthServerConfig config = SerializerHelper.FromJson<AuthServerConfig>(cfgRedis);

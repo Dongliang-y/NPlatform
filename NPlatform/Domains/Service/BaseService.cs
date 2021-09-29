@@ -12,6 +12,7 @@
     using NPlatform.Result;
     using Flurl.Http;
     using NPlatform.Infrastructure.Config;
+    using Microsoft.Extensions.Configuration;
 
     /// <summary>
     /// 领域服务基类
@@ -23,9 +24,9 @@
         /// <summary>
         /// 框架配置
         /// </summary>
-        protected static AppConfigService Config { get; set; }
+        protected static IConfiguration Config { get; set; }
 
-        public BaseService(AppConfigService config,IOCService iocService)
+        public BaseService(IConfiguration config,IOCService iocService)
         {
             IPlatformHttpContext httpCtx = iocService.BuildService<IPlatformHttpContext>();
             if (httpCtx != null && httpCtx.Context!=null)

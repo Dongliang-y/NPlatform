@@ -159,12 +159,6 @@
             <param name="sender"></param>
             <param name="changeEvent"></param>
         </member>
-        <member name="M:NPlatform.Infrastructure.Config.AppConfigService.GetRedisConfig">
-            <summary>
-            redis 配置
-            </summary>
-            <returns></returns>
-        </member>
         <member name="T:NPlatform.Infrastructure.Config.AuthServerConfig">
             <summary>
             Auth 服务器信息配置
@@ -189,6 +183,12 @@
             <summary>
             当前服务的数据库序号
             </summary>
+        </member>
+        <member name="M:NPlatform.Infrastructure.Config.NConfigExtensions.GetRedisConfig(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            redis 配置
+            </summary>
+            <returns></returns>
         </member>
         <member name="P:NPlatform.Infrastructure.Config.RedisConfig.RedisType">
             <summary>
@@ -1298,7 +1298,7 @@
             Redis操作
             </summary>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisService.#ctor(NPlatform.Infrastructure.Config.AppConfigService)">
+        <member name="M:NPlatform.Infrastructure.RedisService.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             RedisHelper
             </summary>

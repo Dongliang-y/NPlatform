@@ -207,7 +207,7 @@
             IOC 容器对象
             </summary>
         </member>
-        <member name="M:NPlatform.IOC.IOCService.#ctor(NPlatform.Infrastructure.Config.AppConfigService)">
+        <member name="M:NPlatform.IOC.IOCService.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             Prevents a default instance of the <see cref="T:NPlatform.IOC.IOCService"/> class from being created. 
              IOC管理
