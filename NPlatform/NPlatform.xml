@@ -58,17 +58,12 @@
              返回SuccessResult<T/>
             </summary>
         </member>
-        <member name="M:NPlatform.API.Controllers.BaseController.Error(NPlatform.NPlatformException)">
+        <member name="M:NPlatform.API.Controllers.BaseController.Error(System.String)">
             <summary>
             返回错误信息
             </summary>
         </member>
-        <member name="M:NPlatform.API.Controllers.BaseController.Error(System.String,System.String)">
-            <summary>
-            返回错误信息
-            </summary>
-        </member>
-        <member name="M:NPlatform.API.Controllers.BaseController.Error``1(System.String,System.Net.HttpStatusCode,System.String,NPlatform.NPlatformException)">
+        <member name="M:NPlatform.API.Controllers.BaseController.Error``1(System.String,System.Net.HttpStatusCode)">
             <summary>
             返回错误信息
             </summary>
@@ -2093,7 +2088,7 @@
             viewmode  接口
             </summary>
         </member>
-        <member name="T:NPlatform.UI.Middleware.MyHealthChecks">
+        <member name="T:NPlatform.Middleware.NHealthChecks">
             <summary>
             健康检查的用的中间件
             </summary>

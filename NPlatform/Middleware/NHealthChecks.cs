@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NPlatform.UI.Middleware
+namespace NPlatform.Middleware
 {
     /// <summary>
     /// 健康检查的用的中间件
