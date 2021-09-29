@@ -10,9 +10,9 @@
     <Product>NPlatform</Product>
     <Company>NPlatform</Company>
     <Authors>Dongliang Yi</Authors>
-    <Version>1.0.0.1</Version>
-    <AssemblyVersion>1.0.0.1</AssemblyVersion>
-    <FileVersion>1.0.0.1</FileVersion>
+    <Version>1.0.0.2-alpha</Version>
+    <AssemblyVersion>1.0.0.2</AssemblyVersion>
+    <FileVersion>1.0.0.2</FileVersion>
     <ApplicationIcon />
     <OutputType>Library</OutputType>
     <StartupObject />
