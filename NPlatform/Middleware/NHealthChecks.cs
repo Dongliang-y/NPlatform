@@ -11,16 +11,16 @@ namespace NPlatform.UI.Middleware
     /// <summary>
     /// 健康检查的用的中间件
     /// </summary>
-    public class MyHealthChecks : IHealthCheck
+    public class NHealthChecks : IHealthCheck
     {
         public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = new CancellationToken())
         {
             var kvs = new Dictionary<string, object>();
-            kvs.Add("userName", "admin");
+            kvs.Add("CheckTime",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             var dic = new ReadOnlyDictionary<string, object>(kvs);
-           // HealthCheckResult healthCheckResult = HealthCheckResult.Unhealthy("test", new Exception("测试检查失败的"), dic);
-            HealthCheckResult healthCheckResult = HealthCheckResult.Healthy("test", dic);
+            HealthCheckResult healthCheckResult = HealthCheckResult.Healthy("Check", dic);
             // 这里可以去检查下 数据库链接、redis等情况
+
             return Task.FromResult(healthCheckResult);
         }
 

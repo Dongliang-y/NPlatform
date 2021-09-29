@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NPlatform.Result;
-using NPlatform.Config;
 using Microsoft.AspNetCore.Authorization;
-using System.Web;
-using NPlatform.Infrastructure.Loger;
 
 namespace NPlatform.API.Controllers
 {
@@ -40,13 +37,10 @@ namespace NPlatform.API.Controllers
         /// </summary>
         public IAppConfigService Config { get; set; }
 
-        public ILogger Logger { get; set; }
-
-        public BaseController(IAppConfigService config, RedisService service,ILogger loger)
+        public BaseController(IAppConfigService config, RedisService service)
         {
             Config = config;
             _RedisService = service;
-            this.Logger = loger;
         }
 
 
@@ -90,68 +84,59 @@ namespace NPlatform.API.Controllers
         /// </summary>
         protected virtual async Task<SesstionInfo> GetSesstionInfo()
         {
-            try
+            if (this.sesstion == null)
             {
-                if (this.sesstion == null)
+                var token = this.Request.Headers["Authorization"];
+                sesstion = await _RedisService.StringGetAsync<SesstionInfo>(CommonRedisConst.SesstionKey(token));
+                if (sesstion == null)
                 {
-                    var token = this.Request.Headers["Authorization"];
-                    sesstion = await _RedisService.StringGetAsync<SesstionInfo>(CommonRedisConst.SesstionKey(token));
-                    if (sesstion == null)
+                    var Claims = User.Claims;
+                    sesstion = new SesstionInfo();
+                    sesstion.AccessToken = token;
+                    if (Claims.Any(t => t.Type == "id"))
                     {
-                        var Claims = User.Claims;
-                        sesstion = new SesstionInfo();
-                        sesstion.AccessToken = token;
-                        if (Claims.Any(t => t.Type == "id"))
-                        {
-                            sesstion.Id = Claims.FirstOrDefault(t => t.Type == "id").Value;
-                        }
+                        sesstion.Id = Claims.FirstOrDefault(t => t.Type == "id").Value;
+                    }
 
-                        if (Claims.Any(t => t.Type == "client_id"))
-                        {
-                            sesstion.ClientId = Claims.FirstOrDefault(t => t.Type == "client_id").Value;
-                        }
+                    if (Claims.Any(t => t.Type == "client_id"))
+                    {
+                        sesstion.ClientId = Claims.FirstOrDefault(t => t.Type == "client_id").Value;
+                    }
 
-                        if (Claims.Any(t => t.Type == "roles"))
+                    if (Claims.Any(t => t.Type == "roles"))
+                    {
+                        var roles = Claims.FirstOrDefault(t => t.Type == "roles").Value;
+                        if (string.IsNullOrEmpty(roles))
                         {
-                            var roles = Claims.FirstOrDefault(t => t.Type == "roles").Value;
-                            if (string.IsNullOrEmpty(roles))
-                            {
-                                sesstion.Roles = new string[] { "default" };
-                            }
-                            else
-                            {
-                                sesstion.Roles = SerializerHelper.FromJson<string[]>(roles);
-                            }
+                            sesstion.Roles = new string[] { "default" };
                         }
-
-                        if (Claims.Any(t => t.Type.Contains("givenname")))
+                        else
                         {
-                            // Claims.FirstOrDefault(t => t.Subject.Name);
-                            sesstion.CnName = Claims.FirstOrDefault(t => t.Type.Contains("givenname")).Value;
-                        }
-                        if (Claims.Any(t => t.Type == "avatar"))
-                        {
-                            sesstion.Avatar = Claims.FirstOrDefault(t => t.Type == "avatar").Value;
-                        }
-
-                        if (Claims.Any(t => t.Type == "name"))
-                        {
-                            sesstion.Account = Claims.FirstOrDefault(t => t.Type == "name").Value;
+                            sesstion.Roles = SerializerHelper.FromJson<string[]>(roles);
                         }
                     }
-                    return sesstion;
-                }
-                else
-                {
-                    return sesstion;
-                }
-            }
-            catch (Exception ex)
-            {
-                this.Logger.LogError(ex,ex.Message, "SYS");
-                return new SesstionInfo();
-            }
 
+                    if (Claims.Any(t => t.Type.Contains("givenname")))
+                    {
+                        // Claims.FirstOrDefault(t => t.Subject.Name);
+                        sesstion.CnName = Claims.FirstOrDefault(t => t.Type.Contains("givenname")).Value;
+                    }
+                    if (Claims.Any(t => t.Type == "avatar"))
+                    {
+                        sesstion.Avatar = Claims.FirstOrDefault(t => t.Type == "avatar").Value;
+                    }
+
+                    if (Claims.Any(t => t.Type == "name"))
+                    {
+                        sesstion.Account = Claims.FirstOrDefault(t => t.Type == "name").Value;
+                    }
+                }
+                return sesstion;
+            }
+            else
+            {
+                return sesstion;
+            }
         }
 
         /// <summary>
@@ -188,27 +173,17 @@ namespace NPlatform.API.Controllers
         /// <summary>
         /// 返回错误信息
         /// </summary>
-        protected virtual ErrorResult<object> Error(NPlatformException ex)
+        protected virtual ErrorResult<object> Error(string msg)
         {
-            return  Error<object>(ex.Message);
-        }
-        /// <summary>
-        /// 返回错误信息
-        /// </summary>
-        protected virtual ErrorResult<object> Error(string msg,string modelName)
-        {
-            Logger.LogError(msg, modelName);
-            var rst = new ErrorResult<object>($"{msg}", HttpStatusCode.InternalServerError);
+            var rst = new ErrorResult<object>(msg, HttpStatusCode.InternalServerError);
             return rst;
         }
         /// <summary>
         /// 返回错误信息
         /// </summary>
-        protected virtual ErrorResult<T> Error<T>(string msg, HttpStatusCode httpStatusCode= HttpStatusCode.InternalServerError
-            , string modelName = null, NPlatform.NPlatformException ex=null)
+        protected virtual ErrorResult<T> Error<T>(string msg, HttpStatusCode httpStatusCode= HttpStatusCode.InternalServerError)
         {
-            Logger.LogError(ex,ex.Message, modelName);
-            var rst = new ErrorResult<T>($"{msg}{"-->" + ex.Message}", httpStatusCode);
+            var rst = new ErrorResult<T>(msg, httpStatusCode);
             return rst;
         }
         /// <summary>
