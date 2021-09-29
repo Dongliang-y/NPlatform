@@ -16,6 +16,7 @@ namespace NPlatform.Infrastructure.Config
     using Newtonsoft.Json;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     /// 通用配置管理
@@ -30,11 +31,13 @@ namespace NPlatform.Infrastructure.Config
         /// <summary>
         /// 数据中心ID
         /// </summary>
+        [MaxLength(5,ErrorMessage ="数据中心ID长度不能超过5")]
         public long DataCenterID { get; set; } = 1;
 
         /// <summary>
         /// 分布式部署时服务ID
         /// </summary>
+        [MaxLength(5, ErrorMessage = "服务ID长度不能超过5")]
         public long ServiceID { get; set; } = 1;
 
         /// <summary>
@@ -48,8 +51,13 @@ namespace NPlatform.Infrastructure.Config
         public string[] IOCAssemblys { get; set; }
 
         /// <summary>
-        /// 系统地址
+        /// 系统地址,ip 或域名
         /// </summary>
-        public string ServiceEndPoint { get; set; }
+        public string Address { get; set; }
+
+        /// <summary>
+        /// 系统的端口
+        /// </summary>
+        public int Port { get; set; }
     }
 }
