@@ -35,7 +35,6 @@ namespace NPlatform.IOC
     using System.Reflection;
     using NPlatform.Applications;
     // using NPlatform.API.Controllers;
-    using NPlatform.Config;
     using NPlatform.Domains.IRepositories;
     using NPlatform.Filters;
     using NPlatform.Infrastructure;

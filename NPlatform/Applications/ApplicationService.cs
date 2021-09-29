@@ -27,7 +27,6 @@ namespace NPlatform.Applications
     using System.Collections.Generic;
     using System.Linq;
 
-    using NPlatform.Config;
     using NPlatform.Result;
     using NPlatform.Repositories;
     using NPlatform.Domains.Service;

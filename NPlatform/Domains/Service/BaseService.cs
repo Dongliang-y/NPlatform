@@ -5,7 +5,6 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
-    using NPlatform.Config;
     using NPlatform.Domains.Entity;
     using NPlatform.Domains.IRepositories;
     using NPlatform.IOC;
