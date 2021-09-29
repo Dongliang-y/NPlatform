@@ -14,7 +14,6 @@ using ServiceStack;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using NPlatform.Config;
 
 namespace NPlatform.IdGenerators
 {

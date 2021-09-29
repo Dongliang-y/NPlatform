@@ -15,7 +15,8 @@ namespace NPlatform.Infrastructure.Config
     public interface IServiceConfig
     {
         
-        long ServiceName { get; set; }
+        string ServiceName { get; set; }
+        long DataCenterID { get; set; }
         long ServiceID { get; set; }
         string[] IOCAssemblys { get; set; }
         string ServiceVersion { get; set; }

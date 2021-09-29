@@ -25,7 +25,12 @@ namespace NPlatform.Infrastructure.Config
         /// <summary>
         /// 服务名称
         /// </summary>
-        public long ServiceName { get; set; } = 1;
+        public string ServiceName { get; set; }
+
+        /// <summary>
+        /// 数据中心ID
+        /// </summary>
+        public long DataCenterID { get; set; } = 1;
 
         /// <summary>
         /// 分布式部署时服务ID

@@ -123,12 +123,12 @@
             <param name="bytes">A byte array.</param>
             <returns>True if the hex string was successfully parsed.</returns>
         </member>
-        <member name="T:NPlatform.Config.ApolloConfiguration">
+        <member name="T:NPlatform.Infrastructure.Config.ApolloConfiguration">
             <summary>
             apollo配置获取
             </summary>
         </member>
-        <member name="M:NPlatform.Config.ApolloConfiguration.GetConfig(System.String,System.String,System.String)">
+        <member name="M:NPlatform.Infrastructure.Config.ApolloConfiguration.GetConfig(System.String,System.String,System.String)">
             <summary>
             获取配置
             </summary>
@@ -136,7 +136,7 @@
             <param name="defaultValue">如果没找到key,则返回默认值</param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Config.ApolloConfiguration.GetConfig(System.String,System.String,System.Boolean)">
+        <member name="M:NPlatform.Infrastructure.Config.ApolloConfiguration.GetConfig(System.String,System.String,System.Boolean)">
             <summary>
             获取配置
             </summary>
@@ -144,7 +144,7 @@
             <param name="defaultValue">如果没找到key,则返回默认值</param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Config.ApolloConfiguration.GetConfig(System.String,System.String,System.Int32)">
+        <member name="M:NPlatform.Infrastructure.Config.ApolloConfiguration.GetConfig(System.String,System.String,System.Int32)">
             <summary>
             获取配置
             </summary>
@@ -152,96 +152,107 @@
             <param name="defaultValue">如果没找到key,则返回默认值</param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Config.ApolloConfiguration.OnChanged(System.Object,Com.Ctrip.Framework.Apollo.Model.ConfigChangeEventArgs)">
+        <member name="M:NPlatform.Infrastructure.Config.ApolloConfiguration.OnChanged(System.Object,Com.Ctrip.Framework.Apollo.Model.ConfigChangeEventArgs)">
             <summary>
             动态监听配置改变
             </summary>
             <param name="sender"></param>
             <param name="changeEvent"></param>
         </member>
-        <member name="T:NPlatform.Config.AuthServerConfig">
+        <member name="M:NPlatform.Infrastructure.Config.AppConfigService.GetRedisConfig">
+            <summary>
+            redis 配置
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:NPlatform.Infrastructure.Config.AuthServerConfig">
             <summary>
             Auth 服务器信息配置
             </summary>
         </member>
-        <member name="P:NPlatform.Config.AuthServerConfig.ApiScope">
+        <member name="P:NPlatform.Infrastructure.Config.AuthServerConfig.ApiScope">
             <summary>
             ApiScope 服务端有效
             </summary>
         </member>
-        <member name="P:NPlatform.Config.AuthServerConfig.AuthorizationUrl">
+        <member name="P:NPlatform.Infrastructure.Config.AuthServerConfig.AuthorizationUrl">
             <summary>
             授权中心的地址
             </summary>
         </member>
-        <member name="P:NPlatform.Config.AuthServerConfig.AccessTokenLifetime">
+        <member name="P:NPlatform.Infrastructure.Config.AuthServerConfig.AccessTokenLifetime">
             <summary>
             Token 过期时间
             </summary>
         </member>
-        <member name="T:NPlatform.Config.ServiceConfig">
-            <summary>
-            通用配置管理
-            </summary>
-        </member>
-        <member name="P:NPlatform.Config.ServiceConfig.ServiceName">
-            <summary>
-            服务名称
-            </summary>
-        </member>
-        <member name="P:NPlatform.Config.ServiceConfig.ServiceID">
-            <summary>
-            分布式部署时服务ID
-            </summary>
-        </member>
-        <member name="P:NPlatform.Config.ServiceConfig.ServiceVersion">
-            <summary>
-            版本号
-            </summary>
-        </member>
-        <member name="P:NPlatform.Config.ServiceConfig.IOCAssemblys">
-            <summary>
-            需要注入的dll
-            </summary>
-        </member>
-        <member name="P:NPlatform.Config.ServiceConfig.ServiceEndPoint">
-            <summary>
-            系统地址
-            </summary>
-        </member>
-        <member name="P:NPlatform.Infrastructure.IRedisConfig.dbNum">
+        <member name="P:NPlatform.Infrastructure.Config.IRedisConfig.dbNum">
             <summary>
             当前服务的数据库序号
             </summary>
         </member>
-        <member name="P:NPlatform.Infrastructure.RedisConfig.RedisType">
+        <member name="P:NPlatform.Infrastructure.Config.RedisConfig.RedisType">
             <summary>
             Gets or sets redis 安装模式，Normal 普通，Twemproxy 代理，Sentinel 哨兵
             </summary>
         </member>
-        <member name="P:NPlatform.Infrastructure.RedisConfig.Connections">
+        <member name="P:NPlatform.Infrastructure.Config.RedisConfig.Connections">
             <summary>
             Gets or sets 连接字符串  ,  [IP:port]
             </summary>
         </member>
-        <member name="P:NPlatform.Infrastructure.RedisConfig.Password">
+        <member name="P:NPlatform.Infrastructure.Config.RedisConfig.Password">
             <summary>
             redis 密码
             </summary>
         </member>
-        <member name="P:NPlatform.Infrastructure.RedisConfig.AllowAdmin">
+        <member name="P:NPlatform.Infrastructure.Config.RedisConfig.AllowAdmin">
             <summary>
             AllowAdmin
             </summary>
         </member>
-        <member name="P:NPlatform.Infrastructure.RedisConfig.Pipe">
+        <member name="P:NPlatform.Infrastructure.Config.RedisConfig.Pipe">
             <summary>
             redis 管道
             </summary>
         </member>
-        <member name="P:NPlatform.Infrastructure.RedisConfig.EnableCacheInterceptor">
+        <member name="P:NPlatform.Infrastructure.Config.RedisConfig.EnableCacheInterceptor">
             <summary>
             是否开启缓存方法拦截
+            </summary>
+        </member>
+        <member name="T:NPlatform.Infrastructure.Config.ServiceConfig">
+            <summary>
+            通用配置管理
+            </summary>
+        </member>
+        <member name="P:NPlatform.Infrastructure.Config.ServiceConfig.ServiceName">
+            <summary>
+            服务名称
+            </summary>
+        </member>
+        <member name="P:NPlatform.Infrastructure.Config.ServiceConfig.DataCenterID">
+            <summary>
+            数据中心ID
+            </summary>
+        </member>
+        <member name="P:NPlatform.Infrastructure.Config.ServiceConfig.ServiceID">
+            <summary>
+            分布式部署时服务ID
+            </summary>
+        </member>
+        <member name="P:NPlatform.Infrastructure.Config.ServiceConfig.ServiceVersion">
+            <summary>
+            版本号
+            </summary>
+        </member>
+        <member name="P:NPlatform.Infrastructure.Config.ServiceConfig.IOCAssemblys">
+            <summary>
+            需要注入的dll
+            </summary>
+        </member>
+        <member name="P:NPlatform.Infrastructure.Config.ServiceConfig.ServiceEndPoint">
+            <summary>
+            系统地址
             </summary>
         </member>
         <member name="T:NPlatform.Infrastructure.EnumFormula">
@@ -1235,7 +1246,7 @@
             集群或者哨兵模式时，必须实现的委托。
             </summary>
         </member>
-        <member name="M:NPlatform.Infrastructure.RedisConnection.CreateInstance(NPlatform.Infrastructure.IRedisConfig)">
+        <member name="M:NPlatform.Infrastructure.RedisConnection.CreateInstance(NPlatform.Infrastructure.Config.IRedisConfig)">
             <summary>
             单例获取
             </summary>

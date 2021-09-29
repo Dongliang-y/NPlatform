@@ -1,10 +1,10 @@
-﻿using StackExchange.Redis;
+﻿using NPlatform.Infrastructure.Config;
+using StackExchange.Redis;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Text;
-using NPlatform.Config;
 
 namespace NPlatform.Infrastructure
 {
