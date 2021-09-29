@@ -10,7 +10,7 @@
 
 *********************************************************************************/
 
-namespace NPlatform.Config
+namespace NPlatform.Infrastructure.Config
 {
     public interface IServiceConfig
     {

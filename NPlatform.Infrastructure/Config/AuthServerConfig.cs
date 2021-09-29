@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NPlatform.Config
+namespace NPlatform.Infrastructure.Config
 {
     /// <summary>
     /// Auth 服务器信息配置

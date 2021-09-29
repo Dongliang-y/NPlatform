@@ -12,9 +12,8 @@
 
 using Com.Ctrip.Framework.Apollo;
 using Newtonsoft.Json;
-using NPlatform.Config;
 
-namespace NPlatform.Infrastructure
+namespace NPlatform.Infrastructure.Config
 {
     public sealed class RedisConfig : IRedisConfig
     {

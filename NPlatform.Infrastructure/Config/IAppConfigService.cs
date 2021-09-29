@@ -7,7 +7,6 @@
  *  @author:     Dongliang Yi
  *  @version     2021/9/23 16:50:09  @Reviser  Initial Version
  **************************************************************/
-using NPlatform.Config;
 
 namespace NPlatform.Infrastructure.Config
 {

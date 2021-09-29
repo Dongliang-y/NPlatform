@@ -10,7 +10,7 @@
 
 *********************************************************************************/
 
-namespace NPlatform.Infrastructure
+namespace NPlatform.Infrastructure.Config
 {
     public interface IRedisConfig
     {

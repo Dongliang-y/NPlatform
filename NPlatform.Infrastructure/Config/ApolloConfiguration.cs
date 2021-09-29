@@ -3,7 +3,7 @@ using Com.Ctrip.Framework.Apollo.Core;
 using Com.Ctrip.Framework.Apollo.Model;
 using System;
 
-namespace NPlatform.Config
+namespace NPlatform.Infrastructure.Config
 {
     /// <summary>
     /// apollo配置获取

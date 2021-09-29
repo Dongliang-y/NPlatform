@@ -10,13 +10,12 @@
 
 *********************************************************************************/
 
-namespace NPlatform.Config
+namespace NPlatform.Infrastructure.Config
 {
     using Com.Ctrip.Framework.Apollo;
     using Newtonsoft.Json;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using NPlatform.Config;
 
     /// <summary>
     /// 通用配置管理

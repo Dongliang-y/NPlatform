@@ -10,7 +10,7 @@
   * 修改时间：
   * 修 改 人：
 *************************************************************************************/
-namespace NPlatform.Config
+namespace NPlatform.Infrastructure.Config
 {
     public interface IAuthServerConfig
     {
