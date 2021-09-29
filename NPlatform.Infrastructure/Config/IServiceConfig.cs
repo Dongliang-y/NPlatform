@@ -20,7 +20,15 @@ namespace NPlatform.Infrastructure.Config
         long ServiceID { get; set; }
         string[] IOCAssemblys { get; set; }
         string ServiceVersion { get; set; }
-        string ServiceEndPoint { get; set; }
+        /// <summary>
+        /// 系统地址,ip 或域名
+        /// </summary>
+        public string Address { get; set; }
+
+        /// <summary>
+        /// 系统的端口
+        /// </summary>
+        public int Port { get; set; }
 
     }
 }

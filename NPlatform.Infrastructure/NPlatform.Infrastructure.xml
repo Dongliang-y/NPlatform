@@ -184,6 +184,16 @@
             当前服务的数据库序号
             </summary>
         </member>
+        <member name="P:NPlatform.Infrastructure.Config.IServiceConfig.Address">
+            <summary>
+            系统地址,ip 或域名
+            </summary>
+        </member>
+        <member name="P:NPlatform.Infrastructure.Config.IServiceConfig.Port">
+            <summary>
+            系统的端口
+            </summary>
+        </member>
         <member name="M:NPlatform.Infrastructure.Config.NConfigExtensions.GetRedisConfig(Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             redis 配置
@@ -250,9 +260,14 @@
             需要注入的dll
             </summary>
         </member>
-        <member name="P:NPlatform.Infrastructure.Config.ServiceConfig.ServiceEndPoint">
+        <member name="P:NPlatform.Infrastructure.Config.ServiceConfig.Address">
             <summary>
-            系统地址
+            系统地址,ip 或域名
+            </summary>
+        </member>
+        <member name="P:NPlatform.Infrastructure.Config.ServiceConfig.Port">
+            <summary>
+            系统的端口
             </summary>
         </member>
         <member name="T:NPlatform.Infrastructure.EnumFormula">
