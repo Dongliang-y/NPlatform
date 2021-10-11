@@ -188,7 +188,9 @@ namespace NPlatform.IOC
             var currentDic = System.IO.Directory.GetCurrentDirectory();
 
             var serviceConfig = config.GetServiceConfig();
-            if (serviceConfig.IOCAssemblys.Length == 0)
+            var assemblyNames = serviceConfig.IOCAssemblys.Split(",");
+
+            if (assemblyNames.Length == 0)
             {
                 throw new NPlatformException("NPlatformConfig IOCAssemblys is null", "IOC Install");
             }
@@ -198,7 +200,7 @@ namespace NPlatform.IOC
 
             var path = System.IO.Directory.GetCurrentDirectory();
             List<Assembly> assemblys = new List<Assembly>();
-            foreach (var tmp in serviceConfig.IOCAssemblys)
+            foreach (var tmp in assemblyNames)
             {
                 try
                 {

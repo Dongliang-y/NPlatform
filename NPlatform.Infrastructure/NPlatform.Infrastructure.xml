@@ -194,6 +194,11 @@
             系统的端口
             </summary>
         </member>
+        <member name="P:NPlatform.Infrastructure.Config.IServiceConfig.AttachExtension">
+            <summary>
+            可上传的附件
+            </summary>
+        </member>
         <member name="M:NPlatform.Infrastructure.Config.NConfigExtensions.GetRedisConfig(Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             redis 配置
@@ -268,6 +273,11 @@
         <member name="P:NPlatform.Infrastructure.Config.ServiceConfig.Port">
             <summary>
             系统的端口
+            </summary>
+        </member>
+        <member name="P:NPlatform.Infrastructure.Config.ServiceConfig.AttachExtension">
+            <summary>
+            可上传的附件
             </summary>
         </member>
         <member name="T:NPlatform.Infrastructure.EnumFormula">

@@ -18,7 +18,7 @@ namespace NPlatform.Infrastructure.Config
         string ServiceName { get; set; }
         long DataCenterID { get; set; }
         long ServiceID { get; set; }
-        string[] IOCAssemblys { get; set; }
+        string IOCAssemblys { get; set; }
         string ServiceVersion { get; set; }
         /// <summary>
         /// 系统地址,ip 或域名
@@ -30,5 +30,11 @@ namespace NPlatform.Infrastructure.Config
         /// </summary>
         public int Port { get; set; }
 
+        /// <summary>
+        /// 可上传的附件
+        /// </summary>
+        public string AttachExtension { get; set; }
+
+        public long AttachSize { get; set; }
     }
 }

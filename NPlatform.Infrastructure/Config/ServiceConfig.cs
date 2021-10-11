@@ -48,7 +48,7 @@ namespace NPlatform.Infrastructure.Config
         /// <summary>
         /// 需要注入的dll
         /// </summary>
-        public string[] IOCAssemblys { get; set; }
+        public string IOCAssemblys { get; set; }
 
         /// <summary>
         /// 系统地址,ip 或域名
@@ -59,5 +59,12 @@ namespace NPlatform.Infrastructure.Config
         /// 系统的端口
         /// </summary>
         public int Port { get; set; }
+
+        /// <summary>
+        /// 可上传的附件
+        /// </summary>
+        public string AttachExtension { get; set; }
+
+        public long AttachSize { get; set; }
     }
 }
