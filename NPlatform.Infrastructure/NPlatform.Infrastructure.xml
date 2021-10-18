@@ -199,6 +199,15 @@
             可上传的附件
             </summary>
         </member>
+        <member name="M:NPlatform.Infrastructure.Config.NConfigExtensions.ToObject``1(Microsoft.Extensions.Configuration.IConfiguration,``0,System.Func{``0,``0})">
+            <summary>
+            创建对象，只处理基本数据类型的字段，
+            </summary>
+            <typeparam name="T">要创建的类型</typeparam>
+            <param name="values">字典</param>
+            <param name="fun">委托，复杂类型交给调用方自己处理</param>
+            <returns></returns>
+        </member>
         <member name="M:NPlatform.Infrastructure.Config.NConfigExtensions.GetRedisConfig(Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             redis 配置
