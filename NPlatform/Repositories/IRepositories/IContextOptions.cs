@@ -26,10 +26,6 @@ namespace NPlatform.Domains.IRepositories
     /// </summary>
     public interface IContextOptions
     {
-        /// <summary>
-        /// 链接字符串配置名称，如果此属性为  string.Empty或者null 则使用ConnectSring。
-        /// </summary>
-        string ConnectName { get; set; }
 
         /// <summary>
         /// 连接字符串
@@ -39,7 +35,7 @@ namespace NPlatform.Domains.IRepositories
         /// <summary>
         /// 数据库驱动程序
         /// </summary>
-        string DBProvider { get; set; }
+        DBProvider DBProvider { get; set; }
 
         /// <summary>
         /// 数据库连接

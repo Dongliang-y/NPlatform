@@ -12,11 +12,6 @@
     public class ContextOptions : IContextOptions
     {
         /// <summary>
-        /// 链接字符串
-        /// </summary>
-        public string ConnectName { get; set; } = "default";
-
-        /// <summary>
         /// 是否启用事务
         /// </summary>
         public bool IsTransactional { get; set; } = false;
@@ -99,7 +94,7 @@
         /// <summary>
         /// Gets or sets 数据库驱动
         /// </summary>
-        public string DBProvider { get; set; } 
+        public DBProvider DBProvider { get; set; } 
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RepositoryOptions"/> class. 
