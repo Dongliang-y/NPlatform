@@ -103,10 +103,7 @@ namespace NPlatform.Infrastructure.Config
         public static IServiceConfig GetServiceConfig(this IConfiguration configuration)
         {
             var serviceSection = configuration.GetSection(nameof(ServiceConfig));
-            return serviceSection.ToObject<ServiceConfig>(null,(t)=> {
-                t.ConnectionStrings=
-                return t;
-            });
+            return serviceSection.ToObject<ServiceConfig>(null);
         }
 
         public static IAuthServerConfig GetAuthConfig(this IConfiguration configuration)
