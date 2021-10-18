@@ -22,9 +22,15 @@ namespace NPlatform.Domains.Entity
     /// <typeparam name="TPrimaryKey">主键类型</typeparam>
     public interface IAggregation<TPrimaryKey> : IEntity
     {
+
         /// <summary>
         /// 主键
         /// </summary>
         TPrimaryKey Id { get; set; }
+
+        /// <summary>
+        /// 聚合名称
+        /// </summary>
+        string AggregationName { get; set; }
     }
 }

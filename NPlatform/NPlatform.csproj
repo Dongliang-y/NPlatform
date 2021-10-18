@@ -26,7 +26,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <FileVersion>1.0.0.4</FileVersion>
     <PackageId>NPlatform</PackageId>
-    <PackageReleaseNotes>2021/10/18 仓储配置 ConnectName 去除，改成使用约定名称  MainConection  ，MinorConnection ,增加DBProvider 枚举
+    <PackageReleaseNotes>2021/10/18 仓储配置 ConnectName 去除，改成使用约定名称  MainConection  ，MinorConnection ,增加DBProvider 枚举，修复一个排序参数bug
 2021/9/28 BaseController的 error 封装调整，NHealthChecks 调整
 。
 2021/9/28 NPlatform 底层脚手架初始化。</PackageReleaseNotes>
