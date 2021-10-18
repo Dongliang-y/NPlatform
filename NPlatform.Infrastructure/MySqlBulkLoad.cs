@@ -46,18 +46,7 @@ namespace NPlatform.DapperRepository
             var file = new System.IO.FileInfo(cacheFileInfo);
             if (!file.Directory.Exists)
             {
-                try
-                {
-                    file.Directory.Create();
-                }
-                catch (System.IO.IOException ex)
-                {
-                    throw new NPlatformException("导入失败，无法创建缓存目录！", ex, "500");
-                }
-                catch (UnauthorizedAccessException ex)
-                {
-                    throw new NPlatformException("导入失败，无法创建缓存目录！", ex, "500");
-                }
+                file.Directory.Create();
             }
             string csv = DataTableToCsv(table);
             File.WriteAllText(cacheFileInfo, csv);
@@ -95,7 +84,7 @@ namespace NPlatform.DapperRepository
                 {
                     colum = table.Columns[i];
                     if (i != 0) sb.Append(",");
-                    var value = row[colum].ToStrNoNull();
+                    var value = row[colum]==null?"": row[colum].ToString();
 
                     if (colum.DataType == typeof(string))
                     {

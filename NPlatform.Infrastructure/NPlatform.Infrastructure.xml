@@ -289,6 +289,21 @@
             可上传的附件
             </summary>
         </member>
+        <member name="P:NPlatform.Infrastructure.Config.ServiceConfig.MainConection">
+            <summary>
+            主库连接
+            </summary>
+        </member>
+        <member name="P:NPlatform.Infrastructure.Config.ServiceConfig.MinorConnection">
+            <summary>
+            从库连接
+            </summary>
+        </member>
+        <member name="P:NPlatform.Infrastructure.Config.ServiceConfig.DBProvider">
+            <summary>
+            数据库驱动
+            </summary>
+        </member>
         <member name="T:NPlatform.Infrastructure.EnumFormula">
             <summary>
             表达式解析 ，用于ZF02生成报表
@@ -2685,5 +2700,20 @@
             <param name="x"></param>
             <returns>返回计算值</returns>
         </member>
+        <member name="M:NPlatform.DapperRepository.MySqlBulkLoad.IsNullable(System.Type)">
+            <summary>
+            类型是否为空
+            </summary>
+            <param name="t">t</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:NPlatform.DapperRepository.MySqlBulkLoad.BulkLoad(System.Data.DataTable,MySql.Data.MySqlClient.MySqlConnection)">
+            <summary>
+            批量导入
+            </summary>
+            <param name="dt">要导入的数据表，注意列头要和数据库匹配</param>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:NPlatform.DapperRepository.MySqlBulkLoad.DataTableToCsv(System.Data.DataTable)" -->
     </members>
 </doc>
