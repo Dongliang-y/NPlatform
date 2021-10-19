@@ -6,7 +6,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>NPlatform</RootNamespace>
     <AssemblyName>NPlatform</AssemblyName>
-    <AssemblyVersion>1.0.0.4</AssemblyVersion>
+    <AssemblyVersion>1.0.0.5</AssemblyVersion>
     <Description>Not Platform 底层脚手架
 支持 .NET CORE 3.1\5.0
 约束与规范了：
@@ -18,13 +18,13 @@
       DTO 
       Middleware 通用中间件
       Filters 通用过滤器。</Description>
-    <Version>1.0.0.8-alpha</Version>
+    <Version>1.0.0.9-alpha</Version>
     <Authors>DongliangYi</Authors>
     <Company></Company>
     <Product>基础框架</Product>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <FileVersion>1.0.0.4</FileVersion>
+    <FileVersion>1.0.0.5</FileVersion>
     <PackageId>NPlatform</PackageId>
     <PackageReleaseNotes>2021/10/18 仓储配置 ConnectName 去除，改成使用约定名称  MainConection  ，MinorConnection ,增加DBProvider 枚举，修复一个排序参数bug
 2021/9/28 BaseController的 error 封装调整，NHealthChecks 调整

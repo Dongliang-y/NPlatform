@@ -199,6 +199,21 @@
             可上传的附件
             </summary>
         </member>
+        <member name="P:NPlatform.Infrastructure.Config.IServiceConfig.MainConection">
+            <summary>
+            主库连接
+            </summary>
+        </member>
+        <member name="P:NPlatform.Infrastructure.Config.IServiceConfig.MinorConnection">
+            <summary>
+            从库连接
+            </summary>
+        </member>
+        <member name="P:NPlatform.Infrastructure.Config.IServiceConfig.DBProvider">
+            <summary>
+            数据库驱动
+            </summary>
+        </member>
         <member name="M:NPlatform.Infrastructure.Config.NConfigExtensions.ToObject``1(Microsoft.Extensions.Configuration.IConfiguration,``0,System.Func{``0,``0})">
             <summary>
             创建对象，只处理基本数据类型的字段，
