@@ -16,11 +16,8 @@
 
 namespace NPlatform.Repositories
 {
-    using System.Collections.Generic;
-    using System.Linq;
 
     using NPlatform.Domains.IRepositories;
-    using NPlatform.Filters;
 
     /// <summary>
     /// 默认的仓储配置类

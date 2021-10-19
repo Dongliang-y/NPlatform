@@ -36,5 +36,19 @@ namespace NPlatform.Infrastructure.Config
         public string AttachExtension { get; set; }
 
         public long AttachSize { get; set; }
+        /// <summary>
+        /// 主库连接
+        /// </summary>
+        public string MainConection { get; set; }
+
+        /// <summary>
+        /// 从库连接
+        /// </summary>
+        public string MinorConnection { get; set; }
+
+        /// <summary>
+        /// 数据库驱动
+        /// </summary>
+        public string DBProvider { get; set; }
     }
 }
