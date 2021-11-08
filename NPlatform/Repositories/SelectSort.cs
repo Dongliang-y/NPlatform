@@ -14,15 +14,34 @@ using System.Threading.Tasks;
 
 namespace NPlatform.Repositories.Repositories
 {
-    public interface ISort
+    /// <summary>
+    /// 排序字段
+    /// </summary>
+    public interface ISelectSort
     {
+        /// <summary>
+        /// 字段名
+        /// </summary>
         string PropertyName { get; set; }
+
+        /// <summary>
+        /// 是否为 ASC排序
+        /// </summary>
         bool Ascending { get; set; }
     }
 
-    public class SelectSort : ISort
+    /// <summary>
+    /// 排序字段
+    /// </summary>
+    public class SelectSort : ISelectSort
     {
+        /// <summary>
+        /// 字段名
+        /// </summary>
         public string PropertyName { get; set; }
+        /// <summary>
+        /// 是否为 ASC排序
+        /// </summary>
         public bool Ascending { get; set; }
     }
 }

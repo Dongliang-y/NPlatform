@@ -25,6 +25,7 @@ namespace NPlatform.Domains.Entity
         /// <summary>
         /// Unique identifier for this entity.
         /// </summary>
+        [Key]
         public virtual TPrimaryKey Id { get; set; }
 
         /// <inheritdoc />

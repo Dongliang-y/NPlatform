@@ -47,89 +47,33 @@ namespace NPlatform.Domains.IRepositories
         /// </summary>
         /// <param name="item">新增对象</param>
         /// <returns>返回新增后的实体</returns>
-        TEntity Add(TEntity item);
-
-        /// <summary>
-        /// 新增或更新对象
-        /// </summary>
-        /// <param name="entity">实体对象</param>
-        /// <returns>修改后的实体</returns>
-        TEntity AddOrUpdate(TEntity entity);
-
-        /// <summary>
-        /// 批量新增
-        /// </summary>
-        /// <param name="items">批量新增对象</param>
-        int Adds(IEnumerable<TEntity> items);
+        Task<TEntity> AddAsync(TEntity item);
 
         /// <summary>
         /// 异步新增
         /// </summary>
         /// <param name="items">实体对象</param>
         Task<int> AddsAsync(IEnumerable<TEntity> items);
-
         /// <summary>
-        /// 统计记录数
+        /// 异步新增
         /// </summary>
-        /// <param name="filter">linq表达式</param>
-        int Count(Expression<Func<TEntity, bool>> filter);
-
-        /// <summary>
-        /// 求最大值
-        /// </summary>
-        /// <typeparam name="TValue">值类型</typeparam>
-        /// <param name="attrName">属性名</param>
-        /// <param name="filter">过滤条件</param>
-        /// <returns>最大值</returns>
-        TValue Max<TValue>(string attrName, Expression<Func<TEntity, bool>> filter = null);
-
-
-        /// <summary>
-        /// 求最小值
-        /// </summary>
-        /// <typeparam name="TValue">值类型</typeparam>
-        /// <param name="attrName">属性名</param>
-        /// <param name="filter">过滤条件</param>
-        /// <returns>最小值</returns>
-        TValue Min<TValue>(string attrName, Expression<Func<TEntity, bool>> filter = null);
-
-
-        /// <summary>
-        /// 求和
-        /// </summary>
-        /// <typeparam name="TValue">值类型</typeparam>
-        /// <param name="attrName">属性名</param>
-        /// <param name="filter">过滤条件</param>
-        /// <returns>和</returns>
-        TValue Sum<TValue>(string attrName, Expression<Func<TEntity, bool>> filter = null);
-
-        /// <summary>
-        /// 求平均值
-        /// </summary>
-        /// <typeparam name="TValue">值类型</typeparam>
-        /// <param name="attrName">属性名</param>
-        /// <param name="filter">过滤条件</param>
-        /// <returns>平均值</returns>
-        TValue AVG<TValue>(string attrName, Expression<Func<TEntity, bool>> filter = null);
+        /// <param name="items">新增对象的集合</param>
+        /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
+        Task<int> AddOrUpdate(TEntity items);
 
         /// <summary>
         /// 数据是否存在
         /// </summary>
         /// <param name="key">主键</param>
-        bool Exists(TPrimaryKey key);
+        Task<bool> ExistsAsync(TPrimaryKey key);
 
         /// <summary>
         /// 查询对象是否存在
         /// </summary>
         /// <param name="filter">筛选条件</param>
         /// <returns>结果</returns>
-        bool Exists(Expression<Func<TEntity, bool>> filter);
+        Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> filter);
 
-        /// <summary>
-        /// 查找数据
-        /// </summary>
-        /// <param name="key">主键</param>
-        TEntity FindBy(TPrimaryKey key);
 
         /// <summary>
         /// 查找数据
@@ -142,7 +86,7 @@ namespace NPlatform.Domains.IRepositories
         /// </summary>
         /// <param name="sorts">排序字段</param>
         /// <returns>结果</returns>
-        Task<IEnumerable<TEntity>> GetAllAsync(IList<SelectSort> sorts = null);
+        Task<IEnumerable<TEntity>> GetAllAsync(IEnumerable<SelectSort> sorts = null);
 
         /// <summary>
         /// 按条件查找第一个
@@ -152,19 +96,12 @@ namespace NPlatform.Domains.IRepositories
         Task<TEntity> GetFirstOrDefaultAsync(Expression<Func<TEntity, bool>> filter);
 
         /// <summary>
-        /// 按条件查找第一个
+        /// 根据表达式异步获取
         /// </summary>
-        /// <param name="filter">条件</param>
-        /// <returns>结果对象</returns>
-        TEntity GetFirstOrDefault(Expression<Func<TEntity, bool>> filter);
-
-        /// <summary>
-        /// 筛选数据
-        /// </summary>
-        /// <param name="filter">筛选条件</param>
-        /// <param name="sorts">排序字段</param>
+        /// <param name="filter">表达式</param>
+        /// <param name="sorts">排序</param>
         /// <returns>查询结果</returns>
-        IEnumerable<TEntity> GetListByExp(Expression<Func<TEntity, bool>> filter, IList<SelectSort> sorts = null);
+        Task<IEnumerable<TEntity>> GetListByExpAsync(Expression<Func<TEntity, bool>> filter, IEnumerable<SelectSort> sorts = null);
 
         /// <summary>
         /// 指定字段范围查询，返回的实体只有这几个字段有值，目的是为了避免字段多时全字段查询（select *）
@@ -173,30 +110,9 @@ namespace NPlatform.Domains.IRepositories
         /// <param name="filter">筛选条件</param>
         /// <param name="sorts">排序字段</param>
         /// <returns>实体集合</returns>
-        IEnumerable<TEntity> GetListWithColumns(IEnumerable<string> columnNames,
+        Task<IEnumerable<TEntity>> GetListWithColumnsAsync(IEnumerable<string> columnNames,
             Expression<Func<TEntity, bool>> filter,
-            IList<SelectSort> sorts = null);
-
-        /// <summary>
-        /// 根据表达式异步获取
-        /// </summary>
-        /// <param name="filter">表达式</param>
-        /// <param name="sorts">排序</param>
-        /// <returns>查询结果</returns>
-        Task<IEnumerable<TEntity>> GetListByExpAsync(Expression<Func<TEntity, bool>> filter, IList<SelectSort> sorts = null);
-
-        /// <summary>
-        /// 分页查询对象集合,起始页码0
-        /// </summary>
-        /// <param name="pageIndex">页码</param>
-        /// <param name="pageSize">页大小</param>
-        /// <param name="filter">数据筛选</param>
-        /// <param name="sorts">排序字段</param>
-        IListResult<TEntity> GetPaged(
-            int pageIndex,
-            int pageSize,
-            Expression<Func<TEntity, bool>> filter,
-            IList<SelectSort> sorts);
+            IEnumerable<SelectSort> sorts = null);
 
         /// <summary>
         /// 异步分页
@@ -210,22 +126,21 @@ namespace NPlatform.Domains.IRepositories
             int pageIndex,
             int pageSize,
             Expression<Func<TEntity, bool>> filter,
-            IList<SelectSort> sorts);
+            IEnumerable<SelectSort> sorts);
 
         /// <summary>
         /// 移除对象
         /// </summary>
         /// <param name="filter">条件</param>
         /// <returns>结果</returns>
-        bool Remove(Expression<Func<TEntity, bool>> filter);
+        Task<int> RemoveAsync(Expression<Func<TEntity, bool>> filter);
 
         /// <summary>
-        /// 键值删除
+        /// 异步移除
         /// </summary>
-        /// <param name="keys">
-        /// The keys.
-        /// </param>
-        bool Remove(params TPrimaryKey[] keys);
+        /// <param name="keys">键值集合</param>
+        /// <returns>结果</returns>
+        Task<int> RemoveAsync(params TPrimaryKey[] keys);
 
         /// <summary>
         /// The remove.
@@ -236,13 +151,51 @@ namespace NPlatform.Domains.IRepositories
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool Remove(TEntity entity);
+        Task<int> RemoveAsync(TEntity entity);
+
+        #region 统计
+        /// <summary>
+        /// 统计记录数
+        /// </summary>
+        /// <param name="filter">linq表达式</param>
+        Task<int> CountAsync(Expression<Func<TEntity, bool>> filter);
 
         /// <summary>
-        /// 异步移除
+        /// 求最大值
         /// </summary>
-        /// <param name="keys">键值集合</param>
-        /// <returns>结果</returns>
-        Task<bool> RemoveAsync(params TPrimaryKey[] keys);
+        /// <typeparam name="TValue">值类型</typeparam>
+        /// <param name="selector">属性名</param>
+        /// <param name="filter">过滤条件</param>
+        /// <returns>最大值</returns>
+        Task<TValue> MaxAsync<TValue>(Expression<Func<TEntity, TValue>> selector, Expression<Func<TEntity, bool>> filter = null);
+
+
+        /// <summary>
+        /// 求最小值
+        /// </summary>
+        /// <typeparam name="TValue">值类型</typeparam>
+        /// <param name="selector">属性名</param>
+        /// <param name="filter">过滤条件</param>
+        /// <returns>最小值</returns>
+        Task<TValue> MinAsync<TValue>(Expression<Func<TEntity, TValue>> selector, Expression<Func<TEntity, bool>> filter = null);
+
+
+        /// <summary>
+        /// 求和
+        /// </summary>
+        /// <param name="selector">属性名</param>
+        /// <param name="filter">过滤条件</param>
+        /// <returns>和</returns>
+        Task<decimal> SumAsync(Expression<Func<TEntity, decimal>> selector, Expression<Func<TEntity, bool>> filter = null);
+
+        /// <summary>
+        /// 求平均值
+        /// </summary>
+        /// <param name="selector">属性名</param>
+        /// <param name="filter">过滤条件</param>
+        /// <returns>平均值</returns>
+        Task<decimal> AVGAsync(Expression<Func<TEntity, decimal>> selector, Expression<Func<TEntity, bool>> filter = null);
+        #endregion
+
     }
 }

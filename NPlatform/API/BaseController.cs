@@ -32,23 +32,11 @@ namespace NPlatform.API.Controllers
         /// <summary>
         /// redis service
         /// </summary>
-        IRedisService _RedisService
-        {
-            get
-            {
-                return IOC.IOCService.BuildService<IRedisService>();
-            }
-        }
+        public IRedisService _RedisService { get; set; }
         /// <summary>
         /// 全局配置信息
         /// </summary>
         public IConfiguration Config { get; set; }
-
-        public BaseController(IConfiguration config)
-        {
-            Config = config;
-        }
-
 
         /// <summary>
         /// 获取UI传递的js 数组参数 'Content-Type':'application/json' params:JSON.stringify(Array)

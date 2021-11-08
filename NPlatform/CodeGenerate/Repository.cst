@@ -1,0 +1,91 @@
+﻿<%@ CodeTemplate Language="C#" TargetLanguage="C#" ResponseEncoding="UTF-8" Description="Generates a very simple business object." %>
+<%@ Property Name="SourceTable" Type="SchemaExplorer.TableSchema" Category="Context" Description="Table that the object is based on." %>
+
+<%@ Assembly Name="SchemaExplorer"%>
+<%@ Assembly Name="System.Data"%>
+<%@ Import Namespace="SchemaExplorer"%>
+<%@ Import Namespace="System.Data"%>
+<%@ Import Namespace="System.Text"%>
+
+/*********************************************************** 
+**项目名称:	 NPlatform.Repositories                                                             				   
+**功能描述:	<%=SourceTable.Description %>  
+**作    者: 	初版由CodeSmith生成。                                         			    
+**版 本 号:	1.0                                           			
+**修改历史： 
+************************************************************/ 
+namespace NPlatform.Repositories.<%=GetModuleName(SourceTable)%>
+{ 
+	using System; 
+	using System.Linq; 
+	using NPlatform.Domains.IRepositories.<%=GetModuleName(SourceTable)%>;
+    using NPlatform.Domains.IRepositories;
+    using NPlatform.Domains.Entity.<%=GetModuleName(SourceTable)%>;
+    
+    /// <summary> 
+    /// <%=GetName(SourceTable)%>仓储操作
+    /// </summary> 
+    public partial class <%=GetName(SourceTable)%>Repository : RepositoryBase<<%=GetName(SourceTable)%>, string>, I<%=GetName(SourceTable)%>Repository
+    { 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="<%=GetName(SourceTable)%>Repository"/> class.
+        /// </summary>
+        /// <param name="options">
+        /// The options.
+        /// </param>
+        public <%=GetName(SourceTable)%>Repository(IRepositoryOptions options)
+            : base(options)
+        {
+        }
+    } 
+}
+<script runat="template">
+public string GetModuleName(TableSchema table)
+{
+    var tableName=table.Name;
+    
+    if(tableName.Contains("_"))
+    {
+        var mdName=tableName.Split('_')[0];
+        return mdName.Substring(0,1).ToUpper()+mdName.Substring(1);
+    }
+    else
+        throw new Exception("数据库表命名错误！");
+}
+	public string GetName(TableSchema table)
+    {
+		try			
+		{
+		if(table==null)
+		{
+		    return null;
+		}
+            string[] nameArray=  table.Name.Split('_');
+            if(nameArray.Length<=1)
+                return table.Name;
+            
+            string tabName="";
+            for(var i=1;i<nameArray.Length;i++)
+            {
+                string tname=nameArray[i];
+                string first=tname.Substring(0,1);
+                string end=tname.Substring(1);
+                
+                
+                tabName=tabName+first.ToUpper()+end;
+                if(i!=nameArray.Length-1)              
+                    tabName+="_";
+                
+            }
+            return tabName;
+		}
+		catch(Exception ex)
+		{
+			throw new Exception(table.Name+ex.Message);
+		}
+    }
+	public override string GetFileName()
+	{
+		return this.GetName(this.SourceTable) + "Repository.cs";
+	}
+</script>

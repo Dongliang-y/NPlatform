@@ -24,11 +24,13 @@
         /// <summary>
         /// 框架配置
         /// </summary>
-        protected static IConfiguration Config { get; set; }
+        public static IConfiguration Config { get; set; }
 
-        public BaseService(IConfiguration config)
+        public IPlatformHttpContext Context { get; set; }
+
+        public BaseService()
         {
-            IPlatformHttpContext httpCtx = IOCService.BuildService<IPlatformHttpContext>();
+            IPlatformHttpContext httpCtx = Context;
             if (httpCtx != null && httpCtx.Context!=null)
             {
                 var authorization = httpCtx.Context.Request.Headers["Authorization"];
@@ -38,7 +40,6 @@
                     t.Request.Headers.Add("Accept", "application/json, text/plain, */*");
                 };
             }
-            Config = config;
         }
 
         /// <summary>

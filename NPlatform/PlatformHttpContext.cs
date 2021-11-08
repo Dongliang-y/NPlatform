@@ -10,6 +10,7 @@
   * 修改时间：
   * 修 改 人：
 *************************************************************************************/
+using IdentityModel;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -50,11 +51,28 @@ namespace NPlatform
         /// 中文名
         /// </summary>
         string CName { get; }
+
+        /// <summary>
+        /// 昵称
+        /// </summary>
+        string NickName { get; }
+
+        /// <summary>
+        /// 角色
+        /// </summary>
+        List<Claim> Roles { get; }
+
+        /// <summary>
+        /// 岗位
+        /// </summary>
+        List<Claim> Positions { get; }
+
+
     }
     /// <summary>
     /// 平台  http 上下文
     /// </summary>
-    public class PlatformHttpContext: IPlatformHttpContext
+    public class PlatformHttpContext : IPlatformHttpContext
     {
         /// <summary>
         ///  平台  http 上下文
@@ -68,7 +86,7 @@ namespace NPlatform
         /// <summary>
         /// http 上下文
         /// </summary>
-        public  HttpContext Context
+        public HttpContext Context
         {
             get
             {
@@ -79,7 +97,7 @@ namespace NPlatform
         /// <summary>
         /// 登陆用户的附加信息
         /// </summary>
-        public  IEnumerable<Claim>  Claims
+        public IEnumerable<Claim> Claims
         {
             get
             {
@@ -94,12 +112,8 @@ namespace NPlatform
         {
             get
             {
-                if (Claims.Any(t => t.Type == "id"))
-                {
-                    var uid = Claims.FirstOrDefault(t => t.Type == "id");
-                    return uid != null ? uid.Value : "";
-                }
-                return "";
+                var uid = Claims.FirstOrDefault(t => t.Type == JwtClaimTypes.Id);
+                return uid != null ? uid.Value : "";
             }
         }
 
@@ -110,28 +124,56 @@ namespace NPlatform
         {
             get
             {
-                if (Claims.Any(t => t.Type == "name"))
-                {
-                    var account = Claims.FirstOrDefault(t => t.Type == "name");
-                    return account != null ? account.Value : "";
-                }
-                return "";
+                var account = Claims.FirstOrDefault(t => t.Type == JwtClaimTypes.Name);
+                return account != null ? account.Value : "";
             }
         }
 
         /// <summary>
-        /// 中文名（登录后可用）
+        /// 大名
         /// </summary>
         public string CName
         {
             get
             {
-                if (Claims.Any(t => t.Type == "given_name"))
-                {
-                    var CnName = Claims.FirstOrDefault(t => t.Type == "given_name");
-                    return CnName != null ? CnName.Value:"";
-                }
-                return "";
+                var CnName = Claims.FirstOrDefault(t => t.Type == JwtClaimTypes.GivenName);
+                return CnName != null ? CnName.Value : "";
+            }
+        }
+
+        /// <summary>
+        /// 昵称
+        /// </summary>
+        public string NickName
+        {
+            get
+            {
+                var CnName = Claims.FirstOrDefault(t => t.Type == JwtClaimTypes.NickName);
+                return CnName != null ? CnName.Value : "";
+            }
+        }
+
+        /// <summary>
+        /// 角色清单
+        /// </summary>
+        public List<Claim> Roles
+        {
+            get
+            {
+                var roles = Claims.Where(t => t.Type == JwtClaimTypes.Role);
+                return roles == null ? new List<Claim>() : roles.ToList();
+            }
+        }
+
+        /// <summary>
+        /// 岗位
+        /// </summary>
+        public List<Claim> Positions
+        {
+            get
+            {
+                var posts = Claims.Where(t => t.Type == "Posts");
+                return posts == null ? new List<Claim>() : posts.ToList();
             }
         }
     }

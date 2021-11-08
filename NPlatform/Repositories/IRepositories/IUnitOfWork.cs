@@ -12,6 +12,7 @@ namespace NPlatform.Domains.IRepositories
     using System;
     using System.Collections.Generic;
     using System.Linq.Expressions;
+    using System.Threading.Tasks;
     using NPlatform.Domains.Entity;
 
     /// <summary>
@@ -35,16 +36,15 @@ namespace NPlatform.Domains.IRepositories
         /// <typeparam name="T">需要新增的类型</typeparam>
         /// <param name="entity">实体对象</param>
         /// <returns>返回T</returns>
-        T Add<T>(T entity)
+        Task<T> AddAsync<T>(T entity)
             where T : class, IEntity;
 
         /// <summary>
         /// 批量新增
         /// </summary>
-        /// <typeparam name="T">需要新增的类型</typeparam>
-        /// <param name="entitys">需要新增的</param>
-        void Adds<T>(IEnumerable<T> entitys)
-            where T : class, IEntity;
+        /// <typeparam name="T">类型</typeparam>
+        /// <param name="entitys">实体集合</param>
+        Task<int> AddsAsync<T>(IEnumerable<T> entitys) where T : class, IEntity;
 
         /// <summary>
         /// 修改
@@ -52,29 +52,37 @@ namespace NPlatform.Domains.IRepositories
         /// <typeparam name="T">需要修改的类型</typeparam>
         /// <param name="entity">实体对象</param>
         /// <returns>返回T</returns>
-        bool Change<T>(T entity)
+        Task<int> ChangeAsync<T>(T entity)
             where T : class, IEntity;
-
-        /// <summary>
-        /// 提交
-        /// </summary>
-        void Commit();
 
         /// <summary>
         /// 移除实体对象
         /// </summary>
         /// <typeparam name="T">需要新增的类型</typeparam>
-        /// <param name="entity">实体对象</param>
+        /// <param name="entities">实体对象</param>
         /// <returns>返回T</returns>
-        bool Remove<T>(T entity)
+        Task<int> RemoveAsync<T>(params T[] entities)
             where T : class, IEntity;
 
         /// <summary>
         /// 移除对象
         /// </summary>
         /// <param name="filter"></param>
-        bool Remove<T>(Expression<Func<T, bool>> filter)
+        Task<int> RemoveAsync<T>(Expression<Func<T, bool>> filter)
             where T : class, IEntity;
+
+        /// <summary>
+        /// 执行sql脚本
+        /// </summary>
+        /// <typeparam name="sql">需要执行的SQL</typeparam>
+        /// <param name="parameters">参数对象</param>
+        /// <returns>执行结果</returns>
+        Task<IEnumerable<T>> QueryFromSql<T>(string sql, object parameters) where T : class, IEntity;
+
+        /// <summary>
+        /// 提交
+        /// </summary>
+        void Commit();
 
         /// <summary>
         /// 回滚事物

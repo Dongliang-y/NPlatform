@@ -38,11 +38,10 @@ namespace NPlatform.Applications
     /// </summary>
     public class ApplicationService : ResultBase, IApplication
     {
+        /// <summary>
+        /// 系统配置信息
+        /// </summary>
         protected static IConfiguration Config;
-        public ApplicationService(IConfiguration config)
-        {
-            Config=config;
-        }
 
         /// <summary>
         /// 集合分页

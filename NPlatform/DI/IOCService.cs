@@ -16,32 +16,21 @@
 namespace NPlatform.IOC
 {
     using Autofac;
-    using Autofac.Core;
     using Autofac.Extras.DynamicProxy;
-    using AutoMapper;
     using Microsoft.AspNetCore.Http;
-    using Autofac.Extras.DynamicProxy;
-    using Microsoft.Extensions.DependencyInjection;
-    using NPOI.SS.Formula.Functions;
-    using NPlatform.Filters;
-    using NPlatform.Infrastructure;
-    using ServiceStack;
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
+    using Microsoft.Extensions.Configuration;
     using NPlatform.Applications;
     // using NPlatform.API.Controllers;
     using NPlatform.Domains.IRepositories;
-    using NPlatform.Filters;
     using NPlatform.Infrastructure;
-    using NPlatform.Infrastructure.Loger;
-    using NPlatform.Repositories;
-    using Microsoft.Extensions.Configuration;
     using NPlatform.Infrastructure.Config;
+    using NPlatform.Repositories;
+    using ServiceStack;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
 
     /// <summary>
     /// ioc 管理类
@@ -58,20 +47,11 @@ namespace NPlatform.IOC
         /// </summary>
         private static ILifetimeScope container;
 
-        /// <summary>
-        /// Prevents a default instance of the <see cref="IOCService"/> class from being created. 
-        ///  IOC管理
-        /// </summary>
-        public static void InitContainer(IConfiguration config)
-        {
-            ContainerBuilder builder = new ContainerBuilder();
-            Install(null, builder,config);
-            container = builder.Build().BeginLifetimeScope();
-        }
+
         /// <summary>
         /// IOC容器
         /// </summary>
-        public static ILifetimeScope Container
+        private static ILifetimeScope Container
         {
             get
             {
@@ -95,84 +75,16 @@ namespace NPlatform.IOC
         /// 默认配置
         /// </summary>
         private static IRepositoryOptions DefaultOption { get; set; }
-        /// <summary>
-        /// 获取通用的服务实现，所有基于 “接口-实现”注入进来的都可以使用此方法。
-        /// </summary>
-        /// <typeparam name="TService">仓储接口定义</typeparam>
-        /// <param name="name">类名</param>
-        /// <returns>返回服务</returns>
-        public static T BuildByName<T>(string name) where T : class
-        {
-            object rst;
-            if (Container.TryResolveNamed(name, typeof(T), out rst))
-            {
-                return rst as T;
-            }
-            else
-            {
-                Console.WriteLine($"TryResolveNamed:{name}--false");
-            }
-            return null;
-        }
 
         /// <summary>
-        /// 获取仓储
+        /// Prevents a default instance of the <see cref="IOCService"/> class from being created. 
+        ///  IOC管理
         /// </summary>
-        /// <param name="rspOption">
-        /// The rsp Option.
-        /// </param>
-        /// <typeparam name="TRepository">
-        /// 仓储接口
-        /// </typeparam>
-        /// <typeparam name="TEntity">
-        /// 实体类型
-        /// </typeparam>
-        /// <returns>
-        /// 仓储
-        /// </returns>
-        public static TRepository BuildRepository<TRepository, TEntity>(IRepositoryOptions rspOption = null)
+        public static void CreateContainer(IRepositoryOptions rspOptions, IConfiguration config)
         {
-            if (rspOption == null)
-            {
-                rspOption = DefaultOption;
-            }
-            return Container.Resolve<TRepository>((new NamedParameter("options", rspOption)));
-        }
-
-        /// <summary>
-        /// 获取通用的服务实现，所有基于 “接口-实现”注入进来的都可以使用此方法。
-        /// </summary>
-        /// <typeparam name="TService">仓储接口定义</typeparam>
-        /// <param name="arguments">服务构造参数</param>
-        /// <returns>返回服务</returns>
-        public static TService BuildService<TService>(params object[] arguments)
-        {
-            Console.WriteLine(typeof(TService).FullName);
-            if (arguments == null || arguments.Length == 0)
-            {
-                return Container.Resolve<TService>();
-            }
-            return Container.Resolve<TService>(new NamedParameter("arguments", arguments));
-        }
-
-        /// <summary>
-        /// 获取工作单元
-        /// </summary>
-        /// <param name="option">
-        /// The option.
-        /// </param>
-        /// <returns>
-        /// 返回工作单元
-        /// </returns>
-        public static IUnitOfWork BuildUnitOfWork(IContextOptions option = null)
-        {
-            if (option == null)
-            {
-                option = new Repositories.ContextOptions { IsTransactional = true };
-            }
-
-            //  IDictionary parameters = new Hashtable { { "option", option } };
-            return Container.Resolve<IUnitOfWork>((new NamedParameter("option", option)));
+            ContainerBuilder builder = new ContainerBuilder();
+            Install(builder, rspOptions, config);
+            container = builder.Build().BeginLifetimeScope();
         }
 
         /// <summary>
@@ -181,8 +93,9 @@ namespace NPlatform.IOC
         /// <param name="rspOptions">
         /// The rsp Options.
         /// </param>
-        /// <param name="builder"></param>
-        public static void Install(IRepositoryOptions rspOptions, ContainerBuilder builder,IConfiguration config)
+        /// <param name="builder">容器创建器</param>
+        /// <param name="config">配置项</param>
+        public static void Install(ContainerBuilder builder, IRepositoryOptions rspOptions,IConfiguration config)
         {
             DefaultOption = rspOptions ?? new Repositories.RepositoryOptions();
             var currentDic = System.IO.Directory.GetCurrentDirectory();
@@ -194,16 +107,18 @@ namespace NPlatform.IOC
             {
                 throw new NPlatformException("NPlatformConfig IOCAssemblys is null", "IOC Install");
             }
-
-            builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().AsImplementedInterfaces().PropertiesAutowired().InstancePerLifetimeScope().InstancePerDependency();
-            builder.RegisterType<PlatformHttpContext>().As<IPlatformHttpContext>().AsImplementedInterfaces().PropertiesAutowired().InstancePerLifetimeScope().InstancePerDependency();
+            builder.RegisterType<IConfiguration>().AsImplementedInterfaces().PropertiesAutowired().InstancePerLifetimeScope();
+            builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().AsImplementedInterfaces().PropertiesAutowired().InstancePerLifetimeScope();
+            builder.RegisterType<PlatformHttpContext>().As<IPlatformHttpContext>().AsImplementedInterfaces().PropertiesAutowired().InstancePerLifetimeScope();
+            builder.RegisterType<RepositoryOptions>().As<IRepositoryOptions>().AsImplementedInterfaces().PropertiesAutowired().InstancePerLifetimeScope();
+            builder.RegisterType<RepositoryOptions>().As<IRepositoryOptions>().AsImplementedInterfaces().PropertiesAutowired().InstancePerLifetimeScope();
 
             var path = System.IO.Directory.GetCurrentDirectory();
             List<Assembly> assemblys = new List<Assembly>();
             foreach (var tmp in assemblyNames)
             {
                 try
-                {
+                { 
                     var assPath = Path.Combine(path, tmp);
                     Assembly service = Assembly.LoadFrom(assPath);
                     assemblys.Add(service);
@@ -229,42 +144,24 @@ namespace NPlatform.IOC
              )
             .AsImplementedInterfaces()//
             .PropertiesAutowired()
+            .InstancePerLifetimeScope()  // service 不能有状态，所以同一个生命周期内，一个实例就行。
+            .EnableInterfaceInterceptors().OnRegistered(e =>
+             Console.WriteLine($"OnRegistered{e.ComponentRegistration.Activator.LimitType}")
+            )
+            .OnActivated(e =>
+            Console.WriteLine($"OnRegistered{e.Component.Activator.LimitType}"));
 
-            .InstancePerLifetimeScope()
-            // 加入缓存注入
-          //  .InterceptedBy(typeof(RedisCacheInterceptor))
-            .EnableInterfaceInterceptors();
-
-            builder.RegisterAssemblyTypes(assemblys.ToArray()).Where(t =>
-             t.Name.EndsWith("Reflect"))
-            .AsImplementedInterfaces()//
-            .PropertiesAutowired()
-            .InstancePerLifetimeScope()
-            .Named<IApplication>(t => t.Name);
 
             builder.RegisterAssemblyTypes(assemblys.ToArray()).Where(t =>
              t.Name.EndsWith("Repository"))
-            .AsImplementedInterfaces()//
+            .AsImplementedInterfaces()// 仓储存储的是对象，有状态，还是每次都new
             .PropertiesAutowired()
-            .InstancePerDependency();
-
-            //.OnRegistered(e => LogerHelper.Debug($"Registered：{e.ComponentRegistration.Activator.LimitType}", LogType.Trace.ToString()))
-            //.OnActivated(e => LogerHelper.Debug($"Registered：{e.Component.Activator.LimitType}", LogType.Trace.ToString()));
-
-            //if(redisCOnfig.EnableCacheInterceptor)
-            //{
-            //    regBuilder.InterceptedBy(typeof(RedisCacheInterceptor))
-            //    .EnableInterfaceInterceptors();
-            //}
-            // regBuilder.InstancePerDependency();
-
-            builder.RegisterType<RepositoryOptions>().As<IRepositoryOptions>().AsImplementedInterfaces();
-            builder.RegisterType<ContextOptions>().As<IContextOptions>().AsImplementedInterfaces();
-            //builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().AsImplementedInterfaces();
-
-            //var execType = typeof(IActionResultExecutor<EPContent>);
-            //builder.RegisterAssemblyTypes(assemblys.ToArray())
-            //    .Where(t => execType.IsAssignableFrom(t)).PropertiesAutowired().InstancePerDependency();
+            .InstancePerDependency()
+            .OnRegistered(e =>
+                Console.WriteLine($"OnRegistered{e.ComponentRegistration.Activator.LimitType}")
+            ) 
+            .OnActivated(e =>
+            Console.WriteLine($"OnRegistered{e.Component.Activator.LimitType}"));
 
             // .AsImplementedInterfaces()//表示注册的类型，以接口的方式注册不包括IDisposable接口
             ///        .EnableInterfaceInterceptors()//引用Autofac.Extras.DynamicProxy,使用接口的拦截器，在使用特性 [Attribute] 注册时，注册拦截器可注册到接口(Interface)上或其实现类(Implement)上。使用注册到接口上方式，所有的实现类都能应用到拦截器。
