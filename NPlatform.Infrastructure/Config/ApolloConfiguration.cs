@@ -1,6 +1,7 @@
 ﻿using Com.Ctrip.Framework.Apollo;
 using Com.Ctrip.Framework.Apollo.Core;
 using Com.Ctrip.Framework.Apollo.Model;
+using Microsoft.Extensions.Configuration;
 using System;
 
 namespace NPlatform.Infrastructure.Config
@@ -8,15 +9,22 @@ namespace NPlatform.Infrastructure.Config
     /// <summary>
     /// apollo配置获取
     /// </summary>
-    public static class ApolloConfiguration
+    public  class ApolloConfiguration
     {
-        private static Com.Ctrip.Framework.Apollo.IConfig _config;
-        public static ConfigChangeEvent OnChangeConfig;
-        public static void Init(string configID)
+        public ConfigChangeEvent OnChangeConfig;
+
+        IConfiguration _config;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApolloConfiguration"/> class.
+        /// </summary>
+        /// <param name="config"></param>
+        public ApolloConfiguration(IConfiguration config)
         {
-            _config = ApolloConfigurationManager.GetConfig($"{configID}.{ConfigConsts.NamespaceApplication}.json",
-                ConfigConsts.NamespaceApplication).GetAwaiter().GetResult();
-            _config.ConfigChanged += OnChanged;
+            //var serveConfig = config.GetServiceConfig().ServiceID;
+            //_config = config;
+            //_config = ApolloConfigurationManager.GetConfig($"{serveConfig}.{ConfigConsts.NamespaceApplication}.json",
+            //    ConfigConsts.NamespaceApplication).GetAwaiter().GetResult();
+            //_config.ConfigChanged += OnChanged;
         }
 
         /// <summary>
@@ -25,7 +33,7 @@ namespace NPlatform.Infrastructure.Config
         /// <param name="key">key值</param>
         /// <param name="defaultValue">如果没找到key,则返回默认值</param>
         /// <returns></returns>
-        public static string GetConfig(string pre,string key,string defaultValue)
+        public  string GetConfig(string pre,string key,string defaultValue)
         {
             key = $"{pre}-{key}";
             if (_config == null) return defaultValue;
@@ -44,11 +52,12 @@ namespace NPlatform.Infrastructure.Config
         /// <param name="key">key值</param>
         /// <param name="defaultValue">如果没找到key,则返回默认值</param>
         /// <returns></returns>
-        public static bool GetConfig(string pre, string key, bool defaultValue)
+        public  bool GetConfig(string pre, string key, bool defaultValue)
         {
             key = $"{pre}-{key}";
             if (_config == null) return defaultValue;
-            var result = _config.GetProperty(key, defaultValue);
+            IConfig outCfg;
+            var result = this._config.GetProperty(key);
             var color = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Loading key: {0} with value: {1}", key, result);
@@ -63,7 +72,7 @@ namespace NPlatform.Infrastructure.Config
         /// <param name="key">key值</param>
         /// <param name="defaultValue">如果没找到key,则返回默认值</param>
         /// <returns></returns>
-        public static int GetConfig(string pre, string key, int defaultValue)
+        public  int GetConfig(string pre, string key, int defaultValue)
         {
             key = $"{pre}-{key}";
             if (_config == null) return defaultValue;

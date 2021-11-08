@@ -46,7 +46,7 @@ namespace NPlatform.Infrastructure.Config
         public string ServiceVersion { get; set; }
 
         /// <summary>
-        /// 需要注入的dll
+        /// Gets or sets 需要注入的dll
         /// </summary>
         public string IOCAssemblys { get; set; }
 
@@ -68,18 +68,24 @@ namespace NPlatform.Infrastructure.Config
         public long AttachSize { get; set; }
 
         /// <summary>
-        /// 主库连接
+        /// Gets or sets 主库连接
         /// </summary>
         public string MainConection { get; set; }
 
         /// <summary>
-        /// 从库连接
+        /// Gets or sets 从库连接
         /// </summary>
         public string MinorConnection { get; set; }
 
         /// <summary>
-        /// 数据库驱动
+        /// Gets or sets 数据库驱动
         /// </summary>
         public string DBProvider { get; set; }
+
+
+        /// <summary>
+        /// Gets or sets 事务超时时间,单位秒
+        /// </summary>
+        public int? TimeOut { get; set; }
     }
 }

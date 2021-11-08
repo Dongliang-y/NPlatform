@@ -41,6 +41,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Config\ApolloConfiguration.cs" />
     <Compile Remove="FtpClient.cs" />
   </ItemGroup>
 
@@ -64,7 +65,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.0.0" />
-    <PackageReference Include="Com.Ctrip.Framework.Apollo.ConfigurationManager" Version="2.4.3" />
+    <PackageReference Include="Com.Ctrip.Framework.Apollo.Configuration" Version="2.4.1.1" />
     <PackageReference Include="DotNetZip" Version="1.13.3" />
     <PackageReference Include="Jiguang.JPush" Version="1.2.3" />
     <PackageReference Include="log4net" Version="2.0.8" />

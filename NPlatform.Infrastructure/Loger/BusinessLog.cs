@@ -201,7 +201,7 @@ namespace NPlatform.Infrastructure
             if (business == null) return;
 
             writer.Write(business.LogBrowser);
+
         }
     }
-
 }
