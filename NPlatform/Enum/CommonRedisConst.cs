@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace NPlatform
 {
+    /// <summary>
+    /// 公用的Redis键值常量
+    /// </summary>
     public static class CommonRedisConst
     {
         /// <summary>

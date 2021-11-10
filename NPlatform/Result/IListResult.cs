@@ -35,8 +35,8 @@ namespace NPlatform.Result
         /// OrgCode
         /// </summary>
         [DataMember]
-            [JsonProperty(PropertyName = "data")]
-        IEnumerable<T> Data { get;}
+        [JsonProperty(PropertyName = "value")]
+        new IEnumerable<T> Value { get;}
 
         /// <summary>
         /// 把结果转成List集合

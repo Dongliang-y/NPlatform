@@ -19,12 +19,9 @@ namespace NPlatform.IOC
     using Autofac.Extras.DynamicProxy;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Configuration;
-    using NPlatform.Applications;
-    // using NPlatform.API.Controllers;
-    using NPlatform.Domains.IRepositories;
-    using NPlatform.Infrastructure;
     using NPlatform.Infrastructure.Config;
     using NPlatform.Repositories;
+    using NPlatform.Repositories.IRepositories;
     using ServiceStack;
     using System;
     using System.Collections.Generic;
@@ -162,10 +159,6 @@ namespace NPlatform.IOC
             ) 
             .OnActivated(e =>
             Console.WriteLine($"OnRegistered{e.Component.Activator.LimitType}"));
-
-            // .AsImplementedInterfaces()//表示注册的类型，以接口的方式注册不包括IDisposable接口
-            ///        .EnableInterfaceInterceptors()//引用Autofac.Extras.DynamicProxy,使用接口的拦截器，在使用特性 [Attribute] 注册时，注册拦截器可注册到接口(Interface)上或其实现类(Implement)上。使用注册到接口上方式，所有的实现类都能应用到拦截器。
-            // .InstancePerLifetimeScope();//即为每一个依赖或调用创建一个单一的共享的实例
         }
 
         /// <summary>

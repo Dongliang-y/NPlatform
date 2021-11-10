@@ -17,7 +17,10 @@
       Result 各层的结果返回格式
       DTO 
       Middleware 通用中间件
-      Filters 通用过滤器。</Description>
+      Filters 通用过滤器。
+2021/11/10 完善领域服务基类，调整INResult基类实现，继承 JsonResult，以增加兼容性。领域服务改成泛型类型，需指定领域根类型。
+2021/11/8 完善仓储基类
+2021/10/18 仓储配置 ConnectName 去除，改成使用约定名称  MainConection  ，MinorConnection ,增加DBProvider 枚举，修复一个排序参数bug</Description>
     <Version>1.0.0.10-alpha</Version>
     <Authors>DongliangYi</Authors>
     <Company></Company>
@@ -27,10 +30,7 @@
     <FileVersion>1.0.0.10</FileVersion>
     <PackageId>NPlatform</PackageId>
     <PackageReleaseNotes>2021/11/8 完善仓储基类
-2021/10/18 仓储配置 ConnectName 去除，改成使用约定名称  MainConection  ，MinorConnection ,增加DBProvider 枚举，修复一个排序参数bug
-2021/9/28 BaseController的 error 封装调整，NHealthChecks 调整
-。
-2021/9/28 NPlatform 底层脚手架初始化。</PackageReleaseNotes>
+2021/10/18 仓储配置 ConnectName 去除，改成使用约定名称  MainConection  ，MinorConnection ,增加DBProvider 枚举，修复一个排序参数bug</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/Dongliang-y/NPlatform</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Dongliang-y/NPlatform.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>

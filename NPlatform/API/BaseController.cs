@@ -57,7 +57,6 @@ namespace NPlatform.API.Controllers
         /// <summary>
         /// 获取UI传递的js 数组参数 'Content-Type':'application/json' params:JSON.stringify(Array)
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         protected async virtual Task<string> GetRequestStrParamsAsync()
         {

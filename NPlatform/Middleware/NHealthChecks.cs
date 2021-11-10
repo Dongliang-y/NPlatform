@@ -13,6 +13,12 @@ namespace NPlatform.Middleware
     /// </summary>
     public class NHealthChecks : IHealthCheck
     {
+        /// <summary>
+        /// 健康检测
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = new CancellationToken())
         {
             var kvs = new Dictionary<string, object>();

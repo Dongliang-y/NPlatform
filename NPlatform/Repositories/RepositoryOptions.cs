@@ -3,8 +3,8 @@
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
-    using NPlatform.Domains.IRepositories;
     using NPlatform.Filters;
+    using NPlatform.Repositories.IRepositories;
 
     /// <summary>
     /// 默认仓储上下文配置

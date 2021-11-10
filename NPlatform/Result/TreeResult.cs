@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using NPlatform.Infrastructure;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,14 +33,7 @@ namespace NPlatform.Result
         /// </summary>
         [DataMember]
         [JsonPropertyName("message")]
-        public string Message { get; set; }
-
-        /// <summary>
-        /// HttpStatusCode
-        /// </summary>
-        [DataMember]
-        [JsonPropertyName("httpcode")]
-        public HttpStatusCode HttpCode { get; set; } = HttpStatusCode.OK;
+        public string Message { get; }
 
         /// <summary>
         ///  返回结果的服务id
@@ -46,5 +41,20 @@ namespace NPlatform.Result
         [DataMember]
         [JsonPropertyName("serviceid")]
         public string ServiceID { get; set; }
+
+        /// <summary>
+        ///  http heard contentType
+        /// </summary>
+        public string ContentType { get; set; } = HttpContentType.APPLICATION_JSON;
+        /// <summary>
+        /// 状态码
+        /// </summary>
+        public int? StatusCode { get; set; } = 200;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [JsonIgnore]
+        public object Value { get; set; }
     }
 }

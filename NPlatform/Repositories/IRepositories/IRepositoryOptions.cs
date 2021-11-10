@@ -19,7 +19,7 @@ using System.Data;
 using NPlatform.Filters;
 using NPlatform.Repositories;
 
-namespace NPlatform.Domains.IRepositories
+namespace NPlatform.Repositories.IRepositories
 {
     /// <summary>
     /// 仓储上下文配置接口

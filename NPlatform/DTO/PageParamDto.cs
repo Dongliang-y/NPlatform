@@ -41,11 +41,11 @@ namespace NPlatform.DTO
         /// </summary>
         public string SortOrder { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "页大小必须大于1")]
-        [Required(ErrorMessage ="页大小不能为空!")]
         /// <summary>
         /// 页大小
         /// </summary>
+        [Range(1, int.MaxValue, ErrorMessage = "页大小必须大于1")]
+        [Required(ErrorMessage ="页大小不能为空!")]
         public int PageSize { get; set; }
 
         /// <summary>

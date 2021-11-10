@@ -43,9 +43,21 @@ namespace NPlatform.Result
         string Message { get; }
 
         /// <summary>
-        /// http 状态码
+        /// 
+        ///     Gets or sets the Microsoft.Net.Http.Headers.MediaTypeHeaderValue representing
+        ///     the Content-Type header of the response.
         /// </summary>
-        [JsonProperty(PropertyName = "HttpCode")]
-        HttpStatusCode HttpCode { get;  }
+
+        public string ContentType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the HTTP status code.
+        /// </summary>
+        public int? StatusCode { get; set; }
+
+        /// <summary>
+        /// 输出的数据
+        /// </summary>
+        public object Value { get; set; }
     }
 }

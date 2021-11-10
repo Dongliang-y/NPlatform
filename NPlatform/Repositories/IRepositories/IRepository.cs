@@ -14,7 +14,8 @@
 
 #endregion
 
-namespace NPlatform.Domains.IRepositories
+
+namespace NPlatform.Repositories.IRepositories
 {
     using System;
     using System.Collections.Generic;
@@ -22,11 +23,12 @@ namespace NPlatform.Domains.IRepositories
     using System.Linq.Expressions;
     using System.Threading.Tasks;
     using NPlatform.Domains.Entity;
-    using NPlatform.Repositories.Repositories;
+    using NPlatform.Repositories;
     using NPlatform.Result;
 
     /// <summary>
     /// 聚合内的工作单元接口
+    /// 仓储的作用对象的领域模型的聚合根，也就是说每一个聚合都有一个单独的仓储
     /// </summary>
     /// <typeparam name="TEntity">实体类型
     /// </typeparam>

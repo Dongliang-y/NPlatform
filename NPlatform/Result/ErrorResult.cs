@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using NPlatform.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Runtime.Serialization;
@@ -10,13 +12,13 @@ namespace NPlatform.Result
     /// 错误信息
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ErrorResult<T> : IListResult<T>, ITreeResult<T>, INPResult
+    public class ErrorResult<T> :JsonResult, IListResult<T>, ITreeResult<T>, INPResult
     {
         /// <summary>
         /// 错误信息
         /// </summary>
         /// <param name="ex"></param>
-        public ErrorResult(Exception ex)
+        public ErrorResult(Exception ex) : base(ex)
         {
             this.Message = ex.Message;
         }
@@ -24,7 +26,7 @@ namespace NPlatform.Result
         /// 错误信息
         /// </summary>
         /// <param name="message"></param>
-        public ErrorResult(string message)
+        public ErrorResult(string message) : base(null)
         {
             this.Message = message;
         }
@@ -34,10 +36,10 @@ namespace NPlatform.Result
         /// </summary>
         /// <param name="message">消息</param>
         /// <param name="httpCode">http状态码</param>
-        public ErrorResult(string message,HttpStatusCode httpCode)
+        public ErrorResult(string message, HttpStatusCode httpCode) :base(null)
         {
             this.Message = message;
-            this.HttpCode = httpCode;
+            this.StatusCode = httpCode.ToInt();
         }
 
         /// <summary>
@@ -45,13 +47,13 @@ namespace NPlatform.Result
         /// </summary>
         /// <param name="ex">excpetion</param>
         /// <param name="httpCode">httpcode</param>
+        /// <param name="serializerSettings"></param>
         /// <param name="message">message</param>
-        public ErrorResult(Exception ex, HttpStatusCode httpCode)
+        public ErrorResult(string message, Exception ex, HttpStatusCode httpCode,object serializerSettings) :base(ex,serializerSettings)
         {
-            this.Message = ex.Message;
-            this.HttpCode = httpCode;
+            this.Message = message;
+            this.StatusCode = httpCode.ToInt();
         }
-
 
         /// <summary>
         /// 消息
@@ -61,26 +63,20 @@ namespace NPlatform.Result
         public string Message { get; }
 
         /// <summary>
-        /// HTTP状态码
-        /// </summary>
-        [DataMember]
-        [JsonPropertyName("httpcode")]
-        public HttpStatusCode HttpCode { get;  } = HttpStatusCode.InternalServerError;
-
-        /// <summary>
-        /// 服务ID
+        ///  返回结果的服务id
         /// </summary>
         [DataMember]
         [JsonPropertyName("serviceid")]
         public string ServiceID { get; set; }
 
-
         /// <summary>
-        /// 数据，无需赋值
+        ///  http heard contentType
         /// </summary>
-        [System.Xml.Serialization.XmlIgnore]
-        [JsonIgnore]
-        public T Data { get; }
+        public new string ContentType { get; set; } = HttpContentType.APPLICATION_JSON;
+        /// <summary>
+        /// 状态码
+        /// </summary>
+        public new int? StatusCode { get; set; } = 500;
 
         /// <summary>
         /// Total，无需赋值
@@ -95,8 +91,12 @@ namespace NPlatform.Result
         /// </summary>
         [JsonIgnore]
         [System.Xml.Serialization.XmlIgnore]
-        IEnumerable<T> IListResult<T>.Data { get; } = null;
+        IEnumerable<T> IListResult<T>.Value { get; } = null;
 
+        /// <summary>
+        /// NotImplementedException
+        /// </summary>
+        /// <returns></returns>
         public IList<T> ToList()
         {
             throw new NotImplementedException();

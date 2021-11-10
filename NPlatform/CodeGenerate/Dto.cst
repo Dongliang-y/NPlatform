@@ -240,9 +240,9 @@ public string GetName(TableSchema table)
     switch(nameArray.Length)
     {
         case 2:
-            return nameArray[1];
+            return nameArray[1].Substring(0,1).ToUpper()+nameArray[1].Substring(1);
         case 3:
-            return nameArray[1]+nameArray[2];
+            return nameArray[1].Substring(0,1).ToUpper()+nameArray[1].Substring(1)+nameArray[2];
     }
     return null;
 }

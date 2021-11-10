@@ -20,7 +20,6 @@ namespace NPlatform.DTO
     /// <summary>
     /// DTO 基类
     /// </summary>
-    /// <typeparam name="T">子类类型</typeparam>
     public class BaseDTO : IDTO
     {
         /// <summary>

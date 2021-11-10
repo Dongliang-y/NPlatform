@@ -20,6 +20,8 @@ using System.Web;
 using NPlatform;
 using System.Net;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc;
+using NPlatform.Infrastructure;
 
 namespace NPlatform.Result
 {
@@ -27,14 +29,8 @@ namespace NPlatform.Result
     /// <summary>
     /// 操作结果
     /// </summary>
-    public class SuccessResult<T> : INPResult
+    public class SuccessResult<T> : JsonResult, INPResult
     {
-        /// <summary>
-        /// 需要返回的数据对象
-        /// </summary>
-        [DataMember]
-        [JsonPropertyName("data")]
-        public T Data { get; }
         /// <summary>
         /// 消息
         /// </summary>
@@ -43,53 +39,42 @@ namespace NPlatform.Result
         public string Message { get;}
 
         /// <summary>
-        /// HTTP status code
-        /// </summary>
-        [DataMember]
-        [JsonPropertyName("httpcode")]
-        public HttpStatusCode HttpCode { get; } = HttpStatusCode.OK;
-
-        /// <summary>
         ///  返回结果的服务id
         /// </summary>
         [DataMember]
         [JsonPropertyName("serviceid")]
         public string ServiceID { get; set; }
 
-
         /// <summary>
-        /// 操作结果
+        ///  http heard contentType
         /// </summary>
-        public SuccessResult() { }
-
+        public new string ContentType { get; set; } = HttpContentType.APPLICATION_JSON;
+        /// <summary>
+        /// 状态码
+        /// </summary>
+        public new int? StatusCode { get; set; }=200;
 
         /// <summary>
         /// 成功的结果内容
         /// </summary>
+        public SuccessResult() : base(null)
+        {
+        }
+        /// <summary>
+        /// 成功的结果内容
+        /// </summary>
         /// <param name="message">消息</param>
-        public SuccessResult(string message) 
+        public SuccessResult(string message):base(null)
         {
             this.Message = message;
-
         }
         /// <summary>
         /// 成功的结果内容
         /// </summary>
         /// <param name="data">消息</param>
-        public SuccessResult(T data)
+        public SuccessResult(T data):base(data)
         {
-            this.Data = data;
-        }
-
-        /// <summary>
-        /// 成功的结果内容
-        /// </summary>
-        /// <param name="message">消息</param>
-        /// <param name="httpCode">HttpStatusCode</param>
-        public SuccessResult(string message,HttpStatusCode httpCode)
-        {
-            this.Message = message;
-            this.HttpCode = httpCode;
+            this.Value = data;
         }
 
         /// <summary>
@@ -97,25 +82,26 @@ namespace NPlatform.Result
         /// </summary>
         /// <param name="message">消息</param>
         /// <param name="data">消息</param>
-        public SuccessResult(string message, T data)
+        public SuccessResult(string message, T data):base(data)
         {
             this.Message = message;
-            this.Data = data;
         }
 
         /// <summary>
         /// 操作结果
         /// </summary>
-        /// <param name="success">是否成功，默认true</param>
         /// <param name="message">消息</param>
-        /// <param name="result">T 类型对象</param>
+        /// <param name="data">T 类型对象</param>
         /// <param name="httpCode"></param>
-        public SuccessResult( string message, T result, HttpStatusCode httpCode)
+        /// <param name="serializerSettings">序列化配置</param>
+        public SuccessResult( string message, T data, HttpStatusCode httpCode,object serializerSettings) :base(data, serializerSettings)
         {
-            this.HttpCode = httpCode;
+            this.StatusCode = httpCode.ToInt();
+            if(StatusCode>=300)
+            {
+                throw new Exception("错误的状态码！Success 结果只能是 “2xx” 状态码。");
+            }
             this.Message = message;
-            this.Data = result;
         }
-
     }
 }

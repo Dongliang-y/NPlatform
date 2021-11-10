@@ -19,7 +19,9 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using Microsoft.AspNetCore.Mvc;
 using NPlatform;
+using NPlatform.Infrastructure;
 
 namespace NPlatform.Result
 {
@@ -27,43 +29,42 @@ namespace NPlatform.Result
     /// 数据列表内容对象
     /// </summary>
     [DataContract]
-    public class ListResult<T> : IListResult<T>
+    public class ListResult<T> :JsonResult, IListResult<T>
     {
         /// <summary>
         /// 数据列表内容对象
         /// </summary>
-        public ListResult(IEnumerable<T> list, long total)
+        public ListResult(IEnumerable<T> list, long total):base(list)
         {
             Total = total;
-            Data = list;
         }
         /// <summary>
         /// 数据列表内容对象
         /// </summary>
-        public ListResult(IEnumerable<T> list)
+        public ListResult(IEnumerable<T> list):base(list)
         {
             Total = list.Count() ;
-            Data = list;
         }
         /// <summary>
         /// 数据列表内容对象
         /// </summary>
-        public ListResult(IEnumerable<T> list, long total,HttpStatusCode httpCode)
+        public ListResult(IEnumerable<T> list, long total,HttpStatusCode httpCode):base(list)
         {
             Total = total;
-            Data = list;
-            this.HttpCode = httpCode;
+            this.StatusCode = httpCode.ToInt();
         }
         /// <summary>
-        /// 数据列表内容对象
+        /// ListResult
         /// </summary>
-        public ListResult(IEnumerable<T> list, HttpStatusCode httpCode)
+        /// <param name="list"></param>
+        /// <param name="total"></param>
+        /// <param name="httpCode"></param>
+        /// <param name="serializerSettings"></param>
+        public ListResult(IEnumerable<T> list, long total, HttpStatusCode httpCode, object serializerSettings) : base(list, serializerSettings)
         {
-            Total = list.Count();
-            Data = list;
-            this.HttpCode = httpCode;
+            Total = total;
+            this.StatusCode = httpCode.ToInt();
         }
-
         /// <summary>
         /// 数据总数
         /// </summary>
@@ -72,28 +73,11 @@ namespace NPlatform.Result
         public long Total { get; }
 
         /// <summary>
-        /// 数据行
-        /// </summary>
-        /// <summary>
-        /// OrgCode
-        /// </summary>
-        [DataMember]
-        [JsonPropertyName("data")]
-        public IEnumerable<T> Data { get; }
-        /// <summary>
         /// 消息
         /// </summary>
         [DataMember]
         [JsonPropertyName("message")]
-        public string Message { get;}
-
-
-        /// <summary>
-        /// HTTP状态码
-        /// </summary>
-        [DataMember]
-        [JsonPropertyName("httpcode")]
-        public HttpStatusCode HttpCode { get;} = HttpStatusCode.OK;
+        public string Message { get; }
 
         /// <summary>
         ///  返回结果的服务id
@@ -103,12 +87,26 @@ namespace NPlatform.Result
         public string ServiceID { get; set; }
 
         /// <summary>
+        ///  http heard contentType
+        /// </summary>
+        public new string ContentType { get; set; } = HttpContentType.APPLICATION_JSON;
+        /// <summary>
+        /// 状态码
+        /// </summary>
+        public new int? StatusCode { get; set; } = 200;
+
+        /// <summary>
+        /// 结果集合
+        /// </summary>
+        public new IEnumerable<T> Value { get; set; }
+
+        /// <summary>
         /// 返回结果的集合
         /// </summary>
         /// <returns>结果集合</returns>
         public IList<T> ToList()
         {
-            return this.Data.ToList();
+            return this.Value.ToList();
         }
     }
 }

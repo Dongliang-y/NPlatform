@@ -7,7 +7,7 @@
 **修改历史：
 ************************************************************/
 
-namespace NPlatform.Domains.IRepositories
+namespace NPlatform.Repositories.IRepositories
 {
     using System;
     using System.Collections.Generic;
@@ -74,7 +74,8 @@ namespace NPlatform.Domains.IRepositories
         /// <summary>
         /// 执行sql脚本
         /// </summary>
-        /// <typeparam name="sql">需要执行的SQL</typeparam>
+        /// <typeparam name="T">执行查询的对象实体类型</typeparam>
+        /// <param name="sql">需要执行的SQL</param>
         /// <param name="parameters">参数对象</param>
         /// <returns>执行结果</returns>
         Task<IEnumerable<T>> QueryFromSql<T>(string sql, object parameters) where T : class, IEntity;

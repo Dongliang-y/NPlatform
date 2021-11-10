@@ -20,12 +20,14 @@ using NPlatform.Result;
 
 namespace NPlatform
 {
+    /// <summary>
+    /// DTO 校验扩展
+    /// </summary>
     public static class DTOValidate
     {
         /// <summary>
         /// 校验模型的属性值是否合法,例如在service层的主动校验实体属性
         /// </summary>
-        /// <typeparam name="T">对象类型,必须为DTO</typeparam>
         /// <param name="dto">对象值</param>
         /// <returns></returns>
         public static INPResult Validates(this IDTO dto)

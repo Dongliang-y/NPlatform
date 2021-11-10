@@ -16,13 +16,12 @@
 
 namespace NPlatform.Filters
 {
+    using NPlatform.Domains.Entity;
+    using NPlatform.Repositories.IRepositories;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-    using NPlatform.Domains.Entity;
-    using NPlatform.Domains.IRepositories;
-    using NPlatform.Result;
 
     /// <summary>
     /// 过滤器管理服务
@@ -154,6 +153,12 @@ namespace NPlatform.Filters
             }
         }
 
+        /// <summary>
+        /// 结果过滤器
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="result"></param>
+        /// <returns></returns>
         public IEnumerable<T> ResultFilter<T>(IEnumerable<T> result) where T : IEntity
         {
             // 应用过滤器

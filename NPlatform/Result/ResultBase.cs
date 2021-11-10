@@ -34,22 +34,21 @@ namespace NPlatform.Result
         /// <summary>
         ///  返回SuccessResult
         /// </summary>
-        protected virtual INPResult Success<T>(string msg,T data)
+        protected virtual SuccessResult<T> Success<T>(string msg,T data)
         {
             return new SuccessResult<T>( msg,data);
         }
         /// <summary>
         ///  返回SuccessResult
         /// </summary>
-        protected virtual INPResult Success<T>(string msg, T data, HttpStatusCode httpCode)
+        protected virtual SuccessResult<T> Success<T>(string msg, T data, HttpStatusCode httpCode,object serializerSettings)
         {
-
-            return new SuccessResult<T>(msg, data,httpCode);
+            return new SuccessResult<T>(msg, data,httpCode,serializerSettings);
         }
         /// <summary>
         ///  返回SuccessResult
         /// </summary>
-        protected virtual INPResult Success<T>( T data)
+        protected virtual SuccessResult<T> Success<T>( T data)
         {
             return new SuccessResult<T>( string.Empty, data);
         }
@@ -74,6 +73,14 @@ namespace NPlatform.Result
         }
 
         /// <summary>
+        /// 返回错误信息
+        /// </summary>
+        protected virtual INPResult Error(Exception ex)
+        {
+            return new ErrorResult<T>(ex.Message, ex, HttpStatusCode.InternalServerError, null);
+        }
+
+        /// <summary>
         /// 返回参数不能为空的提示 “{pName}参数不能为空！”
         /// 使用：NotNullResult(nameof(参数名))
         /// </summary>
@@ -89,29 +96,22 @@ namespace NPlatform.Result
         /// </summary>
         protected virtual INPResult Error(string msg,Exception ex)
         {
-            return Error<bool>(msg,new NPlatformException(msg,ex, "500"));
-        }
-        /// <summary>
-        /// 返回错误信息
-        /// </summary>
-        protected virtual INPResult Error(Exception ex)
-        {
-            return Error<bool>(ex.Message, new NPlatformException("", ex, "500"));
+           return new ErrorResult<T>(msg,ex, HttpStatusCode.InternalServerError,null);
         }
 
         /// <summary>
         /// 返回错误信息
         /// </summary>
-        protected virtual ErrorResult<T> Error<T>(NPlatformException ex) 
+        protected virtual INPResult Error(string msg, HttpStatusCode statusCode)
         {
-            return Error<T>(ex.Message, ex);
+            return new ErrorResult<T>(msg,statusCode);
         }
         /// <summary>
         /// 返回错误信息
         /// </summary>
-        protected virtual ErrorResult<T> Error<T>(string msg, NPlatform.NPlatformException ex)
+        protected virtual ErrorResult<T> Error<T>(string msg,Exception ex, HttpStatusCode statusCode,object serializerSettings)
         {
-            return Error<T>($"{msg}--> {ex.Message}");
+            return new ErrorResult<T>(msg, ex, statusCode, serializerSettings);
         }
 
         #endregion

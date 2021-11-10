@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NPlatform.Repositories.Repositories
+namespace NPlatform.Repositories
 {
     /// <summary>
     /// 排序字段
