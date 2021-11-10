@@ -1,8 +1,11 @@
 ﻿<%@ CodeTemplate Language="C#" TargetLanguage="Text"  ResponseEncoding="UTF-8"  Debug="True" Description="Template description here." %>
-<%@ Property Name="SourceTables" Type="SchemaExplorer.TableSchemaCollection" Category="Context" Description="选择表" %>
-<%@ Property Name="ProjectName" Type="String" Category="Context" Description="项目名称" %>
-<%@ Property Name="RepositoryDic" Type="String" Category="Context" Description="仓储名称" %>
-<%@ Property Name="overrite" Type="Boolean" Default="true" Category="Context" Description="是否覆盖" %>
+<%@ Property Name="SourceTables" Type="SchemaExplorer.TableSchemaCollection" Category="General" Description="选择表" %>
+<%@ Property Name="ProjectName" Type="String" Category="General" Description="项目名称" %>
+<%@ Property Name="Overrite" Type="Boolean" Default="true" Category="文件处理" Description="是否覆写" %>
+<%@ Property Name="ClearAll" Type="Boolean" Default="false" Category="文件处理" Description="清理所有生成的代码" %>
+<%@ Property Name="DomainMode" Type="Boolean" Default="true" Category="高级特性" Description="基于领域驱动模式" %>
+<%@ Property Name="ORMSelect"  Type="ORMType" Category="高级特性" Description="ORM选择" %>
+
 <%@ Assembly Name="SchemaExplorer" %>
 <%@ Assembly Name="CodeSmith.CustomProperties" %> 
 <%@ Assembly Name="System.Data" %>
@@ -24,8 +27,19 @@ TableSchemaCollection Tables=SourceTables;
 //过滤掉不正常的表格
     Tables = FilterTables(Tables);
 
+    var RepositoryDirectory="EFRepository";//ORMSelect
+    switch(ORMSelect)
+    {
+        case ORMType.EntityFrameWork:
+            RepositoryDirectory="EFRepository";
+            break;
+        case ORMType.Dapper:
+            RepositoryDirectory="DapperRepository";
+            break;
+    }
+
     string IRepositoriesDIC = OutputDirectory + "\\"+ProjectName+".Domains\\IRepositories\\";
-    string RepositoriesDIC = OutputDirectory + "\\"+ProjectName+"."+RepositoryDic+"\\";
+    string RepositoriesDIC = OutputDirectory + "\\"+ProjectName+"."+RepositoryDirectory+"\\";
 
     string EntityDIC = OutputDirectory + "\\"+ProjectName+".Domains\\Entity\\";
 
@@ -50,33 +64,80 @@ TableSchemaCollection Tables=SourceTables;
 
      CodeTemplate DTOTemplate=GetCodeTemplate("Dto.cst");
 
+    if(ClearAll)
+    {
+           for (int i = 0; i < Tables.Count; i++)
+           {
+               var entity=EntityDIC+ GetModuleName(Tables[i]);
+               if(System.IO.Directory.Exists(entity))
+               {
+                   System.IO.Directory.Delete(entity,true);
+               }
+               
+               var IResp=IRepositoriesDIC+ GetModuleName(Tables[i]);
+                if(System.IO.Directory.Exists(IResp))
+               {
+                   System.IO.Directory.Delete(IResp,true);
+               }
+               
+               var Resp=RepositoriesDIC+ GetModuleName(Tables[i]);
+                if(System.IO.Directory.Exists(Resp))
+               {
+                   System.IO.Directory.Delete(Resp,true);
+               }
+               
+               
+               var Isv=IServiceDIC+ GetModuleName(Tables[i]);
+                if(System.IO.Directory.Exists(Isv))
+               {
+                   System.IO.Directory.Delete(Isv,true);
+               }
+               
+               var Svc=ServiceDIC+ GetModuleName(Tables[i]);
+                if(System.IO.Directory.Exists(Svc))
+               {
+                   System.IO.Directory.Delete(Svc,true);
+               }
+               
+               var dto=DtoDIC+ GetModuleName(Tables[i]);
+                if(System.IO.Directory.Exists(dto))
+               {
+                   System.IO.Directory.Delete(dto,true);
+               }
+               
+           }
+    }
+    
     //Render Files
     for (int i = 0; i < Tables.Count; i++)
     {  
         //Dto
 		try
 		{
-			//仓储
-			RenderFileUsingProperties(IRepositoriesDIC+ GetModuleName(Tables[i])+"\\"+ "I"+GetName(Tables[i]) + "Repository.cs",
-            overrite,ref IRepositoriesTemplate,Tables[i]);
-			RenderFileUsingProperties(RepositoriesDIC+ GetModuleName(Tables[i])+"\\"+ GetName(Tables[i]) + "Repository.cs",overrite,ref RepositoriesTemplate,Tables[i]);
-
 			//实 体
-			RenderFileUsingProperties(EntityDIC+ GetModuleName(Tables[i])+"\\"+ GetName(Tables[i]) + ".cs",overrite,ref EntityTemplate,Tables[i]);
+			RenderFileUsingProperties(EntityDIC+ GetModuleName(Tables[i])+"\\"+ GetName(Tables[i]) + ".cs",Overrite,ref EntityTemplate,Tables[i]);
             //实 体模块接口
-			RenderFileUsingProperties(EntityDIC+ GetModuleName(Tables[i])+"\\"+"I"+ GetModuleName(Tables[i]) + ".cs",overrite,ref ITemplate,Tables[i]); 
+			RenderFileUsingProperties(EntityDIC+ GetModuleName(Tables[i])+"\\"+"I"+ GetModuleName(Tables[i]) + ".cs",Overrite,ref ITemplate,Tables[i]); 
             
             
             //服务\DTO
             var name=Tables[i].Name;
              var count=Regex.Matches(name, "_").Count;
-            if(count==1)
+            
+            // 领域驱动模式下，从表的仓储、服务DTO都不生成。
+            if(DomainMode&&count>11)
             {
-    			RenderFileUsingProperties(IServiceDIC+ GetModuleName(Tables[i])+"\\"+"I"+ GetName(Tables[i]) + "Service.cs",overrite,ref IServiceTemplate,Tables[i]); 
-    			RenderFileUsingProperties(ServiceDIC+ GetModuleName(Tables[i])+"\\"+GetName(Tables[i]) + "Service.cs",overrite,ref ServiceTemplate,Tables[i]); 
-                
-                RenderFileUsingProperties(DtoDIC+ GetModuleName(Tables[i])+"\\"+GetName(Tables[i]) + "DTO.cs",overrite,ref DTOTemplate,Tables[i]); 
+                continue;
             }
+            //仓储
+			RenderFileUsingProperties(IRepositoriesDIC+ GetModuleName(Tables[i])+"\\"+ "I"+GetName(Tables[i]) + "Repository.cs",
+            Overrite,ref IRepositoriesTemplate,Tables[i]);
+			RenderFileUsingProperties(RepositoriesDIC+ GetModuleName(Tables[i])+"\\"+ GetName(Tables[i]) + "Repository.cs",Overrite,ref RepositoriesTemplate,Tables[i]);
+            
+			RenderFileUsingProperties(IServiceDIC+ GetModuleName(Tables[i])+"\\"+"I"+ GetName(Tables[i]) + "Service.cs",Overrite,ref IServiceTemplate,Tables[i]); 
+			RenderFileUsingProperties(ServiceDIC+ GetModuleName(Tables[i])+"\\"+GetName(Tables[i]) + "Service.cs",Overrite,ref ServiceTemplate,Tables[i]); 
+            
+            RenderFileUsingProperties(DtoDIC+ GetModuleName(Tables[i])+"\\"+GetName(Tables[i]) + "DTO.cs",Overrite,ref DTOTemplate,Tables[i]); 
             
 		}catch(Exception ex)
 		{
@@ -89,6 +150,18 @@ TableSchemaCollection Tables=SourceTables;
 
 Total <%=Tables.Count %>  Tables completed!
 <script runat="template">	
+    /// <summary>
+
+/// 定义一个下拉列表的枚举
+
+/// </summary>
+
+public enum ORMType 
+{
+    EntityFrameWork,
+    Dapper
+}
+
     #region Output
     private string _outputDirectory = String.Empty;
 	
