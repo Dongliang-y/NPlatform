@@ -21,13 +21,14 @@ namespace  NPlatform.Domains.Services.<%=GetModuleName(SourceTable)%>
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-    using NPlatform.Domains.IService.Sys;
+    using NPlatform.Domains.Entity.<%=GetModuleName(SourceTable)%>;
+    using NPlatform.Domains.IService.<%=GetModuleName(SourceTable)%>;
     using NPlatform.Domains.Service;
     using NPlatform.DTO.<%=GetModuleName(SourceTable)%>;
     /// <summary> 
     ///    <%=GetName(SourceTable)%>  业务层
     /// </summary> 
-    public partial class <%=GetName(SourceTable)%>Service :  BaseService,I<%=GetName(SourceTable)%>Service
+    public partial class <%=GetName(SourceTable)%>Service :  BaseService< <%=GetName(SourceTable)%>,string>,I<%=GetName(SourceTable)%>Service
     {  
     
     } 

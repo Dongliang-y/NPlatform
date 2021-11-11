@@ -22,11 +22,12 @@ namespace  NPlatform.Domains.IService.<%=GetModuleName(SourceTable)%>
     using System.Linq;
     using System.Linq.Expressions;
     using NPlatform.Domains.Service;
+    using NPlatform.Domains.Entity.<%=GetModuleName(SourceTable)%>;
     using NPlatform.DTO.<%=GetModuleName(SourceTable)%>;
     /// <summary> 
     ///    <%=GetName(SourceTable)%>  业务层
     /// </summary> 
-    public partial interface I<%=GetName(SourceTable)%>Service : IDomainService
+    public partial interface I<%=GetName(SourceTable)%>Service : IDomainService< <%=GetName(SourceTable)%>,string>
     {  
     } 
 } 
