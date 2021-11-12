@@ -13,7 +13,8 @@ namespace NPlatform.Domains.IRepositories.<%=GetModuleName(SourceTable)%>
 {
     using NPlatform;
     using System;
-    using NPlatform.Domains.IRepositories;
+    using NPlatform.Repositories.IRepositories;
+    
 	/// <summary>
     /// <%=GetName(SourceTable)%>仓储操作层接口
     /// </summary>

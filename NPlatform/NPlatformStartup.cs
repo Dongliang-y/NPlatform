@@ -67,12 +67,10 @@ namespace NPlatform
         /// <summary>
         /// 配置容器
         /// </summary>
-        public static void ConfigureContainer(ContainerBuilder builder,
-                                              Repositories.RepositoryOptions options,
-                                              IConfiguration config)
+        public static void ConfigureContainer(ContainerBuilder builder)
         {
             Console.WriteLine("ConfigureContainer");
-            IOCService.Install(builder, options, config);
+            IOCService.Install(builder, Options, Config);
         }
         /// <summary>
         /// AutoMapper初始化

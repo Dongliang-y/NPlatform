@@ -19,7 +19,7 @@ namespace NPlatform.Repositories.<%=GetModuleName(SourceTable)%>
 	using System; 
 	using System.Linq; 
 	using NPlatform.Domains.IRepositories.<%=GetModuleName(SourceTable)%>;
-    using NPlatform.Domains.IRepositories;
+    using NPlatform.Repositories.IRepositories;
     using NPlatform.Domains.Entity.<%=GetModuleName(SourceTable)%>;
     
     /// <summary> 
