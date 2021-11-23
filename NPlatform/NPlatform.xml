@@ -1951,14 +1951,7 @@
             仓储配置项
             </summary>
         </member>
-        <member name="M:NPlatform.NPlatformStartup.AddNPlatformConfig(NPlatform.Repositories.RepositoryOptions,Microsoft.Extensions.Configuration.IConfiguration)">
-            <summary>
-            初始化平台配置
-            </summary>
-            <param name="config">系统配置</param>
-            <param name="options">仓储的配置项</param>
-        </member>
-        <member name="M:NPlatform.NPlatformStartup.ConfigureContainer(Autofac.ContainerBuilder,NPlatform.Repositories.RepositoryOptions,Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:NPlatform.NPlatformStartup.Configure(Autofac.ContainerBuilder,NPlatform.Repositories.RepositoryOptions,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             配置容器
             </summary>

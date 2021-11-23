@@ -17,6 +17,7 @@ namespace NPlatform.IOC
 {
     using Autofac;
     using Autofac.Extras.DynamicProxy;
+    using AutoMapper;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Configuration;
     using NPlatform.Infrastructure.Config;
@@ -133,7 +134,7 @@ namespace NPlatform.IOC
             //InstancePerDependency：默认模式，每次调用，都会重新实例化对象；每次请求都创建一个新的对象；
 
 
-            var typeConfig = typeof(IClassMapperConfig);
+            var typeConfig = typeof(ResolveAutoMapper);
             var regBuilder = builder.RegisterAssemblyTypes(assemblys.ToArray()).Where(t =>
              t.Name.EndsWith("Service")
              || t.Name.EndsWith("Application")
@@ -165,9 +166,9 @@ namespace NPlatform.IOC
         /// 获取automapper配置
         /// </summary>
         /// <returns>返回map配置类型</returns>
-        public static IEnumerable<IClassMapperConfig> ResolveAutoMapper()
+        public static IEnumerable<Profile> ResolveAutoMapper()
         {
-            return Container.Resolve<IEnumerable<IClassMapperConfig>>();
+            return Container.Resolve<IEnumerable<Profile>>();
         }
     }
 }

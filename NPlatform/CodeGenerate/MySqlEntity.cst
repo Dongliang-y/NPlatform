@@ -15,10 +15,10 @@
 namespace NPlatform.Domains.Entity.<%=GetModuleName(SourceTable) %>
 {
     using NPlatform.Domains.Entity;
-    using ServiceStack.DataAnnotations;
     using System;
+    using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-	
+    
 	/// <summary>
 	///<%= GetName(SourceTable)%>，<%=SourceTable.Description.Replace("\n","").Replace("\r","")%>
 	/// </summary>
@@ -229,9 +229,11 @@ public string GetCSharpVariableType(ColumnSchema column)
 
 public string GetDataAnnotations(ColumnSchema column)
 {
-	
+    
+    string description=column.Description!=null?column.Description.Replace("\n","").Replace("\r",""):"";
     string attr="";//"[DataMember]";
-	attr+=!column.AllowDBNull?"\r\n        [Required]":"";
+	attr+=!column.AllowDBNull?"\r\n        [Required(ErrorMessage = \""+description+"是必须的，请先完善\")]]":"";
+    attr+="\r\n        [Display(Name = \""+description+"\")]";
     if(column.IsUnique)
         attr+="\r\n        [Unique]";
         

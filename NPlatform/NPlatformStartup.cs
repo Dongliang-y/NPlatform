@@ -50,43 +50,15 @@ namespace NPlatform
         public static Repositories.RepositoryOptions Options { get; set; }
 
         /// <summary>
-        /// 初始化平台配置
+        /// 配置容器
         /// </summary>
-        /// <param name="config">系统配置</param>
-        /// <param name="options">仓储的配置项</param>
-        public static void AddNPlatformConfig(Repositories.RepositoryOptions options, IConfiguration config)
+        public static void Configure(ContainerBuilder builder, Repositories.RepositoryOptions options, IConfiguration config)
         {
             // 加载配置
             Config = config;
             Options = options;
-            AutoMapperInit();
-
-            
-        }
-
-        /// <summary>
-        /// 配置容器
-        /// </summary>
-        public static void ConfigureContainer(ContainerBuilder builder)
-        {
             Console.WriteLine("ConfigureContainer");
             IOCService.Install(builder, Options, Config);
-        }
-        /// <summary>
-        /// AutoMapper初始化
-        /// </summary>
-        private static void AutoMapperInit()
-        {
-            Mapper.Initialize(cfg =>
-                {
-                    AutoMapperInitialized = false;
-                    var maps = IOCService.ResolveAutoMapper();
-                    foreach (var map in maps)
-                    {
-                        map.Config(cfg);
-                    }
-                    AutoMapperInitialized = true;
-                });
         }
     }
 }

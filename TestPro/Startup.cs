@@ -1,3 +1,4 @@
+using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,6 +29,7 @@ namespace TestPro
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            Console.WriteLine("ConfigureServices");
             var svcConfig = Configuration.GetServiceConfig();
             services.AddHealthChecks().AddCheck<NHealthChecks>(svcConfig.ServiceName); ;
             services.AddControllers();
@@ -40,6 +42,8 @@ namespace TestPro
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            Console.WriteLine("Configure");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
