@@ -109,7 +109,6 @@ namespace NPlatform.IOC
             builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().AsImplementedInterfaces().PropertiesAutowired().InstancePerLifetimeScope();
             builder.RegisterType<PlatformHttpContext>().As<IPlatformHttpContext>().AsImplementedInterfaces().PropertiesAutowired().InstancePerLifetimeScope();
             builder.RegisterType<RepositoryOptions>().As<IRepositoryOptions>().AsImplementedInterfaces().PropertiesAutowired().InstancePerLifetimeScope();
-            builder.RegisterType<RepositoryOptions>().As<IRepositoryOptions>().AsImplementedInterfaces().PropertiesAutowired().InstancePerLifetimeScope();
 
             var path = System.IO.Directory.GetCurrentDirectory();
             List<Assembly> assemblys = new List<Assembly>();
@@ -133,15 +132,12 @@ namespace NPlatform.IOC
             //SingleInstance：单例模式，每次调用，都会使用同一个实例化的对象；每次都用同一个对象；
             //InstancePerDependency：默认模式，每次调用，都会重新实例化对象；每次请求都创建一个新的对象；
 
-
-            var typeConfig = typeof(ResolveAutoMapper);
             var regBuilder = builder.RegisterAssemblyTypes(assemblys.ToArray()).Where(t =>
              t.Name.EndsWith("Service")
              || t.Name.EndsWith("Application")
-             || t.Name.EndsWith("Configs")
-             )
+             || t.Name.EndsWith("Configs"))
             .AsImplementedInterfaces()//
-            .PropertiesAutowired()
+            .PropertiesAutowired() // 支持属性注入
             .InstancePerLifetimeScope()  // service 不能有状态，所以同一个生命周期内，一个实例就行。
             .EnableInterfaceInterceptors().OnRegistered(e =>
              Console.WriteLine($"OnRegistered{e.ComponentRegistration.Activator.LimitType}")
@@ -149,10 +145,20 @@ namespace NPlatform.IOC
             .OnActivated(e =>
             Console.WriteLine($"OnRegistered{e.Component.Activator.LimitType}"));
 
+            // automapper
+            builder.RegisterAssemblyTypes(assemblys.ToArray()).Where(t =>
+             t.Name== "ObjectMapper" || t.IsAssignableFrom(typeof(Profile)))
+            .SingleInstance() // 单例模式
+            .PropertiesAutowired()
+            .OnRegistered(e =>
+                Console.WriteLine($"OnRegistered{e.ComponentRegistration.Activator.LimitType}")
+            )
+            .OnActivated(e =>
+            Console.WriteLine($"OnRegistered{e.Component.Activator.LimitType}"));
 
             builder.RegisterAssemblyTypes(assemblys.ToArray()).Where(t =>
              t.Name.EndsWith("Repository"))
-            .AsImplementedInterfaces()// 仓储存储的是对象，有状态，还是每次都new
+            .AsImplementedInterfaces()
             .PropertiesAutowired()
             .InstancePerDependency()
             .OnRegistered(e =>

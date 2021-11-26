@@ -59,6 +59,7 @@ namespace NPlatform
             Options = options;
             Console.WriteLine("ConfigureContainer");
             IOCService.Install(builder, Options, Config);
+
         }
     }
 }

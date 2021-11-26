@@ -1880,17 +1880,6 @@
             Dto 接口
             </summary>
         </member>
-        <member name="T:NPlatform.IClassMapperConfig">
-            <summary>
-            class映射接口
-            </summary>
-        </member>
-        <member name="M:NPlatform.IClassMapperConfig.Config(AutoMapper.IMapperConfigurationExpression)">
-            <summary>
-            config 
-            </summary>
-            <param name="cfg"></param>
-        </member>
         <member name="T:NPlatform.IDTO">
             <summary>
             Dto 接口
@@ -1954,11 +1943,6 @@
         <member name="M:NPlatform.NPlatformStartup.Configure(Autofac.ContainerBuilder,NPlatform.Repositories.RepositoryOptions,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             配置容器
-            </summary>
-        </member>
-        <member name="M:NPlatform.NPlatformStartup.AutoMapperInit">
-            <summary>
-            AutoMapper初始化
             </summary>
         </member>
         <member name="T:NPlatform.IPlatformHttpContext">
@@ -2437,6 +2421,16 @@
         <member name="P:NPlatform.Result.TreeResult`1.Value">
             <summary>
             
+            </summary>
+        </member>
+        <member name="T:WXWorkFinanceApproveApp.Services.ObjectMapper">
+            <summary>
+            Automapper 配置，注意，需要单例模式注入,封装下~
+            </summary>
+        </member>
+        <member name="M:WXWorkFinanceApproveApp.Services.ObjectMapper.#ctor">
+            <summary>
+            初始化配置
             </summary>
         </member>
     </members>

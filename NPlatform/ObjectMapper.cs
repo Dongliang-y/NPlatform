@@ -10,13 +10,13 @@ namespace WXWorkFinanceApproveApp.Services
     /// <summary>
     /// Automapper 配置，注意，需要单例模式注入,封装下~
     /// </summary>
-    public class AutoMapperService
+    public class ObjectMapper
     {
         public IMapper MyMapper { get; private set; }
         /// <summary>
-        /// 配置可以互转的类
+        /// 初始化配置
         /// </summary>
-        public AutoMapperService()
+        public  ObjectMapper()
         {
             var config = new MapperConfiguration(cfg =>
               {
