@@ -29,7 +29,8 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <FileVersion>1.0.0.13</FileVersion>
     <PackageId>NPlatform</PackageId>
-    <PackageReleaseNotes>2021/11/8 完善仓储基类
+    <PackageReleaseNotes>2021/11/26 调整 automapper的配置方式
+2021/11/8 完善仓储基类
 2021/10/18 仓储配置 ConnectName 去除，改成使用约定名称  MainConection  ，MinorConnection ,增加DBProvider 枚举，修复一个排序参数bug</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/Dongliang-y/NPlatform</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Dongliang-y/NPlatform.git</RepositoryUrl>
