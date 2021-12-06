@@ -14,28 +14,41 @@ namespace NPlatform.Infrastructure.Config
 {
     public interface IServiceConfig
     {
-        
-        string ServiceName { get; set; }
-        long DataCenterID { get; set; }
-        long ServiceID { get; set; }
-        string IOCAssemblys { get; set; }
-        string ServiceVersion { get; set; }
         /// <summary>
-        /// 系统地址,ip 或域名
+        /// 服务名
         /// </summary>
-        public string Address { get; set; }
+        string ServiceName { get; set; }
 
         /// <summary>
-        /// 系统的端口
+        /// 数据中心ID
         /// </summary>
-        public int Port { get; set; }
+        long DataCenterID { get; set; }
+
+        /// <summary>
+        /// 服务ID
+        /// </summary>
+        long ServiceID { get; set; }
+
+        /// <summary>
+        /// 需要注入的dll
+        /// </summary>
+        string IOCAssemblys { get; set; }
+
+        /// <summary>
+        /// 服务版本
+        /// </summary>
+        string ServiceVersion { get; set; } 
 
         /// <summary>
         /// 可上传的附件
         /// </summary>
         public string AttachExtension { get; set; }
 
+        /// <summary>
+        /// 上传大小限制
+        /// </summary>
         public long AttachSize { get; set; }
+
         /// <summary>
         /// 主库连接
         /// </summary>

@@ -4,34 +4,6 @@
         <name>NPlatform.Infrastructure</name>
     </assembly>
     <members>
-        <member name="T:NPlatform.AutoMapperHelper">
-            <summary>
-            对象映射工具类
-            </summary>
-        </member>
-        <member name="M:NPlatform.AutoMapperHelper.Map``1(System.Object[])">
-            <summary>
-            映射1-N个对象。
-            </summary>
-            <typeparam name="T">目标类型</typeparam>
-            <param name="sources">源对象</param>
-            <returns>map的结果对象</returns>
-        </member>
-        <member name="M:NPlatform.AutoMapperHelper.Map(System.Object,System.Object[])">
-            <summary>
-            map 源对象到目标对象。
-            </summary>
-            <param name="destination">目标.</param>
-            <param name="sources">源.</param>
-        </member>
-        <member name="M:NPlatform.AutoMapperHelper.Map``1(System.Object)">
-            <summary>
-            Maps 单个对象到目标对象。
-            </summary>
-            <typeparam name="T">type of teh destination</typeparam>
-            <param name="source">The source.</param>
-            <returns></returns>
-        </member>
         <member name="T:NPlatform.BsonConstants">
             <summary>
             BSON数据类型 mysql 专用
@@ -148,19 +120,39 @@
             当前服务的数据库序号
             </summary>
         </member>
-        <member name="P:NPlatform.Infrastructure.Config.IServiceConfig.Address">
+        <member name="P:NPlatform.Infrastructure.Config.IServiceConfig.ServiceName">
             <summary>
-            系统地址,ip 或域名
+            服务名
             </summary>
         </member>
-        <member name="P:NPlatform.Infrastructure.Config.IServiceConfig.Port">
+        <member name="P:NPlatform.Infrastructure.Config.IServiceConfig.DataCenterID">
             <summary>
-            系统的端口
+            数据中心ID
+            </summary>
+        </member>
+        <member name="P:NPlatform.Infrastructure.Config.IServiceConfig.ServiceID">
+            <summary>
+            服务ID
+            </summary>
+        </member>
+        <member name="P:NPlatform.Infrastructure.Config.IServiceConfig.IOCAssemblys">
+            <summary>
+            需要注入的dll
+            </summary>
+        </member>
+        <member name="P:NPlatform.Infrastructure.Config.IServiceConfig.ServiceVersion">
+            <summary>
+            服务版本
             </summary>
         </member>
         <member name="P:NPlatform.Infrastructure.Config.IServiceConfig.AttachExtension">
             <summary>
             可上传的附件
+            </summary>
+        </member>
+        <member name="P:NPlatform.Infrastructure.Config.IServiceConfig.AttachSize">
+            <summary>
+            上传大小限制
             </summary>
         </member>
         <member name="P:NPlatform.Infrastructure.Config.IServiceConfig.MainConection">

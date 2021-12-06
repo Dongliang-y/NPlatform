@@ -105,17 +105,20 @@ namespace NPlatform.IOC
             {
                 throw new NPlatformException("NPlatformConfig IOCAssemblys is null", "IOC Install");
             }
-            builder.RegisterType<IConfiguration>().AsImplementedInterfaces().PropertiesAutowired().InstancePerLifetimeScope();
+            
+
             builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().AsImplementedInterfaces().PropertiesAutowired().InstancePerLifetimeScope();
             builder.RegisterType<PlatformHttpContext>().As<IPlatformHttpContext>().AsImplementedInterfaces().PropertiesAutowired().InstancePerLifetimeScope();
             builder.RegisterType<RepositoryOptions>().As<IRepositoryOptions>().AsImplementedInterfaces().PropertiesAutowired().InstancePerLifetimeScope();
 
-            var path = System.IO.Directory.GetCurrentDirectory();
+            var path = AppContext.BaseDirectory;
+            Console.WriteLine(path);
             List<Assembly> assemblys = new List<Assembly>();
             foreach (var tmp in assemblyNames)
             {
                 try
                 { 
+                   
                     var assPath = Path.Combine(path, tmp);
                     Assembly service = Assembly.LoadFrom(assPath);
                     assemblys.Add(service);
@@ -166,6 +169,13 @@ namespace NPlatform.IOC
             ) 
             .OnActivated(e =>
             Console.WriteLine($"OnRegistered{e.Component.Activator.LimitType}"));
+
+            builder.Build
+
+            Container = builder.Build();
+            var configTest=Container.Resolve<IConfiguration>();
+
+
         }
 
         /// <summary>
