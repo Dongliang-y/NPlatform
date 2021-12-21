@@ -1,6 +1,6 @@
 ﻿/**************************************************************
  *  Filename:    MySQLUnity.cs
- *  Copyright:    Co., Ltd.
+ *  Copyright:   .
  *
  *  Description: MySQLUnity ClassFile.
  *

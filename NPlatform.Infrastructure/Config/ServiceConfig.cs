@@ -43,7 +43,7 @@ namespace NPlatform.Infrastructure.Config
         /// <summary>
         /// 版本号
         /// </summary>
-        public string ServiceVersion { get; set; }
+        public string ServiceVersion { get; set; } = "1.0";
 
         /// <summary>
         /// Gets or sets 需要注入的dll

@@ -37,7 +37,7 @@ namespace NPlatform.Infrastructure.Config
         /// <summary>
         /// 服务版本
         /// </summary>
-        string ServiceVersion { get; set; } 
+        string ServiceVersion { get; set; }
 
         /// <summary>
         /// 可上传的附件

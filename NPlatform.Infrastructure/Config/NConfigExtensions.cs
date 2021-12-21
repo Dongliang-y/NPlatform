@@ -1,6 +1,6 @@
 ﻿/**************************************************************
  *  Filename:    AppConfigService.cs
- *  Copyright:    Co., Ltd.
+ *  Copyright:   .
  *
  *  Description: AppConfigService ClassFile.
  *
