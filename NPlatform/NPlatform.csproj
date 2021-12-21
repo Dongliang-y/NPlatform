@@ -6,7 +6,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>NPlatform</RootNamespace>
     <AssemblyName>NPlatform</AssemblyName>
-    <AssemblyVersion>1.0.0.13</AssemblyVersion>
+    <AssemblyVersion>1.0.0.14</AssemblyVersion>
     <Description>Not Platform 底层脚手架
 支持 .NET CORE 3.1\5.0
 约束与规范了：
@@ -15,23 +15,20 @@
       Domains 领域
       Repositories 仓储
       Result 各层的结果返回格式
-      DTO 
+      Dto 
       Middleware 通用中间件
       Filters 通用过滤器。
-2021/11/10 完善领域服务基类，调整INResult基类实现，继承 JsonResult，以增加兼容性。领域服务改成泛型类型，需指定领域根类型。
-2021/11/8 完善仓储基类
-2021/10/18 仓储配置 ConnectName 去除，改成使用约定名称  MainConection  ，MinorConnection ,增加DBProvider 枚举，修复一个排序参数bug</Description>
-    <Version>1.0.0.13-alpha</Version>
+2021/12/21 处理属性注入的部分问题；更新代码生成脚本，生成的代码都改成以*.partial.cs结尾；完善AutoMapper配置及工具类，示例项目同步更新实现CRUD的代码。
+2021/11/10 完善领域服务基类，调整INResult基类实现，继承 JsonResult，以增加兼容性。领域服务改成泛型类型，需指定领域根类型。</Description>
+    <Version>1.0.0.14-alpha</Version>
     <Authors>DongliangYi</Authors>
     <Company></Company>
     <Product>基础框架</Product>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <FileVersion>1.0.0.13</FileVersion>
+    <FileVersion>1.0.0.14</FileVersion>
     <PackageId>NPlatform</PackageId>
-    <PackageReleaseNotes>2021/11/26 调整 automapper的配置方式
-2021/11/8 完善仓储基类
-2021/10/18 仓储配置 ConnectName 去除，改成使用约定名称  MainConection  ，MinorConnection ,增加DBProvider 枚举，修复一个排序参数bug</PackageReleaseNotes>
+    <PackageReleaseNotes></PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/Dongliang-y/NPlatform</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Dongliang-y/NPlatform.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -54,8 +51,71 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="CodeGenerate\BuildAll.csp" />
+    <None Remove="CodeGenerate\BuildAll.cst" />
+    <None Remove="CodeGenerate\BuildAll.txt" />
+    <None Remove="CodeGenerate\BuildView.cst" />
+    <None Remove="CodeGenerate\Docker.cst" />
+    <None Remove="CodeGenerate\Dto.cst" />
+    <None Remove="CodeGenerate\IEntity.cst" />
+    <None Remove="CodeGenerate\IRepositories.cst" />
+    <None Remove="CodeGenerate\IService.cst" />
+    <None Remove="CodeGenerate\MssqlEntity.cst" />
+    <None Remove="CodeGenerate\MySqlEntity.cst" />
+    <None Remove="CodeGenerate\OracleEntity.cst" />
+    <None Remove="CodeGenerate\OracleEntityView.cst" />
+    <None Remove="CodeGenerate\Repository.cst" />
+    <None Remove="CodeGenerate\Service.cst" />
     <None Remove="Readme.md" />
     <None Remove="NPlatform.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="CodeGenerate\BuildAll.csp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CodeGenerate\BuildAll.cst">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CodeGenerate\BuildAll.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CodeGenerate\BuildView.cst">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CodeGenerate\Docker.cst">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CodeGenerate\Dto.cst">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CodeGenerate\IEntity.cst">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CodeGenerate\IRepositories.cst">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CodeGenerate\IService.cst">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CodeGenerate\MssqlEntity.cst">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CodeGenerate\MySqlEntity.cst">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CodeGenerate\OracleEntity.cst">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CodeGenerate\OracleEntityView.cst">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CodeGenerate\Repository.cst">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CodeGenerate\Service.cst">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -75,11 +135,13 @@
     <PackageReference Include="Autofac" Version="5.2.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Autofac.Extras.DynamicProxy" Version="5.0.0" />
+    <PackageReference Include="DevExpress.Xpo" Version="21.1.3" />
     <PackageReference Include="Flurl.Http" Version="3.0.1" />
     <PackageReference Include="IdentityModel" Version="5.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.14" />
     <PackageReference Include="System.Text.Json" Version="5.0.2" />
   </ItemGroup>
 

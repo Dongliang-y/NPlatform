@@ -1,6 +1,6 @@
 ﻿/**************************************************************
  *  Filename:    DBProvider.cs
- *  Copyright:    Co., Ltd.
+ *  Copyright:   .
  *
  *  Description: DBProvider ClassFile.
  *

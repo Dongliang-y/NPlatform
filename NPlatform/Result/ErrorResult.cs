@@ -12,13 +12,13 @@ namespace NPlatform.Result
     /// 错误信息
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ErrorResult<T> :JsonResult, IListResult<T>, ITreeResult<T>, INPResult
+    public class ErrorResult<T> :ActionResult, IListResult<T>, ITreeResult<T>, INPResult
     {
         /// <summary>
         /// 错误信息
         /// </summary>
         /// <param name="ex"></param>
-        public ErrorResult(Exception ex) : base(ex)
+        public ErrorResult(Exception ex) 
         {
             this.Message = ex.Message;
         }
@@ -26,7 +26,7 @@ namespace NPlatform.Result
         /// 错误信息
         /// </summary>
         /// <param name="message"></param>
-        public ErrorResult(string message) : base(null)
+        public ErrorResult(string message) 
         {
             this.Message = message;
         }
@@ -36,20 +36,7 @@ namespace NPlatform.Result
         /// </summary>
         /// <param name="message">消息</param>
         /// <param name="httpCode">http状态码</param>
-        public ErrorResult(string message, HttpStatusCode httpCode) :base(null)
-        {
-            this.Message = message;
-            this.StatusCode = httpCode.ToInt();
-        }
-
-        /// <summary>
-        /// 错误信息
-        /// </summary>
-        /// <param name="ex">excpetion</param>
-        /// <param name="httpCode">httpcode</param>
-        /// <param name="serializerSettings"></param>
-        /// <param name="message">message</param>
-        public ErrorResult(string message, Exception ex, HttpStatusCode httpCode,object serializerSettings) :base(ex,serializerSettings)
+        public ErrorResult(string message, HttpStatusCode httpCode)
         {
             this.Message = message;
             this.StatusCode = httpCode.ToInt();
@@ -67,16 +54,18 @@ namespace NPlatform.Result
         /// </summary>
         [DataMember]
         [JsonPropertyName("serviceid")]
+        [JsonIgnore]
+        [System.Xml.Serialization.XmlIgnore]
         public string ServiceID { get; set; }
 
         /// <summary>
         ///  http heard contentType
         /// </summary>
-        public new string ContentType { get; set; } = HttpContentType.APPLICATION_JSON;
+        public string ContentType { get; set; } = HttpContentType.APPLICATION_JSON;
         /// <summary>
         /// 状态码
         /// </summary>
-        public new int? StatusCode { get; set; } = 500;
+        public  int? StatusCode { get; set; } = 500;
 
         /// <summary>
         /// Total，无需赋值
@@ -84,6 +73,9 @@ namespace NPlatform.Result
         [JsonIgnore]
         [System.Xml.Serialization.XmlIgnore]
         public long Total { get; }
+
+        [JsonIgnore]
+        public object Value { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
 
         /// <summary>

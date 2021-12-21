@@ -29,7 +29,7 @@ namespace NPlatform.Result
     /// <summary>
     /// 操作结果
     /// </summary>
-    public class SuccessResult<T> : JsonResult, INPResult
+    public class SuccessResult<T> : ActionResult, INPResult
     {
         /// <summary>
         /// 消息
@@ -43,6 +43,8 @@ namespace NPlatform.Result
         /// </summary>
         [DataMember]
         [JsonPropertyName("serviceid")]
+        [JsonIgnore]
+        [System.Xml.Serialization.XmlIgnore]
         public string ServiceID { get; set; }
 
         /// <summary>
@@ -54,17 +56,19 @@ namespace NPlatform.Result
         /// </summary>
         public new int? StatusCode { get; set; }=200;
 
+        public object Value { get; set; }
+
         /// <summary>
         /// 成功的结果内容
         /// </summary>
-        public SuccessResult() : base(null)
+        public SuccessResult()
         {
         }
         /// <summary>
         /// 成功的结果内容
         /// </summary>
         /// <param name="message">消息</param>
-        public SuccessResult(string message):base(null)
+        public SuccessResult(string message)
         {
             this.Message = message;
         }
@@ -72,7 +76,7 @@ namespace NPlatform.Result
         /// 成功的结果内容
         /// </summary>
         /// <param name="data">消息</param>
-        public SuccessResult(T data):base(data)
+        public SuccessResult(T data)
         {
             this.Value = data;
         }
@@ -82,7 +86,7 @@ namespace NPlatform.Result
         /// </summary>
         /// <param name="message">消息</param>
         /// <param name="data">消息</param>
-        public SuccessResult(string message, T data):base(data)
+        public SuccessResult(string message, T data)
         {
             this.Message = message;
         }
@@ -94,7 +98,7 @@ namespace NPlatform.Result
         /// <param name="data">T 类型对象</param>
         /// <param name="httpCode"></param>
         /// <param name="serializerSettings">序列化配置</param>
-        public SuccessResult( string message, T data, HttpStatusCode httpCode,object serializerSettings) :base(data, serializerSettings)
+        public SuccessResult( string message, T data, HttpStatusCode httpCode,object serializerSettings)
         {
             this.StatusCode = httpCode.ToInt();
             if(StatusCode>=300)

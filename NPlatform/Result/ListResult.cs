@@ -10,6 +10,7 @@
 
 *********************************************************************************/
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -29,41 +30,32 @@ namespace NPlatform.Result
     /// 数据列表内容对象
     /// </summary>
     [DataContract]
-    public class ListResult<T> :JsonResult, IListResult<T>
+    public class ListResult<T> : IListResult<T>
     {
         /// <summary>
         /// 数据列表内容对象
         /// </summary>
-        public ListResult(IEnumerable<T> list, long total):base(list)
+        public ListResult(IEnumerable<T> list, long total)
         {
             Total = total;
+            this.Value = list;
         }
         /// <summary>
         /// 数据列表内容对象
         /// </summary>
-        public ListResult(IEnumerable<T> list):base(list)
+        public ListResult(IEnumerable<T> list) 
         {
-            Total = list.Count() ;
+            Total = list.Count();
+            this.Value = list;
         }
         /// <summary>
         /// 数据列表内容对象
         /// </summary>
-        public ListResult(IEnumerable<T> list, long total,HttpStatusCode httpCode):base(list)
+        public ListResult(IEnumerable<T> list, long total, int? httpCode)
         {
             Total = total;
-            this.StatusCode = httpCode.ToInt();
-        }
-        /// <summary>
-        /// ListResult
-        /// </summary>
-        /// <param name="list"></param>
-        /// <param name="total"></param>
-        /// <param name="httpCode"></param>
-        /// <param name="serializerSettings"></param>
-        public ListResult(IEnumerable<T> list, long total, HttpStatusCode httpCode, object serializerSettings) : base(list, serializerSettings)
-        {
-            Total = total;
-            this.StatusCode = httpCode.ToInt();
+            this.StatusCode = httpCode;
+            this.Value = list;
         }
         /// <summary>
         /// 数据总数
@@ -84,21 +76,23 @@ namespace NPlatform.Result
         /// </summary>
         [DataMember]
         [JsonPropertyName("serviceid")]
+        [JsonIgnore]
+        [System.Xml.Serialization.XmlIgnore]
         public string ServiceID { get; set; }
 
         /// <summary>
         ///  http heard contentType
         /// </summary>
-        public new string ContentType { get; set; } = HttpContentType.APPLICATION_JSON;
+        public string ContentType { get; set; } = HttpContentType.APPLICATION_JSON;
         /// <summary>
         /// 状态码
         /// </summary>
-        public new int? StatusCode { get; set; } = 200;
+        public int? StatusCode { get; set; } = 200;
 
-        /// <summary>
-        /// 结果集合
-        /// </summary>
-        public new IEnumerable<T> Value { get; set; }
+        public IEnumerable<T> Value { get; set; }
+
+        object INPResult.Value { get { return this.Value; } set { this.Value = value as IEnumerable<T>; } }
+
 
         /// <summary>
         /// 返回结果的集合

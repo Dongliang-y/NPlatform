@@ -4,8 +4,8 @@
 <%@ Property Name="Overrite" Type="Boolean" Default="true" Category="文件处理" Description="是否覆写" %>
 <%@ Property Name="ClearAll" Type="Boolean" Default="false" Category="文件处理" Description="清理所有生成的代码" %>
 <%@ Property Name="DomainMode" Type="Boolean" Default="true" Category="高级特性" Description="基于领域驱动模式" %>
-<%@ Property Name="ORMSelect"  Type="ORMType" Category="高级特性" Description="ORM选择" %>
-
+<%@ Property Name="ORMSelect"  Type="ORMType" Category="高级特性" Description="ORM选择" %> 
+<%@ Property Name="IsPartial"  Type="Boolean"  Default="true" Category="高级特性" Description="以partial风格生成 *.partial.cs代码文件，避免覆盖用户增加的文件。" %> 
 <%@ Assembly Name="SchemaExplorer" %>
 <%@ Assembly Name="CodeSmith.CustomProperties" %> 
 <%@ Assembly Name="System.Data" %>
@@ -46,7 +46,7 @@ TableSchemaCollection Tables=SourceTables;
     string IServiceDIC = OutputDirectory + "\\"+ProjectName+".Domains\\IService\\";
     string ServiceDIC = OutputDirectory + "\\"+ProjectName+".Domains\\Services\\";
 
-    string DtoDIC = OutputDirectory + "\\"+ProjectName+".Domains\\DTO\\";
+    string DtoDIC = OutputDirectory + "\\"+ProjectName+".Domains\\Dto\\";
 
 
         //Load Template
@@ -60,9 +60,9 @@ TableSchemaCollection Tables=SourceTables;
     CodeTemplate IServiceTemplate=GetCodeTemplate("Iservice.cst");
     CodeTemplate ServiceTemplate=GetCodeTemplate("service.cst");
 
-    // DTO 对象
+    // Dto 对象
 
-     CodeTemplate DTOTemplate=GetCodeTemplate("Dto.cst");
+     CodeTemplate DtoTemplate=GetCodeTemplate("Dto.cst");
 
     if(ClearAll)
     {
@@ -107,7 +107,11 @@ TableSchemaCollection Tables=SourceTables;
                
            }
     }
-    
+                var fileExt="";
+            if(IsPartial)
+            {
+                fileExt=".partial";
+            }
     //Render Files
     for (int i = 0; i < Tables.Count; i++)
     {  
@@ -115,29 +119,30 @@ TableSchemaCollection Tables=SourceTables;
 		try
 		{
 			//实 体
-			RenderFileUsingProperties(EntityDIC+ GetModuleName(Tables[i])+"\\"+ GetName(Tables[i]) + ".cs",Overrite,ref EntityTemplate,Tables[i]);
+			RenderFileUsingProperties(EntityDIC+ GetModuleName(Tables[i])+"\\"+ GetName(Tables[i]) +fileExt+ ".cs",Overrite,ref EntityTemplate,Tables[i]);
             //实 体模块接口
-			RenderFileUsingProperties(EntityDIC+ GetModuleName(Tables[i])+"\\"+"I"+ GetModuleName(Tables[i]) + ".cs",Overrite,ref ITemplate,Tables[i]); 
+			RenderFileUsingProperties(EntityDIC+ GetModuleName(Tables[i])+"\\"+"I"+ GetModuleName(Tables[i])+fileExt + ".cs",Overrite,ref ITemplate,Tables[i]); 
             
             
-            //服务\DTO
+            //服务\Dto
             var name=Tables[i].Name;
              var count=Regex.Matches(name, "_").Count;
             
-            // 领域驱动模式下，从表的仓储、服务DTO都不生成。
+            // 领域驱动模式下，从表的仓储、服务Dto都不生成。
             if(DomainMode&&count>11)
             {
                 continue;
             }
+
             //仓储
-			RenderFileUsingProperties(IRepositoriesDIC+ GetModuleName(Tables[i])+"\\"+ "I"+GetName(Tables[i]) + "Repository.cs",
+			RenderFileUsingProperties(IRepositoriesDIC+ GetModuleName(Tables[i])+"\\"+ "I"+GetName(Tables[i]) + "Repository"+fileExt+".cs",
             Overrite,ref IRepositoriesTemplate,Tables[i]);
-			RenderFileUsingProperties(RepositoriesDIC+ GetModuleName(Tables[i])+"\\"+ GetName(Tables[i]) + "Repository.cs",Overrite,ref RepositoriesTemplate,Tables[i]);
+			RenderFileUsingProperties(RepositoriesDIC+ GetModuleName(Tables[i])+"\\"+ GetName(Tables[i]) + "Repository"+fileExt+".cs",Overrite,ref RepositoriesTemplate,Tables[i]);
             
-			RenderFileUsingProperties(IServiceDIC+ GetModuleName(Tables[i])+"\\"+"I"+ GetName(Tables[i]) + "Service.cs",Overrite,ref IServiceTemplate,Tables[i]); 
-			RenderFileUsingProperties(ServiceDIC+ GetModuleName(Tables[i])+"\\"+GetName(Tables[i]) + "Service.cs",Overrite,ref ServiceTemplate,Tables[i]); 
+			RenderFileUsingProperties(IServiceDIC+ GetModuleName(Tables[i])+"\\"+"I"+ GetName(Tables[i]) + "Service"+fileExt+".cs",Overrite,ref IServiceTemplate,Tables[i]); 
+			RenderFileUsingProperties(ServiceDIC+ GetModuleName(Tables[i])+"\\"+GetName(Tables[i]) + "Service"+fileExt+".cs",Overrite,ref ServiceTemplate,Tables[i]); 
             
-            RenderFileUsingProperties(DtoDIC+ GetModuleName(Tables[i])+"\\"+GetName(Tables[i]) + "DTO.cs",Overrite,ref DTOTemplate,Tables[i]); 
+            RenderFileUsingProperties(DtoDIC+ GetModuleName(Tables[i])+"\\"+GetName(Tables[i]) + "Dto"+fileExt+".cs",Overrite,ref DtoTemplate,Tables[i]); 
             
 		}catch(Exception ex)
 		{
@@ -149,6 +154,12 @@ TableSchemaCollection Tables=SourceTables;
 %>
 
 Total <%=Tables.Count %>  Tables completed!
+***<h2>注意</h2>***
+1.Overrite 选项将覆盖历史生成的文件。
+2.ClearAll 将删除输出目录下的所有文件，只在项目初始化时使用，后续更新生成请去除此选项。
+3.DomainMode 生成基于领域驱动模式的代码（目前只有此项可选。。。。）
+4.ORMSelect ORM选择（目前支持Dapper，EF）
+5.IsPartial 以partial风格生成 *.partial.cs代码文件，避免覆盖用户增加的文件。比如用户的文件 UserService.cs,生成文件 UserService.partial.cs ,这样Overrite 选项不会覆盖用户写的代码。
 <script runat="template">	
     /// <summary>
 

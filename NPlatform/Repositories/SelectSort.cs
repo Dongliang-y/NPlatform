@@ -1,6 +1,6 @@
 ﻿/**************************************************************
  *  Filename:    SelectSort.cs
- *  Copyright:    Co., Ltd.
+ *  Copyright:   .
  *
  *  Description: SelectSort ClassFile.
  *
@@ -22,12 +22,12 @@ namespace NPlatform.Repositories
         /// <summary>
         /// 字段名
         /// </summary>
-        string PropertyName { get; set; }
+        string Field { get; set; }
 
         /// <summary>
         /// 是否为 ASC排序
         /// </summary>
-        bool Ascending { get; set; }
+        bool IsAsc { get; set; }
     }
 
     /// <summary>
@@ -38,10 +38,10 @@ namespace NPlatform.Repositories
         /// <summary>
         /// 字段名
         /// </summary>
-        public string PropertyName { get; set; }
+        public string Field { get; set; }
         /// <summary>
         /// 是否为 ASC排序
         /// </summary>
-        public bool Ascending { get; set; }
+        public bool IsAsc { get; set; }
     }
 }

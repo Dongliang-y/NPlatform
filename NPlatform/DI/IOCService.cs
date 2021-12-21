@@ -16,10 +16,14 @@
 namespace NPlatform.IOC
 {
     using Autofac;
+    using Autofac.Core;
+    using Autofac.Core.Activators.Reflection;
     using Autofac.Extras.DynamicProxy;
     using AutoMapper;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Configuration;
+    using NPlatform.API.Controllers;
+    using NPlatform.AutoMap;
     using NPlatform.Infrastructure.Config;
     using NPlatform.Repositories;
     using NPlatform.Repositories.IRepositories;
@@ -72,7 +76,7 @@ namespace NPlatform.IOC
         /// <summary>
         /// 默认配置
         /// </summary>
-        private static IRepositoryOptions DefaultOption { get; set; }
+        public static IRepositoryOptions DefaultOption { get; set; }
 
         /// <summary>
         /// Prevents a default instance of the <see cref="IOCService"/> class from being created. 
@@ -93,8 +97,14 @@ namespace NPlatform.IOC
         /// </param>
         /// <param name="builder">容器创建器</param>
         /// <param name="config">配置项</param>
-        public static void Install(ContainerBuilder builder, IRepositoryOptions rspOptions,IConfiguration config)
+        public static void Install(ContainerBuilder builder, IRepositoryOptions rspOptions, IConfiguration config)
         {
+            builder.RegisterBuildCallback(scope =>
+            {
+                container = (ILifetimeScope)scope;
+                var config = container.Resolve<IConfiguration>();
+            });
+
             DefaultOption = rspOptions ?? new Repositories.RepositoryOptions();
             var currentDic = System.IO.Directory.GetCurrentDirectory();
 
@@ -105,20 +115,23 @@ namespace NPlatform.IOC
             {
                 throw new NPlatformException("NPlatformConfig IOCAssemblys is null", "IOC Install");
             }
-            
 
             builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().AsImplementedInterfaces().PropertiesAutowired().InstancePerLifetimeScope();
             builder.RegisterType<PlatformHttpContext>().As<IPlatformHttpContext>().AsImplementedInterfaces().PropertiesAutowired().InstancePerLifetimeScope();
-            builder.RegisterType<RepositoryOptions>().As<IRepositoryOptions>().AsImplementedInterfaces().PropertiesAutowired().InstancePerLifetimeScope();
+            builder.RegisterInstance<IRepositoryOptions>(DefaultOption).AsImplementedInterfaces().PropertiesAutowired().SingleInstance();
+
+
+
 
             var path = AppContext.BaseDirectory;
             Console.WriteLine(path);
             List<Assembly> assemblys = new List<Assembly>();
+
             foreach (var tmp in assemblyNames)
             {
                 try
-                { 
-                   
+                {
+
                     var assPath = Path.Combine(path, tmp);
                     Assembly service = Assembly.LoadFrom(assPath);
                     assemblys.Add(service);
@@ -136,55 +149,102 @@ namespace NPlatform.IOC
             //InstancePerDependency：默认模式，每次调用，都会重新实例化对象；每次请求都创建一个新的对象；
 
             var regBuilder = builder.RegisterAssemblyTypes(assemblys.ToArray()).Where(t =>
-             t.Name.EndsWith("Service")
+             (t.Name.EndsWith("Service")
              || t.Name.EndsWith("Application")
-             || t.Name.EndsWith("Configs"))
+             || t.Name.EndsWith("Configs") && !t.Name.EndsWith("HostService")))
             .AsImplementedInterfaces()//
             .PropertiesAutowired() // 支持属性注入
             .InstancePerLifetimeScope()  // service 不能有状态，所以同一个生命周期内，一个实例就行。
-            .EnableInterfaceInterceptors().OnRegistered(e =>
-             Console.WriteLine($"OnRegistered{e.ComponentRegistration.Activator.LimitType}")
+            .EnableInterfaceInterceptors()
+            .OnRegistered(e =>
+             Console.WriteLine($"Service OnRegistered{e.ComponentRegistration.Activator.LimitType}")
             )
             .OnActivated(e =>
-            Console.WriteLine($"OnRegistered{e.Component.Activator.LimitType}"));
+            Console.WriteLine($"OnActivated{e.Component.Activator.LimitType}"));
 
             // automapper
-            builder.RegisterAssemblyTypes(assemblys.ToArray()).Where(t =>
-             t.Name== "ObjectMapper" || t.IsAssignableFrom(typeof(Profile)))
-            .SingleInstance() // 单例模式
+            builder.RegisterAssemblyTypes(assemblys.ToArray()).Where(t => typeof(Profile).IsAssignableFrom(t))
+            .As<IProfile>()
+            .AsImplementedInterfaces()//
+            .SingleInstance() 
             .PropertiesAutowired()
             .OnRegistered(e =>
-                Console.WriteLine($"OnRegistered{e.ComponentRegistration.Activator.LimitType}")
+                Console.WriteLine($"Automapper OnRegistered{e.ComponentRegistration.Activator.LimitType}")
             )
             .OnActivated(e =>
-            Console.WriteLine($"OnRegistered{e.Component.Activator.LimitType}"));
+            Console.WriteLine($"OnActivated{e.Component.Activator.LimitType}"));
 
+            builder.RegisterType<MapperService>().As<IMapperService>()
+            .AsImplementedInterfaces()//
+            .SingleInstance()
+            .PropertiesAutowired()
+            .OnRegistered(e =>
+                Console.WriteLine($"Automapper OnRegistered{e.ComponentRegistration.Activator.LimitType}")
+            )
+            .OnActivated(e =>
+            Console.WriteLine($"OnActivated{e.Component.Activator.LimitType}"));
+
+            builder.RegisterType<ResultProfile>()
+            .As<IProfile>()
+            .AsImplementedInterfaces()//
+            .SingleInstance() 
+            .PropertiesAutowired()
+            .OnRegistered(e =>
+                Console.WriteLine($"Automapper OnRegistered{e.ComponentRegistration.Activator.LimitType}")
+            )
+            .OnActivated(e =>
+            Console.WriteLine($"OnActivated{e.Component.Activator.LimitType}"));
+
+            
+
+
+            // RegisterType
+            // Repository
             builder.RegisterAssemblyTypes(assemblys.ToArray()).Where(t =>
              t.Name.EndsWith("Repository"))
             .AsImplementedInterfaces()
             .PropertiesAutowired()
             .InstancePerDependency()
             .OnRegistered(e =>
-                Console.WriteLine($"OnRegistered{e.ComponentRegistration.Activator.LimitType}")
-            ) 
+                Console.WriteLine($"Repository OnRegistered{e.ComponentRegistration.Activator.LimitType}")
+            )
             .OnActivated(e =>
-            Console.WriteLine($"OnRegistered{e.Component.Activator.LimitType}"));
-
-            builder.Build
-
-            Container = builder.Build();
-            var configTest=Container.Resolve<IConfiguration>();
+            Console.WriteLine($"OnActivated{e.Component.Activator.LimitType}"));
 
 
+            //// Repository
+            //builder.RegisterAssemblyTypes(assemblys.ToArray()).Where(t =>
+            // t.Name.EndsWith("Repository"))
+            //.InterceptedBy(typeof(LogInterceptor)).EnableInterfaceInterceptors(); //AOP 拦截器
+            //.AsImplementedInterfaces()
+            //.PropertiesAutowired()
+            //.InstancePerDependency()
+            //.OnRegistered(e =>
+            //    Console.WriteLine($"Repository OnRegistered{e.ComponentRegistration.Activator.LimitType}")
+            //)
+            //.OnActivated(e =>
+            //Console.WriteLine($"OnActivated{e.Component.Activator.LimitType}"));
+
+
+            // Repository
+            builder.RegisterAssemblyTypes(assemblys.ToArray()).Where(t =>
+             t.Name.EndsWith("Controller"))
+            .PropertiesAutowired()
+            .InstancePerDependency()
+            .OnRegistered(e =>
+                Console.WriteLine($"Controller OnRegistered{e.ComponentRegistration.Activator.LimitType}")
+            )
+            .OnActivated(e =>
+            Console.WriteLine($"OnActivated{e.Component.Activator.LimitType}"));
         }
-
         /// <summary>
         /// 获取automapper配置
         /// </summary>
         /// <returns>返回map配置类型</returns>
         public static IEnumerable<Profile> ResolveAutoMapper()
         {
-            return Container.Resolve<IEnumerable<Profile>>();
+            var result = container.Resolve<IEnumerable<IProfile>>();
+            return result.Select(t => (Profile)t);
         }
     }
 }

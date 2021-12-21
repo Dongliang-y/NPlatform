@@ -21,16 +21,16 @@ using NPlatform.Result;
 namespace NPlatform
 {
     /// <summary>
-    /// DTO 校验扩展
+    /// Dto 校验扩展
     /// </summary>
-    public static class DTOValidate
+    public static class DtoValidate
     {
         /// <summary>
         /// 校验模型的属性值是否合法,例如在service层的主动校验实体属性
         /// </summary>
         /// <param name="dto">对象值</param>
         /// <returns></returns>
-        public static INPResult Validates(this IDTO dto)
+        public static INPResult Validates(this IDto dto)
         {
             ValidationContext context = new ValidationContext(dto, serviceProvider: null, items: null);
             List<ValidationResult> results = new List<ValidationResult>();
@@ -43,10 +43,10 @@ namespace NPlatform
                 {
                     strErrors.AppendLine(validationResult.ErrorMessage);
                 }
-                return new ErrorResult<IDTO>(strErrors.ToString());
+                return new ErrorResult<IDto>(strErrors.ToString());
             }
 
-            return new SuccessResult<IDTO>(dto);
+            return new SuccessResult<IDto>(dto);
         }
     }
 }

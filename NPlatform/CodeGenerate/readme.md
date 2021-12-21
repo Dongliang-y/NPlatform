@@ -1,0 +1,1 @@
+基于codesmith的代码生成脚本，可以快速创建一个基于NPlatform的脚手架代码。

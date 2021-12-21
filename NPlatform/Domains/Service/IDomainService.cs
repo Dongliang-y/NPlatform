@@ -12,19 +12,23 @@
 
 namespace NPlatform.Domains.Service
 {
+    using NPlatform.Dto;
+    using NPlatform.Repositories;
     using NPlatform.Result;
     using System;
+    using System.Collections.Generic;
+    using System.Linq.Expressions;
     using System.Threading.Tasks;
 
     /// <summary>
     /// 领域服务接口
     /// </summary>
-    public interface IDomainService<TDomainRoot, TPrimaryKey>
+    public interface IDomainService
     {
-        SuccessResult<TDomainRoot> Get(TPrimaryKey id);
-        Task<INPResult> GetAllAsync();
-        Task<INPResult> PostAsync(TDomainRoot entity);
-        Task<INPResult> PutAsync(TDomainRoot entity);
-        Task<INPResult> RemoveAsync(TPrimaryKey id);
+        /// <summary>
+        /// 获取领域简称
+        /// </summary>
+        /// <returns></returns>
+        public string GetDomainShortName();
     }
 }

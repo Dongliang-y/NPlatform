@@ -18,12 +18,7 @@ namespace NPlatform
     /// <summary>
     /// Dto 接口
     /// </summary>
-    public interface IDTO
+    public interface IDto
     {
-        /// <summary>
-        /// DTO值的合法性校验
-        /// </summary>
-        /// <returns></returns>
-        INPResult Validate();
     }
 }

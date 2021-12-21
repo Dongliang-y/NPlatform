@@ -20,6 +20,7 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using NPlatform.Infrastructure;
@@ -34,7 +35,7 @@ namespace NPlatform.Result
         /// <summary>
         /// 服务实例ID
         /// </summary>
-        string ServiceID { get; set; }
+      //  string ServiceID { get; set; }
         /// <summary>
         /// Gets or sets 信息
         /// </summary>

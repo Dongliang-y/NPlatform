@@ -18,25 +18,22 @@ namespace NPlatform.Result
     /// <summary>
     /// 数据列表内容对象
     /// </summary>
-    public interface IListResult<T>:INPResult 
+    public interface IListResult<T> : INPResult
     {
 
         /// <summary>
         /// 数据总数
         /// </summary>
         [DataMember]
-             [JsonProperty(PropertyName = "total")]
+        [JsonProperty(PropertyName = "total")]
         long Total { get; }
 
         /// <summary>
         /// 数据行
         /// </summary>
-        /// <summary>
-        /// OrgCode
-        /// </summary>
         [DataMember]
         [JsonProperty(PropertyName = "value")]
-        new IEnumerable<T> Value { get;}
+        new IEnumerable<T> Value { get; }
 
         /// <summary>
         /// 把结果转成List集合

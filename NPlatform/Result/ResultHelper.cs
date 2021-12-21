@@ -11,7 +11,7 @@ namespace NPlatform.Result
     /// <summary>
     /// 返回结果的封装
     /// </summary>
-    public class ResultBase
+    public class ResultHelper
     {
 
         #region success
@@ -71,13 +71,29 @@ namespace NPlatform.Result
         {
             return new ErrorResult<T>(msg);
         }
+        /// <summary>
+        /// 返回错误信息
+        /// </summary>
+        protected virtual ErrorResult<T> Error<T>(string msg,HttpStatusCode statusCode)
+        {
+            return new ErrorResult<T>(msg, statusCode);
+        }
+
+
+        /// <summary>
+        /// 返回错误信息
+        /// </summary>
+        protected virtual INPResult Error(string msg, HttpStatusCode statusCode)
+        {
+            return new ErrorResult<bool>(msg, statusCode);
+        }
 
         /// <summary>
         /// 返回错误信息
         /// </summary>
         protected virtual INPResult Error(Exception ex)
         {
-            return new ErrorResult<T>(ex.Message, ex, HttpStatusCode.InternalServerError, null);
+            return new ErrorResult<bool>( ex);
         }
 
         /// <summary>
@@ -91,28 +107,6 @@ namespace NPlatform.Result
             return Error<bool>($"{pName}参数不能为空！");
         }
 
-        /// <summary>
-        /// 返回错误信息
-        /// </summary>
-        protected virtual INPResult Error(string msg,Exception ex)
-        {
-           return new ErrorResult<T>(msg,ex, HttpStatusCode.InternalServerError,null);
-        }
-
-        /// <summary>
-        /// 返回错误信息
-        /// </summary>
-        protected virtual INPResult Error(string msg, HttpStatusCode statusCode)
-        {
-            return new ErrorResult<T>(msg,statusCode);
-        }
-        /// <summary>
-        /// 返回错误信息
-        /// </summary>
-        protected virtual ErrorResult<T> Error<T>(string msg,Exception ex, HttpStatusCode statusCode,object serializerSettings)
-        {
-            return new ErrorResult<T>(msg, ex, statusCode, serializerSettings);
-        }
 
         #endregion
 

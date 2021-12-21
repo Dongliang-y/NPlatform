@@ -9,7 +9,7 @@
  Domains
  Repositories
  Result
- DTO
+ Dto
 
 
 ### ¸üÐÂ¼ÇÂ¼£º

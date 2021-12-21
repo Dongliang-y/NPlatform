@@ -15,20 +15,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using NPlatform.Result;
 
-namespace NPlatform.DTO
+namespace NPlatform.Dto
 {
     /// <summary>
-    /// DTO 基类
+    /// Dto 基类
     /// </summary>
-    public class BaseDTO : IDTO
+    public class BaseDto : IDto
     {
-        /// <summary>
-        /// 为了兼容老接口,实现在service层的主动校验实体属性
-        /// </summary>
-        /// <returns></returns>
-        public INPResult Validate()
-        {
-            return this.Validates();
-        }
     }
 }

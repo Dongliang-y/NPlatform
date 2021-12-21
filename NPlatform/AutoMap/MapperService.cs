@@ -5,18 +5,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WXWorkFinanceApproveApp.Services
+namespace NPlatform.AutoMap
 {
     /// <summary>
     /// Automapper 配置，注意，需要单例模式注入,封装下~
     /// </summary>
-    public class ObjectMapper
+    public class MapperService : IMapperService
     {
         public IMapper MyMapper { get; private set; }
         /// <summary>
         /// 初始化配置
         /// </summary>
-        public  ObjectMapper()
+        public MapperService()
         {
             var config = new MapperConfiguration(cfg =>
               {
@@ -106,7 +106,7 @@ namespace WXWorkFinanceApproveApp.Services
         //
         // 返回结果:
         //     Mapped destination object
-       public object Map(object source, Type sourceType, Type destinationType)
+        public object Map(object source, Type sourceType, Type destinationType)
         {
             return MyMapper.Map(source, sourceType, destinationType);
         }
@@ -132,7 +132,7 @@ namespace WXWorkFinanceApproveApp.Services
         //     Mapped destination object, same instance as the destination object
         public object Map(object source, object destination, Type sourceType, Type destinationType)
         {
-            return MyMapper.Map(source, destination,sourceType, destinationType);
+            return MyMapper.Map(source, destination, sourceType, destinationType);
         }
 
         //
@@ -208,7 +208,7 @@ namespace WXWorkFinanceApproveApp.Services
         //     The mapped destination object, same instance as the destination object
         public TDestination Map<TSource, TDestination>(TSource source, TDestination destination, Action<IMappingOperationOptions<TSource, TDestination>> opts)
         {
-            return MyMapper.Map(source, destination,opts);
+            return MyMapper.Map(source, destination, opts);
         }
     }
 }

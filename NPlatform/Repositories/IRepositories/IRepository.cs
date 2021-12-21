@@ -64,6 +64,13 @@ namespace NPlatform.Repositories.IRepositories
         Task<int> AddOrUpdate(TEntity items);
 
         /// <summary>
+        /// 异步修改
+        /// </summary>
+        /// <param name="item">修改的对象</param>
+        /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
+        Task<int> UpdateAsync(TEntity item);
+
+        /// <summary>
         /// 数据是否存在
         /// </summary>
         /// <param name="key">主键</param>
@@ -130,30 +137,6 @@ namespace NPlatform.Repositories.IRepositories
             Expression<Func<TEntity, bool>> filter,
             IEnumerable<SelectSort> sorts);
 
-        /// <summary>
-        /// 移除对象
-        /// </summary>
-        /// <param name="filter">条件</param>
-        /// <returns>结果</returns>
-        Task<int> RemoveAsync(Expression<Func<TEntity, bool>> filter);
-
-        /// <summary>
-        /// 异步移除
-        /// </summary>
-        /// <param name="keys">键值集合</param>
-        /// <returns>结果</returns>
-        Task<int> RemoveAsync(params TPrimaryKey[] keys);
-
-        /// <summary>
-        /// The remove.
-        /// </summary>
-        /// <param name="entity">
-        /// The entity.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        Task<int> RemoveAsync(TEntity entity);
 
         #region 统计
         /// <summary>

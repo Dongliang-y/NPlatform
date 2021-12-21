@@ -48,12 +48,12 @@
              返回SuccessResult
             </summary>
         </member>
-        <member name="M:NPlatform.API.Controllers.BaseController.DTOResult``1(``0)">
+        <member name="M:NPlatform.API.Controllers.BaseController.DtoResult``1(``0)">
             <summary>
              返回SuccessResult
             </summary>
         </member>
-        <member name="M:NPlatform.API.Controllers.BaseController.DTOResult``1(System.String,``0)">
+        <member name="M:NPlatform.API.Controllers.BaseController.DtoResult``1(System.String,``0)">
             <summary>
              返回SuccessResult<T/>
             </summary>
@@ -1213,39 +1213,39 @@
             <param name="pageSize">页大小</param>
             <returns></returns>
         </member>
-        <member name="T:NPlatform.DTO.BaseDTO">
+        <member name="T:NPlatform.Dto.BaseDto">
             <summary>
-            DTO 基类
+            Dto 基类
             </summary>
             <typeparam name="T">子类类型</typeparam>
         </member>
-        <member name="M:NPlatform.DTO.BaseDTO.Validate">
+        <member name="M:NPlatform.Dto.BaseDto.Validate">
             <summary>
             为了兼容老接口,实现在service层的主动校验实体属性
             </summary>
             <returns></returns>
         </member>
-        <member name="T:NPlatform.DTO.PageParamDTO">
+        <member name="T:NPlatform.Dto.PageParamDto">
             <summary>
-            分页查询条件提交用的DTO
+            分页查询条件提交用的Dto
             </summary>
         </member>
-        <member name="P:NPlatform.DTO.PageParamDTO.Page">
+        <member name="P:NPlatform.Dto.PageParamDto.Page">
             <summary>
             页码
             </summary>
         </member>
-        <member name="P:NPlatform.DTO.PageParamDTO.SortField">
+        <member name="P:NPlatform.Dto.PageParamDto.SortField">
             <summary>
             排序字段
             </summary>
         </member>
-        <member name="P:NPlatform.DTO.PageParamDTO.SortOrder">
+        <member name="P:NPlatform.Dto.PageParamDto.SortOrder">
             <summary>
             排序方式 ascend  ,descend
             </summary>
         </member>
-        <member name="M:NPlatform.DTO.PageParamDTO.Validate">
+        <member name="M:NPlatform.Dto.PageParamDto.Validate">
             <summary>
             校验数据
             </summary>
@@ -2663,11 +2663,11 @@
             <param name="timeStamp"></param>        
             <returns></returns>        
         </member>
-        <member name="M:NPlatform.DTOValidate.Validates(NPlatform.IDTO)">
+        <member name="M:NPlatform.DtoValidate.Validates(NPlatform.IDto)">
             <summary>
             校验模型的属性值是否合法,例如在service层的主动校验实体属性
             </summary>
-            <typeparam name="T">对象类型,必须为DTO</typeparam>
+            <typeparam name="T">对象类型,必须为Dto</typeparam>
             <param name="dto">对象值</param>
             <returns></returns>
         </member>
@@ -3595,14 +3595,14 @@
             </summary>
             <param name="cfg"></param>
         </member>
-        <member name="T:NPlatform.IDTO">
+        <member name="T:NPlatform.IDto">
             <summary>
             Dto 接口
             </summary>
         </member>
-        <member name="M:NPlatform.IDTO.Validate">
+        <member name="M:NPlatform.IDto.Validate">
             <summary>
-            DTO值的合法性校验
+            Dto值的合法性校验
             </summary>
             <returns></returns>
         </member>
@@ -4017,42 +4017,42 @@
             </summary>
             <returns>结果集合</returns>
         </member>
-        <member name="T:NPlatform.Result.ResultBase">
+        <member name="T:NPlatform.Result.ResultHelper">
             <summary>
             返回结果的封装
             </summary>
         </member>
-        <member name="M:NPlatform.Result.ResultBase.Success(System.String)">
+        <member name="M:NPlatform.Result.ResultHelper.Success(System.String)">
             <summary>
              返回SuccessResult
             </summary>
         </member>
-        <member name="M:NPlatform.Result.ResultBase.Success">
+        <member name="M:NPlatform.Result.ResultHelper.Success">
             <summary>
              返回SuccessResult
             </summary>
         </member>
-        <member name="M:NPlatform.Result.ResultBase.Success``1(System.String,``0)">
+        <member name="M:NPlatform.Result.ResultHelper.Success``1(System.String,``0)">
             <summary>
              返回SuccessResult
             </summary>
         </member>
-        <member name="M:NPlatform.Result.ResultBase.Success``1(``0)">
+        <member name="M:NPlatform.Result.ResultHelper.Success``1(``0)">
             <summary>
              返回SuccessResult
             </summary>
         </member>
-        <member name="M:NPlatform.Result.ResultBase.Error(System.String)">
+        <member name="M:NPlatform.Result.ResultHelper.Error(System.String)">
             <summary>
             返回错误信息
             </summary>
         </member>
-        <member name="M:NPlatform.Result.ResultBase.Error``1(System.String)">
+        <member name="M:NPlatform.Result.ResultHelper.Error``1(System.String)">
             <summary>
             返回错误信息
             </summary>
         </member>
-        <member name="M:NPlatform.Result.ResultBase.NotNullResult(System.String)">
+        <member name="M:NPlatform.Result.ResultHelper.NotNullResult(System.String)">
             <summary>
             返回参数不能为空的提示 “{pName}参数不能为空！”
             使用：NotNullResult(nameof(参数名))
@@ -4060,7 +4060,7 @@
             <param name="pName">参数名</param>
             <returns>IEPResult</returns>
         </member>
-        <member name="M:NPlatform.Result.ResultBase.NotNullResult``1(System.String)">
+        <member name="M:NPlatform.Result.ResultHelper.NotNullResult``1(System.String)">
             <summary>
             返回参数不能为空的提示 “{pName}参数不能为空！”
             使用：NotNullResult(nameof(参数名))
@@ -4068,27 +4068,27 @@
             <param name="pName">参数名</param>
             <returns>IEPResult</returns>
         </member>
-        <member name="M:NPlatform.Result.ResultBase.Error(System.String,System.Exception)">
+        <member name="M:NPlatform.Result.ResultHelper.Error(System.String,System.Exception)">
             <summary>
             返回错误信息
             </summary>
         </member>
-        <member name="M:NPlatform.Result.ResultBase.Error(System.Exception)">
+        <member name="M:NPlatform.Result.ResultHelper.Error(System.Exception)">
             <summary>
             返回错误信息
             </summary>
         </member>
-        <member name="M:NPlatform.Result.ResultBase.Error``1(NPlatform.NPlatformException)">
+        <member name="M:NPlatform.Result.ResultHelper.Error``1(NPlatform.NPlatformException)">
             <summary>
             返回错误信息
             </summary>
         </member>
-        <member name="M:NPlatform.Result.ResultBase.Error``1(System.String,NPlatform.NPlatformException)">
+        <member name="M:NPlatform.Result.ResultHelper.Error``1(System.String,NPlatform.NPlatformException)">
             <summary>
             返回错误信息
             </summary>
         </member>
-        <member name="M:NPlatform.Result.ResultBase.TreeData``1(System.Collections.Generic.IEnumerable{``0})">
+        <member name="M:NPlatform.Result.ResultHelper.TreeData``1(System.Collections.Generic.IEnumerable{``0})">
             <summary>
             树格式节点
             </summary>
@@ -4096,17 +4096,17 @@
             <param name="nodes">树节点</param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Result.ResultBase.PageData``1(System.Collections.Generic.IEnumerable{``0},System.Int64)">
+        <member name="M:NPlatform.Result.ResultHelper.PageData``1(System.Collections.Generic.IEnumerable{``0},System.Int64)">
             <summary>
             返回数据集合
             </summary>
         </member>
-        <member name="M:NPlatform.Result.ResultBase.ListData``1(System.Collections.Generic.IEnumerable{``0})">
+        <member name="M:NPlatform.Result.ResultHelper.ListData``1(System.Collections.Generic.IEnumerable{``0})">
             <summary>
             返回数据集合
             </summary>
         </member>
-        <member name="M:NPlatform.Result.ResultBase.ListData``1(System.Collections.Generic.IEnumerable{``0},System.Int64)">
+        <member name="M:NPlatform.Result.ResultHelper.ListData``1(System.Collections.Generic.IEnumerable{``0},System.Int64)">
             <summary>
             返回数据集合
             </summary>

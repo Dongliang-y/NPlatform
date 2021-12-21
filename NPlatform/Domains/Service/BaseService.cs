@@ -14,26 +14,27 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
     using NPlatform.Repositories.IRepositories;
+    using NPlatform.Dto;
+    using NPlatform.AutoMap;
 
     /// <summary>
     /// 领域服务基类,服务的对象是聚合，以聚合跟为核心。
     /// </summary>
-    public abstract class BaseService<TDomainRoot,TPrimaryKey> : ResultBase, IDomainService<TDomainRoot,TPrimaryKey> 
-        where TDomainRoot : EntityBase<TPrimaryKey>
+    public abstract class BaseService : ResultHelper, IDomainService
     {
-        /// <summary>
-        /// 聚合根的仓储
-        /// </summary>
-        public IRepository<TDomainRoot,TPrimaryKey> Repository { get; set; }
         /// <summary>
         /// 框架配置
         /// </summary>
-        public static IConfiguration Config { get; set; }
+        public IConfiguration Config { get; set; }
 
         /// <summary>
         /// httpContext
         /// </summary>
         public IPlatformHttpContext Context { get; set; }
+        /// <summary>
+        /// mapper 对象
+        /// </summary>
+        public IMapperService MapperObj { get; set; }
 
         /// <summary>
         /// Domain service base。
@@ -61,7 +62,7 @@
         /// <param name="pageSize">页大小</param>
         /// <param name="total">总数</param>
         /// <returns>分页结果</returns>
-        public IListResult<T> SearchArrayPage<T>(IEnumerable<T> sources, int page, int pageSize, out long total)
+        public IListResult<T> SearchArrayPage<T>(IQueryable<T> sources, int page, int pageSize, out long total)
         {
             total = sources.Count();
             if (page > 0)
@@ -96,82 +97,6 @@
             return expression;
         }
 
-        /// <summary>
-        /// 创建对象
-        /// </summary>
-        /// <param name="entity">领域根对象</param>
-        /// <returns></returns>
-        public async Task<INPResult> PostAsync(TDomainRoot entity)
-        {
-            if(entity==null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
-            var rst= await Repository.AddAsync(entity);
-            if(rst!=null)
-            {
-                return this.Success(rst);
-            }
-            else
-            {
-                return Error("新增失败");
-            }
-        }
-
-        /// <summary>
-        /// 修改对象
-        /// </summary>
-        /// <param name="entity">领域根对象</param>
-        /// <returns></returns>
-        public async Task<INPResult> PutAsync(TDomainRoot entity)
-        {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
-            var md = await Repository.FindByAsync(entity.Id);
-            if (md == null)
-            {
-                return Error("指定的对象不存在！");
-            }
-
-            Repository[md.Id] = entity;
-
-            return this.Success("修改成功");
-        }
-
-        /// <summary>
-        /// 移除对象
-        /// </summary>
-        /// <param name="id">领域根对象ID</param>
-        /// <returns></returns>
-        public async Task<INPResult> RemoveAsync(TPrimaryKey id)
-        {
-            var rst = await Repository.RemoveAsync(id);
-            return Success(rst);
-        }
-
-
-        /// <summary>
-        /// 移除对象
-        /// </summary>
-        /// <param name="id">领域根对象ID</param>
-        /// <returns></returns>
-        public SuccessResult<TDomainRoot> Get(TPrimaryKey id)
-        {
-            var rst = Repository[id];
-            return Success(rst);
-        }
-
-        /// <summary>
-        /// 移除对象
-        /// </summary>
-        /// <param name="id">领域根对象ID</param>
-        /// <returns></returns>
-        public async Task<INPResult> GetAllAsync()
-        {
-            var rst = await Repository.GetAllAsync();
-            return Success(rst);
-        }
+        public abstract string GetDomainShortName();
     }
 }

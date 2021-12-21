@@ -27,6 +27,7 @@ namespace NPlatform
     using NPlatform.Infrastructure.Config;
     using Autofac;
     using System;
+    using NPlatform.Repositories;
 
     /// <summary>
     /// 平台初始化对象. IOC容器加载、缓存初始化。
@@ -52,10 +53,18 @@ namespace NPlatform
         /// <summary>
         /// 配置容器
         /// </summary>
-        public static void Configure(ContainerBuilder builder, Repositories.RepositoryOptions options, IConfiguration config)
+        public static void Configure(this ContainerBuilder builder, IConfiguration config)
         {
             // 加载配置
             Config = config;
+            var svcConfig=Config.GetServiceConfig();
+            var options = new Repositories.RepositoryOptions()
+            {
+                DBProvider = DBProvider.MySqlClient,
+                MainConection = svcConfig.MainConection, //使用简单的数据库集群
+                MinorConnection = svcConfig.MinorConnection
+            };
+
             Options = options;
             Console.WriteLine("ConfigureContainer");
             IOCService.Install(builder, Options, Config);

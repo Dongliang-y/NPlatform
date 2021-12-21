@@ -32,16 +32,29 @@ namespace NPlatform.Applications
     using NPlatform.Domains.Service;
     using NPlatform.Infrastructure.Config;
     using Microsoft.Extensions.Configuration;
+    using NPlatform.AutoMap;
 
     /// <summary>
     /// Application 基类
     /// </summary>
-    public class ApplicationService : ResultBase, IApplication
+    public abstract class ApplicationService : ResultHelper, IApplication
     {
         /// <summary>
-        /// 系统配置信息
+        /// 框架配置
         /// </summary>
-        protected static IConfiguration Config;
+        public  IConfiguration Config { get; set; }
+
+        /// <summary>
+        /// httpContext
+        /// </summary>
+        public IPlatformHttpContext Context { get; set; }
+        /// <summary>
+        /// mapper 对象
+        /// </summary>
+        public MapperService MapperObj { get; set; }
+
+
+        public abstract string GetApplicationShortName();
 
         /// <summary>
         /// 集合分页
@@ -52,7 +65,7 @@ namespace NPlatform.Applications
         /// <param name="pageSize">页大小</param>
         /// <param name="total">总数</param>
         /// <returns>分页结果</returns>
-        public IListResult<T> SearchArrayPage<T>(IEnumerable<T> sources, int page, int pageSize, out long total)
+        public IListResult<T> SearchArrayPage<T>(IQueryable<T> sources, int page, int pageSize, out long total)
         {
             total = sources.Count();
             if (page > 0)
