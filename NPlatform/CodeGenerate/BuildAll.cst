@@ -110,7 +110,7 @@ TableSchemaCollection Tables=SourceTables;
                 var fileExt="";
             if(IsPartial)
             {
-                fileExt=".partial";
+                fileExt=".Designer";
             }
     //Render Files
     for (int i = 0; i < Tables.Count; i++)
