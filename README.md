@@ -13,4 +13,5 @@
 
 
 ### 更新记录：
+2022/1/5 迫于网络的痛苦，后续将迁移到 https://gitee.com/technical-seminar/notplatform
 2021/9/8 NPlatform 底层脚手架 start！
