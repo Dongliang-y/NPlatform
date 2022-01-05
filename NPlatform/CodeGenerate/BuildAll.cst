@@ -2,10 +2,10 @@
 <%@ Property Name="SourceTables" Type="SchemaExplorer.TableSchemaCollection" Category="General" Description="选择表" %>
 <%@ Property Name="ProjectName" Type="String" Category="General" Description="项目名称" %>
 <%@ Property Name="Overrite" Type="Boolean" Default="true" Category="文件处理" Description="是否覆写" %>
-<%@ Property Name="ClearAll" Type="Boolean" Default="false" Category="文件处理" Description="清理所有生成的代码" %>
+<%@ Property Name="ClearAll" Type="Boolean" Default="false" Category="文件处理" Description="清理所有生成的代码（只清理由脚本创建的.Designer 文件）" %>
 <%@ Property Name="DomainMode" Type="Boolean" Default="true" Category="高级特性" Description="基于领域驱动模式" %>
 <%@ Property Name="ORMSelect"  Type="ORMType" Category="高级特性" Description="ORM选择" %> 
-<%@ Property Name="IsPartial"  Type="Boolean"  Default="true" Category="高级特性" Description="以partial风格生成 *.partial.cs代码文件，避免覆盖用户增加的文件。" %> 
+<%@ Property Name="IsPartial"  Type="Boolean"  Default="true" Category="高级特性" Description="以partial风格生成 *.Designer.cs代码文件，避免覆盖用户增加的文件。" %> 
 <%@ Assembly Name="SchemaExplorer" %>
 <%@ Assembly Name="CodeSmith.CustomProperties" %> 
 <%@ Assembly Name="System.Data" %>
@@ -63,55 +63,21 @@ TableSchemaCollection Tables=SourceTables;
     // Dto 对象
 
      CodeTemplate DtoTemplate=GetCodeTemplate("Dto.cst");
-
+        var fileExt="";
+        if(IsPartial)
+        {
+            fileExt=".Designer";
+        }
+        
     if(ClearAll)
     {
-           for (int i = 0; i < Tables.Count; i++)
-           {
-               var entity=EntityDIC+ GetModuleName(Tables[i]);
-               if(System.IO.Directory.Exists(entity))
-               {
-                   System.IO.Directory.Delete(entity,true);
-               }
-               
-               var IResp=IRepositoriesDIC+ GetModuleName(Tables[i]);
-                if(System.IO.Directory.Exists(IResp))
-               {
-                   System.IO.Directory.Delete(IResp,true);
-               }
-               
-               var Resp=RepositoriesDIC+ GetModuleName(Tables[i]);
-                if(System.IO.Directory.Exists(Resp))
-               {
-                   System.IO.Directory.Delete(Resp,true);
-               }
-               
-               
-               var Isv=IServiceDIC+ GetModuleName(Tables[i]);
-                if(System.IO.Directory.Exists(Isv))
-               {
-                   System.IO.Directory.Delete(Isv,true);
-               }
-               
-               var Svc=ServiceDIC+ GetModuleName(Tables[i]);
-                if(System.IO.Directory.Exists(Svc))
-               {
-                   System.IO.Directory.Delete(Svc,true);
-               }
-               
-               var dto=DtoDIC+ GetModuleName(Tables[i]);
-                if(System.IO.Directory.Exists(dto))
-               {
-                   System.IO.Directory.Delete(dto,true);
-               }
-               
-           }
+        var allFile=System.IO.Directory.GetFiles(OutputDirectory,"*"+fileExt+".cs",SearchOption.AllDirectories);
+        foreach(var fi in allFile)
+        {
+            System.IO.File.Delete(fi);
+        }
     }
-                var fileExt="";
-            if(IsPartial)
-            {
-                fileExt=".Designer";
-            }
+
     //Render Files
     for (int i = 0; i < Tables.Count; i++)
     {  
@@ -129,7 +95,7 @@ TableSchemaCollection Tables=SourceTables;
              var count=Regex.Matches(name, "_").Count;
             
             // 领域驱动模式下，从表的仓储、服务Dto都不生成。
-            if(DomainMode&&count>11)
+            if(DomainMode)
             {
                 continue;
             }
@@ -159,7 +125,7 @@ Total <%=Tables.Count %>  Tables completed!
 2.ClearAll 将删除输出目录下的所有文件，只在项目初始化时使用，后续更新生成请去除此选项。
 3.DomainMode 生成基于领域驱动模式的代码（目前只有此项可选。。。。）
 4.ORMSelect ORM选择（目前支持Dapper，EF）
-5.IsPartial 以partial风格生成 *.partial.cs代码文件，避免覆盖用户增加的文件。比如用户的文件 UserService.cs,生成文件 UserService.partial.cs ,这样Overrite 选项不会覆盖用户写的代码。
+5.IsPartial 以partial风格生成 *.Designer.cs代码文件，避免覆盖用户增加的文件。比如用户的文件 UserService.cs,生成文件 UserService.Designer.cs ,这样Overrite 选项不会覆盖用户写的代码。
 <script runat="template">	
     /// <summary>
 
@@ -445,6 +411,68 @@ public ViewSchemaCollection GetViewCollection(DatabaseSchema dataBase)
 		}
 		var name=  table.Name.Split('_')[0];
         return  name.Substring(0,1).ToUpper()+name.Substring(1);
+    }
+    public enum ModuleType{
+        IEntity,
+        Entity,
+        IService,
+        Service,
+        IDto,
+        Dto,
+        IRepository,
+        Repository
+    }
+    
+    public static string GetFilePath(ModuleType module,string name)
+    {
+
+        switch(module)
+        {
+            case ModuleType.IEntity:
+                return "";
+            case ModuleType.Entity:
+                return "";
+            case ModuleType.IService:
+                return "";
+            case ModuleType.Service:
+                return "";
+            case ModuleType.IDto:
+                return "";
+            case ModuleType.Dto:
+                return "";
+            case ModuleType.IRepository:
+                return "";
+            case ModuleType.Repository:
+                return "";
+        }
+        
+        	/*/实 体
+			RenderFileUsingProperties(EntityDIC+ GetModuleName(Tables[i])+"\\"+ GetName(name) +fileExt+ ".cs",Overrite,ref EntityTemplate,Tables[i]);
+            //实 体模块接口
+			RenderFileUsingProperties(EntityDIC+ GetModuleName(Tables[i])+"\\"+"I"+ GetModuleName(Tables[i])+fileExt + ".cs",Overrite,ref ITemplate,Tables[i]); 
+            
+            
+            //服务\Dto
+            var name=Tables[i].Name;
+             var count=Regex.Matches(name, "_").Count;
+            
+            // 领域驱动模式下，从表的仓储、服务Dto都不生成。
+            if(DomainMode&&count>11)
+            {
+                continue;
+            }
+
+            //仓储
+			RenderFileUsingProperties(IRepositoriesDIC+ GetModuleName(Tables[i])+"\\"+ "I"+GetName(Tables[i]) + "Repository"+fileExt+".cs",
+            Overrite,ref IRepositoriesTemplate,Tables[i]);
+			RenderFileUsingProperties(RepositoriesDIC+ GetModuleName(Tables[i])+"\\"+ GetName(Tables[i]) + "Repository"+fileExt+".cs",Overrite,ref RepositoriesTemplate,Tables[i]);
+            
+			RenderFileUsingProperties(IServiceDIC+ GetModuleName(Tables[i])+"\\"+"I"+ GetName(Tables[i]) + "Service"+fileExt+".cs",Overrite,ref IServiceTemplate,Tables[i]); 
+			RenderFileUsingProperties(ServiceDIC+ GetModuleName(Tables[i])+"\\"+GetName(Tables[i]) + "Service"+fileExt+".cs",Overrite,ref ServiceTemplate,Tables[i]); 
+            
+            RenderFileUsingProperties(DtoDIC+ GetModuleName(Tables[i])+"\\"+GetName(Tables[i]) + "Dto"+fileExt+".cs",Overrite,ref DtoTemplate,Tables[i]); 
+        */
+            return "";
     }
 	#endregion
 #endregion	

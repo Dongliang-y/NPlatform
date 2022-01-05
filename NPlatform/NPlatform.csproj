@@ -6,7 +6,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>NPlatform</RootNamespace>
     <AssemblyName>NPlatform</AssemblyName>
-    <AssemblyVersion>1.0.0.15</AssemblyVersion>
+    <AssemblyVersion>1.0.0.16</AssemblyVersion>
     <Description>Not Platform 底层脚手架
 支持 .NET CORE 3.1\5.0
 约束与规范了：
@@ -20,15 +20,15 @@
       Filters 通用过滤器。
 2021/12/21 处理属性注入的部分问题；更新代码生成脚本，生成的代码都改成以*.partial.cs结尾；完善AutoMapper配置及工具类，示例项目同步更新实现CRUD的代码。
 2021/11/10 完善领域服务基类，调整INResult基类实现，继承 JsonResult，以增加兼容性。领域服务改成泛型类型，需指定领域根类型。</Description>
-    <Version>1.0.0.15</Version>
+    <Version>1.0.0.16</Version>
     <Authors>DongliangYi</Authors>
     <Company></Company>
     <Product>基础框架</Product>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <FileVersion>1.0.0.15</FileVersion>
+    <FileVersion>1.0.0.16</FileVersion>
     <PackageId>NPlatform</PackageId>
-    <PackageReleaseNotes></PackageReleaseNotes>
+    <PackageReleaseNotes>1.2022/1/5更新代码生成脚本</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/Dongliang-y/NPlatform</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Dongliang-y/NPlatform.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
