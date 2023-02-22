@@ -1,4 +1,4 @@
-name: CI
+name: nupkg_build
 
 on:
   push:
@@ -12,7 +12,7 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # 1.Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    # 1.Checks-out your repository under $GITHUB_WORKSPACE,  so your job can access it
     - uses: actions/checkout@v2
     # 2.runtime environment
     - name: Setup .NET Core
