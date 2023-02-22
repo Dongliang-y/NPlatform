@@ -1,7 +1,23 @@
 ﻿namespace NPlatform.Filters
 {
+
+    /* 项目“NPlatform (net5.0)”的未合并的更改
+    在此之前:
+        using System;
+    在此之后:
+        using NPlatform.Extends;
+        using System;
+    */
+
+    /* 项目“NPlatform (net6.0)”的未合并的更改
+    在此之前:
+        using System;
+    在此之后:
+        using NPlatform.Extends;
+        using System;
+    */
+    using NPlatform.Extends;
     using System;
-    using System.Collections.Generic;
     using System.Linq.Expressions;
 
     /// <summary>

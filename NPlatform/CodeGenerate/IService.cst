@@ -11,8 +11,7 @@
 **项目名称:	 NPlatform.IServices                                                               				   
 **功能描述:	  <%=GetName(SourceTable)%>Services 的摘要说明 
 **作    者: 	此代码由CodeSmith生成。                                         			    
-**版 本 号:	1.0                                           			    
-**创建日期： <%=DateTime.Now.ToString("yyyy-MM-dd HH:mm") %>
+**版 本 号:	1.0                                           			
 **修改历史： 
 ************************************************************/ 
 namespace  NPlatform.Domains.IService.<%=GetModuleName(SourceTable)%>

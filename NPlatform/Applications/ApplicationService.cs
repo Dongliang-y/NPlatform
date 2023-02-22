@@ -22,17 +22,12 @@
 
 namespace NPlatform.Applications
 {
-    using System;
-    using System.Linq.Expressions;
-    using System.Collections.Generic;
-    using System.Linq;
-
-    using NPlatform.Result;
-    using NPlatform.Repositories;
-    using NPlatform.Domains.Service;
-    using NPlatform.Infrastructure.Config;
     using Microsoft.Extensions.Configuration;
     using NPlatform.AutoMap;
+    using NPlatform.Result;
+    using System;
+    using System.Linq;
+    using System.Linq.Expressions;
 
     /// <summary>
     /// Application 基类
@@ -42,16 +37,19 @@ namespace NPlatform.Applications
         /// <summary>
         /// 框架配置
         /// </summary>
-        public  IConfiguration Config { get; set; }
+        [Autowired]
+        public IConfiguration Config { get; set; }
 
         /// <summary>
         /// httpContext
         /// </summary>
+        [Autowired]
         public IPlatformHttpContext Context { get; set; }
         /// <summary>
         /// mapper 对象
         /// </summary>
-        public MapperService MapperObj { get; set; }
+        [Autowired]
+        public IMapperService MapperObj { get; set; }
 
 
         public abstract string GetApplicationShortName();
@@ -73,7 +71,7 @@ namespace NPlatform.Applications
                 // 分页
                 page--;
                 var result = sources.Skip(page * pageSize).Take(pageSize).ToList();
-                return ListData<T>(result,total);
+                return ListData<T>(result, total);
             }
             else
             {
@@ -88,10 +86,10 @@ namespace NPlatform.Applications
         /// <returns>
         /// The <see cref="Expression"/>.
         /// </returns>
-        protected Expression<Func<T, bool>> CreateExpression<T>(Expression<Func<T, bool>> exp=null)
+        protected Expression<Func<T, bool>> CreateExpression<T>(Expression<Func<T, bool>> exp = null)
         {
             Expression<Func<T, bool>> expression;
-            if (exp==null)
+            if (exp == null)
                 return expression = x => 1 == 1;
             return exp;
         }

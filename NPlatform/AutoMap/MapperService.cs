@@ -1,9 +1,5 @@
 ﻿using AutoMapper;
-using NPlatform.IOC;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using NPlatform.DI;
 
 namespace NPlatform.AutoMap
 {

@@ -1,29 +1,33 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks>
-    <Description>2021/10/18 ServiceConfig  增加主从库连接配置
-2021/10/11 修改配置获取的BUG
-2021/9/29 配置扩展方法的调整，改为 服务配置、redis配置、授权配置3个节点
-2021/9/28 Not Platform 基础设施，
-支持 .net core 3.1\5.0
-用于定义一些通用工具类、通用的常量、配置约定、等。
-
-</Description>
+    <TargetFrameworks>net7.0</TargetFrameworks>
+    <Description>
+		2021/10/18 ServiceConfig  增加主从库连接配置
+		2021/10/11 修改配置获取的BUG
+		2021/9/29 配置扩展方法的调整，改为 服务配置、redis配置、授权配置3个节点
+		2021/9/28 Not Platform 基础设施，
+		支持 .net core 3.1\5.0
+		用于定义一些通用工具类、通用的常量、配置约定、等。
+		2023/2/22 更新.NET CORE 7.0版本，完善CQRS版本
+	</Description>
     <Product>NPlatform</Product>
     <Company>NPlatform</Company>
     <Authors>Dongliang Yi</Authors>
-    <Version>1.0.0.10</Version>
-    <AssemblyVersion>1.0.0.10</AssemblyVersion>
-    <FileVersion>1.0.0.10</FileVersion>
+    <Version>2.0.0.10</Version>
+    <AssemblyVersion>2.0.0.10</AssemblyVersion>
+    <FileVersion>2.0.0.10</FileVersion>
     <ApplicationIcon />
     <OutputType>Library</OutputType>
     <StartupObject />
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>2021/11/8 配置管理部分调整，增加timeout配置
-2021/10/18 ServiceConfig  增加主从库连接配置
-2021/10/11 修改配置获取的BUG
-2021/9/28 Not Platform 基础设施</PackageReleaseNotes>
+    <PackageReleaseNotes>
+		2021/11/8 配置管理部分调整，增加timeout配置
+		2021/10/18 ServiceConfig  增加主从库连接配置
+		2021/10/11 修改配置获取的BUG
+		2021/9/28 Not Platform 基础设施
+		2023/2/22 更新.NET CORE 7.0版本，完善CQRS版本
+	</PackageReleaseNotes>
     <PackageId>NPlatform.Infrastructure</PackageId>
     <PackageProjectUrl>https://github.com/Dongliang-y/NPlatform</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Dongliang-y/NPlatform.git</RepositoryUrl>
@@ -46,7 +50,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Config\ApolloConfiguration.cs" />
     <Compile Remove="FtpClient.cs" />
   </ItemGroup>
 
@@ -64,31 +67,41 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Readme.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
-    <PackageReference Include="Com.Ctrip.Framework.Apollo.Configuration" Version="2.4.1.1" />
-    <PackageReference Include="DotNetZip" Version="1.13.3" />
-    <PackageReference Include="Jiguang.JPush" Version="1.2.3" />
-    <PackageReference Include="log4net" Version="2.0.8" />
-    <PackageReference Include="MicroKnights.Log4NetAdoNetAppender" Version="2.1.2" />
-    <PackageReference Include="MySql.Data" Version="8.0.21" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="NPOI" Version="2.4.1" />
-    <PackageReference Include="QRCoder" Version="1.4.1" />
-    <PackageReference Include="ServiceStack.Redis" Version="5.4.0" />
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="Com.Ctrip.Framework.Apollo.Configuration" Version="2.8.0" />
+    <PackageReference Include="DotNetZip" Version="1.16.0" />
+    <PackageReference Include="log4net" Version="2.0.15" />
+    <PackageReference Include="MicroKnights.Log4NetAdoNetAppender" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+    <PackageReference Include="MySql.Data" Version="8.0.30" />
+    <PackageReference Include="NPOI" Version="2.5.6" />
+    <PackageReference Include="QRCoder" Version="1.4.3" />
+    <PackageReference Include="ServiceStack.Redis" Version="6.3.0" />
     <PackageReference Include="Snowflake.Core" Version="2.0.0" />
-    <PackageReference Include="StackExchange.Redis" Version="2.1.30" />
+    <PackageReference Include="StackExchange.Redis" Version="2.6.66" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="System.CodeDom" Version="4.7.0" />
+    <PackageReference Include="System.CodeDom" Version="6.0.0" />
   </ItemGroup>
-
+<ItemGroup>
+	<Using Include="System.Text.Json" />
+	<Using Include="System" />
+	<Using Include="System.Linq" />
+	<Using Include="System.Linq.Expressions" />
+	<Using Include="System.Collections.Generic" />
+	<Using Include="System.Threading" />
+	<Using Include="System.Threading.Tasks" />
+	<Using Include="Microsoft.Extensions.Configuration" />
+	<Using Include="System.IO" />
+	<Using Include="System.Text" />
+</ItemGroup>
   <ItemGroup>
     <Resource Include="Config\log4net.config" />
   </ItemGroup>

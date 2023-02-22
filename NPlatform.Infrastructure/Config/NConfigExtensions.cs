@@ -7,12 +7,9 @@
  *  @author:     Dongliang Yi
  *  @version     2021/9/23 16:50:09  @Reviser  Initial Version
  **************************************************************/
+using NPlatform.Infrastructure.Config.Section;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Text;
+using ServiceStack;
 
 namespace NPlatform.Infrastructure.Config
 {
@@ -85,6 +82,7 @@ namespace NPlatform.Infrastructure.Config
                     prop.SetValue(model, Convert.ToDouble(val));
                 }
             }
+
             model = fun != null ? fun(model) : model;
             return model;
         }
@@ -95,22 +93,27 @@ namespace NPlatform.Infrastructure.Config
         /// <returns></returns>
         public static IRedisConfig GetRedisConfig(this IConfiguration configuration)
         {
-            var redisSection = configuration[nameof(RedisConfig)];
-            IRedisConfig config = SerializerHelper.FromJson<RedisConfig>(redisSection);
-            return config;
+            new ArgumentNullException(nameof(configuration)).ThrowIfNull();
+
+            RedisConfig redisConfig = new RedisConfig();
+            configuration.GetRequiredSection(nameof(RedisConfig)).Bind(redisConfig);
+            return redisConfig;
         }
 
         public static IServiceConfig GetServiceConfig(this IConfiguration configuration)
         {
-            var serviceSection = configuration.GetSection(nameof(ServiceConfig));
-            return serviceSection.ToObject<ServiceConfig>(null);
+            new ArgumentNullException(nameof(configuration)).ThrowIfNull();
+            ServiceConfig serviceConfig = new ServiceConfig();
+            configuration.GetRequiredSection(nameof(ServiceConfig)).Bind(serviceConfig);
+            return serviceConfig;
         }
 
         public static IAuthServerConfig GetAuthConfig(this IConfiguration configuration)
         {
-            var authSection = configuration.GetSection(nameof(AuthServerConfig));
-            return authSection.ToObject<AuthServerConfig>(null);
+            new ArgumentNullException(nameof(configuration)).ThrowIfNull();
+            AuthServerConfig authConfig = new AuthServerConfig();
+            configuration.GetRequiredSection(nameof(AuthServerConfig)).Bind(authConfig);
+            return authConfig;
         }
-
     }
 }

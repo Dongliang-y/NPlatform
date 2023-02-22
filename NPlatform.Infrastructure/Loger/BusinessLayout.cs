@@ -11,11 +11,8 @@
   * 修 改 人：
 *************************************************************************************/
 using log4net.Layout;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace NPlatform.Infrastructure
+namespace NPlatform.Infrastructure.Loger
 {
     /// <summary>
     /// 业务日志格式化
@@ -27,13 +24,13 @@ namespace NPlatform.Infrastructure
         /// </summary>
         public BusinessLayout()
         {
-            this.AddConverter("businessID", typeof(BusinessIDPatternConvert));
-            this.AddConverter("creator", typeof(CreatorPatternConvert));
-            this.AddConverter("message", typeof(MessagePatternConvert));
-            this.AddConverter("module", typeof(ModulePatternConvert));
-            this.AddConverter("logType", typeof(TypePatternConvert));
-            this.AddConverter("logBrowser", typeof(LogBrowserPatternConvert));
-            this.AddConverter("logLocation", typeof(LogLocationPatternConvert));
+            AddConverter("businessID", typeof(BusinessIDPatternConvert));
+            AddConverter("creator", typeof(CreatorPatternConvert));
+            AddConverter("message", typeof(MessagePatternConvert));
+            AddConverter("module", typeof(ModulePatternConvert));
+            AddConverter("logType", typeof(TypePatternConvert));
+            AddConverter("logBrowser", typeof(LogBrowserPatternConvert));
+            AddConverter("logLocation", typeof(LogLocationPatternConvert));
         }
     }
 }

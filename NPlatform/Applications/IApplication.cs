@@ -12,8 +12,6 @@
 
 namespace NPlatform.Applications
 {
-    using System;
-
     /// <summary>
     /// application 层
     /// </summary>

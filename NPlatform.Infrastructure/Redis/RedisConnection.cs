@@ -1,12 +1,7 @@
 ﻿using NPlatform.Infrastructure.Config;
 using StackExchange.Redis;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Text;
 
-namespace NPlatform.Infrastructure
+namespace NPlatform.Infrastructure.Redis
 {
     /// <summary>
     /// ConnectionMultiplexer对象管理帮助类
@@ -27,18 +22,18 @@ namespace NPlatform.Infrastructure
         /// </summary>
         public static ConnectionMultiplexer CreateInstance(IRedisConfig Config)
         {
-                if (instance == null)
+            if (instance == null)
+            {
+                lock (Locker)
                 {
-                    lock (Locker)
+                    if (instance == null || !instance.IsConnected)
                     {
-                        if (instance == null || !instance.IsConnected)
-                        {
-                            instance = GetManager(Config);
-                        }
+                        instance = GetManager(Config);
                     }
                 }
+            }
 
-                return instance;
+            return instance;
         }
 
         private static ConnectionMultiplexer GetManager(IRedisConfig Config)
@@ -115,7 +110,7 @@ namespace NPlatform.Infrastructure
         /// <param name="e"></param>
         private static void MuxerConfigurationChanged(object sender, EndPointEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine ("Redis: Configuration changed: " + e.EndPoint);
+            System.Diagnostics.Debug.WriteLine("Redis: Configuration changed: " + e.EndPoint);
         }
 
         /// <summary>
@@ -146,7 +141,7 @@ namespace NPlatform.Infrastructure
         private static void MuxerConnectionFailed(object sender, ConnectionFailedEventArgs e)
         {
             System.Diagnostics.Debug.WriteLine("Redis: 重新连接：Endpoint failed: " + e.EndPoint + ", " + e.FailureType +
-                              (e.Exception == null ? "" : (", " + e.Exception.Message)));
+                              (e.Exception == null ? "" : ", " + e.Exception.Message));
         }
 
         /// <summary>

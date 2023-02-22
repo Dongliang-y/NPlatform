@@ -14,10 +14,7 @@
 
 #endregion
 
-using System.Collections.Generic;
-using System.Data;
 using NPlatform.Filters;
-using NPlatform.Repositories;
 
 namespace NPlatform.Repositories.IRepositories
 {
@@ -36,7 +33,7 @@ namespace NPlatform.Repositories.IRepositories
         /// 从库字符串
         /// </summary>
         string MinorConnection { get; set; }
-        
+
         /// <summary>
         /// 数据库驱动程序
         /// </summary>

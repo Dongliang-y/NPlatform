@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NPlatform.Infrastructure
+﻿namespace NPlatform.Infrastructure
 {
     /// <summary>
     /// HTTP 内容类型(Content-Type)

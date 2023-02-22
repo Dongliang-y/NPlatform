@@ -10,13 +10,10 @@
   * 修改时间：
   * 修 改 人：
 *************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NPlatform.Infrastructure.Consts
 {
-   public class EncryptCode
+    public class EncryptCode
     {
         public const string AES = "aes.20210223";
     }

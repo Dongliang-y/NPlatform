@@ -12,9 +12,8 @@
 
 namespace NPlatform.Infrastructure
 {
-    using System.Drawing;
-
     using QRCoder;
+    using System.Drawing;
 
     /// <summary>
     /// 二维码工具类
@@ -30,9 +29,12 @@ namespace NPlatform.Infrastructure
         {
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
             QRCodeData qrCodeData = qrGenerator.CreateQrCode(codeStr, QRCodeGenerator.ECCLevel.H);
-            QRCode qrCode = new QRCode(qrCodeData);
+            
+            PngByteQRCode qrCode=new PngByteQRCode(qrCodeData);
+            //  QRCode qrCode = new QRCode(qrCodeData);
 
-            Bitmap qrCodeImage = qrCode.GetGraphic(20,Color.Black,Color.White, true /*如果是的话，在整个二维码周围画一个白色的边框*/);
+            var img= Image.FromStream(new MemoryStream(qrCode.GetGraphic(20)));
+            Bitmap qrCodeImage = new Bitmap(img);
             return qrCodeImage;
         }
     }

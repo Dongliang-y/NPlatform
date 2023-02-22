@@ -16,11 +16,10 @@
 #endregion
 namespace NPlatform.Filters
 {
+    using NPlatform.Domains.Entity;
     using System;
     using System.Collections.Generic;
-
     using System.Linq.Expressions;
-    using NPlatform.Domains.Entity;
 
     /// <summary>
     /// 过滤器基类

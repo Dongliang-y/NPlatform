@@ -9,9 +9,8 @@
 ** Ver.:  V1.0.0
 
 *********************************************************************************/
-using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace NPlatform.Result
 {
@@ -25,14 +24,14 @@ namespace NPlatform.Result
         /// 数据总数
         /// </summary>
         [DataMember]
-        [JsonProperty(PropertyName = "total")]
+        [JsonPropertyName("total")]
         long Total { get; }
 
         /// <summary>
         /// 数据行
         /// </summary>
         [DataMember]
-        [JsonProperty(PropertyName = "value")]
+        [JsonPropertyName("value")]
         new IEnumerable<T> Value { get; }
 
         /// <summary>

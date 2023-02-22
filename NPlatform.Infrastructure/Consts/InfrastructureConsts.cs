@@ -1,7 +1,5 @@
-﻿namespace NPlatform
+﻿namespace NPlatform.Infrastructure.Consts
 {
-    using System.ComponentModel;
-
     /// <summary>
     /// 基础设施的Consts
     /// </summary>

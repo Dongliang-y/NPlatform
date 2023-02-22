@@ -1,4 +1,4 @@
-﻿namespace NPlatform
+﻿namespace NPlatform.Exceptions
 {
     /// <summary>
     /// 第三方响应结果异常

@@ -1,4 +1,4 @@
-﻿namespace NPlatform
+﻿namespace NPlatform.Exceptions
 {
     /// <summary>
     /// 操作异常

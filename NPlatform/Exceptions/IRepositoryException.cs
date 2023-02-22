@@ -10,7 +10,7 @@
 
 *********************************************************************************/
 
-namespace NPlatform.Repositories.Exceptions
+namespace NPlatform.Exceptions
 {
     /// <summary>
     /// 仓储一场接口

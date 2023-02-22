@@ -9,19 +9,26 @@
 ** Ver.:  V1.0.0
 
 *********************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Runtime.Serialization;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web;
+using NPlatform.Extends;
+using System.Net;
+using System.Runtime.
+/* 项目“NPlatform (net5.0)”的未合并的更改
+在此之前:
 using NPlatform;
 using System.Net;
+在此之后:
+using System.Net;
+*/
+
+/* 项目“NPlatform (net6.0)”的未合并的更改
+在此之前:
+using NPlatform;
+using System.Net;
+在此之后:
+using System.Net;
+*/
+Serialization;
 using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Mvc;
-using NPlatform.Infrastructure;
 
 namespace NPlatform.Result
 {
@@ -29,34 +36,39 @@ namespace NPlatform.Result
     /// <summary>
     /// 操作结果
     /// </summary>
-    public class SuccessResult<T> : ActionResult, INPResult
+    public class SuccessResult<T> : INPResult
     {
         /// <summary>
         /// 消息
         /// </summary>
         [DataMember]
-        [JsonPropertyName("message")]
-        public string Message { get;}
+        public string Message { get; }
 
         /// <summary>
         ///  返回结果的服务id
         /// </summary>
         [DataMember]
-        [JsonPropertyName("serviceid")]
-        [JsonIgnore]
-        [System.Xml.Serialization.XmlIgnore]
         public string ServiceID { get; set; }
 
         /// <summary>
         ///  http heard contentType
         /// </summary>
-        public new string ContentType { get; set; } = HttpContentType.APPLICATION_JSON;
+        [DataMember]
+        public string? ContentType { get; set; } = HttpContentType.APPLICATION_JSON;
         /// <summary>
         /// 状态码
         /// </summary>
-        public new int? StatusCode { get; set; }=200;
+        [DataMember]
+        public int? StatusCode { get; set; } = 200;
 
+        [DataMember]
         public object Value { get; set; }
+
+
+
+        [JsonIgnore]
+        [System.Xml.Serialization.XmlIgnore]
+        public object? SerializerSettings { get; set; }
 
         /// <summary>
         /// 成功的结果内容
@@ -89,6 +101,7 @@ namespace NPlatform.Result
         public SuccessResult(string message, T data)
         {
             this.Message = message;
+            this.Value = data;
         }
 
         /// <summary>
@@ -98,14 +111,19 @@ namespace NPlatform.Result
         /// <param name="data">T 类型对象</param>
         /// <param name="httpCode"></param>
         /// <param name="serializerSettings">序列化配置</param>
-        public SuccessResult( string message, T data, HttpStatusCode httpCode,object serializerSettings)
+        public SuccessResult(string message, T data, HttpStatusCode httpCode, object? serializerSettings)
         {
             this.StatusCode = httpCode.ToInt();
-            if(StatusCode>=300)
+            if (StatusCode >= 300)
             {
                 throw new Exception("错误的状态码！Success 结果只能是 “2xx” 状态码。");
             }
             this.Message = message;
+            this.SerializerSettings = serializerSettings;
+        }
+        public async Task ExecuteResultAsync(ActionContext context)
+        {
+            await new JsonResult(this, SerializerSettings).ExecuteResultAsync(context);
         }
     }
 }

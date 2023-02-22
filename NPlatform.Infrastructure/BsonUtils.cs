@@ -13,7 +13,7 @@
 * limitations under the License.
 */
 
-namespace NPlatform
+namespace NPlatform.Infrastructure
 {
     using System;
     using System.Reflection;
@@ -209,7 +209,7 @@ namespace NPlatform
             var i = 0;
             var j = 0;
 
-            if ((s.Length % 2) == 1)
+            if (s.Length % 2 == 1)
             {
                 // if s has an odd length assume an implied leading "0"
                 int y;
@@ -234,7 +234,7 @@ namespace NPlatform
                     return false;
                 }
 
-                buffer[j++] = (byte)((x << 4) | y);
+                buffer[j++] = (byte)(x << 4 | y);
             }
 
             bytes = buffer;

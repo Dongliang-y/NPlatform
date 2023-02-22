@@ -9,20 +9,8 @@
 ** Ver.:  V1.0.0
 
 *********************************************************************************/
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web;
-using Microsoft.AspNetCore.Mvc;
-using NPlatform;
-using NPlatform.Infrastructure;
 
 namespace NPlatform.Result
 {
@@ -32,6 +20,48 @@ namespace NPlatform.Result
     [DataContract]
     public class ListResult<T> : IListResult<T>
     {
+
+        /// <summary>
+        /// 数据总数
+        /// </summary>
+        [DataMember]
+        public long Total { get; }
+
+        /// <summary>
+        /// 消息
+        /// </summary>
+        [DataMember]
+        public string Message { get; }
+
+        /// <summary>
+        ///  返回结果的服务id
+        /// </summary>
+        [DataMember]
+        public string ServiceID { get; set; }
+
+        /// <summary>
+        ///  http heard contentType
+        /// </summary>
+        [DataMember]
+        public string? ContentType { get; set; } = HttpContentType.APPLICATION_JSON;
+        /// <summary>
+        /// 状态码
+        /// </summary>
+        [DataMember]
+        public int? StatusCode { get; set; } = 200;
+
+        [DataMember]
+        public IEnumerable<T> Value { get; set; }
+
+        #region 不序列化返回的属性
+        [JsonIgnore]
+        [System.Xml.Serialization.XmlIgnore]
+        object INPResult.Value { get { return this.Value; } set { this.Value = value as IEnumerable<T>; } }
+
+        [JsonIgnore]
+        [System.Xml.Serialization.XmlIgnore]
+        public object SerializerSettings { get; set; }
+        #endregion
         /// <summary>
         /// 数据列表内容对象
         /// </summary>
@@ -43,7 +73,7 @@ namespace NPlatform.Result
         /// <summary>
         /// 数据列表内容对象
         /// </summary>
-        public ListResult(IEnumerable<T> list) 
+        public ListResult(IEnumerable<T> list)
         {
             Total = list.Count();
             this.Value = list;
@@ -57,42 +87,6 @@ namespace NPlatform.Result
             this.StatusCode = httpCode;
             this.Value = list;
         }
-        /// <summary>
-        /// 数据总数
-        /// </summary>
-        [DataMember]
-        [JsonPropertyName("total")]
-        public long Total { get; }
-
-        /// <summary>
-        /// 消息
-        /// </summary>
-        [DataMember]
-        [JsonPropertyName("message")]
-        public string Message { get; }
-
-        /// <summary>
-        ///  返回结果的服务id
-        /// </summary>
-        [DataMember]
-        [JsonPropertyName("serviceid")]
-        [JsonIgnore]
-        [System.Xml.Serialization.XmlIgnore]
-        public string ServiceID { get; set; }
-
-        /// <summary>
-        ///  http heard contentType
-        /// </summary>
-        public string ContentType { get; set; } = HttpContentType.APPLICATION_JSON;
-        /// <summary>
-        /// 状态码
-        /// </summary>
-        public int? StatusCode { get; set; } = 200;
-
-        public IEnumerable<T> Value { get; set; }
-
-        object INPResult.Value { get { return this.Value; } set { this.Value = value as IEnumerable<T>; } }
-
 
         /// <summary>
         /// 返回结果的集合
@@ -101,6 +95,12 @@ namespace NPlatform.Result
         public IList<T> ToList()
         {
             return this.Value.ToList();
+        }
+
+        /// <inheritdoc />
+        public async Task ExecuteResultAsync(ActionContext context)
+        {
+            await new JsonResult(this, SerializerSettings).ExecuteResultAsync(context);
         }
     }
 }

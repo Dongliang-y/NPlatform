@@ -8,12 +8,11 @@
 **修改历史：
 ************************************************************/
 
-namespace NPlatform
+namespace NPlatform.Extends
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using NPlatform.Infrastructure;
 
     /// <summary>
     ///     处理枚举
@@ -46,14 +45,14 @@ namespace NPlatform
         public static Dictionary<int, string> GetDictionary<TEnum>() where TEnum : struct, Enum
         {
             var etype = typeof(TEnum);
-          
+
             var values = Enum.GetValues(etype);
 
             Dictionary<int, string> items = new Dictionary<int, string>();
             foreach (var val in values)
             {
                 TEnum em;
-                if (Enum.TryParse<TEnum>(val.ToString(), out em))
+                if (Enum.TryParse(val.ToString(), out em))
                 {
                     items.Add(Convert.ToInt32(val), em.GetEnumDes());
                 }
@@ -74,7 +73,7 @@ namespace NPlatform
             }
             catch
             {
-                return default(T);
+                return default;
             }
         }
 

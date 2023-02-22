@@ -1,4 +1,9 @@
-﻿// <copyright file="HttpHelper.cs" company="PlaceholderCompany">
+﻿
+using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Text;
+// <copyright file="HttpHelper.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
@@ -16,11 +21,6 @@
 
 namespace NPlatform.Infrastructure
 {
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Net;
-    using System.Reflection.Metadata.Ecma335;
-    using System.Text;
     /// <summary>
     /// http 处理
     /// </summary>

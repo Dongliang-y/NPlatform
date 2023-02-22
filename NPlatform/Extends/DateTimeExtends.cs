@@ -10,10 +10,9 @@
 
 *********************************************************************************/
 
-namespace NPlatform
+namespace NPlatform.Extends
 {
     using System;
-    using System.Text.RegularExpressions;
 
     /// <summary>
     /// 时间扩展类
@@ -66,7 +65,7 @@ namespace NPlatform
 
         public static DateTime UnixTimestampToDateTime(this string timeStamp)
         {
-            DateTime dtStart =System.TimeZoneInfo.ConvertTimeFromUtc(new DateTime(1970, 1, 1), TimeZoneInfo.Local);
+            DateTime dtStart = TimeZoneInfo.ConvertTimeFromUtc(new DateTime(1970, 1, 1), TimeZoneInfo.Local);
             long lTime = long.Parse(timeStamp + "0000");
             TimeSpan toNow = new TimeSpan(lTime);
             return dtStart.Add(toNow);

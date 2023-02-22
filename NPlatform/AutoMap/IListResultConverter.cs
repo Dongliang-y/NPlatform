@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using NPlatform.Result;
-using System.Collections.Generic;
 
 namespace NPlatform.AutoMap
 {
@@ -9,7 +8,7 @@ namespace NPlatform.AutoMap
     {
         public IListResult<TD> Convert(IListResult<TS> source, IListResult<TD> destination, ResolutionContext context)
         {
-            var values=context.Mapper.Map<IEnumerable<TD>>(source.Value);
+            var values = context.Mapper.Map<IEnumerable<TD>>(source.Value);
             return new ListResult<TD>(values);
         }
     }

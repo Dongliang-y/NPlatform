@@ -22,12 +22,12 @@ namespace NPlatform.Infrastructure.Config
         /// <summary>
         /// 数据中心ID
         /// </summary>
-        long DataCenterID { get; set; }
+        string DataCenterID { get; set; }
 
         /// <summary>
         /// 服务ID
         /// </summary>
-        long ServiceID { get; set; }
+        string ServiceID { get; set; }
 
         /// <summary>
         /// 需要注入的dll

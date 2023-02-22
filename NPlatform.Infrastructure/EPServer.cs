@@ -1,6 +1,5 @@
-﻿namespace NPlatform
+﻿namespace NPlatform.Infrastructure
 {
-    using System;
     using System.IO;
 
     /// <summary>
@@ -15,7 +14,7 @@
         /// <returns>绝对路径</returns>
         public static string MapPath(string strPath)
         {
-            var rootdir =Directory.GetCurrentDirectory();
+            var rootdir = Directory.GetCurrentDirectory();
             return $"{rootdir}\\{strPath}";
         }
     }

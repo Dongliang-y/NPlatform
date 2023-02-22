@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
 using NPlatform.Result;
-using System.Collections.Generic;
 
 namespace NPlatform.AutoMap
 {
 
-    public class IEnumerableToListResultConverter<TS,TD> :
+    public class IEnumerableToListResultConverter<TS, TD> :
         ITypeConverter<IEnumerable<TS>, IListResult<TD>>
     {
 

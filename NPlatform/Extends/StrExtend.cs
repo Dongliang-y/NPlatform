@@ -8,8 +8,9 @@
 **修改历史：
 ************************************************************/
 
-namespace NPlatform
+namespace NPlatform.Extends
 {
+    using NPlatform.Consts;
     using System;
     using System.Diagnostics;
     using System.IO;
@@ -85,7 +86,7 @@ namespace NPlatform
             byte[] s = ascii.GetBytes(strInput);
             for (int i = 0; i < s.Length; i++)
             {
-                if ((int)s[i] == 63)
+                if (s[i] == 63)
                 {
                     intLength += 2;
                 }
@@ -175,7 +176,7 @@ namespace NPlatform
         /// <returns>子字符串</returns>
         public static string CutString(this string str, int startIndex)
         {
-            return CutString(str, startIndex, str.Length);
+            return str.CutString(startIndex, str.Length);
         }
 
         /// <summary>
@@ -243,7 +244,7 @@ namespace NPlatform
             string Reg = @"(h|H)(r|R)(e|E)(f|F) *= *('|"")?((\w|\\|\/|\.|:|-|_)+)('|""| *|>)?";
             foreach (Match m in Regex.Matches(HtmlCode, Reg))
             {
-                MatchVale += (m.Value).ToLower().Replace("href=", "").Trim() + "||";
+                MatchVale += m.Value.ToLower().Replace("href=", "").Trim() + "||";
             }
 
             return MatchVale;
@@ -261,10 +262,10 @@ namespace NPlatform
             string Reg = @"src=.+\.(bmp|jpg|gif|png|)";
             foreach (Match m in Regex.Matches(ImgString.ToLower(), Reg))
             {
-                MatchVale += (m.Value).ToLower().Trim().Replace("src=", "");
+                MatchVale += m.Value.ToLower().Trim().Replace("src=", "");
             }
 
-            return (imgHttp + MatchVale);
+            return imgHttp + MatchVale;
         }
 
         /// <summary>
@@ -279,7 +280,7 @@ namespace NPlatform
             string Reg = @"<img.+?>";
             foreach (Match m in Regex.Matches(HtmlCode, Reg))
             {
-                MatchVale += GetImg((m.Value).ToLower().Trim(), imgHttp) + "|";
+                MatchVale += m.Value.ToLower().Trim().GetImg(imgHttp) + "|";
             }
 
             return MatchVale.Replace("\"", "");
@@ -317,7 +318,7 @@ namespace NPlatform
         /// <returns>字符串在指定字符串数组中的位置, 如不存在则返回-1</returns>		
         public static int GetInArrayID(this string strSearch, string[] stringArray)
         {
-            return GetInArrayID(strSearch, stringArray, true);
+            return strSearch.GetInArrayID(stringArray, true);
         }
 
         /// <summary>
@@ -351,7 +352,7 @@ namespace NPlatform
             int i = 0, j = 0;
             foreach (char chr in str)
             {
-                if ((int)chr > 127)
+                if (chr > 127)
                 {
                     i += 2;
                 }
@@ -414,7 +415,7 @@ namespace NPlatform
                         anResultFlag[i] = nFlag;
                     }
 
-                    if ((bsSrcString[pLength - 1] > 127) && (anResultFlag[pLength - 1] == 1))
+                    if (bsSrcString[pLength - 1] > 127 && anResultFlag[pLength - 1] == 1)
                         nRealLength = pLength + 1;
                     bsResult = new byte[nRealLength];
                     Array.Copy(bsSrcString, bsResult, nRealLength);
@@ -469,7 +470,7 @@ namespace NPlatform
         /// <returns>判断结果</returns>
         public static bool IsInArray(this string strSearch, string[] stringArray, bool caseInsensetive)
         {
-            return GetInArrayID(strSearch, stringArray, caseInsensetive) >= 0;
+            return strSearch.GetInArrayID(stringArray, caseInsensetive) >= 0;
         }
 
         /// <summary>
@@ -480,7 +481,7 @@ namespace NPlatform
         /// <returns>判断结果</returns>
         public static bool IsInArray(this string str, string[] stringarray)
         {
-            return IsInArray(str, stringarray, false);
+            return str.IsInArray(stringarray, false);
         }
 
         /// <summary>
@@ -491,7 +492,7 @@ namespace NPlatform
         /// <returns>判断结果</returns>
         public static bool IsInArray(this string str, string stringarray)
         {
-            return IsInArray(str, stringarray.Split(','), false);
+            return str.IsInArray(stringarray.Split(','), false);
         }
 
         /// <summary>
@@ -503,7 +504,7 @@ namespace NPlatform
         /// <returns>判断结果</returns>
         public static bool IsInArray(this string str, string stringarray, char strsplit)
         {
-            return IsInArray(str, stringarray.Split(strsplit), false);
+            return str.IsInArray(stringarray.Split(strsplit), false);
         }
 
         /// <summary>
@@ -516,7 +517,7 @@ namespace NPlatform
         /// <returns>判断结果</returns>
         public static bool IsInArray(this string str, string stringarray, char strsplit, bool caseInsensetive)
         {
-            return IsInArray(str, stringarray.Split(strsplit), caseInsensetive);
+            return str.IsInArray(stringarray.Split(strsplit), caseInsensetive);
         }
 
         /// <summary>
@@ -637,7 +638,7 @@ namespace NPlatform
         public static bool IsPassword(this string input)
         {
             if (input.Length < 8 || input.Length > 20) return false;
-            string pattern1 = @"^(?![a-zA-z]+$)(?!\d+$)(?![!@#$%^&*]+$)[a-zA-Z\d!@#$%^&*().]+$";
+            string pattern1 = RegularExpression.PasswordRex;// @"^(?![a-zA-z]+$)(?!\d+$)(?![!@#$%^&*]+$)[a-zA-Z\d!@#$%^&*().]+$";
             return input.IsMatch(pattern1);
         }
 
@@ -778,12 +779,47 @@ namespace NPlatform
         /// <returns>转换后的int类型结果</returns>
         public static float ToFloat(this object strValue, float defValue = 0)
         {
-            if ((strValue == null) || (strValue.ToString().Length > 10))
+            if (strValue == null || strValue.ToString().Length > 10)
                 return defValue;
 
             string val = strValue.ToString();
             float rst = defValue;
             if (float.TryParse(val, out rst))
+                return rst;
+            else
+                return defValue;
+        }
+        /// <summary>
+        /// string型转换为float型
+        /// </summary>
+        /// <param name="strValue">要转换的字符串</param>
+        /// <param name="defValue">缺省值</param>
+        /// <returns>转换后的int类型结果</returns>
+        public static Double ToDouble(this object strValue, Double defValue = 0)
+        {
+            if (strValue == null || strValue.ToString().Length > 10)
+                return defValue;
+
+            string val = strValue.ToString();
+            Double rst = defValue;
+            if (Double.TryParse(val, out rst))
+                return rst;
+            else
+                return defValue;
+        }
+        /// <summary>
+        /// string型转换为int型
+        /// </summary>
+        /// <param name="strValue">要转换的字符串</param>
+        /// <param name="defValue">缺省值</param>
+        /// <returns>转换后的int类型结果</returns>
+        public static int ToInt(this object strValue, int defValue = 0)
+        {
+            if (strValue == null || strValue.ToString() == string.Empty)
+                return defValue;
+            string val = strValue.ToString();
+            int rst = defValue;
+            if (int.TryParse(val, out rst))
                 return rst;
             else
                 return defValue;
@@ -795,17 +831,18 @@ namespace NPlatform
         /// <param name="strValue">要转换的字符串</param>
         /// <param name="defValue">缺省值</param>
         /// <returns>转换后的int类型结果</returns>
-        public static int ToInt(this object strValue, int defValue = 0)
+        public static long ToLong(this object strValue, long defValue = 0)
         {
-            if ((strValue == null) || (strValue.ToString() == string.Empty))
+            if (strValue == null || strValue.ToString() == string.Empty)
                 return defValue;
             string val = strValue.ToString();
-            int rst = defValue;
-            if (int.TryParse(val, out rst))
+            long rst = defValue;
+            if (long.TryParse(val, out rst))
                 return rst;
             else
                 return defValue;
         }
+
         /// <summary>
         /// string型转换为bool型
         /// </summary>
@@ -814,7 +851,7 @@ namespace NPlatform
         /// <returns>转换后的bool类型结果</returns>
         public static bool ToBool(this object strValue, bool defValue = false)
         {
-            if ((strValue == null) || (strValue.ToString() == string.Empty))
+            if (strValue == null || strValue.ToString() == string.Empty)
                 return defValue;
             string val = strValue.ToString();
             bool rst = defValue;
@@ -840,7 +877,7 @@ namespace NPlatform
         /// </summary>
         /// <param name="val"></param>
         /// <returns></returns>
-        public static String ToStrNoNull(this object val)
+        public static string ToStrNoNull(this object val)
         {
             return val == null ? string.Empty : val.ToString().Trim();
         }
@@ -850,7 +887,7 @@ namespace NPlatform
         /// </summary>
         /// <param name="val"></param>
         /// <returns></returns>
-        public static String TrimNull(this string val)
+        public static string TrimNull(this string val)
         {
             return val == null ? string.Empty : val.Trim();
         }

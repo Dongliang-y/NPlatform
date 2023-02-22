@@ -17,7 +17,7 @@
 
 #endregion
 
-namespace NPlatform
+namespace NPlatform.Exceptions
 {
     /// <summary>
     /// 参数为空异常

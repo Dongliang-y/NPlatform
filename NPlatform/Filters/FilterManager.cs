@@ -17,6 +17,8 @@
 namespace NPlatform.Filters
 {
     using NPlatform.Domains.Entity;
+    using NPlatform.Exceptions;
+    using NPlatform.Extends;
     using NPlatform.Repositories.IRepositories;
     using System;
     using System.Collections.Generic;
@@ -49,7 +51,7 @@ namespace NPlatform.Filters
         /// </summary>
         /// <typeparam name="TFilter">过滤器类型</typeparam>
         /// <returns>禁用结果</returns>
-        public bool DisabledFilter<TFilter>() where TFilter : class , IFilter
+        public bool DisabledFilter<TFilter>() where TFilter : class, IFilter
         {
             var filterName = typeof(TFilter).Name;
 
@@ -76,7 +78,7 @@ namespace NPlatform.Filters
         /// </summary>
         /// <typeparam name="TFilter">过滤器类型</typeparam>
         /// <returns>结果</returns>
-        public bool EnabledFilter<TFilter>() where TFilter : class , IFilter
+        public bool EnabledFilter<TFilter>() where TFilter : class, IFilter
         {
             var filterName = typeof(TFilter).Name;
 
@@ -115,7 +117,7 @@ namespace NPlatform.Filters
             {
                 this.options.AllQueryFilters[filterName].IsEnabled = true;
             }
-            
+
             this.options.AllQueryFilters.Add(filterName, filter);
         }
         /// <summary>

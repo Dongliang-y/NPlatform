@@ -7,7 +7,7 @@
 **修改历史：
 ************************************************************/
 
-namespace NPlatform
+namespace NPlatform.Exceptions
 {
     using System;
 

@@ -4,70 +4,70 @@
         <name>NPlatform</name>
     </assembly>
     <members>
-        <member name="T:NPlatform.API.Controllers.BaseController">
+        <member name="T:NPlatform.API.BaseController">
             <summary>
             controler 基类
             </summary>
         </member>
-        <member name="P:NPlatform.API.Controllers.BaseController._RedisService">
+        <member name="P:NPlatform.API.BaseController._RedisService">
             <summary>
             redis service
             </summary>
         </member>
-        <member name="P:NPlatform.API.Controllers.BaseController.Config">
+        <member name="P:NPlatform.API.BaseController.Config">
             <summary>
             全局配置信息
             </summary>
         </member>
-        <member name="M:NPlatform.API.Controllers.BaseController.GetRequestParamsAsync``1">
+        <member name="M:NPlatform.API.BaseController.GetRequestParamsAsync``1">
             <summary>
             获取UI传递的js 数组参数 'Content-Type':'application/json' params:JSON.stringify(Array)
             </summary>
             <typeparam name="T"></typeparam>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.API.Controllers.BaseController.GetRequestStrParamsAsync">
+        <member name="M:NPlatform.API.BaseController.GetRequestStrParamsAsync">
             <summary>
             获取UI传递的js 数组参数 'Content-Type':'application/json' params:JSON.stringify(Array)
             </summary>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.API.Controllers.BaseController.GetSesstionInfo">
+        <member name="M:NPlatform.API.BaseController.GetSesstionInfo">
             <summary>
             获取认证的身份信息
             </summary>
         </member>
-        <member name="M:NPlatform.API.Controllers.BaseController.Success(System.String)">
+        <member name="M:NPlatform.API.BaseController.Success(System.String)">
             <summary>
              返回SuccessResult
             </summary>
         </member>
-        <member name="M:NPlatform.API.Controllers.BaseController.Success">
+        <member name="M:NPlatform.API.BaseController.Success">
             <summary>
              返回SuccessResult
             </summary>
         </member>
-        <member name="M:NPlatform.API.Controllers.BaseController.Success``1(``0)">
+        <member name="M:NPlatform.API.BaseController.Success``1(``0)">
             <summary>
              返回SuccessResult
             </summary>
         </member>
-        <member name="M:NPlatform.API.Controllers.BaseController.Success``1(System.String,``0)">
+        <member name="M:NPlatform.API.BaseController.Success``1(System.String,``0)">
             <summary>
              返回SuccessResult<T/>
             </summary>
         </member>
-        <member name="M:NPlatform.API.Controllers.BaseController.Error(System.String)">
+        <member name="M:NPlatform.API.BaseController.Error(System.String)">
             <summary>
             返回错误信息
             </summary>
         </member>
-        <member name="M:NPlatform.API.Controllers.BaseController.Error``1(System.String,System.Net.HttpStatusCode)">
+        <member name="M:NPlatform.API.BaseController.Error``1(System.Exception)">
             <summary>
             返回错误信息
             </summary>
         </member>
-        <member name="M:NPlatform.API.Controllers.BaseController.TreeData``1(System.Collections.Generic.IEnumerable{``0})">
+        <member name="M:NPlatform.API.BaseController.TreeData``1(System.Collections.Generic.IEnumerable{``0})">
             <summary>
             树格式节点
             </summary>
@@ -75,87 +75,87 @@
             <param name="nodes">树节点</param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.API.Controllers.BaseController.ListData``1(System.Collections.Generic.IEnumerable{``0},System.Int64)">
+        <member name="M:NPlatform.API.BaseController.ListData``1(System.Collections.Generic.IEnumerable{``0},System.Int64)">
             <summary>
             返回数据集合
             </summary>
         </member>
-        <member name="M:NPlatform.API.Controllers.BaseController.ListData``1(System.Collections.Generic.IEnumerable{``0})">
+        <member name="M:NPlatform.API.BaseController.ListData``1(System.Collections.Generic.IEnumerable{``0})">
             <summary>
             返回数据集合
             </summary>
         </member>
-        <member name="M:NPlatform.API.Controllers.BaseController.StrData(System.String)">
+        <member name="M:NPlatform.API.BaseController.StrData(System.String)">
             <summary>
              返回SuccessResult
             </summary>
         </member>
-        <member name="T:NPlatform.API.Controllers.SesstionInfo">
+        <member name="T:NPlatform.API.SesstionInfo">
             <summary>
             授权数据
             </summary>
         </member>
-        <member name="P:NPlatform.API.Controllers.SesstionInfo.Id">
+        <member name="P:NPlatform.API.SesstionInfo.Id">
             <summary>
             id
             </summary>
         </member>
-        <member name="P:NPlatform.API.Controllers.SesstionInfo.Account">
+        <member name="P:NPlatform.API.SesstionInfo.Account">
             <summary>
             账户名
             </summary>
         </member>
-        <member name="P:NPlatform.API.Controllers.SesstionInfo.CnName">
+        <member name="P:NPlatform.API.SesstionInfo.CnName">
             <summary>
             中文名
             </summary>
         </member>
-        <member name="P:NPlatform.API.Controllers.SesstionInfo.Avatar">
+        <member name="P:NPlatform.API.SesstionInfo.Avatar">
             <summary>
             用户头像
             </summary>
         </member>
-        <member name="P:NPlatform.API.Controllers.SesstionInfo.Telephone">
+        <member name="P:NPlatform.API.SesstionInfo.Telephone">
             <summary>
             联系电话
             </summary>
         </member>
-        <member name="P:NPlatform.API.Controllers.SesstionInfo.Email">
+        <member name="P:NPlatform.API.SesstionInfo.Email">
             <summary>
             邮箱
             </summary>
         </member>
-        <member name="P:NPlatform.API.Controllers.SesstionInfo.AccessToken">
+        <member name="P:NPlatform.API.SesstionInfo.AccessToken">
             <summary>
             令牌
             </summary>
         </member>
-        <member name="P:NPlatform.API.Controllers.SesstionInfo.Roles">
+        <member name="P:NPlatform.API.SesstionInfo.Roles">
             <summary>
             登陆人的角色
             </summary>
         </member>
-        <member name="P:NPlatform.API.Controllers.SesstionInfo.MainOrgCode">
+        <member name="P:NPlatform.API.SesstionInfo.MainOrgCode">
             <summary>
             默认机构
             </summary>
         </member>
-        <member name="P:NPlatform.API.Controllers.SesstionInfo.MainOrgName">
+        <member name="P:NPlatform.API.SesstionInfo.MainOrgName">
             <summary>
             默认机构名称
             </summary>
         </member>
-        <member name="P:NPlatform.API.Controllers.SesstionInfo.Post">
+        <member name="P:NPlatform.API.SesstionInfo.Post">
             <summary>
             岗位
             </summary>
         </member>
-        <member name="P:NPlatform.API.Controllers.SesstionInfo.MacId">
+        <member name="P:NPlatform.API.SesstionInfo.MacId">
             <summary>
             登录设备的唯一标识
             </summary>
         </member>
-        <member name="P:NPlatform.API.Controllers.SesstionInfo.ClientId">
+        <member name="P:NPlatform.API.SesstionInfo.ClientId">
             <summary>
             登录终端的ID
             </summary>
@@ -212,6 +212,61 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:NPlatform.Autowired">
+            <summary>
+            自动注入属性对象。
+            </summary>
+        </member>
+        <member name="T:NPlatform.AutowiredSelector">
+            <summary>
+            自动注入属性选择。
+            </summary>
+        </member>
+        <member name="T:NPlatform.Attributes.ORMIgnored">
+            <summary>
+            Dapper ORM 忽略映射此列
+            </summary>
+        </member>
+        <member name="P:NPlatform.Attributes.ORMIgnored.TypeId">
+            <summary>
+            类型Id
+            </summary>
+        </member>
+        <member name="T:NPlatform.Attributes.ValidateAntiForgeryAttribute">
+            <summary>
+            Specifies that the class or method that this attribute is applied validates the anti-forgery token.
+            If the anti-forgery token is not available, or if the token is invalid, the validation will fail
+            and the action method will not execute.
+            </summary>
+            <remarks>
+            This attribute helps defend against cross-site request forgery. It won't prevent other forgery or tampering
+            attacks.
+            </remarks>
+        </member>
+        <member name="P:NPlatform.Attributes.ValidateAntiForgeryAttribute.Order">
+            <summary>
+            Gets the order value for determining the order of execution of filters. Filters execute in
+            ascending numeric value of the <see cref="P:NPlatform.Attributes.ValidateAntiForgeryAttribute.Order"/> property.
+            </summary>
+            <remarks>
+            <para>
+            Filters are executed in an ordering determined by an ascending sort of the <see cref="P:NPlatform.Attributes.ValidateAntiForgeryAttribute.Order"/> property.
+            </para>
+            <para>
+            The default Order for this attribute is 1000 because it must run after any filter which does authentication
+            or login in order to allow them to behave as expected (ie Unauthenticated or Redirect instead of 400).
+            </para>
+            <para>
+            Look at <see cref="P:Microsoft.AspNetCore.Mvc.Filters.IOrderedFilter.Order"/> for more detailed info.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:NPlatform.Attributes.ValidateAntiForgeryAttribute.IsReusable">
+            <inheritdoc />
+        </member>
+        <member name="M:NPlatform.Attributes.ValidateAntiForgeryAttribute.CreateInstance(System.IServiceProvider)">
+            <inheritdoc />
+        </member>
         <member name="T:NPlatform.AutoMap.IProfile">
             <summary>
             AutoMapper IProfile
@@ -237,38 +292,54 @@
             配置可以互转的类
             </summary>
         </member>
-        <member name="T:NPlatform.IOC.IOCService">
+        <member name="T:NPlatform.Consts.CommonRedisConst">
+            <summary>
+            公用的Redis键值常量
+            </summary>
+        </member>
+        <member name="M:NPlatform.Consts.CommonRedisConst.SesstionKey(System.String)">
+            <summary>
+            获取第三方登录时缓存手机号码的key
+            </summary>
+            <param name="token">token</param>
+            <returns></returns>
+        </member>
+        <member name="T:NPlatform.Consts.RegularExpression">
+            <summary>
+            校验用的正则表达式
+            </summary>
+        </member>
+        <member name="F:NPlatform.Consts.CommonConst.XSRFTOKEN">
+            <summary>
+            XSRF-TOKEN
+            </summary>
+        </member>
+        <member name="T:NPlatform.DI.IOCService">
             <summary>
             ioc 管理类
             </summary>
         </member>
-        <member name="F:NPlatform.IOC.IOCService.SyncRoot">
+        <member name="F:NPlatform.DI.IOCService.SyncRoot">
             <summary>
             异步锁
             </summary>
         </member>
-        <member name="F:NPlatform.IOC.IOCService.container">
+        <member name="F:NPlatform.DI.IOCService.container">
             <summary>
             IOC 容器对象
             </summary>
         </member>
-        <member name="P:NPlatform.IOC.IOCService.Container">
+        <member name="P:NPlatform.DI.IOCService.Container">
             <summary>
             IOC容器
             </summary>
         </member>
-        <member name="P:NPlatform.IOC.IOCService.DefaultOption">
+        <member name="P:NPlatform.DI.IOCService.DefaultOption">
             <summary>
             默认配置
             </summary>
         </member>
-        <member name="M:NPlatform.IOC.IOCService.CreateContainer(NPlatform.Repositories.IRepositories.IRepositoryOptions,Microsoft.Extensions.Configuration.IConfiguration)">
-            <summary>
-            Prevents a default instance of the <see cref="T:NPlatform.IOC.IOCService"/> class from being created. 
-             IOC管理
-            </summary>
-        </member>
-        <member name="M:NPlatform.IOC.IOCService.Install(Autofac.ContainerBuilder,NPlatform.Repositories.IRepositories.IRepositoryOptions,Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:NPlatform.DI.IOCService.Install(Microsoft.AspNetCore.Builder.ConfigureHostBuilder,NPlatform.Repositories.IRepositories.IRepositoryOptions,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             注入中间件
             </summary>
@@ -278,21 +349,11 @@
             <param name="builder">容器创建器</param>
             <param name="config">配置项</param>
         </member>
-        <member name="M:NPlatform.IOC.IOCService.ResolveAutoMapper">
+        <member name="M:NPlatform.DI.IOCService.ResolveAutoMapper">
             <summary>
             获取automapper配置
             </summary>
             <returns>返回map配置类型</returns>
-        </member>
-        <member name="T:NPlatform.Domains.ORMIgnored">
-            <summary>
-            Dapper ORM 忽略映射此列
-            </summary>
-        </member>
-        <member name="P:NPlatform.Domains.ORMIgnored.TypeId">
-            <summary>
-            类型Id
-            </summary>
         </member>
         <member name="T:NPlatform.Domains.Entity.EntityBase`1">
             <summary>
@@ -392,7 +453,7 @@
             httpContext
             </summary>
         </member>
-        <member name="P:NPlatform.Domains.Service.BaseService.MapperObj">
+        <member name="P:NPlatform.Domains.Service.BaseService.mapperService">
             <summary>
             mapper 对象
             </summary>
@@ -426,6 +487,35 @@
             <typeparam name="TEntity">实体类型</typeparam>
             <returns>表达式</returns>
         </member>
+        <member name="T:NPlatform.Domains.Service.HandlerBase`3">
+            <summary>
+            Command Handler base
+            </summary>
+            <typeparam name="TAdd"></typeparam>
+            <typeparam name="TDelete"></typeparam>
+            <typeparam name="TEdit"></typeparam>
+        </member>
+        <member name="M:NPlatform.Domains.Service.HandlerBase`3.Add(`0)">
+            <summary>
+            处理新增命令
+            </summary>
+            <param name="addCommand">处理新增命令</param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Domains.Service.HandlerBase`3.Delete(`1)">
+            <summary>
+            处理Delete
+            </summary>
+            <param name="addCommand">Delete</param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Domains.Service.HandlerBase`3.Edit(`2)">
+            <summary>
+            处理编辑命令
+            </summary>
+            <param name="addCommand">处理编辑命令</param>
+            <returns></returns>
+        </member>
         <member name="T:NPlatform.Domains.Service.IDomainService">
             <summary>
             领域服务接口
@@ -442,177 +532,1332 @@
             Dto 基类
             </summary>
         </member>
-        <member name="T:NPlatform.Dto.SearchExp">
+        <member name="P:NPlatform.Dto.BaseDto.ValidationResult">
             <summary>
-            查询条件的封装
+            获取校验结果
             </summary>
         </member>
-        <member name="P:NPlatform.Dto.SearchExp.Exp">
+        <member name="M:NPlatform.Dto.BaseDto.IsValid">
+            <summary>
+            执行校验
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:NPlatform.Dto.IDto">
+            <summary>
+            Dto 接口，DTO用来处理层与层以及GRPC 服务之间的数据传输。
+            命令对象实现的DTO
+            领域返回的是DTO。
+            注意VO与DTO的区分，当需要组合多个DTO做汇总统计，或者DTO无法满足UI设计时，需要重新设计VO来包装DTO。
+            </summary>
+        </member>
+        <member name="P:NPlatform.Dto.IDto.AggregateId">
+            <summary>
+            聚合ID
+            </summary>
+        </member>
+        <member name="T:NPlatform.Enums.CType">
+            <summary>
+            命令类型
+            </summary>
+        </member>
+        <member name="F:NPlatform.Enums.CType.ADD">
+            <summary>
+            ADD
+            </summary>
+        </member>
+        <member name="F:NPlatform.Enums.CType.EDIT">
+            <summary>
+            Edit
+            </summary>
+        </member>
+        <member name="F:NPlatform.Enums.CType.DELETE">
+            <summary>
+            Delete
+            </summary>
+        </member>
+        <member name="T:NPlatform.Events.EventBase">
+            <summary>
+            事件基类  
+            </summary>
+        </member>
+        <member name="P:NPlatform.Events.EventBase.AggregateId">
+            <summary>
+            聚合ID
+            </summary>
+        </member>
+        <member name="M:NPlatform.Events.EventBase.#ctor(System.String)">
+            <summary>
+            事件基类
+            </summary>
+        </member>
+        <member name="M:NPlatform.Events.EventBase.IsValid">
+            <summary>
+            校验对象数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:NPlatform.Exceptions.ArgumentEmptyException">
+            <summary>
+            参数为空异常
+            </summary>
+        </member>
+        <member name="M:NPlatform.Exceptions.ArgumentEmptyException.#ctor(System.String)">
+            <summary>
+            参数为空异常
+            </summary>
+        </member>
+        <member name="T:NPlatform.Exceptions.ConfigException">
+            <summary>
+            配置异常
+            </summary>
+        </member>
+        <member name="M:NPlatform.Exceptions.ConfigException.#ctor(System.String)">
+            <summary>
+            配置异常
+            </summary>
+        </member>
+        <member name="T:NPlatform.Exceptions.DomainException">
+            <summary>
+            领域层异常
+            </summary>
+        </member>
+        <member name="M:NPlatform.Exceptions.DomainException.#ctor(System.String)">
+            <summary>
+            领域层异常
+            </summary>
+        </member>
+        <member name="T:NPlatform.Exceptions.EnvironmentException">
+            <summary>
+            运行环境异常
+            </summary>
+        </member>
+        <member name="M:NPlatform.Exceptions.EnvironmentException.#ctor(System.String)">
+            <summary>
+            运行环境异常
+            </summary>
+        </member>
+        <member name="T:NPlatform.Exceptions.NPlatformException">
+            <summary>
+            异常基类
+            </summary>
+        </member>
+        <member name="M:NPlatform.Exceptions.NPlatformException.#ctor(System.String,System.Exception,System.String)">
+            <summary>
+            异常基类
+            </summary>
+        </member>
+        <member name="M:NPlatform.Exceptions.NPlatformException.#ctor(System.String,System.String)">
+            <summary>
+            异常基类
+            </summary>
+        </member>
+        <member name="P:NPlatform.Exceptions.NPlatformException.ErrorCode">
+            <summary>
+            错误码
+            </summary>
+        </member>
+        <member name="P:NPlatform.Exceptions.NPlatformException.Message">
+            <summary>
+            消息
+            </summary>
+        </member>
+        <member name="T:NPlatform.Exceptions.INPlatformException">
+            <summary>
+            平台异常基类
+            </summary>
+        </member>
+        <member name="P:NPlatform.Exceptions.INPlatformException.ErrorCode">
+            <summary>
+            错误码
+            </summary>
+        </member>
+        <member name="P:NPlatform.Exceptions.INPlatformException.Message">
+            <summary>
+            错误消息
+            </summary>
+        </member>
+        <member name="T:NPlatform.Exceptions.IRepositoryException">
+            <summary>
+            仓储一场接口
+            </summary>
+        </member>
+        <member name="T:NPlatform.Exceptions.OperateException">
+            <summary>
+            操作异常
+            </summary>
+        </member>
+        <member name="M:NPlatform.Exceptions.OperateException.#ctor(System.String)">
+            <summary>
+            操作异常
+            </summary>
+        </member>
+        <member name="T:NPlatform.Exceptions.PredicateTypeException">
+            <summary>
+            查询谓词类型错误
+            </summary>
+        </member>
+        <member name="M:NPlatform.Exceptions.PredicateTypeException.#ctor(System.String)">
+            <summary>
+            查询谓词类型错误
+            </summary>
+            <param name="msg">异常信息</param>
+        </member>
+        <member name="T:NPlatform.Exceptions.RepositoryException">
+            <summary>
+            仓储数据操作异常
+            </summary>
+        </member>
+        <member name="M:NPlatform.Exceptions.RepositoryException.#ctor(System.String,System.Exception)">
+            <summary>
+            仓储数据操作异常
+            </summary>
+        </member>
+        <member name="T:NPlatform.Exceptions.ThirdPartyResultException">
+            <summary>
+            第三方响应结果异常
+            </summary>
+        </member>
+        <member name="M:NPlatform.Exceptions.ThirdPartyResultException.#ctor(System.String)">
+            <summary>
+            第三方响应结果异常
+            </summary>
+        </member>
+        <member name="T:NPlatform.Exceptions.ValidateException">
+            <summary>
+            校验失败
+            </summary>
+        </member>
+        <member name="M:NPlatform.Exceptions.ValidateException.#ctor(System.String)">
+            <summary>
+            校验失败
+            </summary>
+        </member>
+        <member name="T:NPlatform.Extends.ArrayExtend">
+            <summary>
+            集合扩展类
+            </summary>
+        </member>
+        <member name="M:NPlatform.Extends.ArrayExtend.IsNullOrEmpty(System.String[])">
+            <summary>
+            集合为空或者长度为0
+            </summary>
+            <param name="strs">字符串集合</param>
+            <returns>是否为空集合</returns>
+        </member>
+        <member name="M:NPlatform.Extends.ArrayExtend.IsNullOrEmpty(System.Collections.Generic.List{System.String})">
+            <summary>
+            集合为空或者长度为0
+            </summary>
+            <param name="strs">字符串集合</param>
+            <returns>是否为空集合</returns>
+        </member>
+        <member name="M:NPlatform.Extends.ArrayExtend.IsNullOrEmpty``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            集合为空或者长度为0
+            </summary>
+            <param name="datas">集合</param>
+            <returns>是否为空集合</returns>
+        </member>
+        <member name="T:NPlatform.Extends.DateTimeExtends">
+            <summary>
+            时间扩展类
+            </summary>
+        </member>
+        <member name="M:NPlatform.Extends.DateTimeExtends.IsDateTime(System.String)">
+            <summary>
+            是日期否
+            </summary>
+            <param name="input">字符串</param>
+            <returns>是/否</returns>
+        </member>
+        <member name="M:NPlatform.Extends.DateTimeExtends.ToDateTime(System.String,System.String)">
+            <summary>
+            将字符串转成日期时间型
+            </summary>
+        </member>
+        <member name="M:NPlatform.Extends.DateTimeExtends.ToUnixTimestamp(System.DateTime)">
+            <summary>  
+            将c# DateTime时间格式转换为Unix时间戳格式  
+            </summary>  
+            <param name="time">时间</param>  
+            <returns>long</returns>  
+        </member>
+        <member name="M:NPlatform.Extends.DateTimeExtends.UnixTimestampToDateTime(System.String)">
+            <summary>        
+            时间戳转为C#格式时间        
+            </summary>        
+            <param name="timeStamp"></param>        
+            <returns></returns>        
+        </member>
+        <member name="T:NPlatform.Extends.DtoValidate">
+            <summary>
+            Dto 校验扩展
+            </summary>
+        </member>
+        <member name="M:NPlatform.Extends.DtoValidate.Validates(NPlatform.Dto.IDto)">
+            <summary>
+            校验模型的属性值是否合法,例如在service层的主动校验实体属性
+            </summary>
+            <param name="dto">对象值</param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Extends.DtoValidate.Validates(NPlatform.Query.IQuery)">
+            <summary>
+            校验查询条件是否合法,例如在service层的主动校验实体属性
+            </summary>
+            <param name="query">对象值</param>
+            <returns></returns>
+        </member>
+        <member name="T:NPlatform.Extends.EnumExtend">
+            <summary>
+                处理枚举
+            </summary>
+        </member>
+        <member name="M:NPlatform.Extends.EnumExtend.GetEnumDes(System.Enum)">
+            <summary>
+                获取描述信息
+            </summary>
+            <param name="en">枚举</param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Extends.EnumExtend.GetDictionary``1">
+            <summary>
+            指定枚举的枚举项的字典集合,value对应 key，描述对应value。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Extends.EnumExtend.ToEnum``1(System.Int32)">
+            <summary>
+                把int 值转为枚举
+            </summary>
+            <param name="val">枚举</param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Extends.EnumExtend.ToInt(System.Enum)">
+            <summary>
+                获取描述信息
+            </summary>
+            <param name="en">枚举</param>
+            <returns></returns>
+        </member>
+        <member name="T:NPlatform.Extends.ParameterReplacer">
+            <summary>
+            统一ParameterExpression
+            </summary>
+        </member>
+        <member name="T:NPlatform.Extends.PredicateExtensionses">
+            <summary>
+            Predicate扩展
+            </summary>
+        </member>
+        <member name="M:NPlatform.Extends.PredicateExtensionses.AndAlso``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="expLeft"></param>
+            <param name="expRight"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Extends.PredicateExtensionses.False``1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Extends.PredicateExtensionses.OrElse``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="expLeft"></param>
+            <param name="expRight"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Extends.PredicateExtensionses.True``1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="T:NPlatform.Extends.QueryableExtensions">
+            <summary>
+            Queryable扩展
+            </summary>
+        </member>
+        <member name="M:NPlatform.Extends.QueryableExtensions.OrderBy``1(System.Linq.IQueryable{``0},System.String)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="queryable"></param>
+            <param name="propertyName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Extends.QueryableExtensions.OrderBy``1(System.Linq.IQueryable{``0},System.String,System.Boolean)">
+            <summary>
+            OrderBy
+            </summary>
+            <typeparam name="T">实体</typeparam>
+            <param name="queryable">条件</param>
+            <param name="propertyName">属性名称</param>
+            <param name="desc">是否降序</param>
+            <returns></returns>
+        </member>
+        <member name="T:NPlatform.Extends.CommonEqualityComparer`2">
+            <summary>
+            CommonEqualityComparer
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="V"></typeparam>
+        </member>
+        <member name="M:NPlatform.Extends.CommonEqualityComparer`2.#ctor(System.Func{`0,`1},System.Collections.Generic.IEqualityComparer{`1})">
+            <summary>
+            CommonEqualityComparer
+            </summary>
+            <param name="keySelector"></param>
+            <param name="comparer"></param>
+        </member>
+        <member name="M:NPlatform.Extends.CommonEqualityComparer`2.#ctor(System.Func{`0,`1})">
+            <summary>
+            CommonEqualityComparer
+            </summary>
+            <param name="keySelector"></param>
+        </member>
+        <member name="M:NPlatform.Extends.CommonEqualityComparer`2.Equals(`0,`0)">
+            <summary>
+            Equals
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Extends.CommonEqualityComparer`2.GetHashCode(`0)">
+            <summary>
+            GetHashCode
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="T:NPlatform.Extends.CommonFunction">
+            <summary>
+            CommonFunction
+            </summary>
+        </member>
+        <member name="M:NPlatform.Extends.CommonFunction.Distinct``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})">
+            <summary>
+            扩展Distinct方法
+            </summary>
+            <typeparam name="T">源类型</typeparam>
+            <typeparam name="V">委托返回类型（根据V类型，排除重复项）</typeparam>
+            <param name="source">扩展源</param>
+            <param name="keySelector">委托（执行操作）</param>
+            <returns></returns>
+        </member>
+        <member name="T:NPlatform.Extends.HttpExtend">
+            <summary>
+            HTTP扩展类型
+            </summary>
+        </member>
+        <member name="M:NPlatform.Extends.HttpExtend.GetAbsoluteUri(Microsoft.AspNetCore.Http.HttpRequest)">
+            <summary>
+            获取当前请求的完整路径
+            如：http://www.xxx.com/api/user/delete?userid=123
+            </summary>
+            <param name="request">HttpRequest</param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Extends.HttpExtend.GetBaseUrl(Microsoft.AspNetCore.Http.HttpRequest)">
+            <summary>
+            获取当前请求的根路径  
+            如 http://www.xxx.com
+            </summary>
+            <param name="request">HttpRequest</param>
+            <returns></returns>
+        </member>
+        <member name="T:NPlatform.Extends.StrExtend">
+            <summary>
+            字符串操作类
+            </summary>
+        </member>
+        <member name="P:NPlatform.Extends.StrExtend.Monthes">
+            <summary>
+            根据阿拉伯数字返回月份的名称(可更改为某种语言)
+            </summary>	
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.CleanInput(System.String)">
+            <summary>
+            清理字符串
+            </summary>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.ClearBR(System.String)">
+            <summary>
+            清除给定字符串中的回车及换行符
+            </summary>
+            <param name="str">要清除的字符串</param>
+            <returns>清除后返回的字符串</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.CnLength(System.String)">
+            <summary>
+            返回中文字符的长度
+            </summary>
+            <param name="str">字符串</param>
+            <returns>返回中文字符的长度</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.CutStr(System.String,System.Int32,System.String)">
+            <summary>
+            截取多少行的字符串
+            </summary>
+            <param name="strInput">内容</param>
+            <param name="intlen">取多少行</param>
+            <param name="flg">在尾部加上字符串</param>
+            <returns>多少行的字符串</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.CutString(System.String,System.Int32,System.Int32)">
+            <summary>
+            从字符串的指定位置截取指定长度的子字符串
+            </summary>
+            <param name="str">原字符串</param>
+            <param name="startIndex">子字符串的起始位置</param>
+            <param name="length">子字符串的长度</param>
+            <returns>子字符串</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.CutString(System.String,System.Int32)">
+            <summary>
+            从字符串的指定位置开始截取到字符串结尾的了符串
+            </summary>
+            <param name="str">原字符串</param>
+            <param name="startIndex">子字符串的起始位置</param>
+            <returns>子字符串</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.GetAssemblyCopyright">
+            <summary>
+            获得Assembly产品版权
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.GetAssemblyProductName">
+            <summary>
+            获得Assembly产品名称
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.GetAssemblyVersion">
+            <summary>
+            获得Assembly版本号
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.GetFileExtends(System.String)">
+            <summary>
+            取文件扩展名
+            </summary>
+            <param name="filename">文件URL</param>
+            <returns>文件扩展名</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.GetHref(System.String)">
+            <summary>
+            获取页面的链接正则 GetHref(HtmlCode);
+            </summary>
+            <param name="HtmlCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.GetImg(System.String,System.String)">
+            <summary>
+            匹配&lt;img src="" />中的图片路径实际链接
+            </summary>
+            <param name="ImgString">Html字符串</param>
+            <param name="imgHttp">前面URL</param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.GetImgSrc(System.String,System.String)">
+            <summary>
+            匹配页面的图片地址 GetImgSrc(HtmlCode,"http://www.baidu.com/");当比如:&lt;img src="bb/x.gif">则要补充http://www.baidu.com/,当包含http信息时,则可以为空
+            </summary>
+            <param name="HtmlCode"></param>
+            <param name="imgHttp">要补充的http://路径信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.GetInArrayID(System.String,System.String[],System.Boolean)">
+            <summary>
+            判断指定字符串在指定字符串数组中的位置
+            </summary>
+            <param name="strSearch">字符串</param>
+            <param name="stringArray">字符串数组</param>
+            <param name="caseInsensetive">是否不区分大小写, true为不区分, false为区分</param>
+            <returns>字符串在指定字符串数组中的位置, 如不存在则返回-1</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.GetInArrayID(System.String,System.String[])">
+            <summary>
+            判断指定字符串在指定字符串数组中的位置
+            </summary>
+            <param name="strSearch">字符串</param>
+            <param name="stringArray">字符串数组</param>
+            <returns>字符串在指定字符串数组中的位置, 如不存在则返回-1</returns>		
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.GetRegexValue(System.String,System.String)">
+            <summary>
+            执行正则提取出值 GetRegValue("<title>.+?</title>",HtmlCode)
+            </summary>
+            <param name="RegexString">正则表达式</param>
+            <param name="HtmlCode">HTML代码</param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.GetStr(System.String,System.Int32,System.String)">
+            <summary>
+            截取指定长度的字符串
+            </summary>
+            <param name="str">要截取的字符串</param>
+            <param name="length">字符串长度</param>
+            <param name="flg">在尾部加上字符串</param>
+            <returns>指定长度的字符串</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.GetSubString(System.Object,System.Int32,System.String)">
+            <summary>
+            字符截取
+            </summary>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.GetSubString(System.String,System.Int32,System.String)">
+            <summary>
+            字符串如果操过指定长度则将超出的部分用指定字符串代替
+            </summary>
+            <param name="p_SrcString">要检查的字符串</param>
+            <param name="pLength">指定长度</param>
+            <param name="pTailString">用于替换的字符串</param>
+            <returns>截取后的字符串</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.GetUrlFileName(System.String)">
+            <summary>
+            返回URL中结尾的文件名
+            </summary>		
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.IsDateTime(System.String)">
+            <summary>
+            是日期否
+            </summary>
+            <param name="input">字符串</param>
+            <returns>是/否</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.IsEmail(System.String)">
+            <summary>
+            是Email否
+            </summary>
+            <param name="input">字符串</param>
+            <returns>是/否</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.IsInArray(System.String,System.String[],System.Boolean)">
+            <summary>
+            判断指定字符串是否属于指定字符串数组中的一个元素
+            </summary>
+            <param name="strSearch">字符串</param>
+            <param name="stringArray">字符串数组</param>
+            <param name="caseInsensetive">是否不区分大小写, true为不区分, false为区分</param>
+            <returns>判断结果</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.IsInArray(System.String,System.String[])">
+            <summary>
+            判断指定字符串是否属于指定字符串数组中的一个元素
+            </summary>
+            <param name="str">字符串</param>
+            <param name="stringarray">字符串数组</param>
+            <returns>判断结果</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.IsInArray(System.String,System.String)">
+            <summary>
+            判断指定字符串是否属于指定字符串数组中的一个元素
+            </summary>
+            <param name="str">字符串</param>
+            <param name="stringarray">内部以逗号分割单词的字符串</param>
+            <returns>判断结果</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.IsInArray(System.String,System.String,System.Char)">
+            <summary>
+            判断指定字符串是否属于指定字符串数组中的一个元素
+            </summary>
+            <param name="str">字符串</param>
+            <param name="stringarray">内部以逗号分割单词的字符串</param>
+            <param name="strsplit">分割字符串</param>
+            <returns>判断结果</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.IsInArray(System.String,System.String,System.Char,System.Boolean)">
+            <summary>
+            判断指定字符串是否属于指定字符串数组中的一个元素
+            </summary>
+            <param name="str">字符串</param>
+            <param name="stringarray">内部以逗号分割单词的字符串</param>
+            <param name="strsplit">分割字符串</param>
+            <param name="caseInsensetive">是否不区分大小写, true为不区分, false为区分</param>
+            <returns>判断结果</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.IsInIPArray(System.String,System.String[])">
+            <summary>
+            返回指定IP是否在指定的IP数组所限定的范围内, IP数组内的IP地址可以使用*表示该IP段任意, 例如192.168.1.*
+            </summary>
+            <param name="ip"></param>
+            <param name="iparray"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.IsInt(System.String)">
+            <summary>
+            是整数否 非0的整数
+            </summary>
+            <param name="input">字符串</param>
+            <returns>是/否</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.IsIp(System.String)">
+            <summary>
+            是IP类型否
+            </summary>
+            <param name="input">字符串</param>
+            <returns>是/否</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.IsLoginName(System.String)">
+            <summary>
+            校验登录名：只能输入4-20个以字母开头、可带数字、“_”、“.”的字串
+            使用方式：“用户名字符串”.IsLoginName();
+            </summary>
+            <param name="input">字符串</param>
+            <returns>是/否</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.IsMatch(System.String,System.String)">
+            <summary>
+            是否匹配正则表达式
+            </summary>
+            <param name="str"></param>
+            <param name="pattern">正则表达式</param>
+            <returns>完全匹配返回真</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.IsMobile(System.String)">
+            <summary>
+            手机号 + - 
+            </summary>
+            <param name="input">字符串</param>
+            <returns>是/否</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.IsNullOrEmpty(System.String)">
+            <summary>
+            判断字符是否为null或者string.Empty
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.IsNumber(System.String)">
+            <summary>
+            判断给定的字符串(strNumber)是否是数值型
+            </summary>
+            <param name="strNumber">要确认的字符串</param>
+            <returns>是则返加true 不是则返回 false</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.IsPassword(System.String)">
+            <summary>
+            校验密码：只能输入8-20个字母+数字，字母+特殊字符，数字+特殊字符,三者都有
+            使用方式：“用户名字符串”.IsPassword();
+            </summary>
+            <param name="input">字符串</param>
+            <returns>是/否</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.IsSSN(System.String)">
+            <summary>
+            是身份证否
+            </summary>
+            <param name="input">字符串</param>
+            <returns>是/否</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.IsTelepone(System.String)">
+            <summary>
+            电话号码 + -
+            </summary>
+            <param name="input">字符串</param>
+            <returns>是/否</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.IsUrl(System.String)">
+            <summary>
+            是Url否
+            </summary>
+            <param name="input">字符串</param>
+            <returns>是/否</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.IsUsableGuid(System.String)">
+            <summary>
+            是否为正常的Guid，非Guid.Empty
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.IsValidYear(System.String)">
+            <summary>
+            是否为年份
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.RemoveHTML(System.String)">
+            <summary>
+            替换HTML源代码
+            </summary>
+            <param name="HtmlCode">html源代码</param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.ReplaceEnter(System.String)">
+            <summary>
+            替换网页中的换行和引号
+            </summary>
+            <param name="HtmlCode">HTML源代码</param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.ReplaceString(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            自定义的替换字符串函数
+            </summary>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.Reverse(System.String)">
+            <summary>
+            颠倒字符串次序
+            </summary>
+            <param name="_str">字符串</param>
+            <returns>颠倒字符串次序</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.RTrim(System.String)">
+            <summary>
+            删除字符串尾部的回车/换行/空格
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.ToFloat(System.Object,System.Single)">
+            <summary>
+            string型转换为float型
+            </summary>
+            <param name="strValue">要转换的字符串</param>
+            <param name="defValue">缺省值</param>
+            <returns>转换后的int类型结果</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.ToDouble(System.Object,System.Double)">
+            <summary>
+            string型转换为float型
+            </summary>
+            <param name="strValue">要转换的字符串</param>
+            <param name="defValue">缺省值</param>
+            <returns>转换后的int类型结果</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.ToInt(System.Object,System.Int32)">
+            <summary>
+            string型转换为int型
+            </summary>
+            <param name="strValue">要转换的字符串</param>
+            <param name="defValue">缺省值</param>
+            <returns>转换后的int类型结果</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.ToLong(System.Object,System.Int64)">
+            <summary>
+            string型转换为int型
+            </summary>
+            <param name="strValue">要转换的字符串</param>
+            <param name="defValue">缺省值</param>
+            <returns>转换后的int类型结果</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.ToBool(System.Object,System.Boolean)">
+            <summary>
+            string型转换为bool型
+            </summary>
+            <param name="strValue">要转换的字符串</param>
+            <param name="defValue">缺省值</param>
+            <returns>转换后的bool类型结果</returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.ToLowerChar(System.Int32)">
+            <summary>
+            Int 转 char  ，小写的 a~z 
+            </summary>
+            <param name="acciiInt"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.ToStrNoNull(System.Object)">
+            <summary>
+             如果对象为空，则返回string.Empty
+            </summary>
+            <param name="val"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.TrimNull(System.String)">
+            <summary>
+             移除空格，如果字符为null则返回string.empty
+            </summary>
+            <param name="val"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Extends.StrExtend.IsUTF8(System.IO.FileStream)">
+            <summary>
+            判断文件流是否为UTF8字符集
+            </summary>
+            <param name="sbInputStream">文件流</param>
+            <returns>判断结果</returns>
+        </member>
+        <member name="T:NPlatform.Extends.UriExtend">
+            <summary>
+             url 扩展
+            </summary>
+        </member>
+        <member name="M:NPlatform.Extends.UriExtend.IsValidUri(System.String)">
+             <summary>
+            检查URL是否为 http或者https
+             </summary>
+             <returns></returns>
+        </member>
+        <member name="T:NPlatform.Filters.BaseFilter">
+            <summary>
+            过滤器基类
+            </summary>
+        </member>
+        <member name="P:NPlatform.Filters.BaseFilter.FilterParameters">
+            <summary>
+            Gets 参数列表
+            </summary>
+        </member>
+        <member name="P:NPlatform.Filters.BaseFilter.IsEnabled">
+            <summary>
+            Gets or sets a value indicating whether 是否启用
+            </summary>
+        </member>
+        <member name="M:NPlatform.Filters.BaseFilter.SetFilterProperty``1(``0)">
+            <summary>
+            设置过滤器
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="item">实体对象</param>
+        </member>
+        <member name="M:NPlatform.Filters.BaseFilter.GetFilter``1">
+            <summary>
+            获取过滤器
+            </summary>
+            <typeparam name="T">过滤器对象</typeparam>
+            <returns>linq表达式方式的筛选条件</returns>
+        </member>
+        <member name="T:NPlatform.Filters.ClientFilter">
+            <summary>
+            客户端过滤器
+            </summary>
+        </member>
+        <member name="M:NPlatform.Filters.ClientFilter.GetFilter``1">
+            <summary>
+            过滤表达式
+            </summary>
+            <typeparam name="T">要过滤的实体类型</typeparam>
+            <returns>返回过滤表达式</returns>
+        </member>
+        <member name="M:NPlatform.Filters.ClientFilter.SetFilterProperty``1(``0)">
+            <summary>
+            设置参数
+            </summary>
+            <typeparam name="T">实体类型</typeparam>
+            <param name="item">实体</param>
+        </member>
+        <member name="T:NPlatform.Filters.DataFilterParameters">
+            <summary>
+            平台基本过滤器参数
+            </summary>
+        </member>
+        <member name="F:NPlatform.Filters.DataFilterParameters.IsDeleted">
+            <summary>
+            软删除参数名
+            </summary>
+        </member>
+        <member name="F:NPlatform.Filters.DataFilterParameters.TenantId">
+            <summary>
+            租户参数名
+            </summary>
+        </member>
+        <member name="F:NPlatform.Filters.DataFilterParameters.ClientId">
+            <summary>
+            客户端参数名
+            </summary>
+        </member>
+        <member name="T:NPlatform.Filters.FilterManager">
+            <summary>
+            过滤器管理服务
+            </summary>
+        </member>
+        <member name="F:NPlatform.Filters.FilterManager.options">
+            <summary>
+            仓储参数
+            </summary>
+        </member>
+        <member name="M:NPlatform.Filters.FilterManager.#ctor(NPlatform.Repositories.IRepositories.IRepositoryOptions)">
+            <summary>
+            Initializes a new instance of the <see cref="T:NPlatform.Filters.FilterManager"/> class. 
+            </summary>
+            <param name="repositoryOptions">
+            需要配置的仓储的参数列表
+            </param>
+        </member>
+        <member name="M:NPlatform.Filters.FilterManager.DisabledFilter``1">
+            <summary>
+            禁用过滤器
+            </summary>
+            <typeparam name="TFilter">过滤器类型</typeparam>
+            <returns>禁用结果</returns>
+        </member>
+        <member name="M:NPlatform.Filters.FilterManager.EnabledFilter``1">
+            <summary>
+            启用过滤器
+            </summary>
+            <typeparam name="TFilter">过滤器类型</typeparam>
+            <returns>结果</returns>
+        </member>
+        <member name="M:NPlatform.Filters.FilterManager.Register(NPlatform.Filters.IQueryFilter)">
+            <summary>
+            注册一个过滤器
+            </summary>
+            <param name="filter">过滤器对象</param>
+            <exception cref="T:NPlatform.Exceptions.ArgumentEmptyException">过滤器对象为空</exception>
+        </member>
+        <member name="M:NPlatform.Filters.FilterManager.SetParameters``1(System.Collections.Generic.KeyValuePair{System.String,System.Object}[])">
+            <summary>
+            设置过滤器参数
+            </summary>
+            <typeparam name="TFilter">过滤器</typeparam>
+            <param name="par">参数</param>
+        </member>
+        <member name="M:NPlatform.Filters.FilterManager.ResultFilter``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            结果过滤器
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="result"></param>
+            <returns></returns>
+        </member>
+        <member name="T:NPlatform.Filters.IClient">
+            <summary>
+            多租户实体
+            </summary>
+        </member>
+        <member name="P:NPlatform.Filters.IClient.ClientId">
+            <summary>
+            客户端Id
+            </summary>
+        </member>
+        <member name="T:NPlatform.Filters.IFilter">
+            <summary>
+            过滤器接口
+            </summary>
+        </member>
+        <member name="P:NPlatform.Filters.IFilter.FilterParameters">
+            <summary>
+            Gets filterParameters 
+            </summary>
+        </member>
+        <member name="P:NPlatform.Filters.IFilter.IsEnabled">
+            <summary>
+            Gets or sets a value indicating whether 是否启用
+            </summary>
+        </member>
+        <member name="M:NPlatform.Filters.IFilter.SetFilterProperty``1(``0)">
+            <summary>
+            设置过滤器
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+        </member>
+        <member name="M:NPlatform.Filters.IFilter.GetFilter``1">
+            <summary>
+            过滤表达式，直接作用于仓储对于数据的筛选。
+            </summary>
+            <typeparam name="T">需要过滤的实体类型</typeparam>
+            <returns>返回的表达式</returns>
+        </member>
+        <member name="T:NPlatform.Filters.IFilterProperties">
+            <summary>
+            过滤规范属性
+            </summary>
+        </member>
+        <member name="T:NPlatform.Filters.ILogicDelete">
+            <summary>
+            逻辑删除过滤器
+            </summary>
+        </member>
+        <member name="P:NPlatform.Filters.ILogicDelete.IsDeleted">
+            <summary>
+            是否删除
+            </summary>
+        </member>
+        <member name="T:NPlatform.Filters.IQueryFilter">
+            <summary>
+            sql 查询过滤器。
+            </summary>
+        </member>
+        <member name="T:NPlatform.Filters.IResultFilter">
+            <summary>
+            结果过滤器
+            </summary>
+        </member>
+        <member name="T:NPlatform.Filters.ITenant">
+            <summary>
+            多租户实体
+            </summary>
+        </member>
+        <member name="P:NPlatform.Filters.ITenant.TenantId">
+            <summary>
+            租户Id
+            </summary>
+        </member>
+        <member name="T:NPlatform.Filters.LogicDeleteFilter">
+            <summary>
+            软删除过滤器
+            </summary>
+        </member>
+        <member name="M:NPlatform.Filters.LogicDeleteFilter.GetFilter``1">
+            <summary>
+            获取过滤表达式
+            </summary>
+            <typeparam name="T">要过滤的类型</typeparam>
+            <returns>表达式</returns>
+        </member>
+        <member name="M:NPlatform.Filters.LogicDeleteFilter.SetFilterProperty``1(``0)">
+            <summary>
+            设置参数
+            </summary>
+            <typeparam name="T">实体类型</typeparam>
+            <param name="item">实体</param>
+        </member>
+        <member name="T:NPlatform.Filters.TenantFilter">
+            <summary>
+            租户过滤器
+            </summary>
+        </member>
+        <member name="M:NPlatform.Filters.TenantFilter.GetFilter``1">
+            <summary>
+            获取过滤器
+            </summary>
+            <typeparam name="T">过滤的类型</typeparam>
+            <returns>过滤表达式</returns>
+        </member>
+        <member name="M:NPlatform.Filters.TenantFilter.SetFilterProperty``1(``0)">
+            <summary>
+            设置参数
+            </summary>
+            <typeparam name="T">实体类型</typeparam>
+            <param name="item">实体</param>
+        </member>
+        <member name="T:NPlatform.Filters.ValidateAntiforgeryAuthorizationFilter">
+            <summary>
+            防伪token校验
+            </summary>
+        </member>
+        <member name="T:NPlatform.IEvent">
+            <summary>
+            领域事件
+            </summary>
+        </member>
+        <member name="T:NPlatform.IFactory`1">
+            <summary>
+            工厂 接口
+            </summary>
+        </member>
+        <member name="M:NPlatform.IFactory`1.Build">
+            <summary>
+            创建对象
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:NPlatform.IVO">
+            <summary>
+            1.viewmode  接口，为UI服务.
+            2.VO对象以UI所需要的字段为准。
+            3.在MVC UI框架中存在于视图,常用作API返回给UI的数据结果。
+            </summary>
+        </member>
+        <member name="T:NPlatform.Middleware.NHealthChecks">
+            <summary>
+            健康检查的用的中间件
+            </summary>
+        </member>
+        <member name="M:NPlatform.Middleware.NHealthChecks.CheckHealthAsync(Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckContext,System.Threading.CancellationToken)">
+            <summary>
+            健康检测
+            </summary>
+            <param name="context"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:NPlatform.NPlatformStartup">
+            <summary>
+            平台初始化对象. IOC容器加载、缓存初始化。
+            </summary>
+        </member>
+        <member name="P:NPlatform.NPlatformStartup.Config">
+            <summary>
+            平台配置项
+            </summary>
+        </member>
+        <member name="P:NPlatform.NPlatformStartup.AutoMapperInitialized">
+            <summary>
+            是否加载完成.
+            </summary>
+        </member>
+        <member name="P:NPlatform.NPlatformStartup.Options">
+            <summary>
+            仓储配置项
+            </summary>
+        </member>
+        <member name="M:NPlatform.NPlatformStartup.Configure(Microsoft.AspNetCore.Builder.ConfigureHostBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            配置容器
+            </summary>
+        </member>
+        <member name="T:NPlatform.IPlatformHttpContext">
+            <summary>
+             平台  http 上下文
+            </summary>
+        </member>
+        <member name="P:NPlatform.IPlatformHttpContext.Context">
+            <summary>
+            http 上下文
+            </summary>
+        </member>
+        <member name="P:NPlatform.IPlatformHttpContext.Claims">
+            <summary>
+            Claims
+            </summary>
+        </member>
+        <member name="P:NPlatform.IPlatformHttpContext.UserID">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:NPlatform.IPlatformHttpContext.Account">
+            <summary>
+            登录账号
+            </summary>
+        </member>
+        <member name="P:NPlatform.IPlatformHttpContext.CName">
+            <summary>
+            中文名
+            </summary>
+        </member>
+        <member name="P:NPlatform.IPlatformHttpContext.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:NPlatform.IPlatformHttpContext.Roles">
+            <summary>
+            角色
+            </summary>
+        </member>
+        <member name="P:NPlatform.IPlatformHttpContext.Positions">
+            <summary>
+            岗位
+            </summary>
+        </member>
+        <member name="T:NPlatform.PlatformHttpContext">
+            <summary>
+            平台  http 上下文
+            </summary>
+        </member>
+        <member name="M:NPlatform.PlatformHttpContext.#ctor(Microsoft.AspNetCore.Http.IHttpContextAccessor)">
+            <summary>
+             平台  http 上下文
+            </summary>
+            <param name="Accessor"></param>
+        </member>
+        <member name="P:NPlatform.PlatformHttpContext.Context">
+            <summary>
+            http 上下文
+            </summary>
+        </member>
+        <member name="P:NPlatform.PlatformHttpContext.Claims">
+            <summary>
+            登陆用户的附加信息
+            </summary>
+        </member>
+        <member name="P:NPlatform.PlatformHttpContext.UserID">
+            <summary>
+            用户ID（登录后可用）
+            </summary>
+        </member>
+        <member name="P:NPlatform.PlatformHttpContext.Account">
+            <summary>
+            账号（登录后可用）
+            </summary>
+        </member>
+        <member name="P:NPlatform.PlatformHttpContext.CName">
+            <summary>
+            大名
+            </summary>
+        </member>
+        <member name="P:NPlatform.PlatformHttpContext.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:NPlatform.PlatformHttpContext.Roles">
+            <summary>
+            角色清单
+            </summary>
+        </member>
+        <member name="P:NPlatform.PlatformHttpContext.Positions">
+            <summary>
+            岗位
+            </summary>
+        </member>
+        <member name="T:NPlatform.Query.IQuery">
             <summary>
             查询条件
             </summary>
         </member>
-        <member name="P:NPlatform.Dto.SearchExp.SelectSorts">
+        <member name="T:NPlatform.Query.QueryExp">
+            <summary>
+            查询条件的封装
+            </summary>
+        </member>
+        <member name="P:NPlatform.Query.QueryExp.LambdaExp">
+            <summary>
+            查询条件,Lambda 表达式格式的条件
+            </summary>
+        </member>
+        <member name="P:NPlatform.Query.QueryExp.SelectSorts">
             <summary>
             排序条件
             </summary>
         </member>
-        <member name="M:NPlatform.Dto.SearchExp.GetExp``1">
+        <member name="M:NPlatform.Query.QueryExp.GetExp``1">
             <summary>
             获取linq 格式的 的查询表达式
             </summary>
             <typeparam name="T">表达式查询的对象</typeparam>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Dto.SearchExp.GetSelectSorts">
+        <member name="M:NPlatform.Query.QueryExp.GetSelectSorts">
             <summary>
             获取排序字段SelectSorts
             </summary>
             <typeparam name="T">表达式查询的对象</typeparam>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Dto.SearchExp.CreateExpression``1">
+        <member name="M:NPlatform.Query.QueryExp.CreateExpression``1">
             <summary>
             创建表达式
             </summary>
             <returns>表达式</returns>
         </member>
-        <member name="T:NPlatform.Dto.SearchPageExp">
+        <member name="T:NPlatform.Query.QueryPageExp">
             <summary>
             查询条件的封装
             </summary>
         </member>
-        <member name="P:NPlatform.Dto.SearchPageExp.CountTotal">
+        <member name="P:NPlatform.Query.QueryPageExp.CountTotal">
             <summary>
             是否统计总数
             </summary>
         </member>
-        <member name="P:NPlatform.Dto.SearchPageExp.PageIndex">
+        <member name="P:NPlatform.Query.QueryPageExp.PageIndex">
             <summary>
             页码
             </summary>
         </member>
-        <member name="P:NPlatform.Dto.SearchPageExp.PageSize">
+        <member name="P:NPlatform.Query.QueryPageExp.PageSize">
             <summary>
             页大小
-            </summary>
-        </member>
-        <member name="T:NPlatform.CommonRedisConst">
-            <summary>
-            公用的Redis键值常量
-            </summary>
-        </member>
-        <member name="M:NPlatform.CommonRedisConst.SesstionKey(System.String)">
-            <summary>
-            获取第三方登录时缓存手机号码的key
-            </summary>
-            <param name="token">token</param>
-            <returns></returns>
-        </member>
-        <member name="T:NPlatform.ArgumentEmptyException">
-            <summary>
-            参数为空异常
-            </summary>
-        </member>
-        <member name="M:NPlatform.ArgumentEmptyException.#ctor(System.String)">
-            <summary>
-            参数为空异常
-            </summary>
-        </member>
-        <member name="T:NPlatform.ConfigException">
-            <summary>
-            配置异常
-            </summary>
-        </member>
-        <member name="M:NPlatform.ConfigException.#ctor(System.String)">
-            <summary>
-            配置异常
-            </summary>
-        </member>
-        <member name="T:NPlatform.DomainException">
-            <summary>
-            领域层异常
-            </summary>
-        </member>
-        <member name="M:NPlatform.DomainException.#ctor(System.String)">
-            <summary>
-            领域层异常
-            </summary>
-        </member>
-        <member name="T:NPlatform.EnvironmentException">
-            <summary>
-            运行环境异常
-            </summary>
-        </member>
-        <member name="M:NPlatform.EnvironmentException.#ctor(System.String)">
-            <summary>
-            运行环境异常
-            </summary>
-        </member>
-        <member name="T:NPlatform.NPlatformException">
-            <summary>
-            异常基类
-            </summary>
-        </member>
-        <member name="M:NPlatform.NPlatformException.#ctor(System.String,System.Exception,System.String)">
-            <summary>
-            异常基类
-            </summary>
-        </member>
-        <member name="M:NPlatform.NPlatformException.#ctor(System.String,System.String)">
-            <summary>
-            异常基类
-            </summary>
-        </member>
-        <member name="P:NPlatform.NPlatformException.ErrorCode">
-            <summary>
-            错误码
-            </summary>
-        </member>
-        <member name="P:NPlatform.NPlatformException.Message">
-            <summary>
-            消息
-            </summary>
-        </member>
-        <member name="T:NPlatform.INPlatformException">
-            <summary>
-            平台异常基类
-            </summary>
-        </member>
-        <member name="P:NPlatform.INPlatformException.ErrorCode">
-            <summary>
-            错误码
-            </summary>
-        </member>
-        <member name="P:NPlatform.INPlatformException.Message">
-            <summary>
-            错误消息
-            </summary>
-        </member>
-        <member name="T:NPlatform.Repositories.Exceptions.IRepositoryException">
-            <summary>
-            仓储一场接口
-            </summary>
-        </member>
-        <member name="T:NPlatform.Repositories.Exceptions.PredicateTypeException">
-            <summary>
-            查询谓词类型错误
-            </summary>
-        </member>
-        <member name="M:NPlatform.Repositories.Exceptions.PredicateTypeException.#ctor(System.String)">
-            <summary>
-            查询谓词类型错误
-            </summary>
-            <param name="msg">异常信息</param>
-        </member>
-        <member name="T:NPlatform.Repositories.Exceptions.RepositoryException">
-            <summary>
-            仓储数据操作异常
-            </summary>
-        </member>
-        <member name="M:NPlatform.Repositories.Exceptions.RepositoryException.#ctor(System.String,System.Exception)">
-            <summary>
-            仓储数据操作异常
             </summary>
         </member>
         <member name="T:NPlatform.Repositories.DBProvider">
@@ -683,6 +1928,22 @@
             </summary>
             <param name="item">修改的对象</param>
             <returns><placeholder>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</placeholder></returns>
+        </member>
+        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.RemoveAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            聚合的删除方法，多半涉及某一个业务聚合的操作，
+            所以接口约束，基类使用抽象方法约束。
+            </summary>
+            <param name="filter">删除条件</param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.RemoveAsync(`1[])">
+            <summary>
+            聚合的删除方法，多半涉及某一个业务聚合的操作，
+            所以接口约束，基类使用抽象方法约束。
+            </summary>
+            <param name="keys"></param>
+            <returns></returns>
         </member>
         <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.ExistsAsync(`1)">
             <summary>
@@ -862,7 +2123,7 @@
             <param name="entity">实体对象</param>
             <returns>返回T</returns>
         </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IUnitOfWork.RemoveAsync``1(``0[])">
+        <member name="M:NPlatform.Repositories.IRepositories.IUnitOfWork.RemoveAsync``1(System.Collections.Generic.IEnumerable{``0})">
             <summary>
             移除实体对象
             </summary>
@@ -986,1064 +2247,6 @@
             是否为 ASC排序
             </summary>
         </member>
-        <member name="T:NPlatform.OperateException">
-            <summary>
-            操作异常
-            </summary>
-        </member>
-        <member name="M:NPlatform.OperateException.#ctor(System.String)">
-            <summary>
-            操作异常
-            </summary>
-        </member>
-        <member name="T:NPlatform.ThirdPartyResultException">
-            <summary>
-            第三方响应结果异常
-            </summary>
-        </member>
-        <member name="M:NPlatform.ThirdPartyResultException.#ctor(System.String)">
-            <summary>
-            第三方响应结果异常
-            </summary>
-        </member>
-        <member name="T:NPlatform.ValidateException">
-            <summary>
-            校验失败
-            </summary>
-        </member>
-        <member name="M:NPlatform.ValidateException.#ctor(System.String)">
-            <summary>
-            校验失败
-            </summary>
-        </member>
-        <member name="T:NPlatform.Extends.ArrayExtend">
-            <summary>
-            集合扩展类
-            </summary>
-        </member>
-        <member name="M:NPlatform.Extends.ArrayExtend.IsNullOrEmpty(System.String[])">
-            <summary>
-            集合为空或者长度为0
-            </summary>
-            <param name="strs">字符串集合</param>
-            <returns>是否为空集合</returns>
-        </member>
-        <member name="M:NPlatform.Extends.ArrayExtend.IsNullOrEmpty(System.Collections.Generic.List{System.String})">
-            <summary>
-            集合为空或者长度为0
-            </summary>
-            <param name="strs">字符串集合</param>
-            <returns>是否为空集合</returns>
-        </member>
-        <member name="M:NPlatform.Extends.ArrayExtend.IsNullOrEmpty``1(System.Collections.Generic.IEnumerable{``0})">
-            <summary>
-            集合为空或者长度为0
-            </summary>
-            <param name="datas">集合</param>
-            <returns>是否为空集合</returns>
-        </member>
-        <member name="T:NPlatform.Extends.HttpExtend">
-            <summary>
-            HTTP扩展类型
-            </summary>
-        </member>
-        <member name="M:NPlatform.Extends.HttpExtend.GetAbsoluteUri(Microsoft.AspNetCore.Http.HttpRequest)">
-            <summary>
-            获取当前请求的完整路径
-            如：http://www.xxx.com/api/user/delete?userid=123
-            </summary>
-            <param name="request">HttpRequest</param>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.Extends.HttpExtend.GetBaseUrl(Microsoft.AspNetCore.Http.HttpRequest)">
-            <summary>
-            获取当前请求的根路径  
-            如 http://www.xxx.com
-            </summary>
-            <param name="request">HttpRequest</param>
-            <returns></returns>
-        </member>
-        <member name="T:NPlatform.DateTimeExtends">
-            <summary>
-            时间扩展类
-            </summary>
-        </member>
-        <member name="M:NPlatform.DateTimeExtends.IsDateTime(System.String)">
-            <summary>
-            是日期否
-            </summary>
-            <param name="input">字符串</param>
-            <returns>是/否</returns>
-        </member>
-        <member name="M:NPlatform.DateTimeExtends.ToDateTime(System.String,System.String)">
-            <summary>
-            将字符串转成日期时间型
-            </summary>
-        </member>
-        <member name="M:NPlatform.DateTimeExtends.ToUnixTimestamp(System.DateTime)">
-            <summary>  
-            将c# DateTime时间格式转换为Unix时间戳格式  
-            </summary>  
-            <param name="time">时间</param>  
-            <returns>long</returns>  
-        </member>
-        <member name="M:NPlatform.DateTimeExtends.UnixTimestampToDateTime(System.String)">
-            <summary>        
-            时间戳转为C#格式时间        
-            </summary>        
-            <param name="timeStamp"></param>        
-            <returns></returns>        
-        </member>
-        <member name="T:NPlatform.DtoValidate">
-            <summary>
-            Dto 校验扩展
-            </summary>
-        </member>
-        <member name="M:NPlatform.DtoValidate.Validates(NPlatform.IDto)">
-            <summary>
-            校验模型的属性值是否合法,例如在service层的主动校验实体属性
-            </summary>
-            <param name="dto">对象值</param>
-            <returns></returns>
-        </member>
-        <member name="T:NPlatform.EnumExtend">
-            <summary>
-                处理枚举
-            </summary>
-        </member>
-        <member name="M:NPlatform.EnumExtend.GetEnumDes(System.Enum)">
-            <summary>
-                获取描述信息
-            </summary>
-            <param name="en">枚举</param>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.EnumExtend.GetDictionary``1">
-            <summary>
-            指定枚举的枚举项的字典集合,value对应 key，描述对应value。
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.EnumExtend.ToEnum``1(System.Int32)">
-            <summary>
-                把int 值转为枚举
-            </summary>
-            <param name="val">枚举</param>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.EnumExtend.ToInt(System.Enum)">
-            <summary>
-                获取描述信息
-            </summary>
-            <param name="en">枚举</param>
-            <returns></returns>
-        </member>
-        <member name="T:NPlatform.ParameterReplacer">
-            <summary>
-            统一ParameterExpression
-            </summary>
-        </member>
-        <member name="T:NPlatform.PredicateExtensionses">
-            <summary>
-            Predicate扩展
-            </summary>
-        </member>
-        <member name="M:NPlatform.PredicateExtensionses.AndAlso``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
-            <summary>
-            
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="expLeft"></param>
-            <param name="expRight"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.PredicateExtensionses.False``1">
-            <summary>
-            
-            </summary>
-            <typeparam name="T"></typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.PredicateExtensionses.OrElse``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
-            <summary>
-            
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="expLeft"></param>
-            <param name="expRight"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.PredicateExtensionses.True``1">
-            <summary>
-            
-            </summary>
-            <typeparam name="T"></typeparam>
-            <returns></returns>
-        </member>
-        <member name="T:NPlatform.QueryableExtensions">
-            <summary>
-            Queryable扩展
-            </summary>
-        </member>
-        <member name="M:NPlatform.QueryableExtensions.OrderBy``1(System.Linq.IQueryable{``0},System.String)">
-            <summary>
-            
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="queryable"></param>
-            <param name="propertyName"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.QueryableExtensions.OrderBy``1(System.Linq.IQueryable{``0},System.String,System.Boolean)">
-            <summary>
-            OrderBy
-            </summary>
-            <typeparam name="T">实体</typeparam>
-            <param name="queryable">条件</param>
-            <param name="propertyName">属性名称</param>
-            <param name="desc">是否降序</param>
-            <returns></returns>
-        </member>
-        <member name="T:NPlatform.CommonEqualityComparer`2">
-            <summary>
-            CommonEqualityComparer
-            </summary>
-            <typeparam name="T"></typeparam>
-            <typeparam name="V"></typeparam>
-        </member>
-        <member name="M:NPlatform.CommonEqualityComparer`2.#ctor(System.Func{`0,`1},System.Collections.Generic.IEqualityComparer{`1})">
-            <summary>
-            CommonEqualityComparer
-            </summary>
-            <param name="keySelector"></param>
-            <param name="comparer"></param>
-        </member>
-        <member name="M:NPlatform.CommonEqualityComparer`2.#ctor(System.Func{`0,`1})">
-            <summary>
-            CommonEqualityComparer
-            </summary>
-            <param name="keySelector"></param>
-        </member>
-        <member name="M:NPlatform.CommonEqualityComparer`2.Equals(`0,`0)">
-            <summary>
-            Equals
-            </summary>
-            <param name="x"></param>
-            <param name="y"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.CommonEqualityComparer`2.GetHashCode(`0)">
-            <summary>
-            GetHashCode
-            </summary>
-            <param name="obj"></param>
-            <returns></returns>
-        </member>
-        <member name="T:NPlatform.CommonFunction">
-            <summary>
-            CommonFunction
-            </summary>
-        </member>
-        <member name="M:NPlatform.CommonFunction.Distinct``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})">
-            <summary>
-            扩展Distinct方法
-            </summary>
-            <typeparam name="T">源类型</typeparam>
-            <typeparam name="V">委托返回类型（根据V类型，排除重复项）</typeparam>
-            <param name="source">扩展源</param>
-            <param name="keySelector">委托（执行操作）</param>
-            <returns></returns>
-        </member>
-        <member name="T:NPlatform.StrExtend">
-            <summary>
-            字符串操作类
-            </summary>
-        </member>
-        <member name="P:NPlatform.StrExtend.Monthes">
-            <summary>
-            根据阿拉伯数字返回月份的名称(可更改为某种语言)
-            </summary>	
-        </member>
-        <member name="M:NPlatform.StrExtend.CleanInput(System.String)">
-            <summary>
-            清理字符串
-            </summary>
-        </member>
-        <member name="M:NPlatform.StrExtend.ClearBR(System.String)">
-            <summary>
-            清除给定字符串中的回车及换行符
-            </summary>
-            <param name="str">要清除的字符串</param>
-            <returns>清除后返回的字符串</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.CnLength(System.String)">
-            <summary>
-            返回中文字符的长度
-            </summary>
-            <param name="str">字符串</param>
-            <returns>返回中文字符的长度</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.CutStr(System.String,System.Int32,System.String)">
-            <summary>
-            截取多少行的字符串
-            </summary>
-            <param name="strInput">内容</param>
-            <param name="intlen">取多少行</param>
-            <param name="flg">在尾部加上字符串</param>
-            <returns>多少行的字符串</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.CutString(System.String,System.Int32,System.Int32)">
-            <summary>
-            从字符串的指定位置截取指定长度的子字符串
-            </summary>
-            <param name="str">原字符串</param>
-            <param name="startIndex">子字符串的起始位置</param>
-            <param name="length">子字符串的长度</param>
-            <returns>子字符串</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.CutString(System.String,System.Int32)">
-            <summary>
-            从字符串的指定位置开始截取到字符串结尾的了符串
-            </summary>
-            <param name="str">原字符串</param>
-            <param name="startIndex">子字符串的起始位置</param>
-            <returns>子字符串</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.GetAssemblyCopyright">
-            <summary>
-            获得Assembly产品版权
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.GetAssemblyProductName">
-            <summary>
-            获得Assembly产品名称
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.GetAssemblyVersion">
-            <summary>
-            获得Assembly版本号
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.GetFileExtends(System.String)">
-            <summary>
-            取文件扩展名
-            </summary>
-            <param name="filename">文件URL</param>
-            <returns>文件扩展名</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.GetHref(System.String)">
-            <summary>
-            获取页面的链接正则 GetHref(HtmlCode);
-            </summary>
-            <param name="HtmlCode"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.GetImg(System.String,System.String)">
-            <summary>
-            匹配&lt;img src="" />中的图片路径实际链接
-            </summary>
-            <param name="ImgString">Html字符串</param>
-            <param name="imgHttp">前面URL</param>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.GetImgSrc(System.String,System.String)">
-            <summary>
-            匹配页面的图片地址 GetImgSrc(HtmlCode,"http://www.baidu.com/");当比如:&lt;img src="bb/x.gif">则要补充http://www.baidu.com/,当包含http信息时,则可以为空
-            </summary>
-            <param name="HtmlCode"></param>
-            <param name="imgHttp">要补充的http://路径信息</param>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.GetInArrayID(System.String,System.String[],System.Boolean)">
-            <summary>
-            判断指定字符串在指定字符串数组中的位置
-            </summary>
-            <param name="strSearch">字符串</param>
-            <param name="stringArray">字符串数组</param>
-            <param name="caseInsensetive">是否不区分大小写, true为不区分, false为区分</param>
-            <returns>字符串在指定字符串数组中的位置, 如不存在则返回-1</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.GetInArrayID(System.String,System.String[])">
-            <summary>
-            判断指定字符串在指定字符串数组中的位置
-            </summary>
-            <param name="strSearch">字符串</param>
-            <param name="stringArray">字符串数组</param>
-            <returns>字符串在指定字符串数组中的位置, 如不存在则返回-1</returns>		
-        </member>
-        <member name="M:NPlatform.StrExtend.GetRegexValue(System.String,System.String)">
-            <summary>
-            执行正则提取出值 GetRegValue("<title>.+?</title>",HtmlCode)
-            </summary>
-            <param name="RegexString">正则表达式</param>
-            <param name="HtmlCode">HTML代码</param>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.GetStr(System.String,System.Int32,System.String)">
-            <summary>
-            截取指定长度的字符串
-            </summary>
-            <param name="str">要截取的字符串</param>
-            <param name="length">字符串长度</param>
-            <param name="flg">在尾部加上字符串</param>
-            <returns>指定长度的字符串</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.GetSubString(System.Object,System.Int32,System.String)">
-            <summary>
-            字符截取
-            </summary>
-        </member>
-        <member name="M:NPlatform.StrExtend.GetSubString(System.String,System.Int32,System.String)">
-            <summary>
-            字符串如果操过指定长度则将超出的部分用指定字符串代替
-            </summary>
-            <param name="p_SrcString">要检查的字符串</param>
-            <param name="pLength">指定长度</param>
-            <param name="pTailString">用于替换的字符串</param>
-            <returns>截取后的字符串</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.GetUrlFileName(System.String)">
-            <summary>
-            返回URL中结尾的文件名
-            </summary>		
-        </member>
-        <member name="M:NPlatform.StrExtend.IsDateTime(System.String)">
-            <summary>
-            是日期否
-            </summary>
-            <param name="input">字符串</param>
-            <returns>是/否</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.IsEmail(System.String)">
-            <summary>
-            是Email否
-            </summary>
-            <param name="input">字符串</param>
-            <returns>是/否</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.IsInArray(System.String,System.String[],System.Boolean)">
-            <summary>
-            判断指定字符串是否属于指定字符串数组中的一个元素
-            </summary>
-            <param name="strSearch">字符串</param>
-            <param name="stringArray">字符串数组</param>
-            <param name="caseInsensetive">是否不区分大小写, true为不区分, false为区分</param>
-            <returns>判断结果</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.IsInArray(System.String,System.String[])">
-            <summary>
-            判断指定字符串是否属于指定字符串数组中的一个元素
-            </summary>
-            <param name="str">字符串</param>
-            <param name="stringarray">字符串数组</param>
-            <returns>判断结果</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.IsInArray(System.String,System.String)">
-            <summary>
-            判断指定字符串是否属于指定字符串数组中的一个元素
-            </summary>
-            <param name="str">字符串</param>
-            <param name="stringarray">内部以逗号分割单词的字符串</param>
-            <returns>判断结果</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.IsInArray(System.String,System.String,System.Char)">
-            <summary>
-            判断指定字符串是否属于指定字符串数组中的一个元素
-            </summary>
-            <param name="str">字符串</param>
-            <param name="stringarray">内部以逗号分割单词的字符串</param>
-            <param name="strsplit">分割字符串</param>
-            <returns>判断结果</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.IsInArray(System.String,System.String,System.Char,System.Boolean)">
-            <summary>
-            判断指定字符串是否属于指定字符串数组中的一个元素
-            </summary>
-            <param name="str">字符串</param>
-            <param name="stringarray">内部以逗号分割单词的字符串</param>
-            <param name="strsplit">分割字符串</param>
-            <param name="caseInsensetive">是否不区分大小写, true为不区分, false为区分</param>
-            <returns>判断结果</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.IsInIPArray(System.String,System.String[])">
-            <summary>
-            返回指定IP是否在指定的IP数组所限定的范围内, IP数组内的IP地址可以使用*表示该IP段任意, 例如192.168.1.*
-            </summary>
-            <param name="ip"></param>
-            <param name="iparray"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.IsInt(System.String)">
-            <summary>
-            是整数否 非0的整数
-            </summary>
-            <param name="input">字符串</param>
-            <returns>是/否</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.IsIp(System.String)">
-            <summary>
-            是IP类型否
-            </summary>
-            <param name="input">字符串</param>
-            <returns>是/否</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.IsLoginName(System.String)">
-            <summary>
-            校验登录名：只能输入4-20个以字母开头、可带数字、“_”、“.”的字串
-            使用方式：“用户名字符串”.IsLoginName();
-            </summary>
-            <param name="input">字符串</param>
-            <returns>是/否</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.IsMatch(System.String,System.String)">
-            <summary>
-            是否匹配正则表达式
-            </summary>
-            <param name="str"></param>
-            <param name="pattern">正则表达式</param>
-            <returns>完全匹配返回真</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.IsMobile(System.String)">
-            <summary>
-            手机号 + - 
-            </summary>
-            <param name="input">字符串</param>
-            <returns>是/否</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.IsNullOrEmpty(System.String)">
-            <summary>
-            判断字符是否为null或者string.Empty
-            </summary>
-            <param name="str"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.IsNumber(System.String)">
-            <summary>
-            判断给定的字符串(strNumber)是否是数值型
-            </summary>
-            <param name="strNumber">要确认的字符串</param>
-            <returns>是则返加true 不是则返回 false</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.IsPassword(System.String)">
-            <summary>
-            校验密码：只能输入8-20个字母+数字，字母+特殊字符，数字+特殊字符,三者都有
-            使用方式：“用户名字符串”.IsPassword();
-            </summary>
-            <param name="input">字符串</param>
-            <returns>是/否</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.IsSSN(System.String)">
-            <summary>
-            是身份证否
-            </summary>
-            <param name="input">字符串</param>
-            <returns>是/否</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.IsTelepone(System.String)">
-            <summary>
-            电话号码 + -
-            </summary>
-            <param name="input">字符串</param>
-            <returns>是/否</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.IsUrl(System.String)">
-            <summary>
-            是Url否
-            </summary>
-            <param name="input">字符串</param>
-            <returns>是/否</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.IsUsableGuid(System.String)">
-            <summary>
-            是否为正常的Guid，非Guid.Empty
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.IsValidYear(System.String)">
-            <summary>
-            是否为年份
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.RemoveHTML(System.String)">
-            <summary>
-            替换HTML源代码
-            </summary>
-            <param name="HtmlCode">html源代码</param>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.ReplaceEnter(System.String)">
-            <summary>
-            替换网页中的换行和引号
-            </summary>
-            <param name="HtmlCode">HTML源代码</param>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.ReplaceString(System.String,System.String,System.String,System.Boolean)">
-            <summary>
-            自定义的替换字符串函数
-            </summary>
-        </member>
-        <member name="M:NPlatform.StrExtend.Reverse(System.String)">
-            <summary>
-            颠倒字符串次序
-            </summary>
-            <param name="_str">字符串</param>
-            <returns>颠倒字符串次序</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.RTrim(System.String)">
-            <summary>
-            删除字符串尾部的回车/换行/空格
-            </summary>
-            <param name="str"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.ToFloat(System.Object,System.Single)">
-            <summary>
-            string型转换为float型
-            </summary>
-            <param name="strValue">要转换的字符串</param>
-            <param name="defValue">缺省值</param>
-            <returns>转换后的int类型结果</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.ToInt(System.Object,System.Int32)">
-            <summary>
-            string型转换为int型
-            </summary>
-            <param name="strValue">要转换的字符串</param>
-            <param name="defValue">缺省值</param>
-            <returns>转换后的int类型结果</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.ToBool(System.Object,System.Boolean)">
-            <summary>
-            string型转换为bool型
-            </summary>
-            <param name="strValue">要转换的字符串</param>
-            <param name="defValue">缺省值</param>
-            <returns>转换后的bool类型结果</returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.ToLowerChar(System.Int32)">
-            <summary>
-            Int 转 char  ，小写的 a~z 
-            </summary>
-            <param name="acciiInt"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.ToStrNoNull(System.Object)">
-            <summary>
-             如果对象为空，则返回string.Empty
-            </summary>
-            <param name="val"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.TrimNull(System.String)">
-            <summary>
-             移除空格，如果字符为null则返回string.empty
-            </summary>
-            <param name="val"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.StrExtend.IsUTF8(System.IO.FileStream)">
-            <summary>
-            判断文件流是否为UTF8字符集
-            </summary>
-            <param name="sbInputStream">文件流</param>
-            <returns>判断结果</returns>
-        </member>
-        <member name="T:NPlatform.Filters.BaseFilter">
-            <summary>
-            过滤器基类
-            </summary>
-        </member>
-        <member name="P:NPlatform.Filters.BaseFilter.FilterParameters">
-            <summary>
-            Gets 参数列表
-            </summary>
-        </member>
-        <member name="P:NPlatform.Filters.BaseFilter.IsEnabled">
-            <summary>
-            Gets or sets a value indicating whether 是否启用
-            </summary>
-        </member>
-        <member name="M:NPlatform.Filters.BaseFilter.SetFilterProperty``1(``0)">
-            <summary>
-            设置过滤器
-            </summary>
-            <typeparam name="T">实体对象</typeparam>
-            <param name="item">实体对象</param>
-        </member>
-        <member name="M:NPlatform.Filters.BaseFilter.GetFilter``1">
-            <summary>
-            获取过滤器
-            </summary>
-            <typeparam name="T">过滤器对象</typeparam>
-            <returns>linq表达式方式的筛选条件</returns>
-        </member>
-        <member name="T:NPlatform.Filters.ClientFilter">
-            <summary>
-            客户端过滤器
-            </summary>
-        </member>
-        <member name="M:NPlatform.Filters.ClientFilter.GetFilter``1">
-            <summary>
-            过滤表达式
-            </summary>
-            <typeparam name="T">要过滤的实体类型</typeparam>
-            <returns>返回过滤表达式</returns>
-        </member>
-        <member name="M:NPlatform.Filters.ClientFilter.SetFilterProperty``1(``0)">
-            <summary>
-            设置参数
-            </summary>
-            <typeparam name="T">实体类型</typeparam>
-            <param name="item">实体</param>
-        </member>
-        <member name="T:NPlatform.Filters.DataFilterParameters">
-            <summary>
-            平台基本过滤器参数
-            </summary>
-        </member>
-        <member name="F:NPlatform.Filters.DataFilterParameters.IsDeleted">
-            <summary>
-            软删除参数名
-            </summary>
-        </member>
-        <member name="F:NPlatform.Filters.DataFilterParameters.TenantId">
-            <summary>
-            租户参数名
-            </summary>
-        </member>
-        <member name="F:NPlatform.Filters.DataFilterParameters.ClientId">
-            <summary>
-            客户端参数名
-            </summary>
-        </member>
-        <member name="T:NPlatform.Filters.FilterManager">
-            <summary>
-            过滤器管理服务
-            </summary>
-        </member>
-        <member name="F:NPlatform.Filters.FilterManager.options">
-            <summary>
-            仓储参数
-            </summary>
-        </member>
-        <member name="M:NPlatform.Filters.FilterManager.#ctor(NPlatform.Repositories.IRepositories.IRepositoryOptions)">
-            <summary>
-            Initializes a new instance of the <see cref="T:NPlatform.Filters.FilterManager"/> class. 
-            </summary>
-            <param name="repositoryOptions">
-            需要配置的仓储的参数列表
-            </param>
-        </member>
-        <member name="M:NPlatform.Filters.FilterManager.DisabledFilter``1">
-            <summary>
-            禁用过滤器
-            </summary>
-            <typeparam name="TFilter">过滤器类型</typeparam>
-            <returns>禁用结果</returns>
-        </member>
-        <member name="M:NPlatform.Filters.FilterManager.EnabledFilter``1">
-            <summary>
-            启用过滤器
-            </summary>
-            <typeparam name="TFilter">过滤器类型</typeparam>
-            <returns>结果</returns>
-        </member>
-        <member name="M:NPlatform.Filters.FilterManager.Register(NPlatform.Filters.IQueryFilter)">
-            <summary>
-            注册一个过滤器
-            </summary>
-            <param name="filter">过滤器对象</param>
-            <exception cref="T:NPlatform.ArgumentEmptyException">过滤器对象为空</exception>
-        </member>
-        <member name="M:NPlatform.Filters.FilterManager.SetParameters``1(System.Collections.Generic.KeyValuePair{System.String,System.Object}[])">
-            <summary>
-            设置过滤器参数
-            </summary>
-            <typeparam name="TFilter">过滤器</typeparam>
-            <param name="par">参数</param>
-        </member>
-        <member name="M:NPlatform.Filters.FilterManager.ResultFilter``1(System.Collections.Generic.IEnumerable{``0})">
-            <summary>
-            结果过滤器
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="result"></param>
-            <returns></returns>
-        </member>
-        <member name="T:NPlatform.Filters.IClient">
-            <summary>
-            多租户实体
-            </summary>
-        </member>
-        <member name="P:NPlatform.Filters.IClient.ClientId">
-            <summary>
-            客户端Id
-            </summary>
-        </member>
-        <member name="T:NPlatform.Filters.IFilter">
-            <summary>
-            过滤器接口
-            </summary>
-        </member>
-        <member name="P:NPlatform.Filters.IFilter.FilterParameters">
-            <summary>
-            Gets filterParameters 
-            </summary>
-        </member>
-        <member name="P:NPlatform.Filters.IFilter.IsEnabled">
-            <summary>
-            Gets or sets a value indicating whether 是否启用
-            </summary>
-        </member>
-        <member name="M:NPlatform.Filters.IFilter.SetFilterProperty``1(``0)">
-            <summary>
-            设置过滤器
-            </summary>
-            <typeparam name="T">实体对象</typeparam>
-        </member>
-        <member name="M:NPlatform.Filters.IFilter.GetFilter``1">
-            <summary>
-            过滤表达式，直接作用于仓储对于数据的筛选。
-            </summary>
-            <typeparam name="T">需要过滤的实体类型</typeparam>
-            <returns>返回的表达式</returns>
-        </member>
-        <member name="T:NPlatform.Filters.IFilterProperties">
-            <summary>
-            过滤规范属性
-            </summary>
-        </member>
-        <member name="T:NPlatform.Filters.ILogicDelete">
-            <summary>
-            逻辑删除过滤器
-            </summary>
-        </member>
-        <member name="P:NPlatform.Filters.ILogicDelete.IsDeleted">
-            <summary>
-            是否删除
-            </summary>
-        </member>
-        <member name="T:NPlatform.Filters.IQueryFilter">
-            <summary>
-            sql 查询过滤器。
-            </summary>
-        </member>
-        <member name="T:NPlatform.Filters.IResultFilter">
-            <summary>
-            结果过滤器
-            </summary>
-        </member>
-        <member name="T:NPlatform.Filters.ITenant">
-            <summary>
-            多租户实体
-            </summary>
-        </member>
-        <member name="P:NPlatform.Filters.ITenant.TenantId">
-            <summary>
-            租户Id
-            </summary>
-        </member>
-        <member name="T:NPlatform.Filters.LogicDeleteFilter">
-            <summary>
-            软删除过滤器
-            </summary>
-        </member>
-        <member name="M:NPlatform.Filters.LogicDeleteFilter.GetFilter``1">
-            <summary>
-            获取过滤表达式
-            </summary>
-            <typeparam name="T">要过滤的类型</typeparam>
-            <returns>表达式</returns>
-        </member>
-        <member name="M:NPlatform.Filters.LogicDeleteFilter.SetFilterProperty``1(``0)">
-            <summary>
-            设置参数
-            </summary>
-            <typeparam name="T">实体类型</typeparam>
-            <param name="item">实体</param>
-        </member>
-        <member name="T:NPlatform.Filters.TenantFilter">
-            <summary>
-            租户过滤器
-            </summary>
-        </member>
-        <member name="M:NPlatform.Filters.TenantFilter.GetFilter``1">
-            <summary>
-            获取过滤器
-            </summary>
-            <typeparam name="T">过滤的类型</typeparam>
-            <returns>过滤表达式</returns>
-        </member>
-        <member name="M:NPlatform.Filters.TenantFilter.SetFilterProperty``1(``0)">
-            <summary>
-            设置参数
-            </summary>
-            <typeparam name="T">实体类型</typeparam>
-            <param name="item">实体</param>
-        </member>
-        <member name="T:NPlatform.IDto">
-            <summary>
-            Dto 接口
-            </summary>
-        </member>
-        <member name="T:NPlatform.IFactory`1">
-            <summary>
-            工厂 接口
-            </summary>
-        </member>
-        <member name="M:NPlatform.IFactory`1.Build">
-            <summary>
-            创建对象
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:NPlatform.IVO">
-            <summary>
-            1.viewmode  接口，当需要组合多个业务接口，呈现一个跨聚合、跨领域的试图时，无法用某个特定Dto描述时，可以创建VO对象。
-            2.VO对象以UI所需要的字段为准。
-            3.在MVC UI框架中存在于视图，在WEBAPI框架中，存在于特定的应用服务，比如“报表服务”。
-            </summary>
-        </member>
-        <member name="T:NPlatform.Middleware.NHealthChecks">
-            <summary>
-            健康检查的用的中间件
-            </summary>
-        </member>
-        <member name="M:NPlatform.Middleware.NHealthChecks.CheckHealthAsync(Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckContext,System.Threading.CancellationToken)">
-            <summary>
-            健康检测
-            </summary>
-            <param name="context"></param>
-            <param name="cancellationToken"></param>
-            <returns></returns>
-        </member>
-        <member name="T:NPlatform.NPlatformStartup">
-            <summary>
-            平台初始化对象. IOC容器加载、缓存初始化。
-            </summary>
-        </member>
-        <member name="P:NPlatform.NPlatformStartup.Config">
-            <summary>
-            平台配置项
-            </summary>
-        </member>
-        <member name="P:NPlatform.NPlatformStartup.AutoMapperInitialized">
-            <summary>
-            是否加载完成.
-            </summary>
-        </member>
-        <member name="P:NPlatform.NPlatformStartup.Options">
-            <summary>
-            仓储配置项
-            </summary>
-        </member>
-        <member name="M:NPlatform.NPlatformStartup.Configure(Autofac.ContainerBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
-            <summary>
-            配置容器
-            </summary>
-        </member>
-        <member name="T:NPlatform.IPlatformHttpContext">
-            <summary>
-             平台  http 上下文
-            </summary>
-        </member>
-        <member name="P:NPlatform.IPlatformHttpContext.Context">
-            <summary>
-            http 上下文
-            </summary>
-        </member>
-        <member name="P:NPlatform.IPlatformHttpContext.Claims">
-            <summary>
-            Claims
-            </summary>
-        </member>
-        <member name="P:NPlatform.IPlatformHttpContext.UserID">
-            <summary>
-            用户ID
-            </summary>
-        </member>
-        <member name="P:NPlatform.IPlatformHttpContext.Account">
-            <summary>
-            登录账号
-            </summary>
-        </member>
-        <member name="P:NPlatform.IPlatformHttpContext.CName">
-            <summary>
-            中文名
-            </summary>
-        </member>
-        <member name="P:NPlatform.IPlatformHttpContext.NickName">
-            <summary>
-            昵称
-            </summary>
-        </member>
-        <member name="P:NPlatform.IPlatformHttpContext.Roles">
-            <summary>
-            角色
-            </summary>
-        </member>
-        <member name="P:NPlatform.IPlatformHttpContext.Positions">
-            <summary>
-            岗位
-            </summary>
-        </member>
-        <member name="T:NPlatform.PlatformHttpContext">
-            <summary>
-            平台  http 上下文
-            </summary>
-        </member>
-        <member name="M:NPlatform.PlatformHttpContext.#ctor(Microsoft.AspNetCore.Http.IHttpContextAccessor)">
-            <summary>
-             平台  http 上下文
-            </summary>
-            <param name="Accessor"></param>
-        </member>
-        <member name="P:NPlatform.PlatformHttpContext.Context">
-            <summary>
-            http 上下文
-            </summary>
-        </member>
-        <member name="P:NPlatform.PlatformHttpContext.Claims">
-            <summary>
-            登陆用户的附加信息
-            </summary>
-        </member>
-        <member name="P:NPlatform.PlatformHttpContext.UserID">
-            <summary>
-            用户ID（登录后可用）
-            </summary>
-        </member>
-        <member name="P:NPlatform.PlatformHttpContext.Account">
-            <summary>
-            账号（登录后可用）
-            </summary>
-        </member>
-        <member name="P:NPlatform.PlatformHttpContext.CName">
-            <summary>
-            大名
-            </summary>
-        </member>
-        <member name="P:NPlatform.PlatformHttpContext.NickName">
-            <summary>
-            昵称
-            </summary>
-        </member>
-        <member name="P:NPlatform.PlatformHttpContext.Roles">
-            <summary>
-            角色清单
-            </summary>
-        </member>
-        <member name="P:NPlatform.PlatformHttpContext.Positions">
-            <summary>
-            岗位
-            </summary>
-        </member>
         <member name="T:NPlatform.Result.ErrorResult`1">
             <summary>
             错误信息
@@ -2069,6 +2272,14 @@
             <param name="message">消息</param>
             <param name="httpCode">http状态码</param>
         </member>
+        <member name="M:NPlatform.Result.ErrorResult`1.#ctor(System.String,System.Net.HttpStatusCode,System.Object)">
+            <summary>
+            操作结果
+            </summary>
+            <param name="message">消息</param>
+            <param name="httpCode"></param>
+            <param name="serializerSettings">序列化配置</param>
+        </member>
         <member name="P:NPlatform.Result.ErrorResult`1.Message">
             <summary>
             消息
@@ -2088,6 +2299,9 @@
             <summary>
             状态码
             </summary>
+        </member>
+        <member name="M:NPlatform.Result.ErrorResult`1.ExecuteResultAsync(Microsoft.AspNetCore.Mvc.ActionContext)">
+            <inheritdoc />
         </member>
         <member name="P:NPlatform.Result.ErrorResult`1.Total">
             <summary>
@@ -2138,14 +2352,28 @@
         </member>
         <member name="P:NPlatform.Result.INPResult.ContentType">
             <summary>
-            
-                Gets or sets the Microsoft.Net.Http.Headers.MediaTypeHeaderValue representing
-                the Content-Type header of the response.
+            Gets or sets the <see cref="!:Net.Http.Headers.MediaTypeHeaderValue"/> representing the Content-Type header of the response.
+            </summary>
+        </member>
+        <member name="P:NPlatform.Result.INPResult.SerializerSettings">
+            <summary>
+            Gets or sets the serializer settings.
+            <para>
+            When using <c>System.Text.Json</c>, this should be an instance of <see cref="T:System.Text.Json.JsonSerializerOptions" />
+            </para>
+            <para>
+            When using <c>Newtonsoft.Json</c>, this should be an instance of <c>JsonSerializerSettings</c>.
+            </para>
             </summary>
         </member>
         <member name="P:NPlatform.Result.INPResult.StatusCode">
             <summary>
-            Gets or sets the HTTP status code.
+            Gets or sets the HTTP status code. 严格执行 restfull 标准时推荐使用code来处理请求状态。
+            </summary>
+        </member>
+        <member name="P:NPlatform.Result.INPResult.Success">
+            <summary>
+            请求是否成功，是statusCode的封装成 bool类型，只关注请求结果是否成功。
             </summary>
         </member>
         <member name="P:NPlatform.Result.INPResult.Value">
@@ -2160,21 +2388,6 @@
             <typeparam name="T"></typeparam>
         </member>
         <member name="T:NPlatform.Result.ListResult`1">
-            <summary>
-            数据列表内容对象
-            </summary>
-        </member>
-        <member name="M:NPlatform.Result.ListResult`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Int64)">
-            <summary>
-            数据列表内容对象
-            </summary>
-        </member>
-        <member name="M:NPlatform.Result.ListResult`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
-            <summary>
-            数据列表内容对象
-            </summary>
-        </member>
-        <member name="M:NPlatform.Result.ListResult`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Int64,System.Nullable{System.Int32})">
             <summary>
             数据列表内容对象
             </summary>
@@ -2204,11 +2417,29 @@
             状态码
             </summary>
         </member>
+        <member name="M:NPlatform.Result.ListResult`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Int64)">
+            <summary>
+            数据列表内容对象
+            </summary>
+        </member>
+        <member name="M:NPlatform.Result.ListResult`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            数据列表内容对象
+            </summary>
+        </member>
+        <member name="M:NPlatform.Result.ListResult`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Int64,System.Nullable{System.Int32})">
+            <summary>
+            数据列表内容对象
+            </summary>
+        </member>
         <member name="M:NPlatform.Result.ListResult`1.ToList">
             <summary>
             返回结果的集合
             </summary>
             <returns>结果集合</returns>
+        </member>
+        <member name="M:NPlatform.Result.ListResult`1.ExecuteResultAsync(Microsoft.AspNetCore.Mvc.ActionContext)">
+            <inheritdoc />
         </member>
         <member name="T:NPlatform.Result.ResultHelper">
             <summary>
@@ -2246,6 +2477,11 @@
             </summary>
         </member>
         <member name="M:NPlatform.Result.ResultHelper.Error``1(System.String)">
+            <summary>
+            返回错误信息
+            </summary>
+        </member>
+        <member name="M:NPlatform.Result.ResultHelper.ErrorParams``1(System.String)">
             <summary>
             返回错误信息
             </summary>
@@ -2391,23 +2627,7 @@
             </summary>
         </member>
         <member name="M:NPlatform.Result.TreeResult`1.ExecuteResultAsync(Microsoft.AspNetCore.Mvc.ActionContext)">
-            <summary>
-            Executes the result operation of the action method asynchronously. This method is called by MVC to process
-            the result of an action method.
-            The default implementation of this method calls the <see cref="M:NPlatform.Result.TreeResult`1.ExecuteResult(Microsoft.AspNetCore.Mvc.ActionContext)"/> method and
-            returns a completed task.
-            </summary>
-            <param name="context">The context in which the result is executed. The context information includes
-            information about the action that was executed and request information.</param>
-            <returns>A task that represents the asynchronous execute operation.</returns>
-        </member>
-        <member name="M:NPlatform.Result.TreeResult`1.ExecuteResult(Microsoft.AspNetCore.Mvc.ActionContext)">
-            <summary>
-            Executes the result operation of the action method synchronously. This method is called by MVC to process
-            the result of an action method.
-            </summary>
-            <param name="context">The context in which the result is executed. The context information includes
-            information about the action that was executed and request information.</param>
+            <inheritdoc />
         </member>
     </members>
 </doc>
