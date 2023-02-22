@@ -17,14 +17,13 @@
 
 namespace NPlatform.Repositories.IRepositories
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Data.SqlClient;
-    using System.Linq.Expressions;
-    using System.Threading.Tasks;
     using NPlatform.Domains.Entity;
     using NPlatform.Repositories;
     using NPlatform.Result;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq.Expressions;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// 聚合内的工作单元接口
@@ -69,6 +68,21 @@ namespace NPlatform.Repositories.IRepositories
         /// <param name="item">修改的对象</param>
         /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
         Task<int> UpdateAsync(TEntity item);
+
+        /// <summary>
+        /// 聚合的删除方法，多半涉及某一个业务聚合的操作，
+        /// 所以接口约束，基类使用抽象方法约束。
+        /// </summary>
+        /// <param name="filter">删除条件</param>
+        /// <returns></returns>
+        Task<int> RemoveAsync(Expression<Func<TEntity, bool>> filter);
+        /// <summary>
+        /// 聚合的删除方法，多半涉及某一个业务聚合的操作，
+        /// 所以接口约束，基类使用抽象方法约束。
+        /// </summary>
+        /// <param name="keys"></param>
+        /// <returns></returns>
+        Task<int> RemoveAsync(params TPrimaryKey[] keys);
 
         /// <summary>
         /// 数据是否存在

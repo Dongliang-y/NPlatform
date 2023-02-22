@@ -14,7 +14,7 @@
 
 #endregion
 
-namespace NPlatform
+namespace NPlatform.Exceptions
 {
     /// <summary>
     /// 校验失败

@@ -1,4 +1,13 @@
-﻿/***********************************************************
+﻿using NPOI.HPSF;
+using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
+using NPOI.SS.Util;
+using System.ComponentModel;
+using System.Data;
+using System.Diagnostics;
+using System.Reflection;
+
+/***********************************************************
 **项目名称:	                                                                  				   
 **功能描述:Npoi Excel操作类
 **作    者: 	易栋梁                                         			   
@@ -9,20 +18,6 @@
 
 namespace NPlatform.Infrastructure
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Data;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
-    using System.Text;
-
-    using NPOI.HPSF;
-    using NPOI.HSSF.UserModel;
-    using NPOI.SS.UserModel;
-    using NPOI.SS.Util;
 
     /// <summary>
     /// Excel 操作类，基于NPOI
@@ -30,8 +25,7 @@ namespace NPlatform.Infrastructure
     public class ExcelNpoiHelper : IOfficeHelper
     {
         private string _saveAsFile = string.Empty;
-
-        HSSFWorkbook hssfworkbook = null;
+        private HSSFWorkbook hssfworkbook = null;
 
         private FileStream readfile = null;
 
@@ -97,7 +91,7 @@ namespace NPlatform.Infrastructure
 
                 // 填加xls文件作者信息      
                 si.ApplicationName = "NPOI"; // 填加xls文件创建程序信息      
-                si.LastAuthor = "ExcelHelper"; // 填加xls文件最后保存者信息      
+                si.LastAuthor = "ExcelHelper"; // 填加xls文件最后保存者信息
                 si.Comments = "系统自动创建文件"; // 填加xls文件作者信息      
                 si.Title = strHeaderText; // 填加xls文件标题信息      
                 si.Subject = strHeaderText; // 填加文件主题信息      
@@ -459,7 +453,7 @@ namespace NPlatform.Infrastructure
                 }
             }
 
-            LoadEnd:
+        LoadEnd:
 
             return dt;
         }
@@ -1285,7 +1279,7 @@ namespace NPlatform.Infrastructure
                 }
             }
 
-            LoadEnd:
+        LoadEnd:
 
             return table;
         }

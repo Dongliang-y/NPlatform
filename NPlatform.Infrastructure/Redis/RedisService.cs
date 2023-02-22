@@ -1,14 +1,8 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using NPlatform.Infrastructure.Config;
 using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NPlatform.Infrastructure.Config;
-using Microsoft.Extensions.Configuration;
+using System.Runtime.CompilerServices;
 
-namespace NPlatform.Infrastructure
+namespace NPlatform.Infrastructure.Redis
 {
     /// <summary>
     /// Redis操作
@@ -31,7 +25,7 @@ namespace NPlatform.Infrastructure
             var serviceConfig = config.GetServiceConfig();
             DbNum = redisConfig.dbNum;
             _conn = RedisConnection.CreateInstance(redisConfig);
-            prefix = $"{serviceConfig.ServiceName}:{ serviceConfig.ServiceID}:";
+            prefix = $"{serviceConfig.ServiceName}:{serviceConfig.ServiceID}:";
         }
 
         #endregion 构造函数
@@ -45,7 +39,7 @@ namespace NPlatform.Infrastructure
         /// <param name="value">保存的值</param>
         /// <param name="expiry">过期时间</param>
         /// <returns></returns>
-        public async Task<bool> StringSetAsync(string key, string value, TimeSpan? expiry = default(TimeSpan?))
+        public async Task<bool> StringSetAsync(string key, string value, TimeSpan? expiry = default)
         {
             key = SetPrefix(key);
             return await Do(db => db.StringSetAsync(key, value, expiry));
@@ -57,7 +51,7 @@ namespace NPlatform.Infrastructure
         /// <param name="value">保存的值</param>
         /// <param name="expiry">过期时间</param>
         /// <returns></returns>
-        public bool StringSet(string key, string value, TimeSpan? expiry = default(TimeSpan?))
+        public bool StringSet(string key, string value, TimeSpan? expiry = default)
         {
             key = SetPrefix(key);
             return Do(db => db.StringSet(key, value, expiry));
@@ -83,10 +77,10 @@ namespace NPlatform.Infrastructure
         /// <param name="obj"></param>
         /// <param name="expiry"></param>
         /// <returns></returns>
-        public async Task<bool> StringSetAsync<T>(string key, T obj, TimeSpan? expiry = default(TimeSpan?))
+        public async Task<bool> StringSetAsync<T>(string key, T obj, TimeSpan? expiry = default)
         {
             key = SetPrefix(key);
-            string json = SerializerHelper.ToJson(obj);
+            string json = JsonSerializer.Serialize(obj);
             return await Do(db => db.StringSetAsync(key, json, expiry));
         }
         /// <summary>
@@ -97,39 +91,19 @@ namespace NPlatform.Infrastructure
         /// <param name="obj"></param>
         /// <param name="expiry"></param>
         /// <returns></returns>
-        public bool StringSet<T>(string key, T obj, TimeSpan? expiry = default(TimeSpan?))
+        public bool StringSet<T>(string key, T obj, TimeSpan? expiry = default)
         {
             key = SetPrefix(key);
-            string json = SerializerHelper.ToJson(obj);
+            string json = JsonSerializer.Serialize(obj);
             return Do(db => db.StringSet(key, json, expiry));
         }
 
-        /// <summary>
-        /// 带类型的存储
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <param name="obj"></param>
-        /// <param name="expiry"></param>
-        /// <returns></returns>
-        public bool StringSetWithType<T>(string key, T obj, TimeSpan expiry)
-        {
-            key = SetPrefix(key);
-            JsonSerializerSettings settings = new JsonSerializerSettings();
-            settings.Converters.Add(new IPAddressConverter());
-            settings.Converters.Add(new IPEndPointConverter());
-            settings.Formatting = Formatting.Indented;
-            settings.TypeNameHandling = TypeNameHandling.Auto;
-            var json = JsonConvert.SerializeObject(obj, settings);
-
-            return Do(db => db.StringSet(key, json, expiry));
-        }
 
         public object StringGet(string key, Type type)
         {
             key = SetPrefix(key);
             string result = Do(db => db.StringGet(key));
-            return result == null ? null : JsonConvert.DeserializeObject(result, type);
+            return result == null ? null : JsonSerializer.Deserialize(result, type);
         }
 
         public string StringGet(string key)
@@ -171,7 +145,7 @@ namespace NPlatform.Infrastructure
         {
             key = SetPrefix(key);
             string result = await Do(db => db.StringGetAsync(key));
-            return result == null ? default(T) : SerializerHelper.FromJson<T>(result);
+            return result == null ? default : JsonSerializer.Deserialize<T>(result);
         }
         /// <summary>
         /// 获取一个key的对象
@@ -183,7 +157,7 @@ namespace NPlatform.Infrastructure
         {
             key = SetPrefix(key);
             string result = Do(db => db.StringGet(key));
-            return result == null ? default(T) : SerializerHelper.FromJson<T>(result);
+            return result == null ? default : JsonSerializer.Deserialize<T>(result);
         }
 
         /// <summary>
@@ -225,8 +199,8 @@ namespace NPlatform.Infrastructure
         /// <returns></returns>
         public bool SetAdd(string key, string obj)
         {
-            key = this.SetPrefix(key);
-            return this.Do(db => db.SetAdd(key, obj));
+            key = SetPrefix(key);
+            return Do(db => db.SetAdd(key, obj));
         }
 
         /// <summary>
@@ -236,8 +210,8 @@ namespace NPlatform.Infrastructure
         /// <returns></returns>
         public RedisValue[] SetMembers(string key)
         {
-            key = this.SetPrefix(key);
-            return this.Do(db => db.SetMembers(key));
+            key = SetPrefix(key);
+            return Do(db => db.SetMembers(key));
         }
 
         /// <summary>
@@ -249,8 +223,8 @@ namespace NPlatform.Infrastructure
         /// <returns></returns>
         public bool SetRemove<T>(string key, T obj)
         {
-            key = this.SetPrefix(key);
-            return this.Do(db => db.SetRemove(key, Newtonsoft.Json.JsonConvert.SerializeObject(obj)));
+            key = SetPrefix(key);
+            return Do(db => db.SetRemove(key, JsonSerializer.Serialize(obj)));
         }
 
         /// <summary>
@@ -262,9 +236,9 @@ namespace NPlatform.Infrastructure
         /// <returns></returns>
         public long SetRemove(string key, string[] obj)
         {
-            key = this.SetPrefix(key);
+            key = SetPrefix(key);
             var keys = Array.ConvertAll<string, RedisValue>(obj, (p) => p);
-            return this.Do(db => db.SetRemove(key, keys));
+            return Do(db => db.SetRemove(key, keys));
         }
         #endregion
 
@@ -297,7 +271,7 @@ namespace NPlatform.Infrastructure
             key = SetPrefix(key);
             return await Do(db =>
             {
-                string json = SerializerHelper.ToJson(t);
+                string json = JsonSerializer.Serialize(t);
                 return db.HashSetAsync(key, dataKey, json);
             });
         }
@@ -338,7 +312,7 @@ namespace NPlatform.Infrastructure
         {
             key = SetPrefix(key);
             string value = await Do(db => db.HashGetAsync(key, dataKey));
-            return value == null ? default(T) : SerializerHelper.FromJson<T>(value);
+            return value == null ? default : JsonSerializer.Deserialize<T>(value);
         }
 
         /// <summary>
@@ -393,7 +367,7 @@ namespace NPlatform.Infrastructure
         public async Task<long> ListRemoveAsync<T>(string key, T value)
         {
             key = SetPrefix(key);
-            return await Do(db => db.ListRemoveAsync(key, SerializerHelper.ToJson(value)));
+            return await Do(db => db.ListRemoveAsync(key, JsonSerializer.Serialize(value)));
         }
 
         /// <summary>
@@ -416,7 +390,7 @@ namespace NPlatform.Infrastructure
         public async Task<long> ListRightPushAsync<T>(string key, T value)
         {
             key = SetPrefix(key);
-            return await Do(db => db.ListRightPushAsync(key, SerializerHelper.ToJson(value)));
+            return await Do(db => db.ListRightPushAsync(key, JsonSerializer.Serialize(value)));
         }
 
         /// <summary>
@@ -429,7 +403,7 @@ namespace NPlatform.Infrastructure
         {
             key = SetPrefix(key);
             var value = await Do(db => db.ListRightPopAsync(key));
-            return !value.HasValue ? default(T) : SerializerHelper.FromJson<T>(value);
+            return !value.HasValue ? default : JsonSerializer.Deserialize<T>(value);
         }
 
         /// <summary>
@@ -448,7 +422,7 @@ namespace NPlatform.Infrastructure
                 long listCount = 0;
                 foreach (var value in values)
                 {
-                    batch.ListLeftPushAsync(key, SerializerHelper.ToJson(value));
+                    batch.ListLeftPushAsync(key, JsonSerializer.Serialize(value));
                 }
                 batch.Execute();
                 return 0;
@@ -465,7 +439,7 @@ namespace NPlatform.Infrastructure
         public async Task<long> ListLeftPushAsync<T>(string key, T value)
         {
             key = SetPrefix(key);
-            return await Do(db => db.ListLeftPushAsync(key, SerializerHelper.ToJson(value)));
+            return await Do(db => db.ListLeftPushAsync(key, JsonSerializer.Serialize(value)));
         }
 
         /// <summary>
@@ -478,7 +452,7 @@ namespace NPlatform.Infrastructure
         {
             key = SetPrefix(key);
             var value = await Do(db => db.ListLeftPopAsync(key));
-            return !value.HasValue ? default(T) : SerializerHelper.FromJson<T>(value);
+            return !value.HasValue ? default : JsonSerializer.Deserialize<T>(value);
         }
 
         /// <summary>
@@ -507,7 +481,7 @@ namespace NPlatform.Infrastructure
         public async Task<bool> SortedSetAddAsync<T>(string key, T value, double score)
         {
             key = SetPrefix(key);
-            return await Do(redis => redis.SortedSetAddAsync(key, SerializerHelper.ToJson(value), score));
+            return await Do(redis => redis.SortedSetAddAsync(key, JsonSerializer.Serialize(value), score));
         }
 
         /// <summary>
@@ -518,7 +492,7 @@ namespace NPlatform.Infrastructure
         public async Task<bool> SortedSetRemoveAsync<T>(string key, T value)
         {
             key = SetPrefix(key);
-            return await Do(redis => redis.SortedSetRemoveAsync(key, SerializerHelper.ToJson(value)));
+            return await Do(redis => redis.SortedSetRemoveAsync(key, JsonSerializer.Serialize(value)));
         }
 
         /// <summary>
@@ -588,7 +562,7 @@ namespace NPlatform.Infrastructure
                               // Redis的keys模糊查询：
                               " local res = redis.call('KEYS', @keypattern) " +
                               " return res "), new { @keypattern = pattern });
-                  return db.KeyDelete(this.ConvertRedisKeys((string[])rst));
+                  return db.KeyDelete(ConvertRedisKeys((string[])rst));
               }
                             );
         }
@@ -621,7 +595,7 @@ namespace NPlatform.Infrastructure
         /// <param name="key">redis key</param>
         /// <param name="expiry"></param>
         /// <returns></returns>
-        public bool KeyExpire(string key, TimeSpan? expiry = default(TimeSpan?))
+        public bool KeyExpire(string key, TimeSpan? expiry = default)
         {
             key = SetPrefix(key);
             return Do(db => db.KeyExpire(key, expiry));
@@ -662,7 +636,7 @@ namespace NPlatform.Infrastructure
         public async Task<long> Publish<T>(string channel, T msg)
         {
             ISubscriber sub = _conn.GetSubscriber();
-            return await sub.PublishAsync(channel, SerializerHelper.ToJson(msg));
+            return await sub.PublishAsync(channel, JsonSerializer.Serialize(msg));
         }
 
         /// <summary>
@@ -745,7 +719,7 @@ namespace NPlatform.Infrastructure
             List<T> result = new List<T>();
             foreach (var item in values)
             {
-                var model = SerializerHelper.FromJson<T>(item);
+                var model = JsonSerializer.Deserialize<T>(item);
                 result.Add(model);
             }
             return result;

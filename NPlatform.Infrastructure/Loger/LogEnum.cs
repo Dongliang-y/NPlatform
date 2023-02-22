@@ -10,12 +10,7 @@
   * 修改时间：
   * 修 改 人：
 *************************************************************************************/
-using System;
-using System.Collections;
-
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
 
 namespace NPlatform.Infrastructure.Loger
 {
@@ -27,7 +22,7 @@ namespace NPlatform.Infrastructure.Loger
         /// <summary>
         /// 日志级别的keyvalue 字典描述
         /// </summary>
-        public Dictionary<string,string> LogLeveDics
+        public Dictionary<string, string> LogLeveDics
         {
             get
             {
@@ -41,7 +36,7 @@ namespace NPlatform.Infrastructure.Loger
                 };
             }
         }
-    } 
+    }
 
     /// <summary>
     /// 日志级别

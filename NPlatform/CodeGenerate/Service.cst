@@ -1,6 +1,6 @@
 ﻿<%@ CodeTemplate Language="C#" TargetLanguage="C#" ResponseEncoding="UTF-8" Description="Generates a very simple business object." %>
 <%@ Property Name="SourceTable" Type="SchemaExplorer.TableSchema" Category="Context" Description="Table that the object is based on." %>
-
+<%@ Property Name="IsCQRS" Type="Boolean" Category="Context" Description="是否生成CQRS代码" %>
 <%@ Assembly Name="SchemaExplorer"%>
 <%@ Assembly Name="System.Data"%>
 <%@ Import Namespace="SchemaExplorer"%>
@@ -11,8 +11,7 @@
 **项目名称:	 NPlatform.IServices                                                               				   
 **功能描述:	  <%=GetName(SourceTable)%>Services 的摘要说明 
 **作    者: 	此代码由CodeSmith生成。                                         			    
-**版 本 号:	1.0                                           			    
-**创建日期： <%=DateTime.Now.ToString("yyyy-MM-dd HH:mm") %>
+**版 本 号:	1.0                                           			
 **修改历史： 
 ************************************************************/ 
 namespace  NPlatform.Domains.Services.<%=GetModuleName(SourceTable)%>
@@ -25,10 +24,13 @@ namespace  NPlatform.Domains.Services.<%=GetModuleName(SourceTable)%>
     using NPlatform.Domains.IService.<%=GetModuleName(SourceTable)%>;
     using NPlatform.Domains.Service;
     using NPlatform.Dto.<%=GetModuleName(SourceTable)%>;
+    using NPlatform.Commands.<%=GetModuleName(SourceTable)%>;
+
+
     /// <summary> 
     ///    <%=GetName(SourceTable)%>  业务层
     /// </summary> 
-    public partial class <%=GetName(SourceTable)%>Service :  BaseService,I<%=GetName(SourceTable)%>Service
+    public partial class <%=GetName(SourceTable)%>Service : <%=!IsCQRS?"BaseService":"HandlerBase<"+GetName(SourceTable)+"Add,"+GetName(SourceTable)+"Delete,"+GetName(SourceTable)+"Edit>" %>,I<%=GetName(SourceTable)%>Service
     {  
         public override string GetDomainShortName()
         {
@@ -45,7 +47,8 @@ public string GetModuleName(TableSchema table)
     if(tableName.Contains("_"))
     {
         var mdName=tableName.Split('_')[0];
-        return mdName.Substring(0,1).ToUpper()+mdName.Substring(1);
+        return mdName.Substring(0,1)
+            .ToUpper()+mdName.Substring(1);
     }
     else
         throw new Exception("数据库表命名错误！");

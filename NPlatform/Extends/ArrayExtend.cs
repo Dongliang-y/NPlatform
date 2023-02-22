@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace NPlatform.Extends
+﻿namespace NPlatform.Extends
 {
     /// <summary>
     /// 集合扩展类
@@ -17,7 +12,7 @@ namespace NPlatform.Extends
         /// <returns>是否为空集合</returns>
         public static bool IsNullOrEmpty(this string[] strs)
         {
-            return strs == null|| strs.Length == 0;
+            return strs == null || strs.Length == 0;
         }
         /// <summary>
         /// 集合为空或者长度为0

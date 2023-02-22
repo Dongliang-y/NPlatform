@@ -12,14 +12,6 @@
 
 namespace NPlatform.Domains.Service
 {
-    using NPlatform.Dto;
-    using NPlatform.Repositories;
-    using NPlatform.Result;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq.Expressions;
-    using System.Threading.Tasks;
-
     /// <summary>
     /// 领域服务接口
     /// </summary>

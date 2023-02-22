@@ -1,21 +1,12 @@
 ﻿namespace NPlatform.Domains.Service
 {
+    using Flurl.Http;
+    using Microsoft.Extensions.Configuration;
+    using NPlatform.AutoMap;
+    using NPlatform.Result;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-    using System.Threading.Tasks;
-    using NPlatform.Domains.Entity;
-    using NPlatform.IOC;
-    using NPlatform.Repositories;
-    using NPlatform.Result;
-    using Flurl.Http;
-    using NPlatform.Infrastructure.Config;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.Logging;
-    using NPlatform.Repositories.IRepositories;
-    using NPlatform.Dto;
-    using NPlatform.AutoMap;
 
     /// <summary>
     /// 领域服务基类,服务的对象是聚合，以聚合跟为核心。
@@ -25,16 +16,19 @@
         /// <summary>
         /// 框架配置
         /// </summary>
+        [Autowired]
         public IConfiguration Config { get; set; }
 
         /// <summary>
         /// httpContext
         /// </summary>
+        [Autowired]
         public IPlatformHttpContext Context { get; set; }
         /// <summary>
         /// mapper 对象
         /// </summary>
-        public IMapperService MapperObj { get; set; }
+        [Autowired]
+        public IMapperService mapperService { get; set; }
 
         /// <summary>
         /// Domain service base。
@@ -42,7 +36,7 @@
         public BaseService()
         {
             IPlatformHttpContext httpCtx = Context;
-            if (httpCtx != null && httpCtx.Context!=null)
+            if (httpCtx != null && httpCtx.Context != null)
             {
                 var authorization = httpCtx.Context.Request.Headers["Authorization"];
                 FlurlHttp.GlobalSettings.BeforeCall = t =>
@@ -70,7 +64,7 @@
                 // 分页
                 page--;
                 var result = sources.Skip(page * pageSize).Take(pageSize).ToList();
-                return ListData<T>( result,total);
+                return ListData<T>(result, total);
             }
             else
             {
@@ -83,7 +77,7 @@
         /// <returns>表达式</returns>
         protected Expression<Func<TEntity, bool>> CreateExpression<TEntity>()
         {
-            Expression<Func<TEntity, bool>> expression = t=>true;
+            Expression<Func<TEntity, bool>> expression = t => true;
             return expression;
         }
 

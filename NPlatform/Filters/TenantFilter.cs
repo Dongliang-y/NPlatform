@@ -16,8 +16,8 @@
 
 namespace NPlatform.Filters
 {
+    using NPlatform.Extends;
     using System;
-    using System.Collections.Generic;
     using System.Linq.Expressions;
 
     /// <summary>

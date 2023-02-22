@@ -8,15 +8,9 @@
  *  @version     2021/10/18 15:40:40  @Reviser  Initial Version
  **************************************************************/
 using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace NPlatform.DapperRepository
+namespace NPlatform.Infrastructure
 {
     public class MySqlBulkLoad
     {
@@ -28,7 +22,7 @@ namespace NPlatform.DapperRepository
         /// <returns>bool</returns>
         private static bool IsNullable(Type t)
         {
-            return !t.IsValueType || (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(Nullable<>));
+            return !t.IsValueType || t.IsGenericType && t.GetGenericTypeDefinition() == typeof(Nullable<>);
         }
 
         /// <summary>
@@ -36,14 +30,14 @@ namespace NPlatform.DapperRepository
         /// </summary>
         /// <param name="dt">要导入的数据表，注意列头要和数据库匹配</param>
         /// <returns></returns>
-        public int BulkLoad(DataTable table,MySqlConnection connection)
+        public int BulkLoad(DataTable table, MySqlConnection connection)
         {
 
             var columns = table.Columns.Cast<DataColumn>().Select(colum => colum.ColumnName).ToList();
 
-            var cacheFileInfo = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), table.TableName + ".csv");
+            var cacheFileInfo = Path.Combine(Directory.GetCurrentDirectory(), table.TableName + ".csv");
 
-            var file = new System.IO.FileInfo(cacheFileInfo);
+            var file = new FileInfo(cacheFileInfo);
             if (!file.Directory.Exists)
             {
                 file.Directory.Create();
@@ -84,7 +78,7 @@ namespace NPlatform.DapperRepository
                 {
                     colum = table.Columns[i];
                     if (i != 0) sb.Append(",");
-                    var value = row[colum]==null?"": row[colum].ToString();
+                    var value = row[colum] == null ? "" : row[colum].ToString();
 
                     if (colum.DataType == typeof(string))
                     {

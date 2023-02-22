@@ -1,15 +1,22 @@
 ﻿<%@ CodeTemplate Language="C#" TargetLanguage="Text"  ResponseEncoding="UTF-8"  Debug="True" Description="Template description here." %>
 <%@ Property Name="SourceTables" Type="SchemaExplorer.TableSchemaCollection" Category="General" Description="选择表" %>
 <%@ Property Name="ProjectName" Type="String" Category="General" Description="项目名称" %>
-<%@ Property Name="Overrite" Type="Boolean" Default="true" Category="文件处理" Description="是否覆写" %>
+<%@ Property Name="OverriteRepository" Type="Boolean" Default="true" Category="文件处理" Description="覆写仓储，如果为设置为false，当文件已存在时则跳过该文件。" %>
+<%@ Property Name="OverriteServices" Type="Boolean" Default="true" Category="文件处理" Description="覆写服务，如果为设置为false，当文件已存在时则跳过该文件。" %>
+<%@ Property Name="OverriteEntity" Type="Boolean" Default="true" Category="文件处理" Description="覆写实体，如果为设置为false，当文件已存在时则跳过该文件。" %>
+<%@ Property Name="OverriteDTO" Type="Boolean" Default="true" Category="文件处理" Description="覆写DTO，如果为设置为false，当文件已存在时则跳过该文件。" %>
+<%@ Property Name="OverriteCommand" Type="Boolean" Default="false" Category="文件处理" Description="覆写命令对象，如果为设置为false，当文件已存在时则跳过该文件。" %>
+
 <%@ Property Name="ClearAll" Type="Boolean" Default="false" Category="文件处理" Description="清理所有生成的代码（只清理由脚本创建的.Designer 文件）" %>
 <%@ Property Name="DomainMode" Type="Boolean" Default="true" Category="高级特性" Description="基于领域驱动模式" %>
 <%@ Property Name="ORMSelect"  Type="ORMType" Category="高级特性" Description="ORM选择" %> 
 <%@ Property Name="IsPartial"  Type="Boolean"  Default="true" Category="高级特性" Description="以partial风格生成 *.Designer.cs代码文件，避免覆盖用户增加的文件。" %> 
+<%@ Property Name="IsCQRS"  Type="Boolean"  Default="true" Category="高级特性" Description="CQRS模式，生成的service基类不同，自动创建 CMD类。" %> 
 <%@ Assembly Name="SchemaExplorer" %>
 <%@ Assembly Name="CodeSmith.CustomProperties" %> 
 <%@ Assembly Name="System.Data" %>
 <%@ Assembly Name="System.Design" %>
+<%@ Import Namespace="System.Xml" %>
 <%@ Import Namespace="System.Data" %>
 <%@ Import Namespace="System.IO" %>
 <%@ Import Namespace="SchemaExplorer" %>
@@ -28,16 +35,19 @@ TableSchemaCollection Tables=SourceTables;
     Tables = FilterTables(Tables);
 
     var RepositoryDirectory="EFRepository";//ORMSelect
+    var clearJump="DapperRepository";
     switch(ORMSelect)
     {
         case ORMType.EntityFrameWork:
             RepositoryDirectory="EFRepository";
+            clearJump="DapperRepository";
             break;
         case ORMType.Dapper:
             RepositoryDirectory="DapperRepository";
+             clearJump="EFRepository";
             break;
     }
-
+    UpdateCSProj(OutputDirectory);
     string IRepositoriesDIC = OutputDirectory + "\\"+ProjectName+".Domains\\IRepositories\\";
     string RepositoriesDIC = OutputDirectory + "\\"+ProjectName+"."+RepositoryDirectory+"\\";
 
@@ -46,10 +56,11 @@ TableSchemaCollection Tables=SourceTables;
     string IServiceDIC = OutputDirectory + "\\"+ProjectName+".Domains\\IService\\";
     string ServiceDIC = OutputDirectory + "\\"+ProjectName+".Domains\\Services\\";
 
-    string DtoDIC = OutputDirectory + "\\"+ProjectName+".Domains\\Dto\\";
+    string DtoDIC = OutputDirectory + "\\"+ProjectName+".DTO\\DTO\\";
+    string CommandsDIC = OutputDirectory + "\\"+ProjectName+".DTO\\Commands\\";
 
-
-        //Load Template
+    //Load Template
+    CodeTemplate emptyTemplate=GetCodeTemplate("Empty.cst");
     CodeTemplate IRepositoriesTemplate = GetCodeTemplate("IRepositories.cst");
     CodeTemplate RepositoriesTemplate = GetCodeTemplate("Repository.cst");
 
@@ -61,7 +72,7 @@ TableSchemaCollection Tables=SourceTables;
     CodeTemplate ServiceTemplate=GetCodeTemplate("service.cst");
 
     // Dto 对象
-
+     CodeTemplate CommandTemplate=GetCodeTemplate("Command.cst");
      CodeTemplate DtoTemplate=GetCodeTemplate("Dto.cst");
         var fileExt="";
         if(IsPartial)
@@ -74,6 +85,7 @@ TableSchemaCollection Tables=SourceTables;
         var allFile=System.IO.Directory.GetFiles(OutputDirectory,"*"+fileExt+".cs",SearchOption.AllDirectories);
         foreach(var fi in allFile)
         {
+            if(fi.Contains(clearJump))continue;
             System.IO.File.Delete(fi);
         }
     }
@@ -85,31 +97,39 @@ TableSchemaCollection Tables=SourceTables;
 		try
 		{
 			//实 体
-			RenderFileUsingProperties(EntityDIC+ GetModuleName(Tables[i])+"\\"+ GetName(Tables[i]) +fileExt+ ".cs",Overrite,ref EntityTemplate,Tables[i]);
-            //实 体模块接口
-			RenderFileUsingProperties(EntityDIC+ GetModuleName(Tables[i])+"\\"+"I"+ GetModuleName(Tables[i])+fileExt + ".cs",Overrite,ref ITemplate,Tables[i]); 
+			RenderFileUsingProperties(EntityDIC+ GetModuleName(Tables[i])+"\\"+"I"+ GetModuleName(Tables[i]) + ".cs",false,ref ITemplate,Tables[i]); 
             
+            RenderEmptyFile(EntityDIC+ GetModuleName(Tables[i])+"\\"+ GetName(Tables[i]) + ".cs"," NPlatform.Domains.Entity."+GetMudName(Tables[i]), GetName(Tables[i]), GetName(Tables[i])+"实体对象","    using System.ComponentModel.DataAnnotations;\r\n    using System.ComponentModel.DataAnnotations.Schema;",ref emptyTemplate);
+			RenderFileUsingProperties(EntityDIC+ GetModuleName(Tables[i])+"\\"+ GetName(Tables[i]) +fileExt+ ".cs",OverriteEntity,ref EntityTemplate,Tables[i]);
+
             
-            //服务\Dto
+            //分析表名
             var name=Tables[i].Name;
              var count=Regex.Matches(name, "_").Count;
             
             // 领域驱动模式下，从表的仓储、服务Dto都不生成。
-            if(DomainMode)
+            if(DomainMode&&count>1)
             {
                 continue;
             }
 
             //仓储
-			RenderFileUsingProperties(IRepositoriesDIC+ GetModuleName(Tables[i])+"\\"+ "I"+GetName(Tables[i]) + "Repository"+fileExt+".cs",
-            Overrite,ref IRepositoriesTemplate,Tables[i]);
-			RenderFileUsingProperties(RepositoriesDIC+ GetModuleName(Tables[i])+"\\"+ GetName(Tables[i]) + "Repository"+fileExt+".cs",Overrite,ref RepositoriesTemplate,Tables[i]);
+			RenderFileUsingProperties(IRepositoriesDIC+ GetModuleName(Tables[i])+"\\"+ "I"+GetName(Tables[i]) + "Repository.cs",false,ref IRepositoriesTemplate,Tables[i]);
             
-			RenderFileUsingProperties(IServiceDIC+ GetModuleName(Tables[i])+"\\"+"I"+ GetName(Tables[i]) + "Service"+fileExt+".cs",Overrite,ref IServiceTemplate,Tables[i]); 
-			RenderFileUsingProperties(ServiceDIC+ GetModuleName(Tables[i])+"\\"+GetName(Tables[i]) + "Service"+fileExt+".cs",Overrite,ref ServiceTemplate,Tables[i]); 
+            RenderEmptyFile(RepositoriesDIC+ GetModuleName(Tables[i])+"\\"+ GetName(Tables[i]) +"Repository.cs","  NPlatform.Repositories."+GetMudName(Tables[i]), GetName(Tables[i])+"Repository", GetName(Tables[i])+"仓储","\r\n        using NPlatform.Repositories.IRepositories;",ref emptyTemplate);
+			RenderFileUsingProperties(RepositoriesDIC+ GetModuleName(Tables[i])+"\\"+ GetName(Tables[i]) + "Repository"+fileExt+".cs",OverriteRepository,ref RepositoriesTemplate,Tables[i]);
             
-            RenderFileUsingProperties(DtoDIC+ GetModuleName(Tables[i])+"\\"+GetName(Tables[i]) + "Dto"+fileExt+".cs",Overrite,ref DtoTemplate,Tables[i]); 
+            // 服务
+			RenderFileUsingProperties(IServiceDIC+ GetModuleName(Tables[i])+"\\"+"I"+ GetName(Tables[i]) + "Service.cs",false,ref IServiceTemplate,Tables[i]); 
             
+            RenderEmptyFile(ServiceDIC+ GetModuleName(Tables[i])+"\\"+ GetName(Tables[i]) +"Service.cs","  NPlatform.Domains.Services."+GetMudName(Tables[i]), GetName(Tables[i])+"Service", GetName(Tables[i])+"服务","        using NPlatform.Domains.Service;\r\n    using NPlatform.Domains.Entity.Sys;\r\n    using NPlatform.Dto.Sys;",ref emptyTemplate);
+			RenderFileUsingProperties(ServiceDIC+ GetModuleName(Tables[i])+"\\"+GetName(Tables[i]) + "Service"+fileExt+".cs",OverriteServices,ref ServiceTemplate,Tables[i]); 
+            
+            // DTO
+            RenderEmptyFile(DtoDIC+ GetModuleName(Tables[i])+"\\"+ GetName(Tables[i]) +"Dto.cs","  NPlatform.Dto."+GetMudName(Tables[i]), GetName(Tables[i])+"Dto", GetName(Tables[i])+"Dto","	using System.ComponentModel.DataAnnotations;",ref emptyTemplate);
+            RenderFileUsingProperties(DtoDIC+ GetModuleName(Tables[i])+"\\"+GetName(Tables[i]) + "Dto"+fileExt+".cs",OverriteDTO,ref DtoTemplate,Tables[i]); 
+            if(IsCQRS)
+                RenderFileUsingProperties(CommandsDIC+ GetModuleName(Tables[i])+"\\"+GetName(Tables[i]) + "Commnad.cs",OverriteCommand,ref CommandTemplate,Tables[i]);             
 		}catch(Exception ex)
 		{
 			%>表<%=Tables[i].Name%>出现错误，已跳过，请查验。<%=ex.ToString()%><%
@@ -182,6 +202,18 @@ public ViewSchemaCollection GetViewCollection(DatabaseSchema dataBase)
     #endregion
     
 #region Methods
+public string GetMudName(TableSchema table)
+{
+    var tableName=table.Name;
+    
+    if(tableName.Contains("_"))
+    {
+        var mdName=tableName.Split('_')[0];
+        return mdName.Substring(0,1).ToUpper()+mdName.Substring(1);
+    }
+    else
+        throw new Exception("数据库表命名错误！");
+}
 	#region Get Template
 	public  CodeTemplate GetCodeTemplate(string TemplateName)
 	{		
@@ -219,7 +251,23 @@ public ViewSchemaCollection GetViewCollection(DatabaseSchema dataBase)
 			template.RenderToFile(fullPath, overrite);
 		}
 	}
-	
+		/// Copies all properties to a template
+	/// Renders the file 
+	/// NB. the overrite property
+	public void RenderEmptyFile(string fullPath,string NameSpace,string ClassName, string ClassDescription,string ImportSpace, ref CodeTemplate template)
+	{
+		if(!File.Exists(fullPath))
+		{
+            Response.Write(fullPath+"\r\n"); 
+			CopyPropertiesTo(template);
+            template.SetProperty("NameSpace",NameSpace);
+            template.SetProperty("ClassName",ClassName);
+            template.SetProperty("ClassDescription",ClassDescription);
+            template.SetProperty("ImportSpace",ImportSpace);
+			template.RenderToFile(fullPath, false);
+		}
+	}
+    
 		/// Copies all properties to a template
 	/// Renders the file 
 	/// NB. the overrite property
@@ -476,4 +524,68 @@ public ViewSchemaCollection GetViewCollection(DatabaseSchema dataBase)
     }
 	#endregion
 #endregion	
+    public void UpdateCSProj(string path)
+    {
+        var fileNames=System.IO.Directory.GetFiles(path,"*.csproj",SearchOption.AllDirectories);
+        foreach(var fileName in fileNames)
+        {
+            if(!fileName.Contains("NPlatform.csproj")&&!fileName.Contains("NPlatform.Infrastructure.csproj"))
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(fileName);
+                
+                if(doc.SelectNodes("Project/ItemGroup/Using").Count>0)continue;
+                
+                var rootNode=doc.SelectSingleNode("Project");
+                
+                 XmlElement itemGroup = doc.CreateElement("ItemGroup");
+                
+/*   <ItemGroup>
+	    <Using Include="NPlatform" />
+	    <Using Include="NPlatform.Infrastructure" />
+	    <Using Include="NPlatform.Result" />
+	    <Using Include="NPlatform.Query" />
+	    <Using Include="NPlatform.Dto" />
+	    <Using Include="NPlatform.Events" />
+	    <Using Include="NPlatform.Consts" />
+	    <Using Include="NPlatform.Exceptions" />
+	    <Using Include="NPlatform.Enums" />
+	    <Using Include="NPlatform.Bus" />
+    </ItemGroup>
+  */            
+                var nameSpace=new string[]{
+                    "NPlatform",
+                    "NPlatform.Extends",
+                    "NPlatform.Infrastructure",
+                    "NPlatform.Result",
+                    "NPlatform.Query",
+                    "NPlatform.Dto",
+                    "NPlatform.Events",
+                    "NPlatform.Consts",
+                    "NPlatform.Exceptions",
+                    "NPlatform.Enums",
+                    "NPlatform.Bus",
+                    "System.Text.Json",
+                    "System",
+                    "System.Linq",
+                    "System.Linq.Dynamic.Core",
+                    "System.Linq.Expressions",
+                    "Microsoft.Extensions.Logging",
+                    "System.Collections.Generic",
+                    "System.Threading",
+                    "System.Threading.Tasks"
+                };
+                foreach(var nsp in nameSpace)
+                {
+                    // 全局引入的节点
+                    var element1=doc.CreateElement("Using");
+                    element1.SetAttribute("Include",nsp);
+                    itemGroup.AppendChild(element1);
+                }
+                rootNode.AppendChild(itemGroup);
+                
+                doc.Save(fileName);
+            }
+        }
+    }
 </script>

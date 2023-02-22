@@ -17,11 +17,7 @@
 *******************************************************************
 //----------------------------------------------------------------*/
 #endregion
-using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NPlatform.Infrastructure
 {
@@ -79,9 +75,9 @@ namespace NPlatform.Infrastructure
                     }
 
                     multipartFormDataContent.Add(new ByteArrayContent(fileByteArray), "\"FormFile\"", $"\"{fileName}\"");
-                    if(heards!=null)
+                    if (heards != null)
                     {
-                        foreach(var kv in heards)
+                        foreach (var kv in heards)
                         {
                             client.DefaultRequestHeaders.Add(kv.Key, kv.Value);
                         }

@@ -7,8 +7,6 @@
 **修改历史：
 ************************************************************/
 
-using System.ComponentModel.DataAnnotations;
-
 namespace NPlatform.Domains.Entity
 {
     /// <summary>

@@ -1,10 +1,4 @@
-﻿using NPOI.SS.Formula.Functions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NPlatform.Infrastructure.Loger;
-using System.Net;
+﻿using System.Net;
 
 namespace NPlatform.Result
 {
@@ -34,23 +28,23 @@ namespace NPlatform.Result
         /// <summary>
         ///  返回SuccessResult
         /// </summary>
-        protected virtual SuccessResult<T> Success<T>(string msg,T data)
+        protected virtual SuccessResult<T> Success<T>(string msg, T data)
         {
-            return new SuccessResult<T>( msg,data);
+            return new SuccessResult<T>(msg, data);
         }
         /// <summary>
         ///  返回SuccessResult
         /// </summary>
-        protected virtual SuccessResult<T> Success<T>(string msg, T data, HttpStatusCode httpCode,object serializerSettings)
+        protected virtual SuccessResult<T> Success<T>(string msg, T data, HttpStatusCode httpCode, object serializerSettings)
         {
-            return new SuccessResult<T>(msg, data,httpCode,serializerSettings);
+            return new SuccessResult<T>(msg, data, httpCode, serializerSettings);
         }
         /// <summary>
         ///  返回SuccessResult
         /// </summary>
-        protected virtual SuccessResult<T> Success<T>( T data)
+        protected virtual SuccessResult<T> Success<T>(T data)
         {
-            return new SuccessResult<T>( string.Empty, data);
+            return new SuccessResult<T>(string.Empty, data);
         }
         #endregion
 
@@ -74,7 +68,14 @@ namespace NPlatform.Result
         /// <summary>
         /// 返回错误信息
         /// </summary>
-        protected virtual ErrorResult<T> Error<T>(string msg,HttpStatusCode statusCode)
+        protected virtual ErrorResult<T> ErrorParams<T>(string paramName)
+        {
+            return new ErrorResult<T>($"参数{nameof(paramName)}不能为空！");
+        }
+        /// <summary>
+        /// 返回错误信息
+        /// </summary>
+        protected virtual ErrorResult<T> Error<T>(string msg, HttpStatusCode statusCode)
         {
             return new ErrorResult<T>(msg, statusCode);
         }
@@ -93,7 +94,7 @@ namespace NPlatform.Result
         /// </summary>
         protected virtual INPResult Error(Exception ex)
         {
-            return new ErrorResult<bool>( ex);
+            return new ErrorResult<bool>(ex);
         }
 
         /// <summary>

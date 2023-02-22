@@ -13,7 +13,7 @@
 * limitations under the License.
 */
 
-namespace NPlatform
+namespace NPlatform.Infrastructure.IdGenerators
 {
     /// <summary>
     /// An interface implemented by Id generators.

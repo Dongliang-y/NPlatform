@@ -11,7 +11,7 @@
 **项目名称:	 NPlatform.Repositories                                                             				   
 **功能描述:	<%=SourceTable.Description %>  
 **作    者: 	初版由CodeSmith生成。                                         			    
-**版 本 号:	1.0                                           			
+**版 本 号:	1.0                   
 **修改历史： 
 ************************************************************/ 
 namespace NPlatform.Repositories.<%=GetModuleName(SourceTable)%>

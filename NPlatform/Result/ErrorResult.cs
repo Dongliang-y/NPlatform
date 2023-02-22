@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using NPlatform.Infrastructure;
-using System;
-using System.Collections.Generic;
+﻿using NPlatform.Extends;
 using System.Net;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
@@ -12,13 +9,13 @@ namespace NPlatform.Result
     /// 错误信息
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ErrorResult<T> :ActionResult, IListResult<T>, ITreeResult<T>, INPResult
+    public class ErrorResult<T> : IListResult<T>, ITreeResult<T>, INPResult
     {
         /// <summary>
         /// 错误信息
         /// </summary>
         /// <param name="ex"></param>
-        public ErrorResult(Exception ex) 
+        public ErrorResult(Exception ex)
         {
             this.Message = ex.Message;
         }
@@ -26,7 +23,7 @@ namespace NPlatform.Result
         /// 错误信息
         /// </summary>
         /// <param name="message"></param>
-        public ErrorResult(string message) 
+        public ErrorResult(string message)
         {
             this.Message = message;
         }
@@ -41,32 +38,53 @@ namespace NPlatform.Result
             this.Message = message;
             this.StatusCode = httpCode.ToInt();
         }
+        /// <summary>
+        /// 操作结果
+        /// </summary>
+        /// <param name="message">消息</param>
+        /// <param name="httpCode"></param>
+        /// <param name="serializerSettings">序列化配置</param>
+        public ErrorResult(string message, HttpStatusCode httpCode, object? serializerSettings)
+        {
+            this.StatusCode = httpCode.ToInt();
+            if (StatusCode >= 300)
+            {
+                throw new Exception("错误的状态码！Success 结果只能是 “2xx” 状态码。");
+            }
+            this.Message = message;
+            this.SerializerSettings = serializerSettings;
+        }
 
         /// <summary>
         /// 消息
         /// </summary>
         [DataMember]
-        [JsonPropertyName("message")]
         public string Message { get; }
 
         /// <summary>
         ///  返回结果的服务id
         /// </summary>
         [DataMember]
-        [JsonPropertyName("serviceid")]
-        [JsonIgnore]
-        [System.Xml.Serialization.XmlIgnore]
         public string ServiceID { get; set; }
 
         /// <summary>
         ///  http heard contentType
         /// </summary>
+        [DataMember]
         public string ContentType { get; set; } = HttpContentType.APPLICATION_JSON;
         /// <summary>
         /// 状态码
         /// </summary>
-        public  int? StatusCode { get; set; } = 500;
+        [DataMember]
+        public int? StatusCode { get; set; } = 500;
 
+        /// <inheritdoc />
+        public async Task ExecuteResultAsync(ActionContext context)
+        {
+            await new JsonResult(this, SerializerSettings).ExecuteResultAsync(context);
+        }
+
+        #region 不序列化返回的属性
         /// <summary>
         /// Total，无需赋值
         /// </summary>
@@ -75,7 +93,12 @@ namespace NPlatform.Result
         public long Total { get; }
 
         [JsonIgnore]
-        public object Value { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        [System.Xml.Serialization.XmlIgnore]
+        public object Value { get => null; set => throw new NotImplementedException(); }
+
+        [JsonIgnore]
+        [System.Xml.Serialization.XmlIgnore]
+        public object SerializerSettings { get; set; }
 
 
         /// <summary>
@@ -93,5 +116,7 @@ namespace NPlatform.Result
         {
             throw new NotImplementedException();
         }
+        #endregion
+
     }
 }

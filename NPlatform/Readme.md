@@ -11,6 +11,12 @@
  Result
  Dto
 
+ ### CQRS 说明：
+ 基于MediatR 实现。
+ 继承链： IDTO->ICommand(IEvent)-> CommandBase(EventBase) ->CommandObject(EventObject) .
+ 业务实现中的修改链：封装CommandObject(Controller层)--> Bus.SendCommand(Controller层) --> CommandHander(DommainService OR application )-->调用仓储实现序列化
+ 业务实现中的查询链：封装 Query 对象  (Controller层)--> 调用查询服务(DommainService OR application )-->调用仓储。
 
 ### 更新记录：
 2021/9/8 NPlatform 底层脚手架 start！
+2023/2/22 更新.NET CORE 7.0版本，完善CQRS版本

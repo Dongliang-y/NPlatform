@@ -1,9 +1,8 @@
-using System;
-using System.CodeDom.Compiler;
 using Microsoft.CSharp;
+using System.CodeDom.Compiler;
 using System.Reflection;
 
-namespace NPlatform
+namespace NPlatform.Infrastructure
 {
     /// <summary>
     /// 处理表达试运算---动态生成数学表达式并计算其值
@@ -26,8 +25,8 @@ namespace NPlatform
     /// </example>
     public class MathExpression
     {
-        object instance;
-        MethodInfo method;
+        private object instance;
+        private MethodInfo method;
         /// <summary>
         /// 表达试运算
         /// </summary>
@@ -42,7 +41,8 @@ namespace NPlatform
             CompilerResults cr = new CSharpCodeProvider().CompileAssemblyFromSource(p, string.
               Format("using System;sealed class {0}{{public double {1}(double x){{{2}}}}}",
               className, methodName, expression));
-            if (cr.Errors.Count > 0) {
+            if (cr.Errors.Count > 0)
+            {
                 string msg = "Expression(\"" + expression + "\"): \n";
                 foreach (CompilerError err in cr.Errors) msg += err.ToString() + "\n";
                 throw new Exception(msg);

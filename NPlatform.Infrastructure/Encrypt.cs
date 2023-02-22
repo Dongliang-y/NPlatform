@@ -149,7 +149,7 @@
     /// <summary>
     /// 不可逆
     /// </summary>
-    public class MD5S
+    public class HashCryptoHelper
     {
         /// <summary>
         /// MD5 32位
@@ -243,7 +243,7 @@
         /// <param name="encryptString">待加密的字符串</param>
         /// <param name="encryptKey">加密密钥,要求为8位</param>
         /// <returns>加密成功返回加密后的字符串,失败返回源串</returns>
-        public static string Encode(string encryptString, string encryptKey= "NPlatform")
+        public static string Encode(string encryptString, string encryptKey = "NPlatform")
         {
             encryptKey = GetSubString(encryptKey, 32, string.Empty);
             encryptKey = encryptKey.PadRight(32, ' ');

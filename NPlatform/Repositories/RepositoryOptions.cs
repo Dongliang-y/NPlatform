@@ -1,10 +1,10 @@
-﻿ namespace NPlatform.Repositories
+﻿namespace NPlatform.Repositories
 {
+    using NPlatform.Filters;
+    using NPlatform.Repositories.IRepositories;
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
-    using NPlatform.Filters;
-    using NPlatform.Repositories.IRepositories;
 
     /// <summary>
     /// 默认仓储上下文配置

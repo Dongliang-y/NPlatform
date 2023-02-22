@@ -21,9 +21,15 @@ namespace  NPlatform.Dto.<%= GetModuleName(SourceTable)%>
 	/// <summary>
 	/// <%= GetName(SourceTable)%>，<%=SourceTable.Description.Replace("\n","").Replace("\r","")%>，数据传输对象
 	/// </summary>
-   // [DataContract]
-    public class <%= GetName(SourceTable)%>Dto:BaseDto,IDto
+    [DataContract]
+    public partial class <%= GetName(SourceTable)%>Dto:BaseDto,IDto
 	{
+    	public <%= GetName(SourceTable)%>Dto()
+		{
+		}
+        public  <%= GetName(SourceTable)%>Dto(string aggregateId):base(aggregateId)
+		{ }
+        
 		<% for (int i = 0; i < SourceTable.Columns.Count; i++) { 
         %>
 		/// <summary>
@@ -134,6 +140,11 @@ public string GetDataAnnotations(ColumnSchema column)
             attr+="\r\n     [DisplayFormat(DataFormatString =\"YYYY/MM/dd\")]";
             break;
 	}
+    if(column.Name!="password")
+    {
+            attr+="\r\n		[DataMember(Name= \""+ column.Name+"\")]";
+    }
+    
     return attr;
 }
 public string GetCSharpVariableType(ColumnSchema column)

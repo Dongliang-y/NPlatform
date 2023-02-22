@@ -1,25 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Authorization;
 using NPlatform.Result;
-using Microsoft.AspNetCore.Authorization;
 
-namespace NPlatform.API.Controllers
+namespace NPlatform.API
 {
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Primitives;
-    using ServiceStack;
-    using System.IO;
-    using System.Net.Http;
-    using System.Text;
-    using NPlatform.Infrastructure;
-    using NPlatform.IOC;
-    using NPlatform.Repositories;
-    using System.Threading.Tasks;
-    using NPlatform.Infrastructure.Config;
-    using System.Net;
-    using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Configuration;
+    using NPlatform.Consts;
+    using NPlatform.Dto;
+    using NPlatform.Infrastructure.Redis;
 
     /// <summary>
     /// controler 基类
@@ -27,16 +13,19 @@ namespace NPlatform.API.Controllers
     // [AllowAnonymous]
     [ApiController]
     [Authorize]
+    [Route("api/[controller]/[action]")]
     public abstract class BaseController : ControllerBase
     {
         /// <summary>
         /// redis service
         /// </summary>
+        [Autowired]
         public IRedisService _RedisService { get; set; }
         /// <summary>
         /// 全局配置信息
         /// </summary>
-        public IConfiguration Config { get; set; }
+        [Autowired]
+        protected IConfiguration Config { get; set; }
 
         /// <summary>
         /// 获取UI传递的js 数组参数 'Content-Type':'application/json' params:JSON.stringify(Array)
@@ -50,7 +39,7 @@ namespace NPlatform.API.Controllers
                 await Request.Body.CopyToAsync(ms);
                 var b = ms.ToArray();
                 var postParamsString = Encoding.UTF8.GetString(b);
-                return NPlatform.Infrastructure.SerializerHelper.FromJson<T>(postParamsString);
+                return System.Text.Json.JsonSerializer.Deserialize<T>(postParamsString);
             }
         }
 
@@ -58,7 +47,7 @@ namespace NPlatform.API.Controllers
         /// 获取UI传递的js 数组参数 'Content-Type':'application/json' params:JSON.stringify(Array)
         /// </summary>
         /// <returns></returns>
-        protected async virtual Task<string> GetRequestStrParamsAsync()
+        protected virtual async Task<string> GetRequestStrParamsAsync()
         {
             using (var ms = new MemoryStream())
             {
@@ -77,9 +66,9 @@ namespace NPlatform.API.Controllers
         /// </summary>
         protected virtual async Task<SesstionInfo> GetSesstionInfo()
         {
-            if (this.sesstion == null)
+            if (sesstion == null)
             {
-                var token = this.Request.Headers["Authorization"];
+                var token = Request.Headers["Authorization"];
                 sesstion = await _RedisService.StringGetAsync<SesstionInfo>(CommonRedisConst.SesstionKey(token));
                 if (sesstion == null)
                 {
@@ -105,7 +94,7 @@ namespace NPlatform.API.Controllers
                         }
                         else
                         {
-                            sesstion.Roles = SerializerHelper.FromJson<string[]>(roles);
+                            sesstion.Roles = System.Text.Json.JsonSerializer.Deserialize<string[]>(roles);
                         }
                     }
 
@@ -135,14 +124,14 @@ namespace NPlatform.API.Controllers
         /// <summary>
         ///  返回SuccessResult
         /// </summary>
-        protected virtual INPResult Success(string msg)
+        protected virtual SuccessResult<string> Success(string msg)
         {
-            return new SuccessResult<String>(msg);
+            return new SuccessResult<string>(msg);
         }
         /// <summary>
         ///  返回SuccessResult
         /// </summary>
-        protected virtual INPResult Success()
+        protected virtual SuccessResult<string> Success()
         {
             return new SuccessResult<string>(string.Empty);
         }
@@ -158,7 +147,7 @@ namespace NPlatform.API.Controllers
         /// <summary>
         ///  返回SuccessResult<T/>
         /// </summary>
-        protected virtual SuccessResult<T> Success<T>(string msg, T obj) 
+        protected virtual SuccessResult<T> Success<T>(string msg, T obj)
         {
             return new SuccessResult<T>(msg, obj);
         }
@@ -166,26 +155,28 @@ namespace NPlatform.API.Controllers
         /// <summary>
         /// 返回错误信息
         /// </summary>
-        protected virtual ErrorResult<object> Error(string msg)
+        protected virtual ErrorResult<IDto> Error(string msg)
         {
-            var rst = new ErrorResult<object>(msg, HttpStatusCode.InternalServerError);
+            var rst = new ErrorResult<IDto>(msg);
             return rst;
         }
+
         /// <summary>
         /// 返回错误信息
         /// </summary>
-        protected virtual ErrorResult<T> Error<T>(string msg, HttpStatusCode httpStatusCode= HttpStatusCode.InternalServerError)
+        protected virtual ErrorResult<T> Error<T>(Exception ex)
         {
-            var rst = new ErrorResult<T>(msg, httpStatusCode);
+            var rst = new ErrorResult<T>(ex);
             return rst;
         }
+
         /// <summary>
         /// 树格式节点
         /// </summary>
         /// <typeparam name="T">TreeNode 类型</typeparam>
         /// <param name="nodes">树节点</param>
         /// <returns></returns>
-        protected TreeResult<T> TreeData<T>(IEnumerable<T> nodes) where T: class
+        protected TreeResult<T> TreeData<T>(IEnumerable<T> nodes) where T : class
         {
             var trees = new TreeResult<T>();
             trees.AddRange(nodes);
@@ -212,9 +203,9 @@ namespace NPlatform.API.Controllers
         /// <summary>
         ///  返回SuccessResult
         /// </summary>
-        protected virtual SuccessResult<String> StrData(string msg)
+        protected virtual SuccessResult<string> StrData(string msg)
         {
-            return new SuccessResult<String>(msg);
+            return new SuccessResult<string>(msg);
         }
     }
 }

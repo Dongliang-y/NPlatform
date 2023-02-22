@@ -9,16 +9,12 @@
 ** Ver.:  V1.0.0
 
 *********************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using NPlatform.Dto;
+using NPlatform.Query;
 using NPlatform.Result;
+using System.ComponentModel.DataAnnotations;
 
-namespace NPlatform
+namespace NPlatform.Extends
 {
     /// <summary>
     /// Dto 校验扩展
@@ -47,6 +43,29 @@ namespace NPlatform
             }
 
             return new SuccessResult<IDto>(dto);
+        }
+        /// <summary>
+        /// 校验查询条件是否合法,例如在service层的主动校验实体属性
+        /// </summary>
+        /// <param name="query">对象值</param>
+        /// <returns></returns>
+        public static INPResult Validates(this IQuery query)
+        {
+            ValidationContext context = new ValidationContext(query, serviceProvider: null, items: null);
+            List<ValidationResult> results = new List<ValidationResult>();
+            bool isValid = Validator.TryValidateObject(query, context, results, true);
+
+            if (isValid == false)
+            {
+                StringBuilder strErrors = new StringBuilder();
+                foreach (var validationResult in results)
+                {
+                    strErrors.AppendLine(validationResult.ErrorMessage);
+                }
+                return new ErrorResult<IQuery>(strErrors.ToString());
+            }
+
+            return new SuccessResult<IQuery>(query);
         }
     }
 }

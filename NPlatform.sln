@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NPlatform", "NPlatform\NPla
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NPlatform.Infrastructure", "NPlatform.Infrastructure\NPlatform.Infrastructure.csproj", "{4FE6F379-738C-47BA-B8D8-5A5533454FE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPro", "TestPro\TestPro.csproj", "{47C84518-5CA0-473D-8669-E6C9AD78A8E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestPro", "TestPro\TestPro.csproj", "{47C84518-5CA0-473D-8669-E6C9AD78A8E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

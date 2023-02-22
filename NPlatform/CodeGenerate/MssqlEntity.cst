@@ -8,12 +8,15 @@
 **项目名称:EFrame.Entity                                                                				   
 **功能描述:	 <%= GetClassName(SourceTable) %>   <%=SourceTable.Description %> 的摘要说明
 **作    者: 	易栋梁                                         			   
-**版 本 号:	1.0                                                  
+**版 本 号:	1.0                      
 **修改历史：
 ************************************************************/
 using System;
 using EFrame.Entity.IEntity.<%=GetMudName(SourceTable.Name) %>;
-
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using NPlatform.Domains.Entity;
+    
 namespace  EFrame.Entity.<%=GetMudName(SourceTable.Name) %>
 {
 	/// <summary>

@@ -7,7 +7,7 @@
 **修改历史：
 ************************************************************/
 
-namespace NPlatform
+namespace NPlatform.Exceptions
 {
     /// <summary>
     /// 平台异常基类

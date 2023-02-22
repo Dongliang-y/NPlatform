@@ -10,7 +10,7 @@
 
 *********************************************************************************/
 
-namespace NPlatform.Repositories.Exceptions
+namespace NPlatform.Exceptions
 {
     /// <summary>
     /// 查询谓词类型错误

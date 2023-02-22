@@ -1,9 +1,6 @@
 ﻿using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace NPlatform.Infrastructure
+namespace NPlatform.Infrastructure.Redis
 {
     public interface IRedisService
     {
@@ -58,7 +55,6 @@ namespace NPlatform.Infrastructure
         Task<bool> StringSetAsync(List<KeyValuePair<RedisKey, RedisValue>> keyValues);
         Task<bool> StringSetAsync(string key, string value, TimeSpan? expiry = null);
         Task<bool> StringSetAsync<T>(string key, T obj, TimeSpan? expiry = null);
-        bool StringSetWithType<T>(string key, T obj, TimeSpan expiry);
         void Subscribe(string subChannel, Action<RedisChannel, RedisValue> handler = null);
         bool UnLock(string key);
         Task<bool> UnLockAsync(string key);

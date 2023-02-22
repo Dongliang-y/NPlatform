@@ -8,7 +8,7 @@
 **项目名称:EFrame.Entity                                                                				   
 **功能描述:	 <%= GetClassName(SourceTable) %> <%=SourceTable.Description %> 
 **作    者: 	易栋梁                                         			   
-**版 本 号:	1.0                                                  
+**版 本 号:	1.0    
 **修改历史：
 ************************************************************/
 using System;

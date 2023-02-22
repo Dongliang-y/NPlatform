@@ -39,3 +39,6 @@
 /TestPro/bin
 /TestPro/obj
 /TestPro
+bin
+obj
+.vs

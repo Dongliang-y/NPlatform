@@ -11,14 +11,9 @@
   * 修 改 人：
 *************************************************************************************/
 using log4net.Core;
-using log4net.Layout;
 using log4net.Layout.Pattern;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
 
-namespace NPlatform.Infrastructure
+namespace NPlatform.Infrastructure.Loger
 {
     /// <summary>
     /// 业务日志
@@ -66,13 +61,13 @@ namespace NPlatform.Infrastructure
         /// <param name="message">消息</param>
         /// <param name="logType">类型</param>
         /// <param name="creator">创建者</param>
-        public BusinessLog( string businessID,string module,string message,string logType, string creator)
+        public BusinessLog(string businessID, string module, string message, string logType, string creator)
         {
-            this.BusinessID = businessID;
-            this.Module = module;
-            this.Message = message;
-            this.LogType = logType;
-            this.Creator = creator;
+            BusinessID = businessID;
+            Module = module;
+            Message = message;
+            LogType = logType;
+            Creator = creator;
         }
     }
 

@@ -1,11 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-using System.Data;
-using System.Web;
-using System.Text.RegularExpressions;
-
 namespace NPlatform.Infrastructure
 {
     /// <summary>
@@ -492,8 +484,8 @@ namespace NPlatform.Infrastructure
         /// <returns></returns>
         public static dynamic ExpressEval(string expression)
         {
-                string strVal = FormulaDeal.SpiltExpression(expression);
-                return strVal;
+            string strVal = FormulaDeal.SpiltExpression(expression);
+            return strVal;
         }
         #endregion
 

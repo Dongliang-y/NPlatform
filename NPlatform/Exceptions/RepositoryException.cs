@@ -8,7 +8,7 @@
 **修改历史：
 ****************************** Class1 ******************************/
 
-namespace NPlatform.Repositories.Exceptions
+namespace NPlatform.Exceptions
 {
     using System;
 

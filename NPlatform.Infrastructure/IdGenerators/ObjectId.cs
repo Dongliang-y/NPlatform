@@ -13,8 +13,9 @@
 * limitations under the License.
 */
 
-namespace NPlatform
+namespace NPlatform.Infrastructure.IdGenerators
 {
+    using NPlatform.Infrastructure;
     using System;
     using System.Diagnostics;
     using System.Runtime.CompilerServices;
@@ -30,13 +31,13 @@ namespace NPlatform
     public struct ObjectId : IComparable<ObjectId>, IEquatable<ObjectId>, IConvertible
     {
         // private static fields
-        private static readonly ObjectId __emptyInstance = default(ObjectId);
+        private static readonly ObjectId __emptyInstance = default;
 
-        private static readonly int __staticMachine = (GetMachineHash() + GetAppDomainId()) & 0x00ffffff;
+        private static readonly int __staticMachine = GetMachineHash() + GetAppDomainId() & 0x00ffffff;
 
         private static readonly short __staticPid = GetPid();
 
-        private static int __staticIncrement = (new Random()).Next();
+        private static int __staticIncrement = new Random().Next();
 
         // private fields
         private readonly int _a;
@@ -111,8 +112,8 @@ namespace NPlatform
             }
 
             _a = timestamp;
-            _b = (machine << 8) | (((int)pid >> 8) & 0xff);
-            _c = ((int)pid << 24) | increment;
+            _b = machine << 8 | pid >> 8 & 0xff;
+            _c = pid << 24 | increment;
         }
 
         /// <summary>
@@ -161,7 +162,7 @@ namespace NPlatform
         {
             get
             {
-                return (_b >> 8) & 0xffffff;
+                return _b >> 8 & 0xffffff;
             }
         }
 
@@ -172,7 +173,7 @@ namespace NPlatform
         {
             get
             {
-                return (short)(((_b << 8) & 0xff00) | ((_c >> 24) & 0x00ff));
+                return (short)(_b << 8 & 0xff00 | _c >> 24 & 0x00ff);
             }
         }
 
@@ -324,15 +325,15 @@ namespace NPlatform
             bytes[0] = (byte)(timestamp >> 24);
             bytes[1] = (byte)(timestamp >> 16);
             bytes[2] = (byte)(timestamp >> 8);
-            bytes[3] = (byte)(timestamp);
+            bytes[3] = (byte)timestamp;
             bytes[4] = (byte)(machine >> 16);
             bytes[5] = (byte)(machine >> 8);
-            bytes[6] = (byte)(machine);
+            bytes[6] = (byte)machine;
             bytes[7] = (byte)(pid >> 8);
-            bytes[8] = (byte)(pid);
+            bytes[8] = (byte)pid;
             bytes[9] = (byte)(increment >> 16);
             bytes[10] = (byte)(increment >> 8);
-            bytes[11] = (byte)(increment);
+            bytes[11] = (byte)increment;
             return bytes;
         }
 
@@ -379,7 +380,7 @@ namespace NPlatform
                 }
             }
 
-            objectId = default(ObjectId);
+            objectId = default;
             return false;
         }
 
@@ -468,9 +469,9 @@ namespace NPlatform
 
         private static void FromByteArray(byte[] bytes, int offset, out int a, out int b, out int c)
         {
-            a = (bytes[offset] << 24) | (bytes[offset + 1] << 16) | (bytes[offset + 2] << 8) | bytes[offset + 3];
-            b = (bytes[offset + 4] << 24) | (bytes[offset + 5] << 16) | (bytes[offset + 6] << 8) | bytes[offset + 7];
-            c = (bytes[offset + 8] << 24) | (bytes[offset + 9] << 16) | (bytes[offset + 10] << 8) | bytes[offset + 11];
+            a = bytes[offset] << 24 | bytes[offset + 1] << 16 | bytes[offset + 2] << 8 | bytes[offset + 3];
+            b = bytes[offset + 4] << 24 | bytes[offset + 5] << 16 | bytes[offset + 6] << 8 | bytes[offset + 7];
+            c = bytes[offset + 8] << 24 | bytes[offset + 9] << 16 | bytes[offset + 10] << 8 | bytes[offset + 11];
         }
 
         // public methods
@@ -567,15 +568,15 @@ namespace NPlatform
             destination[offset + 0] = (byte)(_a >> 24);
             destination[offset + 1] = (byte)(_a >> 16);
             destination[offset + 2] = (byte)(_a >> 8);
-            destination[offset + 3] = (byte)(_a);
+            destination[offset + 3] = (byte)_a;
             destination[offset + 4] = (byte)(_b >> 24);
             destination[offset + 5] = (byte)(_b >> 16);
             destination[offset + 6] = (byte)(_b >> 8);
-            destination[offset + 7] = (byte)(_b);
+            destination[offset + 7] = (byte)_b;
             destination[offset + 8] = (byte)(_c >> 24);
             destination[offset + 9] = (byte)(_c >> 16);
             destination[offset + 10] = (byte)(_c >> 8);
-            destination[offset + 11] = (byte)(_c);
+            destination[offset + 11] = (byte)_c;
         }
 
         /// <summary>
@@ -585,29 +586,29 @@ namespace NPlatform
         public override string ToString()
         {
             var c = new char[24];
-            c[0] = BsonUtils.ToHexChar((_a >> 28) & 0x0f);
-            c[1] = BsonUtils.ToHexChar((_a >> 24) & 0x0f);
-            c[2] = BsonUtils.ToHexChar((_a >> 20) & 0x0f);
-            c[3] = BsonUtils.ToHexChar((_a >> 16) & 0x0f);
-            c[4] = BsonUtils.ToHexChar((_a >> 12) & 0x0f);
-            c[5] = BsonUtils.ToHexChar((_a >> 8) & 0x0f);
-            c[6] = BsonUtils.ToHexChar((_a >> 4) & 0x0f);
+            c[0] = BsonUtils.ToHexChar(_a >> 28 & 0x0f);
+            c[1] = BsonUtils.ToHexChar(_a >> 24 & 0x0f);
+            c[2] = BsonUtils.ToHexChar(_a >> 20 & 0x0f);
+            c[3] = BsonUtils.ToHexChar(_a >> 16 & 0x0f);
+            c[4] = BsonUtils.ToHexChar(_a >> 12 & 0x0f);
+            c[5] = BsonUtils.ToHexChar(_a >> 8 & 0x0f);
+            c[6] = BsonUtils.ToHexChar(_a >> 4 & 0x0f);
             c[7] = BsonUtils.ToHexChar(_a & 0x0f);
-            c[8] = BsonUtils.ToHexChar((_b >> 28) & 0x0f);
-            c[9] = BsonUtils.ToHexChar((_b >> 24) & 0x0f);
-            c[10] = BsonUtils.ToHexChar((_b >> 20) & 0x0f);
-            c[11] = BsonUtils.ToHexChar((_b >> 16) & 0x0f);
-            c[12] = BsonUtils.ToHexChar((_b >> 12) & 0x0f);
-            c[13] = BsonUtils.ToHexChar((_b >> 8) & 0x0f);
-            c[14] = BsonUtils.ToHexChar((_b >> 4) & 0x0f);
+            c[8] = BsonUtils.ToHexChar(_b >> 28 & 0x0f);
+            c[9] = BsonUtils.ToHexChar(_b >> 24 & 0x0f);
+            c[10] = BsonUtils.ToHexChar(_b >> 20 & 0x0f);
+            c[11] = BsonUtils.ToHexChar(_b >> 16 & 0x0f);
+            c[12] = BsonUtils.ToHexChar(_b >> 12 & 0x0f);
+            c[13] = BsonUtils.ToHexChar(_b >> 8 & 0x0f);
+            c[14] = BsonUtils.ToHexChar(_b >> 4 & 0x0f);
             c[15] = BsonUtils.ToHexChar(_b & 0x0f);
-            c[16] = BsonUtils.ToHexChar((_c >> 28) & 0x0f);
-            c[17] = BsonUtils.ToHexChar((_c >> 24) & 0x0f);
-            c[18] = BsonUtils.ToHexChar((_c >> 20) & 0x0f);
-            c[19] = BsonUtils.ToHexChar((_c >> 16) & 0x0f);
-            c[20] = BsonUtils.ToHexChar((_c >> 12) & 0x0f);
-            c[21] = BsonUtils.ToHexChar((_c >> 8) & 0x0f);
-            c[22] = BsonUtils.ToHexChar((_c >> 4) & 0x0f);
+            c[16] = BsonUtils.ToHexChar(_c >> 28 & 0x0f);
+            c[17] = BsonUtils.ToHexChar(_c >> 24 & 0x0f);
+            c[18] = BsonUtils.ToHexChar(_c >> 20 & 0x0f);
+            c[19] = BsonUtils.ToHexChar(_c >> 16 & 0x0f);
+            c[20] = BsonUtils.ToHexChar(_c >> 12 & 0x0f);
+            c[21] = BsonUtils.ToHexChar(_c >> 8 & 0x0f);
+            c[22] = BsonUtils.ToHexChar(_c >> 4 & 0x0f);
             c[23] = BsonUtils.ToHexChar(_c & 0x0f);
             return new string(c);
         }

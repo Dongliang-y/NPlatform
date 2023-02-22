@@ -9,11 +9,11 @@
 
 namespace NPlatform.Repositories.IRepositories
 {
+    using NPlatform.Domains.Entity;
     using System;
     using System.Collections.Generic;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
-    using NPlatform.Domains.Entity;
 
     /// <summary>
     /// 工作单元模式仓储接口
@@ -61,7 +61,7 @@ namespace NPlatform.Repositories.IRepositories
         /// <typeparam name="T">需要新增的类型</typeparam>
         /// <param name="entities">实体对象</param>
         /// <returns>返回T</returns>
-        Task<int> RemoveAsync<T>(params T[] entities)
+        Task<int> RemoveAsync<T>(IEnumerable<T> entities)
             where T : class, IEntity;
 
         /// <summary>
