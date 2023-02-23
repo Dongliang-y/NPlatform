@@ -6,7 +6,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>NPlatform</RootNamespace>
     <AssemblyName>NPlatform</AssemblyName>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.1</AssemblyVersion>
     <Description>Not Platform 底层脚手架
 支持 .NET CORE 7.0版本
 约束与规范了：
@@ -22,13 +22,13 @@
 2021/11/10 完善领域服务基类，调整INResult基类实现，继承 JsonResult，以增加兼容性。领域服务改成泛型类型，需指定领域根类型。
 2023/2/22 更新.NET CORE 7.0版本，完善CQRS版本。
 	</Description>
-    <Version>2.0.0.0</Version>
+    <Version>2.0.0.1</Version>
     <Authors>DongliangYi</Authors>
     <Company></Company>
     <Product>基础框架</Product>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <FileVersion>2.0.0.0</FileVersion>
+    <FileVersion>2.0.0.1</FileVersion>
     <PackageId>NPlatform</PackageId>
     <PackageReleaseNotes>2023/2/22 更新.NET CORE 7.0版本，完善CQRS版本</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/Dongliang-y/NPlatform</PackageProjectUrl>
@@ -53,71 +53,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="CodeGenerate\BuildAll.csp" />
-    <None Remove="CodeGenerate\BuildAll.cst" />
-    <None Remove="CodeGenerate\BuildAll.txt" />
-    <None Remove="CodeGenerate\BuildView.cst" />
-    <None Remove="CodeGenerate\Docker.cst" />
-    <None Remove="CodeGenerate\Dto.cst" />
-    <None Remove="CodeGenerate\IEntity.cst" />
-    <None Remove="CodeGenerate\IRepositories.cst" />
-    <None Remove="CodeGenerate\IService.cst" />
-    <None Remove="CodeGenerate\MssqlEntity.cst" />
-    <None Remove="CodeGenerate\MySqlEntity.cst" />
-    <None Remove="CodeGenerate\OracleEntity.cst" />
-    <None Remove="CodeGenerate\OracleEntityView.cst" />
-    <None Remove="CodeGenerate\Repository.cst" />
-    <None Remove="CodeGenerate\Service.cst" />
     <None Remove="Readme.md" />
     <None Remove="NPlatform.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="CodeGenerate\BuildAll.csp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CodeGenerate\BuildAll.cst">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CodeGenerate\BuildAll.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CodeGenerate\BuildView.cst">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CodeGenerate\Docker.cst">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CodeGenerate\Dto.cst">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CodeGenerate\IEntity.cst">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CodeGenerate\IRepositories.cst">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CodeGenerate\IService.cst">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CodeGenerate\MssqlEntity.cst">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CodeGenerate\MySqlEntity.cst">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CodeGenerate\OracleEntity.cst">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CodeGenerate\OracleEntityView.cst">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CodeGenerate\Repository.cst">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CodeGenerate\Service.cst">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -176,6 +113,62 @@
     <Resource Include="NPlatform.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="CodeGenerate\BuildAll.csp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="CodeGenerate\BuildAll.cst">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="CodeGenerate\BuildAll.txt">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="CodeGenerate\BuildView.cst">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="CodeGenerate\Command.cst">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="CodeGenerate\Docker.cst">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="CodeGenerate\Dto.cst">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="CodeGenerate\Empty.cst">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="CodeGenerate\IEntity.cst">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="CodeGenerate\IRepositories.cst">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="CodeGenerate\IService.cst">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="CodeGenerate\MssqlEntity.cst">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="CodeGenerate\MySqlEntity.cst">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="CodeGenerate\OracleEntity.cst">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="CodeGenerate\OracleEntityView.cst">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="CodeGenerate\readme.md">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="CodeGenerate\Repository.cst">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="CodeGenerate\Service.cst">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

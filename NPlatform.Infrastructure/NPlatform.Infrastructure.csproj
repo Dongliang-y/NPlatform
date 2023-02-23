@@ -14,9 +14,9 @@
     <Product>NPlatform</Product>
     <Company>NPlatform</Company>
     <Authors>Dongliang Yi</Authors>
-    <Version>2.0.0.10</Version>
-    <AssemblyVersion>2.0.0.10</AssemblyVersion>
-    <FileVersion>2.0.0.10</FileVersion>
+    <Version>2.0.0.11</Version>
+    <AssemblyVersion>2.0.0.11</AssemblyVersion>
+    <FileVersion>2.0.0.11</FileVersion>
     <ApplicationIcon />
     <OutputType>Library</OutputType>
     <StartupObject />
@@ -54,15 +54,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Config\log4net.config" />
     <None Remove="Loger\log4net.config" />
     <None Remove="Readme.md" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Config\log4net.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -104,6 +97,11 @@
 </ItemGroup>
   <ItemGroup>
     <Resource Include="Config\log4net.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Config\log4net.config">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
