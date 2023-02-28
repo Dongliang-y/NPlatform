@@ -3,9 +3,14 @@ using NPlatform.Result;
 
 namespace NPlatform.API
 {
+    using Microsoft.AspNetCore.Mvc.ModelBinding;
+    using Microsoft.AspNetCore.Mvc.ViewFeatures;
+    using Microsoft.AspNetCore.Mvc;
     using NPlatform.Consts;
     using NPlatform.Dto;
     using NPlatform.Infrastructure.Redis;
+    using Org.BouncyCastle.Ocsp;
+    using Microsoft.Extensions.DependencyInjection;
 
     /// <summary>
     /// controler 基类
@@ -120,6 +125,66 @@ namespace NPlatform.API
                 return sesstion;
             }
         }
+
+        // 直接移植的 mvc框架的Controller代码
+        private ITempDataDictionary? _tempData;
+        private ViewDataDictionary? _viewData;
+
+        /// <summary>
+        /// Gets or sets <see cref="ViewDataDictionary"/> used by <see cref="ViewResult"/> and <see cref="ViewBag"/>.
+        /// </summary>
+        /// <remarks>
+        /// By default, this property is initialized when <see cref="Controllers.IControllerActivator"/> activates
+        /// controllers.
+        /// <para>
+        /// This property can be accessed after the controller has been activated, for example, in a controller action
+        /// or by overriding <see cref="OnActionExecuting(ActionExecutingContext)"/>.
+        /// </para>
+        /// <para>
+        /// This property can be also accessed from within a unit test where it is initialized with
+        /// <see cref="EmptyModelMetadataProvider"/>.
+        /// </para>
+        /// </remarks>
+        [ViewDataDictionary]
+        public ViewDataDictionary ViewData {
+            get {
+                if (_viewData == null) {
+                    // This should run only for the controller unit test scenarios
+                    _viewData = new ViewDataDictionary(new EmptyModelMetadataProvider(), ControllerContext.ModelState);
+                }
+
+                return _viewData!;
+            }
+            set {
+                if (value == null) {
+                    throw new ArgumentException(nameof(ViewData));
+                }
+
+                _viewData = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets <see cref="ITempDataDictionary"/> used by <see cref="ViewResult"/>.
+        /// </summary>
+        public ITempDataDictionary TempData {
+            get {
+                if (_tempData == null) {
+                    var factory = HttpContext?.RequestServices?.GetRequiredService<ITempDataDictionaryFactory>();
+                    _tempData = factory?.GetTempData(HttpContext);
+                }
+
+                return _tempData!;
+            }
+            set {
+                if (value == null) {
+                    throw new ArgumentNullException(nameof(value));
+                }
+
+                _tempData = value;
+            }
+        }
+
 
         /// <summary>
         ///  返回SuccessResult
