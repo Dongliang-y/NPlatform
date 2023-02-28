@@ -180,6 +180,7 @@ namespace NPlatform.Infrastructure.Loger
             writer.Write(business.LogLocation);
         }
     }
+
     /// <summary>
     /// 业务数据ID
     /// </summary>
