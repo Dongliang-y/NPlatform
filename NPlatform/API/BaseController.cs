@@ -187,6 +187,102 @@ namespace NPlatform.API
 
 
         /// <summary>
+        /// Creates a <see cref="ViewResult"/> object that renders a view to the response.
+        /// </summary>
+        /// <returns>The created <see cref="ViewResult"/> object for the response.</returns>
+        [NonAction]
+        public virtual ViewResult View() {
+            return View(viewName: null);
+        }
+
+        /// <summary>
+        /// Creates a <see cref="ViewResult"/> object by specifying a <paramref name="viewName"/>.
+        /// </summary>
+        /// <param name="viewName">The name or path of the view that is rendered to the response.</param>
+        /// <returns>The created <see cref="ViewResult"/> object for the response.</returns>
+        [NonAction]
+        public virtual ViewResult View(string? viewName) {
+            return View(viewName, model: ViewData.Model);
+        }
+
+        /// <summary>
+        /// Creates a <see cref="ViewResult"/> object by specifying a <paramref name="model"/>
+        /// to be rendered by the view.
+        /// </summary>
+        /// <param name="model">The model that is rendered by the view.</param>
+        /// <returns>The created <see cref="ViewResult"/> object for the response.</returns>
+        [NonAction]
+        public virtual ViewResult View(object? model) {
+            return View(viewName: null, model: model);
+        }
+
+        /// <summary>
+        /// Creates a <see cref="ViewResult"/> object by specifying a <paramref name="viewName"/>
+        /// and the <paramref name="model"/> to be rendered by the view.
+        /// </summary>
+        /// <param name="viewName">The name or path of the view that is rendered to the response.</param>
+        /// <param name="model">The model that is rendered by the view.</param>
+        /// <returns>The created <see cref="ViewResult"/> object for the response.</returns>
+        [NonAction]
+        public virtual ViewResult View(string? viewName, object? model) {
+            ViewData.Model = model;
+
+            return new ViewResult() {
+                ViewName = viewName,
+                ViewData = ViewData,
+                TempData = TempData
+            };
+        }
+
+        /// <summary>
+        /// Creates a <see cref="PartialViewResult"/> object that renders a partial view to the response.
+        /// </summary>
+        /// <returns>The created <see cref="PartialViewResult"/> object for the response.</returns>
+        [NonAction]
+        public virtual PartialViewResult PartialView() {
+            return PartialView(viewName: null);
+        }
+
+        /// <summary>
+        /// Creates a <see cref="PartialViewResult"/> object by specifying a <paramref name="viewName"/>.
+        /// </summary>
+        /// <param name="viewName">The name or path of the partial view that is rendered to the response.</param>
+        /// <returns>The created <see cref="PartialViewResult"/> object for the response.</returns>
+        [NonAction]
+        public virtual PartialViewResult PartialView(string? viewName) {
+            return PartialView(viewName, model: ViewData.Model);
+        }
+
+        /// <summary>
+        /// Creates a <see cref="PartialViewResult"/> object by specifying a <paramref name="model"/>
+        /// to be rendered by the partial view.
+        /// </summary>
+        /// <param name="model">The model that is rendered by the partial view.</param>
+        /// <returns>The created <see cref="PartialViewResult"/> object for the response.</returns>
+        [NonAction]
+        public virtual PartialViewResult PartialView(object? model) {
+            return PartialView(viewName: null, model: model);
+        }
+
+        /// <summary>
+        /// Creates a <see cref="PartialViewResult"/> object by specifying a <paramref name="viewName"/>
+        /// and the <paramref name="model"/> to be rendered by the partial view.
+        /// </summary>
+        /// <param name="viewName">The name or path of the partial view that is rendered to the response.</param>
+        /// <param name="model">The model that is rendered by the partial view.</param>
+        /// <returns>The created <see cref="PartialViewResult"/> object for the response.</returns>
+        [NonAction]
+        public virtual PartialViewResult PartialView(string? viewName, object? model) {
+            ViewData.Model = model;
+
+            return new PartialViewResult() {
+                ViewName = viewName,
+                ViewData = ViewData,
+                TempData = TempData
+            };
+        }
+
+        /// <summary>
         ///  返回SuccessResult
         /// </summary>
         protected virtual SuccessResult<string> Success(string msg)

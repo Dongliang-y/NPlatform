@@ -37,6 +37,88 @@
             获取认证的身份信息
             </summary>
         </member>
+        <member name="P:NPlatform.API.BaseController.ViewData">
+            <summary>
+            Gets or sets <see cref="T:Microsoft.AspNetCore.Mvc.ViewFeatures.ViewDataDictionary"/> used by <see cref="T:Microsoft.AspNetCore.Mvc.ViewResult"/> and <see cref="!:ViewBag"/>.
+            </summary>
+            <remarks>
+            By default, this property is initialized when <see cref="!:Controllers.IControllerActivator"/> activates
+            controllers.
+            <para>
+            This property can be accessed after the controller has been activated, for example, in a controller action
+            or by overriding <see cref="!:OnActionExecuting(ActionExecutingContext)"/>.
+            </para>
+            <para>
+            This property can be also accessed from within a unit test where it is initialized with
+            <see cref="T:Microsoft.AspNetCore.Mvc.ModelBinding.EmptyModelMetadataProvider"/>.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:NPlatform.API.BaseController.TempData">
+            <summary>
+            Gets or sets <see cref="T:Microsoft.AspNetCore.Mvc.ViewFeatures.ITempDataDictionary"/> used by <see cref="T:Microsoft.AspNetCore.Mvc.ViewResult"/>.
+            </summary>
+        </member>
+        <member name="M:NPlatform.API.BaseController.View">
+            <summary>
+            Creates a <see cref="T:Microsoft.AspNetCore.Mvc.ViewResult"/> object that renders a view to the response.
+            </summary>
+            <returns>The created <see cref="T:Microsoft.AspNetCore.Mvc.ViewResult"/> object for the response.</returns>
+        </member>
+        <member name="M:NPlatform.API.BaseController.View(System.String)">
+            <summary>
+            Creates a <see cref="T:Microsoft.AspNetCore.Mvc.ViewResult"/> object by specifying a <paramref name="viewName"/>.
+            </summary>
+            <param name="viewName">The name or path of the view that is rendered to the response.</param>
+            <returns>The created <see cref="T:Microsoft.AspNetCore.Mvc.ViewResult"/> object for the response.</returns>
+        </member>
+        <member name="M:NPlatform.API.BaseController.View(System.Object)">
+            <summary>
+            Creates a <see cref="T:Microsoft.AspNetCore.Mvc.ViewResult"/> object by specifying a <paramref name="model"/>
+            to be rendered by the view.
+            </summary>
+            <param name="model">The model that is rendered by the view.</param>
+            <returns>The created <see cref="T:Microsoft.AspNetCore.Mvc.ViewResult"/> object for the response.</returns>
+        </member>
+        <member name="M:NPlatform.API.BaseController.View(System.String,System.Object)">
+            <summary>
+            Creates a <see cref="T:Microsoft.AspNetCore.Mvc.ViewResult"/> object by specifying a <paramref name="viewName"/>
+            and the <paramref name="model"/> to be rendered by the view.
+            </summary>
+            <param name="viewName">The name or path of the view that is rendered to the response.</param>
+            <param name="model">The model that is rendered by the view.</param>
+            <returns>The created <see cref="T:Microsoft.AspNetCore.Mvc.ViewResult"/> object for the response.</returns>
+        </member>
+        <member name="M:NPlatform.API.BaseController.PartialView">
+            <summary>
+            Creates a <see cref="T:Microsoft.AspNetCore.Mvc.PartialViewResult"/> object that renders a partial view to the response.
+            </summary>
+            <returns>The created <see cref="T:Microsoft.AspNetCore.Mvc.PartialViewResult"/> object for the response.</returns>
+        </member>
+        <member name="M:NPlatform.API.BaseController.PartialView(System.String)">
+            <summary>
+            Creates a <see cref="T:Microsoft.AspNetCore.Mvc.PartialViewResult"/> object by specifying a <paramref name="viewName"/>.
+            </summary>
+            <param name="viewName">The name or path of the partial view that is rendered to the response.</param>
+            <returns>The created <see cref="T:Microsoft.AspNetCore.Mvc.PartialViewResult"/> object for the response.</returns>
+        </member>
+        <member name="M:NPlatform.API.BaseController.PartialView(System.Object)">
+            <summary>
+            Creates a <see cref="T:Microsoft.AspNetCore.Mvc.PartialViewResult"/> object by specifying a <paramref name="model"/>
+            to be rendered by the partial view.
+            </summary>
+            <param name="model">The model that is rendered by the partial view.</param>
+            <returns>The created <see cref="T:Microsoft.AspNetCore.Mvc.PartialViewResult"/> object for the response.</returns>
+        </member>
+        <member name="M:NPlatform.API.BaseController.PartialView(System.String,System.Object)">
+            <summary>
+            Creates a <see cref="T:Microsoft.AspNetCore.Mvc.PartialViewResult"/> object by specifying a <paramref name="viewName"/>
+            and the <paramref name="model"/> to be rendered by the partial view.
+            </summary>
+            <param name="viewName">The name or path of the partial view that is rendered to the response.</param>
+            <param name="model">The model that is rendered by the partial view.</param>
+            <returns>The created <see cref="T:Microsoft.AspNetCore.Mvc.PartialViewResult"/> object for the response.</returns>
+        </member>
         <member name="M:NPlatform.API.BaseController.Success(System.String)">
             <summary>
              返回SuccessResult
