@@ -125,7 +125,11 @@ namespace NPlatform.DI
                  Console.WriteLine($"OnRegistered {e.ComponentRegistration.Activator.LimitType.FullName}")
                 );
 
-                builder.RegisterType<ValidateAntiforgeryAuthorizationFilter>().As<IAntiforgeryPolicy>().AsImplementedInterfaces().PropertiesAutowired(new AutowiredSelector()).InstancePerLifetimeScope();
+                builder.RegisterType<ValidateAntiforgeryAuthorizationFilter>().As<IAntiforgeryPolicy>().AsImplementedInterfaces().PropertiesAutowired(new AutowiredSelector()).InstancePerLifetimeScope().OnRegistered(e =>
+                 Console.WriteLine($"Service OnRegistered ValidateAntiforgeryAuthorizationFilter")
+                )
+                .OnActivated(e =>
+                Console.WriteLine($"OnActivated ValidateAntiforgeryAuthorizationFilter"));
 
                 var path = AppContext.BaseDirectory;
                 Console.WriteLine(path);

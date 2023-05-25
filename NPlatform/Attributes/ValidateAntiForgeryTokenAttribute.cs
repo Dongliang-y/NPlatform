@@ -4,6 +4,7 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.DependencyInjection;
 using NPlatform.Filters;
 
@@ -45,7 +46,7 @@ namespace NPlatform.Attributes
         /// <inheritdoc />
         public IFilterMetadata CreateInstance(IServiceProvider serviceProvider)
         {
-            return serviceProvider.GetRequiredService<ValidateAntiforgeryAuthorizationFilter>();
+            return serviceProvider.GetRequiredService<IAntiforgeryPolicy>();
         }
     }
 
