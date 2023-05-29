@@ -26,6 +26,8 @@ namespace NPlatform
     // using Lincence.Verify;
     using NPlatform.Repositories;
     using System;
+    using System.Diagnostics;
+    using System.Net.Http;
 
     /// <summary>
     /// 平台初始化对象. IOC容器加载、缓存初始化。
@@ -127,9 +129,13 @@ namespace NPlatform
                         Console.WriteLine($"{registration.ID}, name:{registration.Name}注册 consul成功");
                     }
                 }
+                catch(HttpRequestException ex) {
+                    string msg = $"注册失败！无法连接consul服务器——{ex.Message}";
+                    Console.WriteLine(msg);
+                   Trace.TraceWarning(msg);
+                }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.ToString());
                     System.Diagnostics.Trace.WriteLine(ex.ToString());
                 }
             });

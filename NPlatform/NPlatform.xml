@@ -1932,7 +1932,7 @@
             是否统计总数
             </summary>
         </member>
-        <member name="P:NPlatform.Query.QueryPageExp.PageIndex">
+        <member name="P:NPlatform.Query.QueryPageExp.PageNum">
             <summary>
             页码
             </summary>
