@@ -80,7 +80,7 @@
     <PackageReference Include="IdentityModel" Version="6.0.0" />
     <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="8.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="6.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="7.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
@@ -88,7 +88,7 @@
 	  <PackageReference Include="Ocelot.Provider.Kubernetes" Version="18.0.0" />
 	  <PackageReference Include="Ocelot.Provider.Polly" Version="18.0.0" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.20" />
-    <PackageReference Include="System.Text.Json" Version="6.0.6" />
+    <PackageReference Include="System.Text.Json" Version="7.0.1" />
   </ItemGroup>
 
   <ItemGroup>
