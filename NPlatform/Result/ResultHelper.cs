@@ -53,48 +53,48 @@ namespace NPlatform.Result
         /// <summary>
         /// 返回错误信息
         /// </summary>
-        protected virtual INPResult Error(string msg)
+        protected virtual INPResult Fail(string msg)
         {
-            return Error<bool>(msg);
+            return Fail<bool>(msg);
         }
 
         /// <summary>
         /// 返回错误信息
         /// </summary>
-        protected virtual ErrorResult<T> Error<T>(string msg)
+        protected virtual FailResult<T> Fail<T>(string msg)
         {
-            return new ErrorResult<T>(msg);
+            return new FailResult<T>(msg);
         }
         /// <summary>
         /// 返回错误信息
         /// </summary>
-        protected virtual ErrorResult<T> ErrorParams<T>(string paramName)
+        protected virtual FailResult<T> FailParams<T>(string paramName)
         {
-            return new ErrorResult<T>($"参数{nameof(paramName)}不能为空！");
+            return new FailResult<T>($"参数{nameof(paramName)}不能为空！");
         }
         /// <summary>
         /// 返回错误信息
         /// </summary>
-        protected virtual ErrorResult<T> Error<T>(string msg, HttpStatusCode statusCode)
+        protected virtual FailResult<T> Fail<T>(string msg, HttpStatusCode statusCode)
         {
-            return new ErrorResult<T>(msg, statusCode);
+            return new FailResult<T>(msg, statusCode);
         }
 
-
-        /// <summary>
-        /// 返回错误信息
-        /// </summary>
-        protected virtual INPResult Error(string msg, HttpStatusCode statusCode)
-        {
-            return new ErrorResult<bool>(msg, statusCode);
-        }
 
         /// <summary>
         /// 返回错误信息
         /// </summary>
-        protected virtual INPResult Error(Exception ex)
+        protected virtual INPResult Fail(string msg, HttpStatusCode statusCode)
         {
-            return new ErrorResult<bool>(ex);
+            return new FailResult<bool>(msg, statusCode);
+        }
+
+        /// <summary>
+        /// 返回错误信息
+        /// </summary>
+        protected virtual INPResult Fail(Exception ex)
+        {
+            return new FailResult<bool>(ex);
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace NPlatform.Result
         /// <returns>IEPResult</returns>
         protected virtual INPResult NotNullError(string pName)
         {
-            return Error<bool>($"{pName}参数不能为空！");
+            return Fail<bool>($"{pName}参数不能为空！");
         }
 
 

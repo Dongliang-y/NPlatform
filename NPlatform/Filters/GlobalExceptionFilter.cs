@@ -19,11 +19,11 @@ namespace NPlatform.Filters
         {
             if (!context.ExceptionHandled)//如果异常没有处理
             {
-                var result = new ErrorResult<string>("发生未处理异常", System.Net.HttpStatusCode.InternalServerError);
+                var result = new FailResult<string>("发生未处理异常", System.Net.HttpStatusCode.InternalServerError);
 
                 if (hostEnvironment.IsDevelopment())
                 {
-                    result = new ErrorResult<string>(context.Exception);
+                    result = new FailResult<string>(context.Exception);
                 }
 
                 logger.LogError(context.Exception.ToString());

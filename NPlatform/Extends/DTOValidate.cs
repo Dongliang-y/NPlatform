@@ -39,7 +39,7 @@ namespace NPlatform.Extends
                 {
                     strErrors.AppendLine(validationResult.ErrorMessage);
                 }
-                return new ErrorResult<IDto>(strErrors.ToString());
+                return new FailResult<IDto>(strErrors.ToString());
             }
 
             return new SuccessResult<IDto>(dto);
@@ -62,7 +62,7 @@ namespace NPlatform.Extends
                 {
                     strErrors.AppendLine(validationResult.ErrorMessage);
                 }
-                return new ErrorResult<IQuery>(strErrors.ToString());
+                return new FailResult<IQuery>(strErrors.ToString());
             }
 
             return new SuccessResult<IQuery>(query);

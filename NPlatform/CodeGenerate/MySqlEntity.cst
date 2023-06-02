@@ -147,6 +147,7 @@ public string GetCSharpVariableType(ColumnSchema column)
             break;
 		case DbType.Boolean:
             tp= "bool";
+            isNullTag="?";
             break;
 		case DbType.Byte:
             tp= "byte";
@@ -176,12 +177,15 @@ public string GetCSharpVariableType(ColumnSchema column)
             break;
 		case DbType.Int16: 
             tp= "short";
+            isNullTag="?";
             break;
 		case DbType.Int32: 
-            tp= "int";
+            tp= "int";            
+            isNullTag="?";
             break;
 		case DbType.Int64: 
             tp= "long";
+            isNullTag="?";
             break;
 		case DbType.Object: 
             tp= "object";
@@ -189,9 +193,11 @@ public string GetCSharpVariableType(ColumnSchema column)
             break;
 		case DbType.SByte: 
             tp= "bool";
+                        isNullTag="?";
             break;
 		case DbType.Single:
             tp= "float";
+                        isNullTag="?";
             break;
 		case DbType.String: 
             tp= "string";
@@ -205,12 +211,15 @@ public string GetCSharpVariableType(ColumnSchema column)
             break;
 		case DbType.UInt16: 
             tp= "ushort";
+                        isNullTag="?";
             break;
 		case DbType.UInt32: 
             tp= "uint";
+                        isNullTag="?";
             break;
 		case DbType.UInt64: 
             tp= "ulong";
+                        isNullTag="?";
             break;
 		case DbType.VarNumeric: 
             tp= "decimal";

@@ -139,12 +139,12 @@
              返回SuccessResult<T/>
             </summary>
         </member>
-        <member name="M:NPlatform.API.BaseController.Error(System.String)">
+        <member name="M:NPlatform.API.BaseController.Fail(System.String)">
             <summary>
             返回错误信息
             </summary>
         </member>
-        <member name="M:NPlatform.API.BaseController.Error``1(System.Exception)">
+        <member name="M:NPlatform.API.BaseController.Fail``1(System.Exception)">
             <summary>
             返回错误信息
             </summary>
@@ -588,14 +588,14 @@
             <summary>
             处理Delete
             </summary>
-            <param name="addCommand">Delete</param>
+            <param name="deleteCommand">Delete</param>
             <returns></returns>
         </member>
         <member name="M:NPlatform.Domains.Service.HandlerBase`3.Edit(`2)">
             <summary>
             处理编辑命令
             </summary>
-            <param name="addCommand">处理编辑命令</param>
+            <param name="editCommand">处理编辑命令</param>
             <returns></returns>
         </member>
         <member name="T:NPlatform.Domains.Service.IDomainService">
@@ -2329,32 +2329,32 @@
             是否为 ASC排序
             </summary>
         </member>
-        <member name="T:NPlatform.Result.ErrorResult`1">
+        <member name="T:NPlatform.Result.FailResult`1">
             <summary>
             错误信息
             </summary>
             <typeparam name="T"></typeparam>
         </member>
-        <member name="M:NPlatform.Result.ErrorResult`1.#ctor(System.Exception)">
+        <member name="M:NPlatform.Result.FailResult`1.#ctor(System.Exception)">
             <summary>
             错误信息
             </summary>
             <param name="ex"></param>
         </member>
-        <member name="M:NPlatform.Result.ErrorResult`1.#ctor(System.String)">
+        <member name="M:NPlatform.Result.FailResult`1.#ctor(System.String)">
             <summary>
             错误信息
             </summary>
             <param name="message"></param>
         </member>
-        <member name="M:NPlatform.Result.ErrorResult`1.#ctor(System.String,System.Net.HttpStatusCode)">
+        <member name="M:NPlatform.Result.FailResult`1.#ctor(System.String,System.Net.HttpStatusCode)">
             <summary>
             错误信息
             </summary>
             <param name="message">消息</param>
             <param name="httpCode">http状态码</param>
         </member>
-        <member name="M:NPlatform.Result.ErrorResult`1.#ctor(System.String,System.Net.HttpStatusCode,System.Object)">
+        <member name="M:NPlatform.Result.FailResult`1.#ctor(System.String,System.Net.HttpStatusCode,System.Object)">
             <summary>
             操作结果
             </summary>
@@ -2362,40 +2362,40 @@
             <param name="httpCode"></param>
             <param name="serializerSettings">序列化配置</param>
         </member>
-        <member name="P:NPlatform.Result.ErrorResult`1.Message">
+        <member name="P:NPlatform.Result.FailResult`1.Message">
             <summary>
             消息
             </summary>
         </member>
-        <member name="P:NPlatform.Result.ErrorResult`1.ServiceID">
+        <member name="P:NPlatform.Result.FailResult`1.ServiceID">
             <summary>
              返回结果的服务id
             </summary>
         </member>
-        <member name="P:NPlatform.Result.ErrorResult`1.ContentType">
+        <member name="P:NPlatform.Result.FailResult`1.ContentType">
             <summary>
              http heard contentType
             </summary>
         </member>
-        <member name="P:NPlatform.Result.ErrorResult`1.StatusCode">
+        <member name="P:NPlatform.Result.FailResult`1.StatusCode">
             <summary>
             状态码
             </summary>
         </member>
-        <member name="M:NPlatform.Result.ErrorResult`1.ExecuteResultAsync(Microsoft.AspNetCore.Mvc.ActionContext)">
+        <member name="M:NPlatform.Result.FailResult`1.ExecuteResultAsync(Microsoft.AspNetCore.Mvc.ActionContext)">
             <inheritdoc />
         </member>
-        <member name="P:NPlatform.Result.ErrorResult`1.Total">
+        <member name="P:NPlatform.Result.FailResult`1.Total">
             <summary>
             Total，无需赋值
             </summary>
         </member>
-        <member name="P:NPlatform.Result.ErrorResult`1.NPlatform#Result#IListResult{T}#Value">
+        <member name="P:NPlatform.Result.FailResult`1.NPlatform#Result#IListResult{T}#Value">
             <summary>
             Total，无需赋值
             </summary>
         </member>
-        <member name="M:NPlatform.Result.ErrorResult`1.ToList">
+        <member name="M:NPlatform.Result.FailResult`1.ToList">
             <summary>
             NotImplementedException
             </summary>
@@ -2553,32 +2553,32 @@
              返回SuccessResult
             </summary>
         </member>
-        <member name="M:NPlatform.Result.ResultHelper.Error(System.String)">
+        <member name="M:NPlatform.Result.ResultHelper.Fail(System.String)">
             <summary>
             返回错误信息
             </summary>
         </member>
-        <member name="M:NPlatform.Result.ResultHelper.Error``1(System.String)">
+        <member name="M:NPlatform.Result.ResultHelper.Fail``1(System.String)">
             <summary>
             返回错误信息
             </summary>
         </member>
-        <member name="M:NPlatform.Result.ResultHelper.ErrorParams``1(System.String)">
+        <member name="M:NPlatform.Result.ResultHelper.FailParams``1(System.String)">
             <summary>
             返回错误信息
             </summary>
         </member>
-        <member name="M:NPlatform.Result.ResultHelper.Error``1(System.String,System.Net.HttpStatusCode)">
+        <member name="M:NPlatform.Result.ResultHelper.Fail``1(System.String,System.Net.HttpStatusCode)">
             <summary>
             返回错误信息
             </summary>
         </member>
-        <member name="M:NPlatform.Result.ResultHelper.Error(System.String,System.Net.HttpStatusCode)">
+        <member name="M:NPlatform.Result.ResultHelper.Fail(System.String,System.Net.HttpStatusCode)">
             <summary>
             返回错误信息
             </summary>
         </member>
-        <member name="M:NPlatform.Result.ResultHelper.Error(System.Exception)">
+        <member name="M:NPlatform.Result.ResultHelper.Fail(System.Exception)">
             <summary>
             返回错误信息
             </summary>

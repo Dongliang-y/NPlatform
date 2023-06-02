@@ -316,18 +316,18 @@ namespace NPlatform.API
         /// <summary>
         /// 返回错误信息
         /// </summary>
-        protected virtual ErrorResult<IDto> Error(string msg)
+        protected virtual FailResult<IDto> Fail(string msg)
         {
-            var rst = new ErrorResult<IDto>(msg);
+            var rst = new FailResult<IDto>(msg);
             return rst;
         }
 
         /// <summary>
         /// 返回错误信息
         /// </summary>
-        protected virtual ErrorResult<T> Error<T>(Exception ex)
+        protected virtual FailResult<T> Fail<T>(Exception ex)
         {
-            var rst = new ErrorResult<T>(ex);
+            var rst = new FailResult<T>(ex);
             return rst;
         }
 

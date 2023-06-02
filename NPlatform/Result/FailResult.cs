@@ -9,13 +9,13 @@ namespace NPlatform.Result
     /// 错误信息
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ErrorResult<T> : IListResult<T>, ITreeResult<T>, INPResult
+    public class FailResult<T> : IListResult<T>, ITreeResult<T>, INPResult
     {
         /// <summary>
         /// 错误信息
         /// </summary>
         /// <param name="ex"></param>
-        public ErrorResult(Exception ex)
+        public FailResult(Exception ex)
         {
             this.Message = ex.Message;
         }
@@ -23,7 +23,7 @@ namespace NPlatform.Result
         /// 错误信息
         /// </summary>
         /// <param name="message"></param>
-        public ErrorResult(string message)
+        public FailResult(string message)
         {
             this.Message = message;
         }
@@ -33,7 +33,7 @@ namespace NPlatform.Result
         /// </summary>
         /// <param name="message">消息</param>
         /// <param name="httpCode">http状态码</param>
-        public ErrorResult(string message, HttpStatusCode httpCode)
+        public FailResult(string message, HttpStatusCode httpCode)
         {
             this.Message = message;
             this.StatusCode = httpCode.ToInt();
@@ -44,7 +44,7 @@ namespace NPlatform.Result
         /// <param name="message">消息</param>
         /// <param name="httpCode"></param>
         /// <param name="serializerSettings">序列化配置</param>
-        public ErrorResult(string message, HttpStatusCode httpCode, object? serializerSettings)
+        public FailResult(string message, HttpStatusCode httpCode, object? serializerSettings)
         {
             this.StatusCode = httpCode.ToInt();
             if (StatusCode >= 300)
