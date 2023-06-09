@@ -53,6 +53,8 @@ namespace NPlatform
         /// </summary>
         string NickName { get; }
 
+        string ClientId { get; }
+
         /// <summary>
         /// 角色
         /// </summary>
@@ -148,6 +150,10 @@ namespace NPlatform
                 return CnName != null ? CnName.Value : "";
             }
         }
+        public string ClientId { get { 
+             var clientId= Claims.FirstOrDefault(t => t.Type == JwtClaimTypes.ClientId);
+                return clientId!=null? clientId.Value:"";
+            } }
 
         /// <summary>
         /// 角色清单

@@ -21,10 +21,13 @@ namespace NPlatform
     using IdentityModel.Client;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
     using NPlatform.DI;
     using NPlatform.Infrastructure.Config;
     // using Lincence.Verify;
     using NPlatform.Repositories;
+    using NPlatform.Result;
+    using Ocelot.Responder;
     using System;
     using System.Diagnostics;
     using System.Net.Http;
@@ -68,7 +71,6 @@ namespace NPlatform
             //  Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.ValidateAntiforgeryTokenAuthorizationFilter
             Options = options;
             Console.WriteLine("ConfigureContainer");
-
             IOCService.Install(builder, Options, Config);
         }
 

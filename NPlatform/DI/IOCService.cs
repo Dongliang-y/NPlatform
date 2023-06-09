@@ -30,6 +30,7 @@ using NPlatform.Infrastructure.Config;
 using NPlatform.Infrastructure.Redis;
 using NPlatform.Repositories;
 using NPlatform.Repositories.IRepositories;
+using NPlatform.Result;
 using NPOI.SS.Formula.Functions;
 using Org.BouncyCastle.Asn1.X509.Qualified;
 using System.Reflection;
@@ -268,6 +269,20 @@ namespace NPlatform.DI
                 )
                 .OnActivated(e =>
                 Console.WriteLine($"OnActivated{e.Component.Activator.LimitType.FullName}"));
+                
+                // Command
+                builder.RegisterAssemblyTypes(assemblys.ToArray()).Where(t => typeof(ICommand).IsAssignableFrom(t))
+                .As<MediatR.IRequest<INPResult>>()
+                .AsImplementedInterfaces()//
+                .SingleInstance()
+                .PropertiesAutowired(new AutowiredSelector())
+                .OnRegistered(e =>
+                    Console.WriteLine($"Automapper OnRegistered{e.ComponentRegistration.Activator.LimitType.FullName}")
+                )
+                .OnActivated(e =>
+                Console.WriteLine($"OnActivated{e.Component.Activator.LimitType.FullName}"));
+
+
             });
         }
 
