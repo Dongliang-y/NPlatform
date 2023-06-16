@@ -1487,6 +1487,402 @@
              </summary>
              <returns></returns>
         </member>
+        <member name="M:NPlatform.Repositories.ObjectExt.CopyOrCreate``1(``0,``0,System.Func{``0,``0})">
+            <summary>
+            创建对象，只处理基本数据类型的字段，
+            </summary>
+            <param name="entity">要创建的类型</param>
+            <param name="src">源对象</param>
+            <param name="fun">委托，复杂类型交给调用方自己处理</param>
+            <returns></returns>
+        </member>
+        <member name="T:NPlatform.Repositories.DBProvider">
+            <summary>
+            数据库驱动类型
+            </summary>
+        </member>
+        <member name="F:NPlatform.Repositories.DBProvider.OracleClient">
+            <summary>
+            oracle客户端驱动
+            </summary>
+        </member>
+        <member name="F:NPlatform.Repositories.DBProvider.MySqlClient">
+            <summary>
+            MySqlClient 客户端驱动
+            </summary>
+        </member>
+        <member name="F:NPlatform.Repositories.DBProvider.SqlClient">
+            <summary>
+            SqlClient 客户端驱动
+            </summary>
+        </member>
+        <member name="F:NPlatform.Repositories.DBProvider.SQLite">
+            <summary>
+            SQLite 客户端驱动
+            </summary>
+        </member>
+        <member name="T:NPlatform.Repositories.IRepositories.IRepository`2">
+            <summary>
+            聚合内的工作单元接口
+            仓储的作用对象的领域模型的聚合根，也就是说每一个聚合都有一个单独的仓储
+            </summary>
+            <typeparam name="TEntity">实体类型
+            </typeparam>
+            <typeparam name="TPrimaryKey">主键类型
+            </typeparam>
+        </member>
+        <member name="P:NPlatform.Repositories.IRepositories.IRepository`2.Item(`1)">
+            <summary>
+            this 重载
+            </summary>
+            <param name="key">主键</param>
+            <returns>返回实体</returns>
+        </member>
+        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.AddAsync(`0)">
+            <summary>
+            新增
+            </summary>
+            <param name="item">新增对象</param>
+            <returns>返回新增后的实体</returns>
+        </member>
+        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.AddsAsync(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            异步新增
+            </summary>
+            <param name="items">实体对象</param>
+        </member>
+        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.AddOrUpdate(`0)">
+            <summary>
+            异步新增
+            </summary>
+            <param name="items">新增对象的集合</param>
+            <returns><placeholder>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</placeholder></returns>
+        </member>
+        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.UpdateAsync(`0)">
+            <summary>
+            异步修改
+            </summary>
+            <param name="item">修改的对象</param>
+            <returns><placeholder>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</placeholder></returns>
+        </member>
+        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.RemoveAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            聚合的删除方法，多半涉及某一个业务聚合的操作，
+            所以接口约束，基类使用抽象方法约束。
+            </summary>
+            <param name="filter">删除条件</param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.RemoveAsync(`1[])">
+            <summary>
+            聚合的删除方法，多半涉及某一个业务聚合的操作，
+            所以接口约束，基类使用抽象方法约束。
+            </summary>
+            <param name="keys"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.ExistsAsync(`1)">
+            <summary>
+            数据是否存在
+            </summary>
+            <param name="key">主键</param>
+        </member>
+        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.ExistsAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            查询对象是否存在
+            </summary>
+            <param name="filter">筛选条件</param>
+            <returns>结果</returns>
+        </member>
+        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.FindByAsync(`1)">
+            <summary>
+            查找数据
+            </summary>
+            <param name="key">主键</param>
+        </member>
+        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.GetAllAsync(System.Collections.Generic.IEnumerable{NPlatform.Repositories.SelectSort})">
+            <summary>
+            异步查询所有数据
+            </summary>
+            <param name="sorts">排序字段</param>
+            <returns>结果</returns>
+        </member>
+        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.GetFirstOrDefaultAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            按条件查找第一个
+            </summary>
+            <param name="filter">条件</param>
+            <returns>结果对象</returns>
+        </member>
+        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.GetListByExpAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Collections.Generic.IEnumerable{NPlatform.Repositories.SelectSort})">
+            <summary>
+            根据表达式异步获取
+            </summary>
+            <param name="filter">表达式</param>
+            <param name="sorts">排序</param>
+            <returns>查询结果</returns>
+        </member>
+        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.GetListWithColumnsAsync(System.Collections.Generic.IEnumerable{System.String},System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Collections.Generic.IEnumerable{NPlatform.Repositories.SelectSort})">
+            <summary>
+            指定字段范围查询，返回的实体只有这几个字段有值，目的是为了避免字段多时全字段查询（select *）
+            </summary>
+            <param name="columnNames">需要指定查询的字段</param>
+            <param name="filter">筛选条件</param>
+            <param name="sorts">排序字段</param>
+            <returns>实体集合</returns>
+        </member>
+        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.GetPagedAsync(System.Int32,System.Int32,System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Collections.Generic.IEnumerable{NPlatform.Repositories.SelectSort})">
+            <summary>
+            异步分页
+            </summary>
+            <param name="pageIndex">页码</param>
+            <param name="pageSize">页大小</param>
+            <param name="filter">条件</param>
+            <param name="sorts">排序</param>
+            <returns>异步结果</returns>
+        </member>
+        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.CountAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            统计记录数
+            </summary>
+            <param name="filter">linq表达式</param>
+        </member>
+        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.MaxAsync``1(System.Linq.Expressions.Expression{System.Func{`0,``0}},System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            求最大值
+            </summary>
+            <typeparam name="TValue">值类型</typeparam>
+            <param name="selector">属性名</param>
+            <param name="filter">过滤条件</param>
+            <returns>最大值</returns>
+        </member>
+        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.MinAsync``1(System.Linq.Expressions.Expression{System.Func{`0,``0}},System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            求最小值
+            </summary>
+            <typeparam name="TValue">值类型</typeparam>
+            <param name="selector">属性名</param>
+            <param name="filter">过滤条件</param>
+            <returns>最小值</returns>
+        </member>
+        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.SumAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Decimal}},System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            求和
+            </summary>
+            <param name="selector">属性名</param>
+            <param name="filter">过滤条件</param>
+            <returns>和</returns>
+        </member>
+        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.AVGAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Decimal}},System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            求平均值
+            </summary>
+            <param name="selector">属性名</param>
+            <param name="filter">过滤条件</param>
+            <returns>平均值</returns>
+        </member>
+        <member name="T:NPlatform.Repositories.IRepositories.IRepositoryOptions">
+            <summary>
+            仓储上下文配置接口
+            </summary>
+        </member>
+        <member name="P:NPlatform.Repositories.IRepositories.IRepositoryOptions.MainConection">
+            <summary>
+            连接字符串
+            </summary>
+        </member>
+        <member name="P:NPlatform.Repositories.IRepositories.IRepositoryOptions.MinorConnection">
+            <summary>
+            从库字符串
+            </summary>
+        </member>
+        <member name="P:NPlatform.Repositories.IRepositories.IRepositoryOptions.DBProvider">
+            <summary>
+            数据库驱动程序
+            </summary>
+        </member>
+        <member name="P:NPlatform.Repositories.IRepositories.IRepositoryOptions.TimeOut">
+            <summary>
+            事务超时时间,单位秒
+            </summary>
+        </member>
+        <member name="P:NPlatform.Repositories.IRepositories.IRepositoryOptions.AllQueryFilters">
+            <summary>
+            所有过滤器，包括查询的。
+            </summary>
+        </member>
+        <member name="P:NPlatform.Repositories.IRepositories.IRepositoryOptions.QueryFilters">
+            <summary>
+            查询表达式过滤器
+            </summary>
+        </member>
+        <member name="P:NPlatform.Repositories.IRepositories.IRepositoryOptions.ResultFilters">
+            <summary>
+            数据过滤器
+            </summary>
+        </member>
+        <member name="T:NPlatform.Repositories.IRepositories.IUnitOfWork">
+            <summary>
+            工作单元模式仓储接口
+            </summary>
+        </member>
+        <member name="P:NPlatform.Repositories.IRepositories.IUnitOfWork.IsCommitted">
+            <summary>
+            事物是否已提交
+            </summary>
+        </member>
+        <member name="P:NPlatform.Repositories.IRepositories.IUnitOfWork.Timeout">
+            <summary>
+            获取/设置工作单元的超时时间
+            </summary>
+        </member>
+        <member name="M:NPlatform.Repositories.IRepositories.IUnitOfWork.AddAsync``1(``0)">
+            <summary>
+            新增
+            </summary>
+            <typeparam name="T">需要新增的类型</typeparam>
+            <param name="entity">实体对象</param>
+            <returns>返回T</returns>
+        </member>
+        <member name="M:NPlatform.Repositories.IRepositories.IUnitOfWork.AddsAsync``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            批量新增
+            </summary>
+            <typeparam name="T">类型</typeparam>
+            <param name="entitys">实体集合</param>
+        </member>
+        <member name="M:NPlatform.Repositories.IRepositories.IUnitOfWork.ChangeAsync``1(``0)">
+            <summary>
+            修改
+            </summary>
+            <typeparam name="T">需要修改的类型</typeparam>
+            <param name="entity">实体对象</param>
+            <returns>返回T</returns>
+        </member>
+        <member name="M:NPlatform.Repositories.IRepositories.IUnitOfWork.RemoveAsync``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            移除实体对象
+            </summary>
+            <typeparam name="T">需要新增的类型</typeparam>
+            <param name="entities">实体对象</param>
+            <returns>返回T</returns>
+        </member>
+        <member name="M:NPlatform.Repositories.IRepositories.IUnitOfWork.RemoveAsync``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            移除对象
+            </summary>
+            <param name="filter"></param>
+        </member>
+        <member name="M:NPlatform.Repositories.IRepositories.IUnitOfWork.QueryFromSql``1(System.String,System.Object)">
+            <summary>
+            执行sql脚本
+            </summary>
+            <typeparam name="T">执行查询的对象实体类型</typeparam>
+            <param name="sql">需要执行的SQL</param>
+            <param name="parameters">参数对象</param>
+            <returns>执行结果</returns>
+        </member>
+        <member name="M:NPlatform.Repositories.IRepositories.IUnitOfWork.Commit">
+            <summary>
+            提交
+            </summary>
+        </member>
+        <member name="M:NPlatform.Repositories.IRepositories.IUnitOfWork.Rollback">
+            <summary>
+            回滚事物
+            </summary>
+        </member>
+        <member name="T:NPlatform.Repositories.RepositoryOptions">
+            <summary>
+            默认仓储上下文配置
+            </summary>
+        </member>
+        <member name="P:NPlatform.Repositories.RepositoryOptions.TimeOut">
+            <summary>
+            超时时间
+            </summary>
+        </member>
+        <member name="F:NPlatform.Repositories.RepositoryOptions.queryFilters">
+            <summary>
+            过滤器集合
+            </summary>
+        </member>
+        <member name="P:NPlatform.Repositories.RepositoryOptions.AllQueryFilters">
+            <summary>
+            Gets or sets 过滤器清单
+            </summary>
+        </member>
+        <member name="P:NPlatform.Repositories.RepositoryOptions.QueryFilters">
+            <summary>
+            Gets or sets 过滤器清单
+            </summary>
+        </member>
+        <member name="F:NPlatform.Repositories.RepositoryOptions.resultFilters">
+            <summary>
+            过滤器集合
+            </summary>
+        </member>
+        <member name="P:NPlatform.Repositories.RepositoryOptions.AllResultFilters">
+            <summary>
+            Gets or sets 过滤器清单
+            </summary>
+        </member>
+        <member name="P:NPlatform.Repositories.RepositoryOptions.ResultFilters">
+            <summary>
+            Gets or sets 过滤器清单
+            </summary>
+        </member>
+        <member name="P:NPlatform.Repositories.RepositoryOptions.MainConection">
+            <summary>
+            Gets or sets 连接字符串
+            </summary>
+        </member>
+        <member name="P:NPlatform.Repositories.RepositoryOptions.MinorConnection">
+            <summary>
+            从库连接
+            </summary>
+        </member>
+        <member name="P:NPlatform.Repositories.RepositoryOptions.DBProvider">
+            <summary>
+            Gets or sets 数据库驱动
+            </summary>
+        </member>
+        <member name="M:NPlatform.Repositories.RepositoryOptions.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:NPlatform.Repositories.RepositoryOptions"/> class. 
+            初始化默认的仓储配置
+            </summary>
+        </member>
+        <member name="T:NPlatform.Repositories.ISelectSort">
+            <summary>
+            排序字段
+            </summary>
+        </member>
+        <member name="P:NPlatform.Repositories.ISelectSort.Field">
+            <summary>
+            字段名
+            </summary>
+        </member>
+        <member name="P:NPlatform.Repositories.ISelectSort.IsAsc">
+            <summary>
+            是否为 ASC排序
+            </summary>
+        </member>
+        <member name="T:NPlatform.Repositories.SelectSort">
+            <summary>
+            排序字段
+            </summary>
+        </member>
+        <member name="P:NPlatform.Repositories.SelectSort.Field">
+            <summary>
+            字段名
+            </summary>
+        </member>
+        <member name="P:NPlatform.Repositories.SelectSort.IsAsc">
+            <summary>
+            是否为 ASC排序
+            </summary>
+        </member>
         <member name="T:NPlatform.Filters.BaseFilter">
             <summary>
             过滤器基类
@@ -1940,393 +2336,6 @@
         <member name="P:NPlatform.Query.QueryPageExp.PageSize">
             <summary>
             页大小
-            </summary>
-        </member>
-        <member name="T:NPlatform.Repositories.DBProvider">
-            <summary>
-            数据库驱动类型
-            </summary>
-        </member>
-        <member name="F:NPlatform.Repositories.DBProvider.OracleClient">
-            <summary>
-            oracle客户端驱动
-            </summary>
-        </member>
-        <member name="F:NPlatform.Repositories.DBProvider.MySqlClient">
-            <summary>
-            MySqlClient 客户端驱动
-            </summary>
-        </member>
-        <member name="F:NPlatform.Repositories.DBProvider.SqlClient">
-            <summary>
-            SqlClient 客户端驱动
-            </summary>
-        </member>
-        <member name="F:NPlatform.Repositories.DBProvider.SQLite">
-            <summary>
-            SQLite 客户端驱动
-            </summary>
-        </member>
-        <member name="T:NPlatform.Repositories.IRepositories.IRepository`2">
-            <summary>
-            聚合内的工作单元接口
-            仓储的作用对象的领域模型的聚合根，也就是说每一个聚合都有一个单独的仓储
-            </summary>
-            <typeparam name="TEntity">实体类型
-            </typeparam>
-            <typeparam name="TPrimaryKey">主键类型
-            </typeparam>
-        </member>
-        <member name="P:NPlatform.Repositories.IRepositories.IRepository`2.Item(`1)">
-            <summary>
-            this 重载
-            </summary>
-            <param name="key">主键</param>
-            <returns>返回实体</returns>
-        </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.AddAsync(`0)">
-            <summary>
-            新增
-            </summary>
-            <param name="item">新增对象</param>
-            <returns>返回新增后的实体</returns>
-        </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.AddsAsync(System.Collections.Generic.IEnumerable{`0})">
-            <summary>
-            异步新增
-            </summary>
-            <param name="items">实体对象</param>
-        </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.AddOrUpdate(`0)">
-            <summary>
-            异步新增
-            </summary>
-            <param name="items">新增对象的集合</param>
-            <returns><placeholder>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</placeholder></returns>
-        </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.UpdateAsync(`0)">
-            <summary>
-            异步修改
-            </summary>
-            <param name="item">修改的对象</param>
-            <returns><placeholder>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</placeholder></returns>
-        </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.RemoveAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
-            <summary>
-            聚合的删除方法，多半涉及某一个业务聚合的操作，
-            所以接口约束，基类使用抽象方法约束。
-            </summary>
-            <param name="filter">删除条件</param>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.RemoveAsync(`1[])">
-            <summary>
-            聚合的删除方法，多半涉及某一个业务聚合的操作，
-            所以接口约束，基类使用抽象方法约束。
-            </summary>
-            <param name="keys"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.ExistsAsync(`1)">
-            <summary>
-            数据是否存在
-            </summary>
-            <param name="key">主键</param>
-        </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.ExistsAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
-            <summary>
-            查询对象是否存在
-            </summary>
-            <param name="filter">筛选条件</param>
-            <returns>结果</returns>
-        </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.FindByAsync(`1)">
-            <summary>
-            查找数据
-            </summary>
-            <param name="key">主键</param>
-        </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.GetAllAsync(System.Collections.Generic.IEnumerable{NPlatform.Repositories.SelectSort})">
-            <summary>
-            异步查询所有数据
-            </summary>
-            <param name="sorts">排序字段</param>
-            <returns>结果</returns>
-        </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.GetFirstOrDefaultAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
-            <summary>
-            按条件查找第一个
-            </summary>
-            <param name="filter">条件</param>
-            <returns>结果对象</returns>
-        </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.GetListByExpAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Collections.Generic.IEnumerable{NPlatform.Repositories.SelectSort})">
-            <summary>
-            根据表达式异步获取
-            </summary>
-            <param name="filter">表达式</param>
-            <param name="sorts">排序</param>
-            <returns>查询结果</returns>
-        </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.GetListWithColumnsAsync(System.Collections.Generic.IEnumerable{System.String},System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Collections.Generic.IEnumerable{NPlatform.Repositories.SelectSort})">
-            <summary>
-            指定字段范围查询，返回的实体只有这几个字段有值，目的是为了避免字段多时全字段查询（select *）
-            </summary>
-            <param name="columnNames">需要指定查询的字段</param>
-            <param name="filter">筛选条件</param>
-            <param name="sorts">排序字段</param>
-            <returns>实体集合</returns>
-        </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.GetPagedAsync(System.Int32,System.Int32,System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Collections.Generic.IEnumerable{NPlatform.Repositories.SelectSort})">
-            <summary>
-            异步分页
-            </summary>
-            <param name="pageIndex">页码</param>
-            <param name="pageSize">页大小</param>
-            <param name="filter">条件</param>
-            <param name="sorts">排序</param>
-            <returns>异步结果</returns>
-        </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.CountAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
-            <summary>
-            统计记录数
-            </summary>
-            <param name="filter">linq表达式</param>
-        </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.MaxAsync``1(System.Linq.Expressions.Expression{System.Func{`0,``0}},System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
-            <summary>
-            求最大值
-            </summary>
-            <typeparam name="TValue">值类型</typeparam>
-            <param name="selector">属性名</param>
-            <param name="filter">过滤条件</param>
-            <returns>最大值</returns>
-        </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.MinAsync``1(System.Linq.Expressions.Expression{System.Func{`0,``0}},System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
-            <summary>
-            求最小值
-            </summary>
-            <typeparam name="TValue">值类型</typeparam>
-            <param name="selector">属性名</param>
-            <param name="filter">过滤条件</param>
-            <returns>最小值</returns>
-        </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.SumAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Decimal}},System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
-            <summary>
-            求和
-            </summary>
-            <param name="selector">属性名</param>
-            <param name="filter">过滤条件</param>
-            <returns>和</returns>
-        </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.AVGAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Decimal}},System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
-            <summary>
-            求平均值
-            </summary>
-            <param name="selector">属性名</param>
-            <param name="filter">过滤条件</param>
-            <returns>平均值</returns>
-        </member>
-        <member name="T:NPlatform.Repositories.IRepositories.IRepositoryOptions">
-            <summary>
-            仓储上下文配置接口
-            </summary>
-        </member>
-        <member name="P:NPlatform.Repositories.IRepositories.IRepositoryOptions.MainConection">
-            <summary>
-            连接字符串
-            </summary>
-        </member>
-        <member name="P:NPlatform.Repositories.IRepositories.IRepositoryOptions.MinorConnection">
-            <summary>
-            从库字符串
-            </summary>
-        </member>
-        <member name="P:NPlatform.Repositories.IRepositories.IRepositoryOptions.DBProvider">
-            <summary>
-            数据库驱动程序
-            </summary>
-        </member>
-        <member name="P:NPlatform.Repositories.IRepositories.IRepositoryOptions.TimeOut">
-            <summary>
-            事务超时时间,单位秒
-            </summary>
-        </member>
-        <member name="P:NPlatform.Repositories.IRepositories.IRepositoryOptions.AllQueryFilters">
-            <summary>
-            所有过滤器，包括查询的。
-            </summary>
-        </member>
-        <member name="P:NPlatform.Repositories.IRepositories.IRepositoryOptions.QueryFilters">
-            <summary>
-            查询表达式过滤器
-            </summary>
-        </member>
-        <member name="P:NPlatform.Repositories.IRepositories.IRepositoryOptions.ResultFilters">
-            <summary>
-            数据过滤器
-            </summary>
-        </member>
-        <member name="T:NPlatform.Repositories.IRepositories.IUnitOfWork">
-            <summary>
-            工作单元模式仓储接口
-            </summary>
-        </member>
-        <member name="P:NPlatform.Repositories.IRepositories.IUnitOfWork.IsCommitted">
-            <summary>
-            事物是否已提交
-            </summary>
-        </member>
-        <member name="P:NPlatform.Repositories.IRepositories.IUnitOfWork.Timeout">
-            <summary>
-            获取/设置工作单元的超时时间
-            </summary>
-        </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IUnitOfWork.AddAsync``1(``0)">
-            <summary>
-            新增
-            </summary>
-            <typeparam name="T">需要新增的类型</typeparam>
-            <param name="entity">实体对象</param>
-            <returns>返回T</returns>
-        </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IUnitOfWork.AddsAsync``1(System.Collections.Generic.IEnumerable{``0})">
-            <summary>
-            批量新增
-            </summary>
-            <typeparam name="T">类型</typeparam>
-            <param name="entitys">实体集合</param>
-        </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IUnitOfWork.ChangeAsync``1(``0)">
-            <summary>
-            修改
-            </summary>
-            <typeparam name="T">需要修改的类型</typeparam>
-            <param name="entity">实体对象</param>
-            <returns>返回T</returns>
-        </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IUnitOfWork.RemoveAsync``1(System.Collections.Generic.IEnumerable{``0})">
-            <summary>
-            移除实体对象
-            </summary>
-            <typeparam name="T">需要新增的类型</typeparam>
-            <param name="entities">实体对象</param>
-            <returns>返回T</returns>
-        </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IUnitOfWork.RemoveAsync``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
-            <summary>
-            移除对象
-            </summary>
-            <param name="filter"></param>
-        </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IUnitOfWork.QueryFromSql``1(System.String,System.Object)">
-            <summary>
-            执行sql脚本
-            </summary>
-            <typeparam name="T">执行查询的对象实体类型</typeparam>
-            <param name="sql">需要执行的SQL</param>
-            <param name="parameters">参数对象</param>
-            <returns>执行结果</returns>
-        </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IUnitOfWork.Commit">
-            <summary>
-            提交
-            </summary>
-        </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IUnitOfWork.Rollback">
-            <summary>
-            回滚事物
-            </summary>
-        </member>
-        <member name="T:NPlatform.Repositories.RepositoryOptions">
-            <summary>
-            默认仓储上下文配置
-            </summary>
-        </member>
-        <member name="P:NPlatform.Repositories.RepositoryOptions.TimeOut">
-            <summary>
-            超时时间
-            </summary>
-        </member>
-        <member name="F:NPlatform.Repositories.RepositoryOptions.queryFilters">
-            <summary>
-            过滤器集合
-            </summary>
-        </member>
-        <member name="P:NPlatform.Repositories.RepositoryOptions.AllQueryFilters">
-            <summary>
-            Gets or sets 过滤器清单
-            </summary>
-        </member>
-        <member name="P:NPlatform.Repositories.RepositoryOptions.QueryFilters">
-            <summary>
-            Gets or sets 过滤器清单
-            </summary>
-        </member>
-        <member name="F:NPlatform.Repositories.RepositoryOptions.resultFilters">
-            <summary>
-            过滤器集合
-            </summary>
-        </member>
-        <member name="P:NPlatform.Repositories.RepositoryOptions.AllResultFilters">
-            <summary>
-            Gets or sets 过滤器清单
-            </summary>
-        </member>
-        <member name="P:NPlatform.Repositories.RepositoryOptions.ResultFilters">
-            <summary>
-            Gets or sets 过滤器清单
-            </summary>
-        </member>
-        <member name="P:NPlatform.Repositories.RepositoryOptions.MainConection">
-            <summary>
-            Gets or sets 连接字符串
-            </summary>
-        </member>
-        <member name="P:NPlatform.Repositories.RepositoryOptions.MinorConnection">
-            <summary>
-            从库连接
-            </summary>
-        </member>
-        <member name="P:NPlatform.Repositories.RepositoryOptions.DBProvider">
-            <summary>
-            Gets or sets 数据库驱动
-            </summary>
-        </member>
-        <member name="M:NPlatform.Repositories.RepositoryOptions.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:NPlatform.Repositories.RepositoryOptions"/> class. 
-            初始化默认的仓储配置
-            </summary>
-        </member>
-        <member name="T:NPlatform.Repositories.ISelectSort">
-            <summary>
-            排序字段
-            </summary>
-        </member>
-        <member name="P:NPlatform.Repositories.ISelectSort.Field">
-            <summary>
-            字段名
-            </summary>
-        </member>
-        <member name="P:NPlatform.Repositories.ISelectSort.IsAsc">
-            <summary>
-            是否为 ASC排序
-            </summary>
-        </member>
-        <member name="T:NPlatform.Repositories.SelectSort">
-            <summary>
-            排序字段
-            </summary>
-        </member>
-        <member name="P:NPlatform.Repositories.SelectSort.Field">
-            <summary>
-            字段名
-            </summary>
-        </member>
-        <member name="P:NPlatform.Repositories.SelectSort.IsAsc">
-            <summary>
-            是否为 ASC排序
             </summary>
         </member>
         <member name="T:NPlatform.Result.FailResult`1">
