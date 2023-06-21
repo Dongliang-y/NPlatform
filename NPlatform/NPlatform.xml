@@ -257,7 +257,7 @@
             httpContext
             </summary>
         </member>
-        <member name="P:NPlatform.Applications.ApplicationService.MapperObj">
+        <member name="P:NPlatform.Applications.ApplicationService.MapperService">
             <summary>
             mapper 对象
             </summary>
@@ -535,7 +535,7 @@
             httpContext
             </summary>
         </member>
-        <member name="P:NPlatform.Domains.Service.BaseService.mapperService">
+        <member name="P:NPlatform.Domains.Service.BaseService.MapperService">
             <summary>
             mapper 对象
             </summary>

@@ -49,7 +49,7 @@ namespace NPlatform.Applications
         /// mapper 对象
         /// </summary>
         [Autowired]
-        public IMapperService MapperObj { get; set; }
+        public IMapperService MapperService { get; set; }
 
 
         public abstract string GetApplicationShortName();

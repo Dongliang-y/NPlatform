@@ -28,7 +28,7 @@
         /// mapper 对象
         /// </summary>
         [Autowired]
-        public IMapperService mapperService { get; set; }
+        public IMapperService MapperService { get; set; }
 
         /// <summary>
         /// Domain service base。
