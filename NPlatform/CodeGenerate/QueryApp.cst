@@ -4,62 +4,79 @@
 <%@ Assembly Name="System.Data" %>
 <%@ Import Namespace="SchemaExplorer" %>
 <%@ Import Namespace="System.Data" %>
+
 /***********************************************************
-**项目名称:ZJJWFoundationPlatform.Dto                                                             	
-**功能描述:	数据传输层
-**作    者: 	codesmith脚本生成                                         			   
+**项目名称:NPlatform.Application.Queries                                                              	
+**功能描述:	Query
+**作    者: 	codesmith 初始化                                         			   
 **版 本 号:	1.0                                                  
 **修改历史：
 ************************************************************/
+using NPlatform.Applications;
+using NPlatform.AutoMap;
+using NPlatform.Domains.Entity.Sys;
+using NPlatform.Domains.IRepositories.Sys;
+using NPlatform.Domains.Services.Sys;
+using NPlatform.Dto.Sys;
+using NPlatform.DTO.VO;
+using NPlatform.Repositories.IRepositories;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace  NPlatform.Commands.<%= GetModuleName(SourceTable)%>
-{
-	using System;
-	using System.Runtime.Serialization;
-    using System.ComponentModel.DataAnnotations;
-	using NPlatform;
-    using NPlatform.Dto.<%= GetModuleName(SourceTable)%>;
-    using NPlatform.Enums;
-    using System.Linq.Expressions;
-    
-	/// <summary>
-	/// <%= GetName(SourceTable)%>，<%=SourceTable.Description.Replace("\n","").Replace("\r","")%>，ADD命令
-	/// </summary>
-    [DataContract]
-    public partial class <%= GetName(SourceTable)%>Add:<%= GetName(SourceTable)%>Dto,ICommand
-	{
-        public CType CommandType=> CType.ADD;
-        public  <%= GetName(SourceTable)%>Add(string aggregateId) : base(aggregateId)
-        {
+namespace NPlatform.Application.Queries.<%= GetModuleName(SourceTable)%> {
+    public class <%= GetName(SourceTable)%>Query : ApplicationService {
+        [Autowired]
+        public I<%= GetName(SourceTable)%>Repository Repository { get; set; }
+        public async Task<IListResult<<%= GetName(SourceTable)%>Dto>> GetListAsync(QueryExp exp) {
+            var vResult = exp.Validates();
+            if (vResult.StatusCode == 200) {
+                var srcItems = await Repository.GetListByExpAsync(exp.GetExp<<%= GetName(SourceTable)%>>(), exp.GetSelectSorts());
+                var dtos = this.MapperService.Map<IEnumerable<<%= GetName(SourceTable)%>>, ListResult<<%= GetName(SourceTable)%>Dto>>(srcItems);
+                return dtos;
+            }
+            return (IListResult<<%= GetName(SourceTable)%>Dto>)vResult;
         }
-	}
-    
-    	/// <summary>
-	/// <%= GetName(SourceTable)%>，<%=SourceTable.Description.Replace("\n","").Replace("\r","")%>，EDIT命令
-	/// </summary>
-    [DataContract]
-    public partial class <%= GetName(SourceTable)%>Edit:<%= GetName(SourceTable)%>Dto,ICommand
-	{
-        public CType CommandType=> CType.EDIT;
-        public  <%= GetName(SourceTable)%>Edit(string aggregateId) : base(aggregateId)
-        {
+
+        public async Task<IListResult<<%= GetName(SourceTable)%>Dto>> GetListAsync(Expression<Func<<%= GetName(SourceTable)%>, bool>> filter) {
+            var entitys = await Repository.GetListByExpAsync(filter);
+            var dtos = MapperService.Map<IEnumerable<<%= GetName(SourceTable)%>>, IListResult<<%= GetName(SourceTable)%>Dto>>(entitys);
+            return dtos;
         }
-	}
-    
-    	/// <summary>
-	/// <%= GetName(SourceTable)%>，<%=SourceTable.Description.Replace("\n","").Replace("\r","")%>，DELETE 命令
-	/// </summary>
-    [DataContract]
-    public partial class <%= GetName(SourceTable)%>Delete:<%= GetName(SourceTable)%>Dto,ICommand
-	{
-        public Expression<Func<<%= GetName(SourceTable)%>Delete, bool>> filter;
-        public CType CommandType=> CType.DELETE;
-        public  <%= GetName(SourceTable)%>Delete(string aggregateId) : base(aggregateId)
-        {
+
+        public async Task<IListResult<<%= GetName(SourceTable)%>Dto>> GetPageAsync(QueryPageExp exp) {
+            var vResult = exp.Validates();
+            if (vResult.StatusCode == 200) {
+                var entitys = await Repository.GetPagedAsync(exp.PageNum, exp.PageSize, exp.GetExp<<%= GetName(SourceTable)%>>(), exp.GetSelectSorts());
+                var dtos = MapperService.Map<IListResult<<%= GetName(SourceTable)%>>, IListResult<<%= GetName(SourceTable)%>Dto>>((IListResult<<%= GetName(SourceTable)%>>)entitys);
+                return dtos;
+            }
+            return (IListResult<<%= GetName(SourceTable)%>Dto>)vResult;
         }
-	}
+
+
+        /// <summary>
+        /// GetAsync
+        /// </summary>
+        /// <param name="entityId">ID</param>
+        /// <returns></returns>
+        public async Task<INPResult> GetAsync(string entityId) {
+            if (string.IsNullOrEmpty(entityId)) {
+                return base.FailParams<<%= GetName(SourceTable)%>Dto>(nameof(entityId));
+            }
+
+            var entity = await Repository.FindByAsync(entityId);
+            var entityVo = MapperService.Map<<%= GetName(SourceTable)%>Dto>(entity);
+            return Success(entityVo);
+        }
+
+        public override string GetApplicationShortName() {
+            return "<%= GetName(SourceTable)%>";
+        }
+    }
 }
-
 <script runat="template">
 
 

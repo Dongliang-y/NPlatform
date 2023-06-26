@@ -6,9 +6,11 @@
 <%@ Property Name="OverriteEntity" Type="Boolean" Default="true" Category="文件处理" Description="覆写实体，如果为设置为false，当文件已存在时则跳过该文件。" %>
 <%@ Property Name="OverriteDTO" Type="Boolean" Default="true" Category="文件处理" Description="覆写DTO，如果为设置为false，当文件已存在时则跳过该文件。" %>
 <%@ Property Name="OverriteCommand" Type="Boolean" Default="false" Category="文件处理" Description="覆写命令对象，如果为设置为false，当文件已存在时则跳过该文件。" %>
+<%@ Property Name="OverriteQuery"   Type="Boolean" Default="false" Category="文件处理" Description="覆写命令对象，如果为设置为false，当文件已存在时则跳过该文件。" %>
 
 <%@ Property Name="ClearAll" Type="Boolean" Default="false" Category="文件处理" Description="清理所有生成的代码（只清理由脚本创建的.Designer 文件）" %>
 <%@ Property Name="DomainMode" Type="Boolean" Default="true" Category="高级特性" Description="基于领域驱动模式" %>
+
 <%@ Property Name="ORMSelect"  Type="ORMType" Category="高级特性" Description="ORM选择" %> 
 <%@ Property Name="IsPartial"  Type="Boolean"  Default="true" Category="高级特性" Description="以partial风格生成 *.Designer.cs代码文件，避免覆盖用户增加的文件。" %> 
 <%@ Property Name="IsCQRS"  Type="Boolean"  Default="true" Category="高级特性" Description="CQRS模式，生成的service基类不同，自动创建 CMD类。" %> 
@@ -59,6 +61,8 @@ TableSchemaCollection Tables=SourceTables;
     string DtoDIC = OutputDirectory + "\\"+ProjectName+".DTO\\DTO\\";
     string CommandsDIC = OutputDirectory + "\\"+ProjectName+".DTO\\Commands\\";
 
+        string QueryDIC = OutputDirectory + "\\"+ProjectName+".Application\\Queries\\";
+
     //Load Template
     CodeTemplate emptyTemplate=GetCodeTemplate("Empty.cst");
     CodeTemplate IRepositoriesTemplate = GetCodeTemplate("IRepositories.cst");
@@ -73,6 +77,7 @@ TableSchemaCollection Tables=SourceTables;
 
     // Dto 对象
      CodeTemplate CommandTemplate=GetCodeTemplate("Command.cst");
+     CodeTemplate QueryTemplate=GetCodeTemplate("QueryApp.cst");
      CodeTemplate DtoTemplate=GetCodeTemplate("Dto.cst");
         var fileExt="";
         if(IsPartial)
@@ -107,8 +112,10 @@ TableSchemaCollection Tables=SourceTables;
             var name=Tables[i].Name;
              var count=Regex.Matches(name, "_").Count;
             
+            
+
             // 领域驱动模式下，从表的仓储、服务Dto都不生成。
-            if(DomainMode&&count>1)
+            if(DomainMode&&(count>1||IsSub(name)))
             {
                 continue;
             }
@@ -129,7 +136,10 @@ TableSchemaCollection Tables=SourceTables;
             RenderEmptyFile(DtoDIC+ GetModuleName(Tables[i])+"\\"+ GetName(Tables[i]) +"Dto.cs","  NPlatform.Dto."+GetMudName(Tables[i]), GetName(Tables[i])+"Dto", GetName(Tables[i])+"Dto","	using System.ComponentModel.DataAnnotations;",ref emptyTemplate);
             RenderFileUsingProperties(DtoDIC+ GetModuleName(Tables[i])+"\\"+GetName(Tables[i]) + "Dto"+fileExt+".cs",OverriteDTO,ref DtoTemplate,Tables[i]); 
             if(IsCQRS)
+            {
                 RenderFileUsingProperties(CommandsDIC+ GetModuleName(Tables[i])+"\\"+GetName(Tables[i]) + "Commnad.cs",OverriteCommand,ref CommandTemplate,Tables[i]);             
+                RenderFileUsingProperties(QueryDIC+ GetModuleName(Tables[i])+"\\"+GetName(Tables[i]) + "Query.cs",OverriteQuery,ref QueryTemplate,Tables[i]);             
+            }
 		}catch(Exception ex)
 		{
 			%>表<%=Tables[i].Name%>出现错误，已跳过，请查验。<%=ex.ToString()%><%
@@ -202,6 +212,18 @@ public ViewSchemaCollection GetViewCollection(DatabaseSchema dataBase)
     #endregion
     
 #region Methods
+
+public bool IsSub(string name)
+{
+    var rst=name.Split('_');
+    if(rst.Length>1) {
+var count = System.Text.RegularExpressions.Regex.Matches(rst[1], "[A-Z]").Count;
+        Response.Write("isSub:"+count+":"+rst[1]+"\r\n"); 
+        return count>1;
+    }
+    return false;
+}
+
 public string GetMudName(TableSchema table)
 {
     var tableName=table.Name;
@@ -505,7 +527,7 @@ public string GetMudName(TableSchema table)
              var count=Regex.Matches(name, "_").Count;
             
             // 领域驱动模式下，从表的仓储、服务Dto都不生成。
-            if(DomainMode&&count>11)
+            if(DomainMode&&(count>1||IsSub(name)))
             {
                 continue;
             }

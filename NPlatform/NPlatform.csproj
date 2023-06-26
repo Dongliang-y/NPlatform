@@ -128,6 +128,9 @@
     <None Update="CodeGenerate\BuildView.cst">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
+    <None Update="CodeGenerate\QueryApp.cst">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
     <None Update="CodeGenerate\Command.cst">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
