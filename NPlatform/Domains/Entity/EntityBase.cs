@@ -9,6 +9,7 @@
 
 namespace NPlatform.Domains.Entity
 {
+    using NPlatform.Infrastructure.IdGenerators;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;

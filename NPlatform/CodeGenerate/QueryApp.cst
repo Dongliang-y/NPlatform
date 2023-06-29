@@ -27,7 +27,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace NPlatform.Application.Queries.<%= GetModuleName(SourceTable)%> {
-    public class <%= GetName(SourceTable)%>Query : ApplicationService {
+    public class <%= GetName(SourceTable)%>Query : ApplicationService,I<%= GetName(SourceTable)%>Query {
         [Autowired]
         public I<%= GetName(SourceTable)%>Repository Repository { get; set; }
         public async Task<IListResult<<%= GetName(SourceTable)%>Dto>> GetListAsync(QueryExp exp) {

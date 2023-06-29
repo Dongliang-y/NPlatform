@@ -56,6 +56,7 @@ namespace  NPlatform.Commands.<%= GetModuleName(SourceTable)%>
         public CType CommandType=> CType.DELETE;
         public  <%= GetName(SourceTable)%>Delete(string aggregateId) : base(aggregateId)
         {
+            this.Id = aggregateId;
         }
 	}
 }

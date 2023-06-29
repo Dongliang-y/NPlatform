@@ -14,6 +14,7 @@
 <%@ Property Name="ORMSelect"  Type="ORMType" Category="高级特性" Description="ORM选择" %> 
 <%@ Property Name="IsPartial"  Type="Boolean"  Default="true" Category="高级特性" Description="以partial风格生成 *.Designer.cs代码文件，避免覆盖用户增加的文件。" %> 
 <%@ Property Name="IsCQRS"  Type="Boolean"  Default="true" Category="高级特性" Description="CQRS模式，生成的service基类不同，自动创建 CMD类。" %> 
+<%@ Property Name="SpecialTable"  Type="String"  Default="" Category="高级特性" Description="CQRS模式中，自定义必须生成的表,逗号分割。（注，多个单词组合的表名默认不生成）" %> 
 <%@ Assembly Name="SchemaExplorer" %>
 <%@ Assembly Name="CodeSmith.CustomProperties" %> 
 <%@ Assembly Name="System.Data" %>
@@ -112,10 +113,10 @@ TableSchemaCollection Tables=SourceTables;
             var name=Tables[i].Name;
              var count=Regex.Matches(name, "_").Count;
             
-            
-
+            if(!SpecialTable.EndsWith(','))
+                SpecialTable+=",";
             // 领域驱动模式下，从表的仓储、服务Dto都不生成。
-            if(DomainMode&&(count>1||IsSub(name)))
+            if(DomainMode&&(count>1||IsSub(name))&&!SpecialTable.Contains(name+","))
             {
                 continue;
             }
