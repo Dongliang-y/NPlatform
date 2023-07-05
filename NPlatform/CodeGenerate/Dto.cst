@@ -119,7 +119,9 @@ public string GetMemberVariableDefaultValue(ColumnSchema column)
 }
 public string GetDataAnnotations(ColumnSchema column)
 {
-    string attr="[Display(Name =\""+column.Description+"\")]";
+	string attr="";
+	if(!string.IsNullOrEmpty(column.Description))
+		attr="[Display(Name =\""+column.Description+"\")]";
     
 	switch (column.DataType)
 	{

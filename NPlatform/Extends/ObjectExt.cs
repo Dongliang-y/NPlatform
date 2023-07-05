@@ -7,6 +7,8 @@
 **修改历史：
 ************************************************************/
 
+using NPlatform.Domains.Entity;
+
 namespace NPlatform.Repositories {
     public static class ObjectExt
     {
@@ -17,7 +19,7 @@ namespace NPlatform.Repositories {
         /// <param name="src">源对象</param>
         /// <param name="fun">委托，复杂类型交给调用方自己处理</param>
         /// <returns></returns>
-        public static TEntity CopyOrCreate<TEntity>(this TEntity entity, TEntity src, Func<TEntity, TEntity> fun = null) where TEntity: new()
+        public static TEntity CopyOrCreate<TEntity>(this TEntity entity, TEntity src, Func<TEntity, TEntity> fun = null) where TEntity: IEntity, new()
         {
             if (src == null)
             {
