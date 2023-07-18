@@ -62,8 +62,8 @@ TableSchemaCollection Tables=SourceTables;
     string DtoDIC = OutputDirectory + "\\"+ProjectName+".DTO\\DTO\\";
     string CommandsDIC = OutputDirectory + "\\"+ProjectName+".DTO\\Commands\\";
 
-        string QueryDIC = OutputDirectory + "\\"+ProjectName+".Application\\Queries\\";
-
+    string QueryDIC = OutputDirectory + "\\"+ProjectName+".Application\\Queries\\";
+    string ViewDIC = OutputDirectory + "\\"+ProjectName+".View\\SRC\\";
     //Load Template
     CodeTemplate emptyTemplate=GetCodeTemplate("Empty.cst");
     CodeTemplate IRepositoriesTemplate = GetCodeTemplate("IRepositories.cst");
@@ -80,6 +80,12 @@ TableSchemaCollection Tables=SourceTables;
      CodeTemplate CommandTemplate=GetCodeTemplate("Command.cst");
      CodeTemplate QueryTemplate=GetCodeTemplate("QueryApp.cst");
      CodeTemplate DtoTemplate=GetCodeTemplate("Dto.cst");
+    
+    //view
+    CodeTemplate VUEDialogTemplate=GetCodeTemplate("VUEDialog.cst");
+    CodeTemplate VUEPageIndexTemplate=GetCodeTemplate("VUEPageIndex.cst");
+    CodeTemplate VUEAPITemplate=GetCodeTemplate("VUEAPI.cst");
+    CodeTemplate VUEViewModelTemplate=GetCodeTemplate("VUEViewModel.cst");
         var fileExt="";
         if(IsPartial)
         {
@@ -95,6 +101,9 @@ TableSchemaCollection Tables=SourceTables;
             System.IO.File.Delete(fi);
         }
     }
+    
+    //all view model
+    RenderFileUsingProperties(ViewDIC+"\\types\\business.d.ts",false,ref VUEViewModelTemplate,Tables); 
 
     //Render Files
     for (int i = 0; i < Tables.Count; i++)
@@ -113,7 +122,7 @@ TableSchemaCollection Tables=SourceTables;
             var name=Tables[i].Name;
              var count=Regex.Matches(name, "_").Count;
             
-            if(!SpecialTable.EndsWith(','))
+            if(!SpecialTable.EndsWith(","))
                 SpecialTable+=",";
             // 领域驱动模式下，从表的仓储、服务Dto都不生成。
             if(DomainMode&&(count>1||IsSub(name))&&!SpecialTable.Contains(name+","))
@@ -141,6 +150,12 @@ TableSchemaCollection Tables=SourceTables;
                 RenderFileUsingProperties(CommandsDIC+ GetModuleName(Tables[i])+"\\"+GetName(Tables[i]) + "Commnad.cs",OverriteCommand,ref CommandTemplate,Tables[i]);             
                 RenderFileUsingProperties(QueryDIC+ GetModuleName(Tables[i])+"\\"+GetName(Tables[i]) + "Query.cs",OverriteQuery,ref QueryTemplate,Tables[i]);             
             }
+            
+            //view
+            RenderFileUsingProperties(ViewDIC+"\\views\\"+ FirstToLow(GetModuleName(Tables[i]))+"\\"+ FirstToLow(GetName(Tables[i])) + "\\dialog.vue",false,ref VUEDialogTemplate,Tables[i]); 
+            RenderFileUsingProperties(ViewDIC+"\\views\\"+ FirstToLow( GetModuleName(Tables[i]))+"\\"+FirstToLow( GetName(Tables[i])) + "\\index.vue",false,ref VUEPageIndexTemplate,Tables[i]); 
+            RenderFileUsingProperties(ViewDIC+"\\api\\"+FirstToLow( GetModuleName(Tables[i]))+"\\"+ FirstToLow(GetName(Tables[i])) + ".ts",false,ref VUEAPITemplate,Tables[i]); 
+            
 		}catch(Exception ex)
 		{
 			%>表<%=Tables[i].Name%>出现错误，已跳过，请查验。<%=ex.ToString()%><%
@@ -169,7 +184,12 @@ public enum ORMType
     EntityFrameWork,
     Dapper
 }
-
+public string FirstToLow(string name)
+{
+	string memberVariableName = name.Substring(0, 1).ToLower() + name.Substring(1);
+	
+	return memberVariableName;
+}
     #region Output
     private string _outputDirectory = String.Empty;
 	
@@ -299,7 +319,7 @@ public string GetMudName(TableSchema table)
 	{
 		if( overrite || (!File.Exists(fullPath)) )
 		{
-                            Response.Write(fullPath+"\r\n"); 
+            Response.Write(fullPath+"\r\n"); 
             System.IO.FileInfo fi=new System.IO.FileInfo(fullPath);
             if(!fi.Directory.Exists)
                 fi.Directory.Create();

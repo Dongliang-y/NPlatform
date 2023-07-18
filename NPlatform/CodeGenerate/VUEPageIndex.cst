@@ -1,0 +1,539 @@
+﻿<%@ CodeTemplate Language="C#" TargetLanguage="C#"  ResponseEncoding="UTF-8" Description="Generates a very simple business object." %>
+<%@ Property Name="SourceTable" Type="SchemaExplorer.TableSchema" Category="Context" Description="Table that the object is based on." %>
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Assembly Name="System.Data" %>
+<%@ Import Namespace="SchemaExplorer" %>
+<%@ Import Namespace="System.Data" %>
+
+<template>
+	<div class="<%=GetModuleName(SourceTable)%>-<%= GetName(SourceTable)%>-container layout-padding">
+		<el-card shadow="hover" class="layout-padding-auto">
+			<div class="<%=GetModuleName(SourceTable)%>-<%=GetName(SourceTable)%>-search mb15">
+				<el-input
+					size="default"
+					placeholder="请输入条件"
+					v-model="state.tableData.param.search"
+					@keyup.enter.native="getTableData()"
+					style="max-width: 180px"
+				>
+				</el-input>
+				<el-button size="default" @click="getTableData()" type="primary" class="ml10">
+					<el-icon>
+						<ele-Search />
+					</el-icon>
+					查询
+				</el-button>
+				<el-button size="default" type="success" class="ml10" @click="onOpenAdd('add')">
+					<el-icon>
+						<ele-FolderAdd />
+					</el-icon>
+					新增
+				</el-button>
+			</div>
+			<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%">
+            <% 
+            for (int i = 0; i < SourceTable.Columns.Count; i++) { 
+                if(SourceTable.Columns[i].Name.ToUpper()=="ID")continue;
+                if(SourceTable.Columns[i].Name.ToUpper()=="Status")
+                {%>
+    				<el-table-column prop="status" label="状态" show-overflow-tooltip>
+    					<template #default="scope">
+    						<el-tag type="success" v-if="scope.row.status == 1">启用</el-tag>
+    						<el-tag type="info" v-else>禁用</el-tag>
+    					</template>
+    				</el-table-column>
+                 <%}else
+                {
+                    var column=SourceTable.Columns[i];
+                    string description=column.Description!=null?column.Description.Replace("\n","").Replace("\r",""):"";
+                %>
+                     <el-table-column prop="<%=GetJSMemberName(SourceTable.Columns[i]) %>" label="<%=description%>" show-overflow-tooltip></el-table-column>
+                   
+                 <% }
+            %>
+    		<%}%>
+                
+				<el-table-column label="操作" width="100">
+					<template #default="scope">
+						<el-button :disabled="scope.row.userName === 'admin'" size="small" text type="primary" @click="onOpenEdit('edit', scope.row)"
+							>修改</el-button
+						>
+						<el-button :disabled="scope.row.userName === 'admin'" size="small" text type="primary" @click="onRowDel(scope.row)">删除</el-button>
+					</template>
+				</el-table-column>
+			</el-table>
+			<el-pagination
+				@size-change="onHandleSizeChange"
+				@current-change="onHandleCurrentChange"
+				class="mt15"
+				:pager-count="5"
+				:page-sizes="[10, 20, 30]"
+				v-model:current-page="state.tableData.param.pageNum"
+				background
+				v-model:page-size="state.tableData.param.pageSize"
+				layout="total, sizes, prev, pager, next, jumper"
+				:total="state.tableData.total"
+			>
+			</el-pagination>
+		</el-card>
+		<<%=FirstToLow(GetName(SourceTable))%>Dialog ref="<%= FirstToLow(GetName(SourceTable))%>DialogRef" @refresh="getTableData()" />
+	</div>
+</template>
+
+<script setup lang="ts" name="<%=GetModuleName(SourceTable)%><%=SourceTable.Name%>">
+import { defineAsyncComponent, reactive, onMounted, ref } from 'vue';
+import { ElMessageBox, ElMessage } from 'element-plus';
+import { use<%=GetName(SourceTable)%>Api } from "/@/api/<%=FirstToLow(GetModuleName(SourceTable))%>/<%=FirstToLow(GetName(SourceTable))%>";
+import { Warning } from '@element-plus/icons-vue/dist/types';
+import { Row<%=GetName(SourceTable)%>Type, <%=GetName(SourceTable)%>State } from '/@/types/business';
+
+const <%=FirstToLow(GetName(SourceTable))%>Api = use<%=GetName(SourceTable)%>Api();
+
+// 引入组件
+const <%=FirstToLow(GetName(SourceTable))%>Dialog = defineAsyncComponent(() => import("/@/views/<%=FirstToLow(GetModuleName(SourceTable))%>/<%=FirstToLow(GetName(SourceTable))%>/dialog.vue"));
+
+// 定义变量内容
+const <%=FirstToLow(GetName(SourceTable))%>DialogRef = ref();
+const state = reactive< <%=GetName(SourceTable)%>State >({
+	tableData: {
+		data: [],
+		total: 0,
+		loading: false,
+		param: {
+			pageNum: 1,
+			pageSize: 10,
+			search: '',
+			LambdaExp: '',
+		},
+	},
+});
+
+// 初始化表格数据
+const getTableData = () => {
+	state.tableData.loading = true;
+
+	if (state.tableData.param.search) {
+    
+		state.tableData.param.LambdaExp = '';
+                <% 
+            for (int i = 0; i < SourceTable.Columns.Count; i++) { 
+                if(!SourceTable.Columns[i].Name.Contains("Name"))continue;
+                %>
+        if(state.tableData.param.LambdaExp!='')
+            state.tableData.param.LambdaExp+=" || ";
+		state.tableData.param.LambdaExp += " <%=SourceTable.Columns[i].Name %>='" + state.tableData.param.search + "'";
+        <%} %>
+	} else {
+		state.tableData.param.LambdaExp = '';
+	}
+    <%=FirstToLow(GetName(SourceTable))%>Api.getPage(state.tableData.param).then(function (data) {
+		if (data.statusCode == 200) {
+			state.tableData.data = data.value;
+			state.tableData.total = data.total;
+		} else {
+			ElMessage.warning(data.message);
+		}
+	});
+	setTimeout(() => {
+		state.tableData.loading = false;
+	}, 500);
+};
+// 打开新增弹窗statusCode
+const onOpenAdd = (type: string) => {
+	<%= FirstToLow(GetName(SourceTable))%>DialogRef.value.openDialog(type);
+};
+// 打开修改弹窗
+const onOpenEdit = (type: string, row: Row<%=GetName(SourceTable)%>Type) => {
+	<%= FirstToLow(GetName(SourceTable))%>DialogRef.value.openDialog(type, row);
+};
+// 删除
+const onRowDel = (row: Row<%=GetName(SourceTable)%>Type) => {
+	ElMessageBox.confirm(`此操作将永久删除数据：“${row.name}”，是否继续?`, '提示', {
+		confirmButtonText: '确认',
+		cancelButtonText: '取消',
+		type: 'warning',
+	})
+		.then(() => {
+			<%=FirstToLow(GetName(SourceTable))%>Api.delete(row.id).then(function (result) {
+				if (result.statusCode == 200) {
+					getTableData();
+					ElMessage.success('删除成功');
+				} else {
+					ElMessage.error(result.message);
+				}
+			});
+		})
+		.catch(() => {});
+};
+// 分页改变
+const onHandleSizeChange = (val: number) => {
+	state.tableData.param.pageSize = val;
+	getTableData();
+};
+// 分页改变
+const onHandleCurrentChange = (val: number) => {
+	state.tableData.param.pageNum = val;
+	getTableData();
+};
+// 页面加载时
+onMounted(() => {
+	getTableData();
+});
+</script>
+
+<style scoped lang="scss">
+.<%=GetModuleName(SourceTable)%>-<%=GetName(SourceTable)%>-container {
+	:deep(.el-card__body) {
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+		overflow: auto;
+		.el-table {
+			flex: 1;
+		}
+	}
+}
+</style>
+
+
+
+
+
+<script runat="template">
+
+
+public string GetMemberVariableName(ColumnSchema column)
+{
+	//string propertyName = GetPropertyName(column);
+	string propertyName = column.Name;
+	string memberVariableName =  propertyName.ToLower();
+	
+	return memberVariableName;
+}
+
+public string GetJSMemberName(ColumnSchema column)
+{
+	//string propertyName = GetPropertyName(column);
+	string propertyName = column.Name;
+	string memberVariableName = propertyName.Substring(0, 1).ToLower() + propertyName.Substring(1);
+	
+	return memberVariableName;
+}
+
+public string GetIsDelete(ColumnSchemaCollection columns)
+{
+    for(int i=0;i<columns.Count;i++)
+    {
+        if(columns[i].Name.ToLower()=="isdeleted")
+        {
+            return ", ILogicDelete";
+        }
+    }
+    return "";
+}
+
+
+public string GetPropertyName(ColumnSchema column)
+{
+	string propertyName = column.Name;
+	
+	if (propertyName == column.Table.Name + "Name") return "Name";
+	if (propertyName == column.Table.Name + "Description") return "Description";
+	
+	if (propertyName.EndsWith("TypeCode")) propertyName = propertyName.Substring(0, propertyName.Length - 4);
+	
+	return propertyName;
+}
+
+public int GetPropertyNameLength(ColumnSchema column)
+{
+	return (GetPropertyName(column)).Length;
+}
+public int GetPropertyNameMaxLength()
+{
+	int ret = 0;
+	foreach(ColumnSchema column in SourceTable.Columns)
+	{
+		ret = ret < GetPropertyNameLength(column)?GetPropertyNameLength(column):ret;
+	}
+	return ret;
+}
+
+public string GetFullName(TableSchema table)
+{
+    var tableName=table.Name;
+    
+    if(tableName.Contains("_"))
+    {
+        return tableName.Replace("_","");
+    }
+    else
+        throw new Exception("数据库表命名错误！");
+}
+public string GetModuleName(TableSchema table)
+{
+    var tableName=table.Name;
+    
+    if(tableName.Contains("_"))
+    {
+        var mdName=tableName.Split('_')[0];
+        return mdName.Substring(0,1).ToUpper()+mdName.Substring(1);
+    }
+    else
+        throw new Exception("数据库表命名错误！");
+}
+public string GetMemberVariableDefaultValue(ColumnSchema column)
+{
+	if(column.IsPrimaryKeyMember)
+	{
+	    return "";
+	}
+	switch (column.DataType)
+	{
+		case DbType.Guid:
+		{
+			return "Guid.Empty";
+		}
+		case DbType.AnsiString:
+		case DbType.AnsiStringFixedLength:
+		case DbType.String:
+		case DbType.StringFixedLength:
+		{
+			return "String.Empty";
+		}
+		default:
+		{
+			return "";
+		}
+	}
+}
+
+public string GetCSharpVariableType(ColumnSchema column)
+{
+	if (column.Name.EndsWith("TypeCode")) return column.Name;
+    if(column.DataType==DbType.Binary)
+    {
+        return column.AllowDBNull?"byte?[]":"byte[]";
+    }
+    
+	string tp="";
+    string isNullTag="";
+	switch (column.DataType)
+	{
+		case DbType.AnsiString:
+            tp= "string" ;
+            break;
+		case DbType.AnsiStringFixedLength:
+            tp= "string";
+            break;
+		case DbType.Boolean:
+            tp= "bool";
+            isNullTag="?";
+            break;
+		case DbType.Byte:
+            tp= "byte";
+            break;
+		case DbType.Currency: 
+            tp= "decimal";
+            isNullTag="?";
+            break;
+		case DbType.Date:
+            tp= "DateTime";
+            isNullTag="?";
+            break;
+		case DbType.DateTime: 
+            tp= "DateTime";
+            isNullTag="?";
+            break;
+		case DbType.Decimal:
+            tp= "decimal";
+            isNullTag="?";
+            break;
+		case DbType.Double:
+            tp= "decimal";
+            isNullTag="?";
+            break;
+		case DbType.Guid: 
+            tp= "Guid";
+            break;
+		case DbType.Int16: 
+            tp= "short";
+            isNullTag="?";
+            break;
+		case DbType.Int32: 
+            tp= "int";            
+            isNullTag="?";
+            break;
+		case DbType.Int64: 
+            tp= "long";
+            isNullTag="?";
+            break;
+		case DbType.Object: 
+            tp= "object";
+            isNullTag="?";
+            break;
+		case DbType.SByte: 
+            tp= "bool";
+                        isNullTag="?";
+            break;
+		case DbType.Single:
+            tp= "float";
+                        isNullTag="?";
+            break;
+		case DbType.String: 
+            tp= "string";
+            break;
+		case DbType.StringFixedLength:
+            tp= "string";
+            break;
+		case DbType.Time:
+            tp= "TimeSpan";
+            isNullTag="?";
+            break;
+		case DbType.UInt16: 
+            tp= "ushort";
+                        isNullTag="?";
+            break;
+		case DbType.UInt32: 
+            tp= "uint";
+                        isNullTag="?";
+            break;
+		case DbType.UInt64: 
+            tp= "ulong";
+                        isNullTag="?";
+            break;
+		case DbType.VarNumeric: 
+            tp= "decimal";
+            isNullTag="?";
+            break;
+		default:
+		{
+			return "__UNKNOWN__" + column.NativeType;
+		}
+	}
+    if(column.AllowDBNull)
+        return tp+isNullTag;
+    else
+        return tp;
+}
+
+public string FirstToLow(string name)
+{
+	string memberVariableName = name.Substring(0, 1).ToLower() + name.Substring(1);
+	
+	return memberVariableName;
+}
+public string GetDataAnnotations(ColumnSchema column)
+{
+    
+    string description=column.Description!=null?column.Description.Replace("\n","").Replace("\r",""):"";
+    string attr="";//"[DataMember]";
+	attr+=!column.AllowDBNull?"\r\n        [Required(ErrorMessage = \""+description+"是必须的，请先完善\")]]":"";
+    attr+="\r\n        [Display(Name = \""+description+"\")]";
+    if(column.IsUnique)
+        attr+="\r\n        [Unique]";
+        
+    
+	switch (column.DataType)
+	{
+		case DbType.AnsiString:
+		case DbType.AnsiStringFixedLength:
+        case DbType.String: 
+		case DbType.StringFixedLength:
+            attr+="\r\n        [StringLength("+column.Size+")]";
+            break;
+	}
+    return attr;
+}
+public string GetReaderMethod(ColumnSchema column)
+{
+	switch (column.DataType)
+	{
+		case DbType.Byte:
+		{
+			return "GetByte";
+		}
+		case DbType.Int16:
+		{
+			return "GetInt16";
+		}
+		case DbType.Int32:
+		{
+			return "GetInt32";
+		}
+		case DbType.Int64:
+		{
+			return "GetInt64";
+		}
+		case DbType.AnsiStringFixedLength:
+		case DbType.AnsiString:
+		case DbType.String:
+		case DbType.StringFixedLength:
+		{
+			return "GetString";
+		}
+		case DbType.Boolean:
+		{
+			return "GetBoolean";
+		}
+		case DbType.Guid:
+		{
+			return "GetGuid";
+		}
+		case DbType.Currency:
+		case DbType.Decimal:
+		{
+			return "GetDecimal";
+		}
+		case DbType.DateTime:
+		case DbType.Date:
+		{
+			return "GetDateTime";
+		}
+		case DbType.Binary:
+		{
+			return "GetBytes";
+		}
+		default:
+		{
+			return "__SQL__" + column.DataType;
+		}
+	}
+}
+	public string GetName(TableSchema table)
+    {
+		try			
+		{
+		if(table==null)
+		{
+		    return null;
+		}
+            string[] nameArray=  table.Name.Split('_');
+            if(nameArray.Length<=1)
+                return table.Name;
+            
+            string tabName="";
+            for(var i=1;i<nameArray.Length;i++)
+            {
+                string tname=nameArray[i];
+                string first=tname.Substring(0,1);
+                string end=tname.Substring(1);
+                
+                
+                tabName=tabName+first.ToUpper()+end;
+                if(i!=nameArray.Length-1)              
+                    tabName+="_";
+                
+            }
+            return tabName;
+		}
+		catch(Exception ex)
+		{
+			throw new Exception(table.Name+ex.Message);
+		}
+    }
+public override string GetFileName()
+{
+	return this.GetName(this.SourceTable) + ".cs";
+}
+</script>

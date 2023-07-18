@@ -1,0 +1,680 @@
+﻿<%@ CodeTemplate Language="C#" TargetLanguage="C#"  ResponseEncoding="UTF-8" Description="Generates a very simple business object." %>
+<%@ Property Name="SourceTable" Type="SchemaExplorer.TableSchema" Category="Context" Description="Table that the object is based on." %>
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Assembly Name="System.Data" %>
+<%@ Import Namespace="SchemaExplorer" %>
+<%@ Import Namespace="System.Data" %>
+
+<template>
+	<div class="system-<%= GetNameLow(SourceTable)%>-dialog-container">
+		<el-dialog :title="state.dialog.title" v-model="state.dialog.isShowDialog" width="769px">
+			<el-form ref="<%= GetNameLow(SourceTable)%>DialogFormRef" :rules="rules" :model="state.ruleForm" size="default" label-width="90px">
+				<el-row :gutter="35">
+                <% 
+                for (int i = 0; i < SourceTable.Columns.Count; i++) { 
+                    if(SourceTable.Columns[i].Name.ToUpper()=="ID")continue;
+                    var column=SourceTable.Columns[i];
+                    string description=column.Description!=null?column.Description.Replace("\n","").Replace("\r",""):"";
+                    if(SourceTable.Columns[i].Name.ToUpper()=="Status")
+                    {%>
+                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if="state.dialog.type != 'add'">
+                        <el-form-item label="状态" prop="Status">
+                            <el-select v-model="state.ruleForm.Status" placeholder="请选择" class="w100">
+                                <el-option label="启用" value="1"></el-option>
+                                <el-option label="禁用" value="-1"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                     <%}
+                    else if(SourceTable.Columns[i].Name.ToLower()=="descriptions"||SourceTable.Columns[i].Name.ToLower()=="remark")
+                    {
+                        %>
+                    <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+                        <el-form-item label="<%=description%>" prop="<%=GetJSMemberName(SourceTable.Columns[i])%>">
+                            <el-input v-model="state.ruleForm.<%=GetJSMemberName(SourceTable.Columns[i])%>" type="textarea" placeholder="请输入<%=description%>" maxlength="150"></el-input>
+                        </el-form-item>
+                    </el-col>
+                        <%
+                    }
+                    else if(SourceTable.Columns[i].Name.EndsWith("Id"))
+                    {%>
+                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+                        <el-form-item label="<%=description%>" prop="<%=GetJSMemberName(SourceTable.Columns[i])%>">
+                            <el-select v-model="state.ruleForm.<%=GetJSMemberName(SourceTable.Columns[i])%>" placeholder="请选择" clearable class="w100">
+                                <el-option v-for="item in state.<%=GetJSMemberName(SourceTable.Columns[i])%>Data" :key="item.id" :label="item.name" :value="item.id" />
+                            </el-select>
+                        </el-form-item>
+                    </el-col>  
+                    <%}
+                    else
+                        {
+                    %>
+                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+                        <el-form-item label="<%=description%>" prop="<%=GetJSMemberName(SourceTable.Columns[i])%>">
+                            <el-input v-model="state.ruleForm.<%=GetJSMemberName(SourceTable.Columns[i])%>" placeholder="请输入<%=description%>" clearable></el-input>
+                        </el-form-item>
+                    </el-col>
+                     <% }%>
+    		    <%}%>
+				</el-row>
+				<input type="hidden" name="id" v-model="state.ruleForm.id" />
+			</el-form>
+			<template #footer>
+				<span class="dialog-footer">
+					<el-button @click="onCancel" size="default">取 消</el-button>
+					<el-button @click="resetForm(<%=FirstToLow(GetName(SourceTable))%>DialogFormRef)" size="default" v-if="state.dialog.type == 'add'">重置</el-button>
+					<el-button type="primary" @click="submitForm(<%=FirstToLow(GetName(SourceTable))%>DialogFormRef)" size="default">{{ state.dialog.submitTxt }}</el-button>
+				</span>
+			</template>
+		</el-dialog>
+	</div>
+</template>
+
+<script setup lang="ts" name="<%=GetModuleName(SourceTable)%><%=GetName(SourceTable)%>Dialog">
+import { reactive, ref } from 'vue';
+import { ElMessage, FormInstance, FormRules } from 'element-plus';
+import { use<%=GetName(SourceTable)%>Api } from '/@/api/<%=FirstToLow(GetModuleName(SourceTable))%>/<%=GetNameLow(SourceTable)%>';
+
+import { number } from 'echarts';
+import { Row<%=GetName(SourceTable)%>Type } from '/@/types/business';
+
+// 定义子组件向父组件传值/事件
+const emit = defineEmits(['refresh']);
+const <%=FirstToLow(GetName(SourceTable))%>Api = use<%=GetName(SourceTable)%>Api();
+
+// 定义变量内容 
+const <%=FirstToLow(GetName(SourceTable))%>DialogFormRef = ref<FormInstance>();
+const state = reactive({
+	ruleForm: {
+    <% 
+for (int i = 0; i < SourceTable.Columns.Count; i++) { 
+    if(SourceTable.Columns[i].Name.ToUpper()=="ID")continue;
+    var column=SourceTable.Columns[i];
+    string description=column.Description!=null?column.Description.Replace("\n","").Replace("\r",""):"";
+    if(SourceTable.Columns[i].Name.ToUpper()=="Status"){%>
+        status:'',
+        <%
+    }else
+    {
+        %>
+        <%=GetJSMemberName(SourceTable.Columns[i])%>:<%=GetJsDefaultVal(SourceTable.Columns[i])%>,//<%=description%>     
+        <%
+    }
+} %>
+		id: '',
+	},
+	//roleData: [] as RowRoleType[],
+	//deptData: [] as RowDeptType[], // 部门数据
+	dialog: {
+		isShowDialog: false,
+		type: '',
+		title: '',
+		submitTxt: '',
+	},
+});
+
+const rules = reactive<FormRules>({
+<% 
+for (int i = 0; i < SourceTable.Columns.Count; i++) { 
+    if(SourceTable.Columns[i].Name.ToUpper()=="ID")continue;
+    var column=SourceTable.Columns[i];
+    string description=column.Description!=null?column.Description.Replace("\n","").Replace("\r",""):"";
+%>
+    <%=GetJSMemberName(SourceTable.Columns[i])%>: [
+        <%if(!column.AllowDBNull){%>
+        
+		{ required:true, message: '请输入<%=description%>', trigger: 'blur' },
+        <%} %>
+		{ min: 0, max: <%=column.Size%>, message: '长度不能大于<%=column.Size%>', trigger: 'blur' },
+	],
+<%
+} %>
+	/*loginName: [
+		{ required: true, message: '请输入用户名', trigger: 'blur' },
+		{ min: 3, max: 50, message: '长度必须为3到50', trigger: 'blur' },
+	],
+	roleId: [
+		{
+			required: true,
+			message: '请选择角色',
+			trigger: 'change',
+		},
+	],
+	department: [
+		{
+			required: true,
+			message: '请选择部门',
+			trigger: 'change',
+		},
+	],
+	mobileNum: [
+		{
+			type: 'regexp',
+			pattern: /^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(17[0,3,5-8])|(18[0-9])|166|198|199|(147))\d{8}$/,
+			required: false,
+			message: '电话格式错误',
+			trigger: 'change',
+		},
+	],
+	email: [
+		{
+			type: 'email',
+			required: false,
+			message: '请输入正确的邮箱',
+			trigger: 'change',
+		},
+	],
+	sex: [
+		{
+			required: false,
+			message: '请选择性别',
+			trigger: 'change',
+		},
+	],*/
+});
+
+const resetForm = (formEl: FormInstance | undefined) => {
+	if (!formEl) return;
+	formEl.resetFields();
+};
+
+// 打开弹窗
+const openDialog = (type: string, row: Row<%=GetName(SourceTable)%>Type) => {
+	state.dialog.type = type;
+	if (type === 'edit') {
+		state.ruleForm = row;
+		state.dialog.title = '修改<%=SourceTable.Description.Replace("\n","").Replace("\r","").Replace("表","")%>';
+		state.dialog.submitTxt = '修 改';
+	} else {
+		state.dialog.title = '新增<%=SourceTable.Description.Replace("\n","").Replace("\r","").Replace("表","")%>';
+		state.dialog.submitTxt = '新 增';
+		state.ruleForm = {
+    <% 
+for (int i = 0; i < SourceTable.Columns.Count; i++) { 
+    if(SourceTable.Columns[i].Name.ToUpper()=="ID")continue;
+    var column=SourceTable.Columns[i];
+    string description=column.Description!=null?column.Description.Replace("\n","").Replace("\r",""):"";
+    if(SourceTable.Columns[i].Name.ToUpper()=="Status"){%>
+        status:'',
+        <%
+    }else
+    {
+        %>
+        <%=GetJSMemberName(SourceTable.Columns[i])%>:<%=GetJsDefaultVal(SourceTable.Columns[i])%>,//<%=description%>     
+        <%
+    }
+} %>
+        id: '',
+		};
+		// 清空表单，此项需加表单验证才能使用
+		resetForm(<%=FirstToLow(GetName(SourceTable))%>DialogFormRef.value);
+	}
+	//getDeptData();
+	//getRoleData();
+	state.dialog.isShowDialog = true;
+};
+// 关闭弹窗
+const closeDialog = () => {
+	state.dialog.isShowDialog = false;
+};
+// 取消
+const onCancel = () => {
+	closeDialog();
+};
+
+const submitForm = async (formEl: FormInstance | undefined) => {
+	if (!formEl) return;
+	await formEl.validate((valid, fields) => {
+		if (valid) {
+			if (state.dialog.type === 'add') {
+				<%=FirstToLow(GetName(SourceTable))%>Api.add(state.ruleForm).then(function (result) {
+					if (result.statusCode == 200) {
+						ElMessage.success('新增成功');
+						closeDialog();
+
+						emit('refresh');
+					} else {
+						ElMessage.error(result.message);
+					}
+				});
+			} else {
+				<%=FirstToLow(GetName(SourceTable))%>Api.update(state.ruleForm).then(function (result) {
+					if (result.statusCode == 200) {
+						ElMessage.success('修改成功');
+						closeDialog();
+
+						emit('refresh');
+					} else {
+						ElMessage.error(result.message);
+					}
+				});
+			}
+		} else {
+			ElMessage.success('数据校验失败');
+		}
+	});
+};
+/*
+const getRoleData = () => {
+	roleApi.getPage().then(function (result) {
+		if (result.statusCode == 200) {
+			state.roleData = [];
+			result.value.forEach((element) => {
+				state.roleData.push({
+					name: element.name,
+					id: element.id,
+					sortNum: element.sortNum,
+				});
+			});
+		} else {
+			ElMessage.error(result.message);
+		}
+	});
+};
+
+// 初始化部门数据
+const getDeptData = () => {
+	deptApi.getTrees().then(function (result) {
+		if (result.statusCode == 200) {
+			state.deptData = [];
+			result.value.forEach((element: RowDeptType) => {
+				state.deptData.push(element);
+			});
+		} else {
+			ElMessage.error(result.message);
+		}
+	});
+};
+*/
+
+// 暴露变量
+defineExpose({
+	openDialog,
+});
+</script>
+
+
+<script runat="template">
+
+public string GetJSMemberName(ColumnSchema column)
+{
+	//string propertyName = GetPropertyName(column);
+	string propertyName = column.Name;
+	string memberVariableName = propertyName.Substring(0, 1).ToLower() + propertyName.Substring(1);
+	
+	return memberVariableName;
+}
+
+
+public string GetMemberVariableName(ColumnSchema column)
+{
+	//string propertyName = GetPropertyName(column);
+	string propertyName = column.Name;
+	string memberVariableName =  propertyName.ToLower();
+	
+	return memberVariableName;
+}
+
+public string GetIsDelete(ColumnSchemaCollection columns)
+{
+    for(int i=0;i<columns.Count;i++)
+    {
+        if(columns[i].Name.ToLower()=="isdeleted")
+        {
+            return ", ILogicDelete";
+        }
+    }
+    return "";
+}
+
+
+public string GetPropertyName(ColumnSchema column)
+{
+	string propertyName = column.Name;
+	
+	if (propertyName == column.Table.Name + "Name") return "Name";
+	if (propertyName == column.Table.Name + "Description") return "Description";
+	
+	if (propertyName.EndsWith("TypeCode")) propertyName = propertyName.Substring(0, propertyName.Length - 4);
+	
+	return propertyName;
+}
+public string FirstToLow(string name)
+{
+	string memberVariableName = name.Substring(0, 1).ToLower() + name.Substring(1);
+	
+	return memberVariableName;
+}
+public int GetPropertyNameLength(ColumnSchema column)
+{
+	return (GetPropertyName(column)).Length;
+}
+public int GetPropertyNameMaxLength()
+{
+	int ret = 0;
+	foreach(ColumnSchema column in SourceTable.Columns)
+	{
+		ret = ret < GetPropertyNameLength(column)?GetPropertyNameLength(column):ret;
+	}
+	return ret;
+}
+public string GetModuleName(TableSchema table)
+{
+    var tableName=table.Name;
+    
+    if(tableName.Contains("_"))
+    {
+        var mdName=tableName.Split('_')[0];
+        return mdName.Substring(0,1).ToUpper()+mdName.Substring(1);
+    }
+    else
+        throw new Exception("数据库表命名错误！");
+}
+public string GetMemberVariableDefaultValue(ColumnSchema column)
+{
+	if(column.IsPrimaryKeyMember)
+	{
+	    return "";
+	}
+	switch (column.DataType)
+	{
+		case DbType.Guid:
+		{
+			return "Guid.Empty";
+		}
+		case DbType.AnsiString:
+		case DbType.AnsiStringFixedLength:
+		case DbType.String:
+		case DbType.StringFixedLength:
+		{
+			return "String.Empty";
+		}
+		default:
+		{
+			return "";
+		}
+	}
+}
+
+public string GetCSharpVariableType(ColumnSchema column)
+{
+	if (column.Name.EndsWith("TypeCode")) return column.Name;
+    if(column.DataType==DbType.Binary)
+    {
+        return column.AllowDBNull?"byte?[]":"byte[]";
+    }
+    
+	string tp="";
+    string isNullTag="";
+	switch (column.DataType)
+	{
+		case DbType.AnsiString:
+            tp= "string" ;
+            break;
+		case DbType.AnsiStringFixedLength:
+            tp= "string";
+            break;
+		case DbType.Boolean:
+            tp= "bool";
+            isNullTag="?";
+            break;
+		case DbType.Byte:
+            tp= "byte";
+            break;
+		case DbType.Currency: 
+            tp= "decimal";
+            isNullTag="?";
+            break;
+		case DbType.Date:
+            tp= "DateTime";
+            isNullTag="?";
+            break;
+		case DbType.DateTime: 
+            tp= "DateTime";
+            isNullTag="?";
+            break;
+		case DbType.Decimal:
+            tp= "decimal";
+            isNullTag="?";
+            break;
+		case DbType.Double:
+            tp= "decimal";
+            isNullTag="?";
+            break;
+		case DbType.Guid: 
+            tp= "Guid";
+            break;
+		case DbType.Int16: 
+            tp= "short";
+            isNullTag="?";
+            break;
+		case DbType.Int32: 
+            tp= "int";            
+            isNullTag="?";
+            break;
+		case DbType.Int64: 
+            tp= "long";
+            isNullTag="?";
+            break;
+		case DbType.Object: 
+            tp= "object";
+            isNullTag="?";
+            break;
+		case DbType.SByte: 
+            tp= "bool";
+                        isNullTag="?";
+            break;
+		case DbType.Single:
+            tp= "float";
+                        isNullTag="?";
+            break;
+		case DbType.String: 
+            tp= "string";
+            break;
+		case DbType.StringFixedLength:
+            tp= "string";
+            break;
+		case DbType.Time:
+            tp= "TimeSpan";
+            isNullTag="?";
+            break;
+		case DbType.UInt16: 
+            tp= "ushort";
+                        isNullTag="?";
+            break;
+		case DbType.UInt32: 
+            tp= "uint";
+                        isNullTag="?";
+            break;
+		case DbType.UInt64: 
+            tp= "ulong";
+                        isNullTag="?";
+            break;
+		case DbType.VarNumeric: 
+            tp= "decimal";
+            isNullTag="?";
+            break;
+		default:
+		{
+			return "__UNKNOWN__" + column.NativeType;
+		}
+	}
+    if(column.AllowDBNull)
+        return tp+isNullTag;
+    else
+        return tp;
+}
+public string GetJsType(ColumnSchema column)
+{
+
+	string tp= "string";
+	switch (column.DataType)
+	{
+		case DbType.Boolean:		
+        case DbType.SByte: 
+            tp= "boolean";
+            break;
+		case DbType.Byte:
+		case DbType.Currency: 
+		case DbType.Decimal:
+        case DbType.Double:
+		case DbType.Int16: 
+		case DbType.Int32: 
+		case DbType.Int64: 
+		case DbType.UInt16: 
+		case DbType.UInt32: 
+		case DbType.UInt64: 
+		case DbType.VarNumeric: 
+            tp= "number";
+            break;
+	}
+        return tp;
+}
+public string GetJsDefaultVal(ColumnSchema column)
+{
+
+	string tp="''";
+	switch (column.DataType)
+	{
+		case DbType.Boolean:		
+        case DbType.SByte: 
+            tp= "true";
+            break;
+		case DbType.Byte:
+		case DbType.Currency: 
+		case DbType.Decimal:
+        case DbType.Double:
+		case DbType.Int16: 
+		case DbType.Int32: 
+		case DbType.Int64: 
+		case DbType.UInt16: 
+		case DbType.UInt32: 
+		case DbType.UInt64: 
+		case DbType.VarNumeric: 
+            tp= "0";
+            break;
+	}
+        return tp;
+}
+
+public string GetDataAnnotations(ColumnSchema column)
+{
+    
+    string description=column.Description!=null?column.Description.Replace("\n","").Replace("\r",""):"";
+    string attr="";//"[DataMember]";
+	attr+=!column.AllowDBNull?"\r\n        [Required(ErrorMessage = \""+description+"是必须的，请先完善\")]]":"";
+    attr+="\r\n        [Display(Name = \""+description+"\")]";
+    if(column.IsUnique)
+        attr+="\r\n        [Unique]";
+        
+    
+	switch (column.DataType)
+	{
+		case DbType.AnsiString:
+		case DbType.AnsiStringFixedLength:
+        case DbType.String: 
+		case DbType.StringFixedLength:
+            attr+="\r\n        [StringLength("+column.Size+")]";
+            break;
+	}
+    return attr;
+}
+public string GetReaderMethod(ColumnSchema column)
+{
+	switch (column.DataType)
+	{
+		case DbType.Byte:
+		{
+			return "GetByte";
+		}
+		case DbType.Int16:
+		{
+			return "GetInt16";
+		}
+		case DbType.Int32:
+		{
+			return "GetInt32";
+		}
+		case DbType.Int64:
+		{
+			return "GetInt64";
+		}
+		case DbType.AnsiStringFixedLength:
+		case DbType.AnsiString:
+		case DbType.String:
+		case DbType.StringFixedLength:
+		{
+			return "GetString";
+		}
+		case DbType.Boolean:
+		{
+			return "GetBoolean";
+		}
+		case DbType.Guid:
+		{
+			return "GetGuid";
+		}
+		case DbType.Currency:
+		case DbType.Decimal:
+		{
+			return "GetDecimal";
+		}
+		case DbType.DateTime:
+		case DbType.Date:
+		{
+			return "GetDateTime";
+		}
+		case DbType.Binary:
+		{
+			return "GetBytes";
+		}
+		default:
+		{
+			return "__SQL__" + column.DataType;
+		}
+	}
+}
+public string GetNameLow(TableSchema table)
+{
+    string tname=GetName(table);
+    string first=tname.Substring(0,1).ToLower();
+    string end=tname.Substring(1);
+    return first+end;
+}
+	public string GetName(TableSchema table)
+    {
+		try			
+		{
+		if(table==null)
+		{
+		    return null;
+		}
+            string[] nameArray=  table.Name.Split('_');
+            if(nameArray.Length<=1)
+                return table.Name;
+            
+            string tabName="";
+            for(var i=1;i<nameArray.Length;i++)
+            {
+                string tname=nameArray[i];
+                string first=tname.Substring(0,1);
+                string end=tname.Substring(1);
+                
+                
+                tabName=tabName+first.ToUpper()+end;
+                if(i!=nameArray.Length-1)              
+                    tabName+="_";
+                
+            }
+            return tabName;
+		}
+		catch(Exception ex)
+		{
+			throw new Exception(table.Name+ex.Message);
+		}
+    }
+public override string GetFileName()
+{
+	return this.GetName(this.SourceTable) + ".cs";
+}
+</script>
