@@ -29,6 +29,7 @@ namespace <%=NameSpace%>
 	/// </summary>
     public partial class <%= ClassName%>
 	{
+    
 	}
 }
 

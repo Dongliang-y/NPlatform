@@ -14,10 +14,10 @@
 ************************************************************/
 using NPlatform.Applications;
 using NPlatform.AutoMap;
-using NPlatform.Domains.Entity.Sys;
-using NPlatform.Domains.IRepositories.Sys;
-using NPlatform.Domains.Services.Sys;
-using NPlatform.Dto.Sys;
+using NPlatform.Domains.Entity.<%= GetModuleName(SourceTable)%>;
+using NPlatform.Domains.IRepositories.<%= GetModuleName(SourceTable)%>;
+using NPlatform.Domains.Services.<%= GetModuleName(SourceTable)%>;
+using NPlatform.Dto.<%= GetModuleName(SourceTable)%>;
 using NPlatform.DTO.VO;
 using NPlatform.Repositories.IRepositories;
 using System;

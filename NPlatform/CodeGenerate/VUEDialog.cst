@@ -12,16 +12,18 @@
 				<el-row :gutter="35">
                 <% 
                 for (int i = 0; i < SourceTable.Columns.Count; i++) { 
-                    if(SourceTable.Columns[i].Name.ToUpper()=="ID")continue;
+                    var colName=SourceTable.Columns[i].Name.ToUpper();
+                    if(colName=="ID"||colName=="CREATETIME"||colName=="CREATEUSER")continue;
                     var column=SourceTable.Columns[i];
                     string description=column.Description!=null?column.Description.Replace("\n","").Replace("\r",""):"";
-                    if(SourceTable.Columns[i].Name.ToUpper()=="Status")
+                    if(colName=="STATUS")
                     {%>
                     <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if="state.dialog.type != 'add'">
                         <el-form-item label="状态" prop="Status">
-                            <el-select v-model="state.ruleForm.Status" placeholder="请选择" class="w100">
-                                <el-option label="启用" value="1"></el-option>
-                                <el-option label="禁用" value="-1"></el-option>
+                            <el-select v-model="state.ruleForm.status" placeholder="请选择" class="w100">
+                                <el-option label="上架" value="1"></el-option>
+                                <el-option label="下架" value="0"></el-option>
+                                <el-option label="删除" value="-1"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
@@ -91,7 +93,7 @@ for (int i = 0; i < SourceTable.Columns.Count; i++) {
     if(SourceTable.Columns[i].Name.ToUpper()=="ID")continue;
     var column=SourceTable.Columns[i];
     string description=column.Description!=null?column.Description.Replace("\n","").Replace("\r",""):"";
-    if(SourceTable.Columns[i].Name.ToUpper()=="Status"){%>
+    if(SourceTable.Columns[i].Name.ToUpper()=="STATUS"){%>
         status:'',
         <%
     }else
@@ -194,7 +196,7 @@ for (int i = 0; i < SourceTable.Columns.Count; i++) {
     if(SourceTable.Columns[i].Name.ToUpper()=="ID")continue;
     var column=SourceTable.Columns[i];
     string description=column.Description!=null?column.Description.Replace("\n","").Replace("\r",""):"";
-    if(SourceTable.Columns[i].Name.ToUpper()=="Status"){%>
+    if(SourceTable.Columns[i].Name.ToUpper()=="STATUS"){%>
         status:'',
         <%
     }else

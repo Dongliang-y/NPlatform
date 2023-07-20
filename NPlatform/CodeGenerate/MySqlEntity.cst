@@ -193,7 +193,7 @@ public string GetCSharpVariableType(ColumnSchema column)
             break;
 		case DbType.SByte: 
             tp= "bool";
-                        isNullTag="?";
+            isNullTag="?";
             break;
 		case DbType.Single:
             tp= "float";

@@ -34,7 +34,7 @@
             <% 
             for (int i = 0; i < SourceTable.Columns.Count; i++) { 
                 if(SourceTable.Columns[i].Name.ToUpper()=="ID")continue;
-                if(SourceTable.Columns[i].Name.ToUpper()=="Status")
+                if(SourceTable.Columns[i].Name.ToUpper()=="STATUS")
                 {%>
     				<el-table-column prop="status" label="状态" show-overflow-tooltip>
     					<template #default="scope">
