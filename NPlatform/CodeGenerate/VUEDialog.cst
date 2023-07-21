@@ -6,8 +6,12 @@
 <%@ Import Namespace="System.Data" %>
 
 <template>
-	<div class="system-<%= GetNameLow(SourceTable)%>-dialog-container">
-		<el-dialog :title="state.dialog.title" v-model="state.dialog.isShowDialog" width="769px">
+	<el-drawer v-model="state.dialog.isShowDialog" size="60%" direction="rtl">
+    	<template #header>
+			<h4>{{ state.dialog.title }}</h4>
+		</template>
+        <template #default>
+                
 			<el-form ref="<%= GetNameLow(SourceTable)%>DialogFormRef" :rules="rules" :model="state.ruleForm" size="default" label-width="90px">
 				<el-row :gutter="35">
                 <% 
@@ -18,7 +22,7 @@
                     string description=column.Description!=null?column.Description.Replace("\n","").Replace("\r",""):"";
                     if(colName=="STATUS")
                     {%>
-                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if="state.dialog.type != 'add'">
+                    <el-col :xs="24" :sm="24" :md="12" :lg="10" :xl="10" class="mb20" v-if="state.dialog.type != 'add'">
                         <el-form-item label="状态" prop="Status">
                             <el-select v-model="state.ruleForm.status" placeholder="请选择" class="w100">
                                 <el-option label="上架" value="1"></el-option>
@@ -31,7 +35,7 @@
                     else if(SourceTable.Columns[i].Name.ToLower()=="descriptions"||SourceTable.Columns[i].Name.ToLower()=="remark")
                     {
                         %>
-                    <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+                    <el-col :xs="24" :sm="24" :md="12" :lg="10" :xl="10" class="mb20">
                         <el-form-item label="<%=description%>" prop="<%=GetJSMemberName(SourceTable.Columns[i])%>">
                             <el-input v-model="state.ruleForm.<%=GetJSMemberName(SourceTable.Columns[i])%>" type="textarea" placeholder="请输入<%=description%>" maxlength="150"></el-input>
                         </el-form-item>
@@ -40,7 +44,7 @@
                     }
                     else if(SourceTable.Columns[i].Name.EndsWith("Id"))
                     {%>
-                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+                    <el-col :xs="24" :sm="24" :md="12" :lg="10" :xl="10" class="mb20">
                         <el-form-item label="<%=description%>" prop="<%=GetJSMemberName(SourceTable.Columns[i])%>">
                             <el-select v-model="state.ruleForm.<%=GetJSMemberName(SourceTable.Columns[i])%>" placeholder="请选择" clearable class="w100">
                                 <el-option v-for="item in state.<%=GetJSMemberName(SourceTable.Columns[i])%>Data" :key="item.id" :label="item.name" :value="item.id" />
@@ -51,7 +55,7 @@
                     else
                         {
                     %>
-                    <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+                    <el-col :xs="24" :sm="24" :md="12" :lg="10" :xl="10" class="mb20">
                         <el-form-item label="<%=description%>" prop="<%=GetJSMemberName(SourceTable.Columns[i])%>">
                             <el-input v-model="state.ruleForm.<%=GetJSMemberName(SourceTable.Columns[i])%>" placeholder="请输入<%=description%>" clearable></el-input>
                         </el-form-item>
@@ -61,15 +65,15 @@
 				</el-row>
 				<input type="hidden" name="id" v-model="state.ruleForm.id" />
 			</el-form>
-			<template #footer>
-				<span class="dialog-footer">
-					<el-button @click="onCancel" size="default">取 消</el-button>
-					<el-button @click="resetForm(<%=FirstToLow(GetName(SourceTable))%>DialogFormRef)" size="default" v-if="state.dialog.type == 'add'">重置</el-button>
-					<el-button type="primary" @click="submitForm(<%=FirstToLow(GetName(SourceTable))%>DialogFormRef)" size="default">{{ state.dialog.submitTxt }}</el-button>
-				</span>
-			</template>
-		</el-dialog>
-	</div>
+        </template>
+		<template #footer>
+			<div style="flex: auto; margin: 15px">
+				<el-button @click="onCancel" size="default">取 消</el-button>
+				<el-button @click="resetForm(<%=FirstToLow(GetName(SourceTable))%>DialogFormRef)" size="default" v-if="state.dialog.type == 'add'">重置</el-button>
+				<el-button type="primary" @click="submitForm(<%=FirstToLow(GetName(SourceTable))%>DialogFormRef)" size="default">{{ state.dialog.submitTxt }}</el-button>
+			</div>
+		</template>
+	</el-drawer>
 </template>
 
 <script setup lang="ts" name="<%=GetModuleName(SourceTable)%><%=GetName(SourceTable)%>Dialog">
