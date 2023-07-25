@@ -9,26 +9,48 @@
 	<div class="<%=GetModuleName(SourceTable)%>-<%= GetName(SourceTable)%>-container layout-padding">
 		<el-card shadow="hover" class="layout-padding-auto">
 			<div class="<%=GetModuleName(SourceTable)%>-<%=GetName(SourceTable)%>-search mb15">
-				<el-input
-					size="large"
-					placeholder="请输入条件"
-					v-model="state.tableData.param.search"
-					@keyup.enter.native="getTableData()"
-					style="max-width: 180px"
-				>
-				</el-input>
-				<el-button size="large" @click="getTableData()" type="primary" class="ml10">
-					<el-icon>
-						<ele-Search />
-					</el-icon>
-					查询
-				</el-button>
-				<el-button size="large" type="success" class="ml10" @click="onOpenAdd('add')">
-					<el-icon>
-						<ele-FolderAdd />
-					</el-icon>
-					新增
-				</el-button>
+	<el-row gutter="3">
+					<el-col :span="5"
+						><span>项目名称</span>
+						<el-input
+							size="large"
+							placeholder="请输入名称"
+							v-model="state.tableData.param.itemName"
+							style="width: 70%"
+							@keyup.enter.native="getTableData()"
+							clearable
+						>
+						</el-input>
+					</el-col>
+					<el-col :span="5">
+						<span>所属类别</span>
+						<el-select
+							style="width: 70%"
+							v-model="state.tableData.param.itemType"
+							@change="getTableData()"
+							placeholder="请选择类型"
+							clearable
+							size="large"
+						>
+							<el-option v-for="item in itemTypes" :key="item.value" :label="item.dicText" :value="item.value" />
+						</el-select>
+					</el-col>
+
+					<el-col :span="5">
+						<el-button @click="getTableData()" type="primary" class="ml10">
+							<el-icon>
+								<ele-Search />
+							</el-icon>
+							查询
+						</el-button>
+						<el-button type="success" class="ml10" @click="onOpenAdd('add')">
+							<el-icon>
+								<ele-FolderAdd />
+							</el-icon>
+							新增
+						</el-button>
+					</el-col>
+				</el-row>
 			</div>
 			<el-table border :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%">
             <% 
@@ -36,13 +58,21 @@
                 if(SourceTable.Columns[i].Name.ToUpper()=="ID")continue;
                 if(SourceTable.Columns[i].Name.ToUpper()=="STATUS")
                 {%>
-    				<el-table-column prop="status" label="状态" show-overflow-tooltip>
+    				<el-table-column prop="status" label="状态"  width="100" show-overflow-tooltip>
     					<template #default="scope">
     						<el-tag type="success" v-if="scope.row.status == 1">启用</el-tag>
     						<el-tag type="info" v-else>禁用</el-tag>
     					</template>
     				</el-table-column>
-                 <%}else
+                 <%}else 
+                if(SourceTable.Columns[i].Name.ToUpper().EndsWith("TYPE"))
+                 {
+                         var column=SourceTable.Columns[i];
+                     string description=column.Description!=null?column.Description.Replace("\n","").Replace("\r",""):"";
+                 %>
+                    <el-table-column prop="<%=GetJSMemberName(SourceTable.Columns[i]) %>" label="<%=description%>" :formatter="formatter<%=GetJSMemberName(SourceTable.Columns[i]) %>" width="150" show-overflow-tooltip> </el-table-column>
+                 <%}
+                else  
                 {
                     var column=SourceTable.Columns[i];
                     string description=column.Description!=null?column.Description.Replace("\n","").Replace("\r",""):"";
@@ -103,6 +133,7 @@ const state = reactive< <%=GetName(SourceTable)%>State >({
 			pageNum: 1,
 			pageSize: 10,
 			search: '',
+            itemType:'',
 			LambdaExp: '',
 		},
 	},
@@ -111,21 +142,25 @@ const state = reactive< <%=GetName(SourceTable)%>State >({
 // 初始化表格数据
 const getTableData = () => {
 	state.tableData.loading = true;
-
+	state.tableData.param.LambdaExp = '';
 	if (state.tableData.param.search) {
-    
-		state.tableData.param.LambdaExp = '';
                 <% 
             for (int i = 0; i < SourceTable.Columns.Count; i++) { 
                 if(!SourceTable.Columns[i].Name.Contains("Name"))continue;
                 %>
         if(state.tableData.param.LambdaExp!='')
             state.tableData.param.LambdaExp+=" || ";
-		state.tableData.param.LambdaExp += " <%=SourceTable.Columns[i].Name %>='" + state.tableData.param.search + "'";
+		state.tableData.param.LambdaExp += `<%=SourceTable.Columns[i].Name %>.Contains("${state.tableData.param.search}"`;
         <%} %>
-	} else {
-		state.tableData.param.LambdaExp = '';
+        
+
 	}
+    
+    if (state.tableData.param.status && state.tableData.param.status != '') {
+		    state.tableData.param.LambdaExp += '&&status==' + state.tableData.param.status;
+	}
+	if (state.tableData.param.LambdaExp.length > 0) state.tableData.param.LambdaExp = state.tableData.param.LambdaExp.substring(2);
+    
     <%=FirstToLow(GetName(SourceTable))%>Api.getPage(state.tableData.param).then(function (data) {
 		if (data.statusCode == 200) {
 			state.tableData.data = data.value;
@@ -138,6 +173,15 @@ const getTableData = () => {
 		state.tableData.loading = false;
 	}, 500);
 };
+
+/*
+const formatterUseTypes = (row:  Row<%=GetName(SourceTable)%>Type, column: TableColumnCtx< Row<%=GetName(SourceTable)%>Type>) => {
+	// var cel = useTypes.find((item) => item.value === row.useType);
+	// return cel.dicText;
+	var text = dictionarySotre.getUseType(row.useType);
+	return text;
+};*/
+
 // 打开新增弹窗statusCode
 const onOpenAdd = (type: string) => {
 	<%= FirstToLow(GetName(SourceTable))%>DialogRef.value.openDialog(type);
@@ -192,6 +236,12 @@ onMounted(() => {
 			flex: 1;
 		}
 	}
+}
+.<%=GetModuleName(SourceTable)%>-<%=GetName(SourceTable)%>-search span {
+	margin-right: 5px;
+}
+.<%=GetModuleName(SourceTable)%>-<%=GetName(SourceTable)%>-search input {
+	width: 70%;
 }
 </style>
 

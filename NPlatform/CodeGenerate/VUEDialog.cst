@@ -94,11 +94,13 @@ const state = reactive({
 	ruleForm: {
     <% 
 for (int i = 0; i < SourceTable.Columns.Count; i++) { 
-    if(SourceTable.Columns[i].Name.ToUpper()=="ID")continue;
+    var colName=SourceTable.Columns[i].Name.ToUpper();
+    if(colName=="ID"||colName=="CREATETIME"||colName=="CREATEUSER")continue;
+ 
     var column=SourceTable.Columns[i];
     string description=column.Description!=null?column.Description.Replace("\n","").Replace("\r",""):"";
     if(SourceTable.Columns[i].Name.ToUpper()=="STATUS"){%>
-        status:'',
+        status:0,
         <%
     }else
     {
