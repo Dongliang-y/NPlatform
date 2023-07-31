@@ -148,9 +148,7 @@ const getTableData = () => {
             for (int i = 0; i < SourceTable.Columns.Count; i++) { 
                 if(!SourceTable.Columns[i].Name.Contains("Name"))continue;
                 %>
-        if(state.tableData.param.LambdaExp!='')
-            state.tableData.param.LambdaExp+=" || ";
-		state.tableData.param.LambdaExp += `<%=SourceTable.Columns[i].Name %>.Contains("${state.tableData.param.search}"`;
+		state.tableData.param.LambdaExp += `&&<%=SourceTable.Columns[i].Name %>.Contains("${state.tableData.param.search}"`;
         <%} %>
         
 
