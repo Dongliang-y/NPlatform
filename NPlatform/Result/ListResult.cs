@@ -51,12 +51,12 @@ namespace NPlatform.Result
         public int? StatusCode { get; set; } = 200;
 
         [DataMember]
-        public IEnumerable<T> Value { get; set; }
+        public IEnumerable<T> Data { get; set; }
 
         #region 不序列化返回的属性
         [JsonIgnore]
         [System.Xml.Serialization.XmlIgnore]
-        object INPResult.Value { get { return this.Value; } set { this.Value = value as IEnumerable<T>; } }
+        object INPResult.Data { get { return this.Data; } set { this.Data = value as IEnumerable<T>; } }
 
         [JsonIgnore]
         [System.Xml.Serialization.XmlIgnore]
@@ -68,7 +68,7 @@ namespace NPlatform.Result
         public ListResult(IEnumerable<T> list, long total)
         {
             Total = total;
-            this.Value = list;
+            this.Data = list;
         }
         /// <summary>
         /// 数据列表内容对象
@@ -76,7 +76,7 @@ namespace NPlatform.Result
         public ListResult(IEnumerable<T> list)
         {
             Total = list.Count();
-            this.Value = list;
+            this.Data = list;
         }
         /// <summary>
         /// 数据列表内容对象
@@ -85,7 +85,7 @@ namespace NPlatform.Result
         {
             Total = total;
             this.StatusCode = httpCode;
-            this.Value = list;
+            this.Data = list;
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace NPlatform.Result
         /// <returns>结果集合</returns>
         public IList<T> ToList()
         {
-            return this.Value.ToList();
+            return this.Data.ToList();
         }
 
         /// <inheritdoc />

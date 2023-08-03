@@ -94,7 +94,7 @@ namespace NPlatform.Result
 
         [JsonIgnore]
         [System.Xml.Serialization.XmlIgnore]
-        public object Value { get => null; set => throw new NotImplementedException(); }
+        public object Data { get => null; set => throw new NotImplementedException(); }
 
         [JsonIgnore]
         [System.Xml.Serialization.XmlIgnore]
@@ -106,7 +106,7 @@ namespace NPlatform.Result
         /// </summary>
         [JsonIgnore]
         [System.Xml.Serialization.XmlIgnore]
-        IEnumerable<T> IListResult<T>.Value { get; } = null;
+        IEnumerable<T> IListResult<T>.Data { get; } = null;
 
         /// <summary>
         /// NotImplementedException

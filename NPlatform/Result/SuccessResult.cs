@@ -62,7 +62,7 @@ namespace NPlatform.Result
         public int? StatusCode { get; set; } = 200;
 
         [DataMember]
-        public object Value { get; set; }
+        public object Data { get; set; }
 
 
 
@@ -90,7 +90,7 @@ namespace NPlatform.Result
         /// <param name="data">消息</param>
         public SuccessResult(T data)
         {
-            this.Value = data;
+            this.Data = data;
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace NPlatform.Result
         public SuccessResult(string message, T data)
         {
             this.Message = message;
-            this.Value = data;
+            this.Data = data;
         }
 
         /// <summary>

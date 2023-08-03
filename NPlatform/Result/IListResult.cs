@@ -32,7 +32,7 @@ namespace NPlatform.Result
         /// </summary>
         [DataMember]
         [JsonPropertyName("value")]
-        new IEnumerable<T> Value { get; }
+        new IEnumerable<T> Data { get; }
 
         /// <summary>
         /// 把结果转成List集合

@@ -2399,7 +2399,7 @@
             Total，无需赋值
             </summary>
         </member>
-        <member name="P:NPlatform.Result.FailResult`1.NPlatform#Result#IListResult{T}#Value">
+        <member name="P:NPlatform.Result.FailResult`1.NPlatform#Result#IListResult{T}#Data">
             <summary>
             Total，无需赋值
             </summary>
@@ -2420,7 +2420,7 @@
             数据总数
             </summary>
         </member>
-        <member name="P:NPlatform.Result.IListResult`1.Value">
+        <member name="P:NPlatform.Result.IListResult`1.Data">
             <summary>
             数据行
             </summary>
@@ -2467,7 +2467,7 @@
             请求是否成功，是statusCode的封装成 bool类型，只关注请求结果是否成功。
             </summary>
         </member>
-        <member name="P:NPlatform.Result.INPResult.Value">
+        <member name="P:NPlatform.Result.INPResult.Data">
             <summary>
             输出的数据
             </summary>
@@ -2712,7 +2712,7 @@
             状态码
             </summary>
         </member>
-        <member name="P:NPlatform.Result.TreeResult`1.Value">
+        <member name="P:NPlatform.Result.TreeResult`1.Data">
             <summary>
             
             </summary>

@@ -159,12 +159,12 @@ const getTableData = () => {
 	}
 	if (state.tableData.param.LambdaExp.length > 0) state.tableData.param.LambdaExp = state.tableData.param.LambdaExp.substring(2);
     
-    <%=FirstToLow(GetName(SourceTable))%>Api.getPage(state.tableData.param).then(function (data) {
-		if (data.statusCode == 200) {
-			state.tableData.data = data.value;
-			state.tableData.total = data.total;
+    <%=FirstToLow(GetName(SourceTable))%>Api.getPage(state.tableData.param).then(function (result) {
+		if (result.statusCode == 200) {
+			state.tableData.data = result.data;
+			state.tableData.total = result.total;
 		} else {
-			ElMessage.warning(data.message);
+			ElMessage.warning(result.message);
 		}
 	});
 	setTimeout(() => {

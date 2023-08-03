@@ -50,7 +50,7 @@ namespace NPlatform.Result
         /// </summary>
         [System.Xml.Serialization.XmlIgnore]
         [JsonIgnore]
-        public object Value { get; set; }
+        public object Data { get; set; }
 
         [System.Xml.Serialization.XmlIgnore]
         [JsonIgnore]

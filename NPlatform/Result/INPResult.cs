@@ -63,6 +63,6 @@ namespace NPlatform.Result
         /// <summary>
         /// 输出的数据
         /// </summary>
-        public object Value { get; set; }
+        public object Data { get; set; }
     }
 }

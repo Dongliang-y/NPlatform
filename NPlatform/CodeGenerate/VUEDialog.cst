@@ -267,7 +267,7 @@ const getRoleData = () => {
 	roleApi.getPage().then(function (result) {
 		if (result.statusCode == 200) {
 			state.roleData = [];
-			result.value.forEach((element) => {
+			result.data.forEach((element) => {
 				state.roleData.push({
 					name: element.name,
 					id: element.id,
@@ -285,7 +285,7 @@ const getDeptData = () => {
 	deptApi.getTrees().then(function (result) {
 		if (result.statusCode == 200) {
 			state.deptData = [];
-			result.value.forEach((element: RowDeptType) => {
+			result.data.forEach((element: RowDeptType) => {
 				state.deptData.push(element);
 			});
 		} else {
