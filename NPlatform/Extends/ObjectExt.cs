@@ -37,8 +37,11 @@ namespace NPlatform.Repositories {
                 {
                     continue;
                 }
-
-                if (prop.PropertyType == typeof(string))
+                if (prop.PropertyType == typeof(short) || prop.PropertyType == typeof(short?))
+                {
+                    prop.SetValue(entity, Convert.ToInt16(val));
+                }
+                else if (prop.PropertyType == typeof(string))
                 {
                     prop.SetValue(entity, val.ToString());
                 }
