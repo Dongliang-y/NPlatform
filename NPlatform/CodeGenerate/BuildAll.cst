@@ -1,5 +1,6 @@
 ﻿<%@ CodeTemplate Language="C#" TargetLanguage="Text"  ResponseEncoding="UTF-8"  Debug="True" Description="Template description here." %>
 <%@ Property Name="SourceTables" Type="SchemaExplorer.TableSchemaCollection" Category="General" Description="选择表" %>
+<%@ Property Name="SourceViews" Type="SchemaExplorer.ViewSchemaCollection" Category="General" Description="选择视图" %>
 <%@ Property Name="ProjectName" Type="String" Category="General" Description="项目名称" %>
 <%@ Property Name="OverriteRepository" Type="Boolean" Default="true" Category="文件处理" Description="覆写仓储，如果为设置为false，当文件已存在时则跳过该文件。" %>
 <%@ Property Name="OverriteServices" Type="Boolean" Default="true" Category="文件处理" Description="覆写服务，如果为设置为false，当文件已存在时则跳过该文件。" %>
@@ -32,8 +33,8 @@ by Dongliang Yi.
 
 <% 
 
-TableSchemaCollection Tables=SourceTables;
-//ViewSchemaCollection Views=GetViewCollection(SourceData);
+    TableSchemaCollection Tables=SourceTables;
+  //  ViewSchemaCollection Views=GetViewCollection(SourceViews);
 //过滤掉不正常的表格
     Tables = FilterTables(Tables);
 
