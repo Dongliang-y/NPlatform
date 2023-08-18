@@ -194,6 +194,7 @@ namespace NPlatform.Repositories.IRepositories
         /// <param name="filter">过滤条件</param>
         /// <returns>平均值</returns>
         Task<decimal> AVGAsync(Expression<Func<TEntity, decimal>> selector, Expression<Func<TEntity, bool>> filter = null);
+        Task<int> SaveChangesAsync();
         #endregion
 
     }
