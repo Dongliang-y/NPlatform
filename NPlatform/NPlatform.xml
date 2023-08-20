@@ -1531,6 +1531,11 @@
             <typeparam name="TPrimaryKey">主键类型
             </typeparam>
         </member>
+        <member name="P:NPlatform.Repositories.IRepositories.IRepository`2.CUDContext">
+            <summary>
+            CUD DbContext
+            </summary>
+        </member>
         <member name="P:NPlatform.Repositories.IRepositories.IRepository`2.Item(`1)">
             <summary>
             this 重载
