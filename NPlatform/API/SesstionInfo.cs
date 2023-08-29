@@ -17,21 +17,6 @@
 //----------------------------------------------------------------*/
 
 #endregion << 版 本 注 释 >>
-/* 项目“NPlatform (net5.0)”的未合并的更改
-在此之前:
-using System.Text;
-using NPlatform;
-在此之后:
-using System.Text;
-*/
-
-/* 项目“NPlatform (net6.0)”的未合并的更改
-在此之前:
-using System.Text;
-using NPlatform;
-在此之后:
-using System.Text;
-*/
 
 
 

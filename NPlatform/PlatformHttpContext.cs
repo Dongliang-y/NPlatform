@@ -65,7 +65,10 @@ namespace NPlatform
         /// </summary>
         List<Claim> Positions { get; }
 
-
+        /// <summary>
+        /// 所在机构ID
+        /// </summary>
+        string OrganizationId { get; }
     }
     /// <summary>
     /// 平台  http 上下文
@@ -167,6 +170,16 @@ namespace NPlatform
             }
         }
 
+        /// <summary>
+        /// 所在机构ID
+        /// </summary>
+        public string OrganizationId
+        {
+            get
+            {
+                return Claims.FirstOrDefault(t => t.Type == "OrganizationId")?.Value;
+            }
+        }
         /// <summary>
         /// 岗位
         /// </summary>

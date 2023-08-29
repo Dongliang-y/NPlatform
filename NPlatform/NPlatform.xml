@@ -32,9 +32,9 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.API.BaseController.GetSesstionInfo">
+        <member name="P:NPlatform.API.BaseController.Context">
             <summary>
-            获取认证的身份信息
+            httpContext
             </summary>
         </member>
         <member name="P:NPlatform.API.BaseController.ViewData">
@@ -2232,6 +2232,11 @@
             岗位
             </summary>
         </member>
+        <member name="P:NPlatform.IPlatformHttpContext.OrganizationId">
+            <summary>
+            所在机构ID
+            </summary>
+        </member>
         <member name="T:NPlatform.PlatformHttpContext">
             <summary>
             平台  http 上下文
@@ -2276,6 +2281,11 @@
         <member name="P:NPlatform.PlatformHttpContext.Roles">
             <summary>
             角色清单
+            </summary>
+        </member>
+        <member name="P:NPlatform.PlatformHttpContext.OrganizationId">
+            <summary>
+            所在机构ID
             </summary>
         </member>
         <member name="P:NPlatform.PlatformHttpContext.Positions">
