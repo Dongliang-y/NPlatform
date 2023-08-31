@@ -13,6 +13,7 @@
 using IdentityModel;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+using System.Text.Json.Serialization;
 
 namespace NPlatform
 {
@@ -24,6 +25,7 @@ namespace NPlatform
         /// <summary>
         /// http 上下文
         /// </summary>
+        [JsonIgnore]
         HttpContext Context
         {
             get;
@@ -31,6 +33,7 @@ namespace NPlatform
         /// <summary>
         /// Claims
         /// </summary>
+        [JsonIgnore]
         IEnumerable<Claim> Claims { get; }
 
         /// <summary>
@@ -87,6 +90,7 @@ namespace NPlatform
         /// <summary>
         /// http 上下文
         /// </summary>
+        [JsonIgnore]
         public HttpContext Context
         {
             get
@@ -98,6 +102,7 @@ namespace NPlatform
         /// <summary>
         /// 登陆用户的附加信息
         /// </summary>
+        [JsonIgnore]
         public IEnumerable<Claim> Claims
         {
             get

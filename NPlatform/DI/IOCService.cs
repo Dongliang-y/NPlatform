@@ -210,15 +210,14 @@ namespace NPlatform.DI
                 .OnActivated(e =>
                 Console.WriteLine($"OnActivated{e.Component.Activator.LimitType.FullName}"));
 
-                // RegisterType
-                // Repository
+
                 builder.RegisterAssemblyTypes(assemblys.ToArray()).Where(t =>
                  t.Name.EndsWith("Result"))
                 .AsImplementedInterfaces()
                 .PropertiesAutowired(new AutowiredSelector())
-                .InstancePerDependency()
+                .InstancePerLifetimeScope()
                 .OnRegistered(e =>
-                    Console.WriteLine($"Repository OnRegistered{e.ComponentRegistration.Activator.LimitType.FullName}")
+                    Console.WriteLine($"Result OnRegistered{e.ComponentRegistration.Activator.LimitType.FullName}")
                 )
                 .OnActivated(e =>
                 Console.WriteLine($"OnActivated{e.Component.Activator.LimitType.FullName}"));
@@ -240,7 +239,7 @@ namespace NPlatform.DI
                  t.Name.EndsWith("Repository"))
                 .AsImplementedInterfaces()
                 .PropertiesAutowired(new AutowiredSelector())
-                .InstancePerDependency()
+                .InstancePerLifetimeScope()
                 .OnRegistered(e =>
                     Console.WriteLine($"Repository OnRegistered{e.ComponentRegistration.Activator.LimitType.FullName}")
                 )
