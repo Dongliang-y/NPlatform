@@ -8,8 +8,8 @@ namespace NPlatform.AutoMap
     {
         public IListResult<TD> Convert(IListResult<TS> source, IListResult<TD> destination, ResolutionContext context)
         {
-            var values = context.Mapper.Map<IEnumerable<TD>>(source.Value);
-            return new ListResult<TD>(values);
+            var values = context.Mapper.Map<IEnumerable<TD>>(source.Data);
+            return new ListResult<TD>(values,source.Total);
         }
     }
 }

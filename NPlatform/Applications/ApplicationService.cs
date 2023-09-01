@@ -49,7 +49,7 @@ namespace NPlatform.Applications
         /// mapper 对象
         /// </summary>
         [Autowired]
-        public IMapperService MapperObj { get; set; }
+        public IMapperService MapperService { get; set; }
 
 
         public abstract string GetApplicationShortName();
@@ -75,7 +75,7 @@ namespace NPlatform.Applications
             }
             else
             {
-                return Error<T>("页码不能小于等于0");
+                return Fail<T>("页码不能小于等于0");
             }
         }
         /// <summary>

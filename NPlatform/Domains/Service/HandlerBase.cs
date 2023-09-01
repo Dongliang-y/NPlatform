@@ -45,15 +45,15 @@ namespace NPlatform.Domains.Service
         /// <summary>
         /// 处理Delete
         /// </summary>
-        /// <param name="addCommand">Delete</param>
+        /// <param name="deleteCommand">Delete</param>
         /// <returns></returns>
-        public abstract Task<INPResult> Delete(TDelete addCommand);
+        public abstract Task<INPResult> Delete(TDelete deleteCommand);
 
         /// <summary>
         /// 处理编辑命令
         /// </summary>
-        /// <param name="addCommand">处理编辑命令</param>
+        /// <param name="editCommand">处理编辑命令</param>
         /// <returns></returns>
-        public abstract Task<INPResult> Edit(TEdit addCommand);
+        public abstract Task<INPResult> Edit(TEdit editCommand);
     }
 }

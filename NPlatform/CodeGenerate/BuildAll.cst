@@ -1,17 +1,21 @@
 ﻿<%@ CodeTemplate Language="C#" TargetLanguage="Text"  ResponseEncoding="UTF-8"  Debug="True" Description="Template description here." %>
 <%@ Property Name="SourceTables" Type="SchemaExplorer.TableSchemaCollection" Category="General" Description="选择表" %>
+<%@ Property Name="SourceViews" Type="SchemaExplorer.ViewSchemaCollection" Category="General" Description="选择视图" %>
 <%@ Property Name="ProjectName" Type="String" Category="General" Description="项目名称" %>
 <%@ Property Name="OverriteRepository" Type="Boolean" Default="true" Category="文件处理" Description="覆写仓储，如果为设置为false，当文件已存在时则跳过该文件。" %>
 <%@ Property Name="OverriteServices" Type="Boolean" Default="true" Category="文件处理" Description="覆写服务，如果为设置为false，当文件已存在时则跳过该文件。" %>
 <%@ Property Name="OverriteEntity" Type="Boolean" Default="true" Category="文件处理" Description="覆写实体，如果为设置为false，当文件已存在时则跳过该文件。" %>
 <%@ Property Name="OverriteDTO" Type="Boolean" Default="true" Category="文件处理" Description="覆写DTO，如果为设置为false，当文件已存在时则跳过该文件。" %>
 <%@ Property Name="OverriteCommand" Type="Boolean" Default="false" Category="文件处理" Description="覆写命令对象，如果为设置为false，当文件已存在时则跳过该文件。" %>
+<%@ Property Name="OverriteQuery"   Type="Boolean" Default="false" Category="文件处理" Description="覆写命令对象，如果为设置为false，当文件已存在时则跳过该文件。" %>
 
 <%@ Property Name="ClearAll" Type="Boolean" Default="false" Category="文件处理" Description="清理所有生成的代码（只清理由脚本创建的.Designer 文件）" %>
 <%@ Property Name="DomainMode" Type="Boolean" Default="true" Category="高级特性" Description="基于领域驱动模式" %>
+
 <%@ Property Name="ORMSelect"  Type="ORMType" Category="高级特性" Description="ORM选择" %> 
 <%@ Property Name="IsPartial"  Type="Boolean"  Default="true" Category="高级特性" Description="以partial风格生成 *.Designer.cs代码文件，避免覆盖用户增加的文件。" %> 
 <%@ Property Name="IsCQRS"  Type="Boolean"  Default="true" Category="高级特性" Description="CQRS模式，生成的service基类不同，自动创建 CMD类。" %> 
+<%@ Property Name="SpecialTable"  Type="String"  Default="" Category="高级特性" Description="CQRS模式中，自定义必须生成的表,逗号分割。（注，多个单词组合的表名默认不生成）" %> 
 <%@ Assembly Name="SchemaExplorer" %>
 <%@ Assembly Name="CodeSmith.CustomProperties" %> 
 <%@ Assembly Name="System.Data" %>
@@ -29,8 +33,8 @@ by Dongliang Yi.
 
 <% 
 
-TableSchemaCollection Tables=SourceTables;
-//ViewSchemaCollection Views=GetViewCollection(SourceData);
+    TableSchemaCollection Tables=SourceTables;
+  //  ViewSchemaCollection Views=GetViewCollection(SourceViews);
 //过滤掉不正常的表格
     Tables = FilterTables(Tables);
 
@@ -59,6 +63,8 @@ TableSchemaCollection Tables=SourceTables;
     string DtoDIC = OutputDirectory + "\\"+ProjectName+".DTO\\DTO\\";
     string CommandsDIC = OutputDirectory + "\\"+ProjectName+".DTO\\Commands\\";
 
+    string QueryDIC = OutputDirectory + "\\"+ProjectName+".Application\\Queries\\";
+    string ViewDIC = OutputDirectory + "\\"+ProjectName+".View\\SRC\\";
     //Load Template
     CodeTemplate emptyTemplate=GetCodeTemplate("Empty.cst");
     CodeTemplate IRepositoriesTemplate = GetCodeTemplate("IRepositories.cst");
@@ -73,7 +79,14 @@ TableSchemaCollection Tables=SourceTables;
 
     // Dto 对象
      CodeTemplate CommandTemplate=GetCodeTemplate("Command.cst");
+     CodeTemplate QueryTemplate=GetCodeTemplate("QueryApp.cst");
      CodeTemplate DtoTemplate=GetCodeTemplate("Dto.cst");
+    
+    //view
+    CodeTemplate VUEDialogTemplate=GetCodeTemplate("VUEDialog.cst");
+    CodeTemplate VUEPageIndexTemplate=GetCodeTemplate("VUEPageIndex.cst");
+    CodeTemplate VUEAPITemplate=GetCodeTemplate("VUEAPI.cst");
+    CodeTemplate VUEViewModelTemplate=GetCodeTemplate("VUEViewModel.cst");
         var fileExt="";
         if(IsPartial)
         {
@@ -89,6 +102,9 @@ TableSchemaCollection Tables=SourceTables;
             System.IO.File.Delete(fi);
         }
     }
+    
+    //all view model
+    RenderFileUsingProperties(ViewDIC+"\\types\\business.d.ts",false,ref VUEViewModelTemplate,Tables); 
 
     //Render Files
     for (int i = 0; i < Tables.Count; i++)
@@ -107,8 +123,10 @@ TableSchemaCollection Tables=SourceTables;
             var name=Tables[i].Name;
              var count=Regex.Matches(name, "_").Count;
             
+            if(!SpecialTable.EndsWith(","))
+                SpecialTable+=",";
             // 领域驱动模式下，从表的仓储、服务Dto都不生成。
-            if(DomainMode&&count>1)
+            if(DomainMode&&(count>1||IsSub(name))&&!SpecialTable.Contains(name+","))
             {
                 continue;
             }
@@ -129,7 +147,16 @@ TableSchemaCollection Tables=SourceTables;
             RenderEmptyFile(DtoDIC+ GetModuleName(Tables[i])+"\\"+ GetName(Tables[i]) +"Dto.cs","  NPlatform.Dto."+GetMudName(Tables[i]), GetName(Tables[i])+"Dto", GetName(Tables[i])+"Dto","	using System.ComponentModel.DataAnnotations;",ref emptyTemplate);
             RenderFileUsingProperties(DtoDIC+ GetModuleName(Tables[i])+"\\"+GetName(Tables[i]) + "Dto"+fileExt+".cs",OverriteDTO,ref DtoTemplate,Tables[i]); 
             if(IsCQRS)
+            {
                 RenderFileUsingProperties(CommandsDIC+ GetModuleName(Tables[i])+"\\"+GetName(Tables[i]) + "Commnad.cs",OverriteCommand,ref CommandTemplate,Tables[i]);             
+                RenderFileUsingProperties(QueryDIC+ GetModuleName(Tables[i])+"\\"+GetName(Tables[i]) + "Query.cs",OverriteQuery,ref QueryTemplate,Tables[i]);             
+            }
+            
+            //view
+            RenderFileUsingProperties(ViewDIC+"\\views\\"+ FirstToLow(GetModuleName(Tables[i]))+"\\"+ FirstToLow(GetName(Tables[i])) + "\\dialog.vue",false,ref VUEDialogTemplate,Tables[i]); 
+            RenderFileUsingProperties(ViewDIC+"\\views\\"+ FirstToLow( GetModuleName(Tables[i]))+"\\"+FirstToLow( GetName(Tables[i])) + "\\index.vue",false,ref VUEPageIndexTemplate,Tables[i]); 
+            RenderFileUsingProperties(ViewDIC+"\\api\\"+FirstToLow( GetModuleName(Tables[i]))+"\\"+ FirstToLow(GetName(Tables[i])) + ".ts",false,ref VUEAPITemplate,Tables[i]); 
+            
 		}catch(Exception ex)
 		{
 			%>表<%=Tables[i].Name%>出现错误，已跳过，请查验。<%=ex.ToString()%><%
@@ -158,7 +185,12 @@ public enum ORMType
     EntityFrameWork,
     Dapper
 }
-
+public string FirstToLow(string name)
+{
+	string memberVariableName = name.Substring(0, 1).ToLower() + name.Substring(1);
+	
+	return memberVariableName;
+}
     #region Output
     private string _outputDirectory = String.Empty;
 	
@@ -202,6 +234,18 @@ public ViewSchemaCollection GetViewCollection(DatabaseSchema dataBase)
     #endregion
     
 #region Methods
+
+public bool IsSub(string name)
+{
+    var rst=name.Split('_');
+    if(rst.Length>1) {
+var count = System.Text.RegularExpressions.Regex.Matches(rst[1], "[A-Z]").Count;
+        Response.Write("isSub:"+count+":"+rst[1]+"\r\n"); 
+        return count>1;
+    }
+    return false;
+}
+
 public string GetMudName(TableSchema table)
 {
     var tableName=table.Name;
@@ -276,7 +320,7 @@ public string GetMudName(TableSchema table)
 	{
 		if( overrite || (!File.Exists(fullPath)) )
 		{
-                            Response.Write(fullPath+"\r\n"); 
+            Response.Write(fullPath+"\r\n"); 
             System.IO.FileInfo fi=new System.IO.FileInfo(fullPath);
             if(!fi.Directory.Exists)
                 fi.Directory.Create();
@@ -505,7 +549,7 @@ public string GetMudName(TableSchema table)
              var count=Regex.Matches(name, "_").Count;
             
             // 领域驱动模式下，从表的仓储、服务Dto都不生成。
-            if(DomainMode&&count>11)
+            if(DomainMode&&(count>1||IsSub(name)))
             {
                 continue;
             }

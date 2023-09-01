@@ -25,7 +25,7 @@ namespace NPlatform.Query
         /// 页码
         /// </summary>
         [System.ComponentModel.DataAnnotations.Range(1, int.MaxValue)]
-        public int PageIndex { get; set; } = 1;
+        public int PageNum { get; set; } = 1;
 
         /// <summary>
         /// 页大小

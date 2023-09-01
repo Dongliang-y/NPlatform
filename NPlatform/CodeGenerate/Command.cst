@@ -54,8 +54,9 @@ namespace  NPlatform.Commands.<%= GetModuleName(SourceTable)%>
 	{
         public Expression<Func<<%= GetName(SourceTable)%>Delete, bool>> filter;
         public CType CommandType=> CType.DELETE;
-        public  <%= GetName(SourceTable)%>Delete()
+        public  <%= GetName(SourceTable)%>Delete(string aggregateId) : base(aggregateId)
         {
+            this.Id = aggregateId;
         }
 	}
 }

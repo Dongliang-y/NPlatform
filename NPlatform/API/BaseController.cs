@@ -63,68 +63,12 @@ namespace NPlatform.API
             }
         }
 
-
-        private SesstionInfo sesstion = null;
-
         /// <summary>
-        /// 获取认证的身份信息
+        /// httpContext
         /// </summary>
-        protected virtual async Task<SesstionInfo> GetSesstionInfo()
-        {
-            if (sesstion == null)
-            {
-                var token = Request.Headers["Authorization"];
-                sesstion = await _RedisService.StringGetAsync<SesstionInfo>(CommonRedisConst.SesstionKey(token));
-                if (sesstion == null)
-                {
-                    var Claims = User.Claims;
-                    sesstion = new SesstionInfo();
-                    sesstion.AccessToken = token;
-                    if (Claims.Any(t => t.Type == "id"))
-                    {
-                        sesstion.Id = Claims.FirstOrDefault(t => t.Type == "id").Value;
-                    }
+        [Autowired]
+        public IPlatformHttpContext Context { get; set; }
 
-                    if (Claims.Any(t => t.Type == "client_id"))
-                    {
-                        sesstion.ClientId = Claims.FirstOrDefault(t => t.Type == "client_id").Value;
-                    }
-
-                    if (Claims.Any(t => t.Type == "roles"))
-                    {
-                        var roles = Claims.FirstOrDefault(t => t.Type == "roles").Value;
-                        if (string.IsNullOrEmpty(roles))
-                        {
-                            sesstion.Roles = new string[] { "default" };
-                        }
-                        else
-                        {
-                            sesstion.Roles = System.Text.Json.JsonSerializer.Deserialize<string[]>(roles);
-                        }
-                    }
-
-                    if (Claims.Any(t => t.Type.Contains("givenname")))
-                    {
-                        // Claims.FirstOrDefault(t => t.Subject.Name);
-                        sesstion.CnName = Claims.FirstOrDefault(t => t.Type.Contains("givenname")).Value;
-                    }
-                    if (Claims.Any(t => t.Type == "avatar"))
-                    {
-                        sesstion.Avatar = Claims.FirstOrDefault(t => t.Type == "avatar").Value;
-                    }
-
-                    if (Claims.Any(t => t.Type == "name"))
-                    {
-                        sesstion.Account = Claims.FirstOrDefault(t => t.Type == "name").Value;
-                    }
-                }
-                return sesstion;
-            }
-            else
-            {
-                return sesstion;
-            }
-        }
 
         // 直接移植的 mvc框架的Controller代码
         private ITempDataDictionary? _tempData;
@@ -316,18 +260,18 @@ namespace NPlatform.API
         /// <summary>
         /// 返回错误信息
         /// </summary>
-        protected virtual ErrorResult<IDto> Error(string msg)
+        protected virtual FailResult<IDto> Fail(string msg)
         {
-            var rst = new ErrorResult<IDto>(msg);
+            var rst = new FailResult<IDto>(msg);
             return rst;
         }
 
         /// <summary>
         /// 返回错误信息
         /// </summary>
-        protected virtual ErrorResult<T> Error<T>(Exception ex)
+        protected virtual FailResult<T> Fail<T>(Exception ex)
         {
-            var rst = new ErrorResult<T>(ex);
+            var rst = new FailResult<T>(ex);
             return rst;
         }
 

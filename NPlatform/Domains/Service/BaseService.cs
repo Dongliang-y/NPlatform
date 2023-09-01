@@ -28,7 +28,7 @@
         /// mapper 对象
         /// </summary>
         [Autowired]
-        public IMapperService mapperService { get; set; }
+        public IMapperService MapperService { get; set; }
 
         /// <summary>
         /// Domain service base。
@@ -68,7 +68,7 @@
             }
             else
             {
-                return Error<T>("页码不能小于等于0");
+                return Fail<T>("页码不能小于等于0");
             }
         }
         /// <summary>

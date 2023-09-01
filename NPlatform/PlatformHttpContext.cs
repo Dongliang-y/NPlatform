@@ -13,6 +13,7 @@
 using IdentityModel;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+using System.Text.Json.Serialization;
 
 namespace NPlatform
 {
@@ -24,6 +25,7 @@ namespace NPlatform
         /// <summary>
         /// http 上下文
         /// </summary>
+        [JsonIgnore]
         HttpContext Context
         {
             get;
@@ -31,6 +33,7 @@ namespace NPlatform
         /// <summary>
         /// Claims
         /// </summary>
+        [JsonIgnore]
         IEnumerable<Claim> Claims { get; }
 
         /// <summary>
@@ -53,6 +56,8 @@ namespace NPlatform
         /// </summary>
         string NickName { get; }
 
+        string ClientId { get; }
+
         /// <summary>
         /// 角色
         /// </summary>
@@ -63,7 +68,10 @@ namespace NPlatform
         /// </summary>
         List<Claim> Positions { get; }
 
-
+        /// <summary>
+        /// 所在机构ID
+        /// </summary>
+        string OrganizationId { get; }
     }
     /// <summary>
     /// 平台  http 上下文
@@ -82,6 +90,7 @@ namespace NPlatform
         /// <summary>
         /// http 上下文
         /// </summary>
+        [JsonIgnore]
         public HttpContext Context
         {
             get
@@ -93,6 +102,7 @@ namespace NPlatform
         /// <summary>
         /// 登陆用户的附加信息
         /// </summary>
+        [JsonIgnore]
         public IEnumerable<Claim> Claims
         {
             get
@@ -148,6 +158,10 @@ namespace NPlatform
                 return CnName != null ? CnName.Value : "";
             }
         }
+        public string ClientId { get { 
+             var clientId= Claims.FirstOrDefault(t => t.Type == JwtClaimTypes.ClientId);
+                return clientId!=null? clientId.Value:"";
+            } }
 
         /// <summary>
         /// 角色清单
@@ -161,6 +175,16 @@ namespace NPlatform
             }
         }
 
+        /// <summary>
+        /// 所在机构ID
+        /// </summary>
+        public string OrganizationId
+        {
+            get
+            {
+                return Claims.FirstOrDefault(t => t.Type == "OrganizationId")?.Value;
+            }
+        }
         /// <summary>
         /// 岗位
         /// </summary>

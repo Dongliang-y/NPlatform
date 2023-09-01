@@ -30,6 +30,7 @@ using NPlatform.Infrastructure.Config;
 using NPlatform.Infrastructure.Redis;
 using NPlatform.Repositories;
 using NPlatform.Repositories.IRepositories;
+using NPlatform.Result;
 using NPOI.SS.Formula.Functions;
 using Org.BouncyCastle.Asn1.X509.Qualified;
 using System.Reflection;
@@ -125,7 +126,11 @@ namespace NPlatform.DI
                  Console.WriteLine($"OnRegistered {e.ComponentRegistration.Activator.LimitType.FullName}")
                 );
 
-                builder.RegisterType<ValidateAntiforgeryAuthorizationFilter>().As<IAntiforgeryPolicy>().AsImplementedInterfaces().PropertiesAutowired(new AutowiredSelector()).InstancePerLifetimeScope();
+                builder.RegisterType<ValidateAntiforgeryAuthorizationFilter>().As<IAntiforgeryPolicy>().AsImplementedInterfaces().PropertiesAutowired(new AutowiredSelector()).InstancePerLifetimeScope().OnRegistered(e =>
+                 Console.WriteLine($"Service OnRegistered ValidateAntiforgeryAuthorizationFilter")
+                )
+                .OnActivated(e =>
+                Console.WriteLine($"OnActivated ValidateAntiforgeryAuthorizationFilter"));
 
                 var path = AppContext.BaseDirectory;
                 Console.WriteLine(path);
@@ -205,15 +210,14 @@ namespace NPlatform.DI
                 .OnActivated(e =>
                 Console.WriteLine($"OnActivated{e.Component.Activator.LimitType.FullName}"));
 
-                // RegisterType
-                // Repository
+
                 builder.RegisterAssemblyTypes(assemblys.ToArray()).Where(t =>
                  t.Name.EndsWith("Result"))
                 .AsImplementedInterfaces()
                 .PropertiesAutowired(new AutowiredSelector())
-                .InstancePerDependency()
+                .InstancePerLifetimeScope()
                 .OnRegistered(e =>
-                    Console.WriteLine($"Repository OnRegistered{e.ComponentRegistration.Activator.LimitType.FullName}")
+                    Console.WriteLine($"Result OnRegistered{e.ComponentRegistration.Activator.LimitType.FullName}")
                 )
                 .OnActivated(e =>
                 Console.WriteLine($"OnActivated{e.Component.Activator.LimitType.FullName}"));
@@ -235,7 +239,7 @@ namespace NPlatform.DI
                  t.Name.EndsWith("Repository"))
                 .AsImplementedInterfaces()
                 .PropertiesAutowired(new AutowiredSelector())
-                .InstancePerDependency()
+                .InstancePerLifetimeScope()
                 .OnRegistered(e =>
                     Console.WriteLine($"Repository OnRegistered{e.ComponentRegistration.Activator.LimitType.FullName}")
                 )
@@ -264,6 +268,20 @@ namespace NPlatform.DI
                 )
                 .OnActivated(e =>
                 Console.WriteLine($"OnActivated{e.Component.Activator.LimitType.FullName}"));
+                
+                // Command
+                builder.RegisterAssemblyTypes(assemblys.ToArray()).Where(t => typeof(ICommand).IsAssignableFrom(t))
+                .As<MediatR.IRequest<INPResult>>()
+                .AsImplementedInterfaces()//
+                .SingleInstance()
+                .PropertiesAutowired(new AutowiredSelector())
+                .OnRegistered(e =>
+                    Console.WriteLine($"Automapper OnRegistered{e.ComponentRegistration.Activator.LimitType.FullName}")
+                )
+                .OnActivated(e =>
+                Console.WriteLine($"OnActivated{e.Component.Activator.LimitType.FullName}"));
+
+
             });
         }
 

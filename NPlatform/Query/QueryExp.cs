@@ -37,7 +37,7 @@ namespace NPlatform.Query
         /// </summary>
         /// <typeparam name="T">表达式查询的对象</typeparam>
         /// <returns></returns>
-        public Expression<Func<T, bool>> GetExp<T>() where T : IEntity
+        public Expression<Func<T, bool>> GetExp<T>() where T : class
         {
             if (this.LambdaExp == null)
                 return CreateExpression<T>();

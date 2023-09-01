@@ -1,44 +1,39 @@
 ﻿<%@ CodeTemplate Language="C#" TargetLanguage="C#"  ResponseEncoding="UTF-8" Description="Generates a very simple business object." %>
-<%@ Property Name="SourceTable" Type="SchemaExplorer.TableSchema" Category="Context" Description="Table that the object is based on." %>
+<%@ Property Name="SourceTable" Type="SchemaExplorer.TableSchemaCollection" Category="Context" Description="选择表" %>
 <%@ Assembly Name="SchemaExplorer" %>
 <%@ Assembly Name="System.Data" %>
 <%@ Import Namespace="SchemaExplorer" %>
 <%@ Import Namespace="System.Data" %>
-/***********************************************************
-**项目名称:NPlatform.Entity                                                                				   
-**功能描述:	 <%= GetName(SourceTable) %>   的摘要说明
-**作    者: 	此代码由CodeSmith生成。                                         			   
-**版 本 号:	1.0          
-**修改历史：
-************************************************************/
 
-namespace NPlatform.Domains.Entity.<%=GetModuleName(SourceTable) %>
-{
-    using NPlatform.Domains.Entity;
-    using System;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    
-	/// <summary>
-	///<%= GetName(SourceTable)%>，<%=SourceTable.Description.Replace("\n","").Replace("\r","")%>
-	/// </summary>
-	[Serializable]
-    [Table(name:"<%=SourceTable.Name%>")]
-    public partial class <%= GetName(SourceTable)%> : EntityBase<string>, I<%=GetModuleName(SourceTable)%><%=GetIsDelete(SourceTable.Columns)%>
-	{
-		<% 
-            for (int i = 0; i < SourceTable.Columns.Count; i++) { 
-                if(SourceTable.Columns[i].Name.ToUpper()=="ID")continue;
+<% 
+for (int j = 0; j < SourceTable.Count; j++) { 
+    var table=SourceTable[j];
+%>
+//#region <%=GetFullName(table)%> 
+    declare interface Row<%=GetName(table)%>Type {
+        id: string;
+        <% 
+        for (int i = 0; i < table.Columns.Count; i++) { 
+            if(table.Columns[i].Name.ToUpper()=="ID")continue;
+            var column=table.Columns[i];
+            string description=column.Description!=null?column.Description.Replace("\n","").Replace("\r",""):"";
         %>
-		/// <summary>
-		/// <%=SourceTable.Columns[i].Description.Replace("\n","").Replace("\r","")  %>
-		/// </summary>
-		<%=GetDataAnnotations(SourceTable.Columns[i]) %>
-        public <%= GetCSharpVariableType(SourceTable.Columns[i]) %> <%=  SourceTable.Columns[i].Name %> { get; set; }
-		<% if (i < SourceTable.Columns.Count - 1) Response.Write("\r\n"); %>	
-		<%}%>
-	}
-}
+        <%=GetJSMemberName(table.Columns[i])%>:<%=GetJsType(table.Columns[i])%>;//<%=description%>     
+        <%} %>
+
+    }
+
+    interface <%=GetName(table)%>TableType extends TableType {
+        data: Row<%=GetName(table)%>Type[];
+    }
+
+    declare interface <%=GetName(table)%>State {
+        tableData: <%=GetName(table)%>TableType;
+        <%=GetName(table)%>Type: dicItemype[];
+    } 
+//#endregion
+
+<%} %>
 <script runat="template">
 
 
@@ -47,6 +42,15 @@ public string GetMemberVariableName(ColumnSchema column)
 	//string propertyName = GetPropertyName(column);
 	string propertyName = column.Name;
 	string memberVariableName =  propertyName.ToLower();
+	
+	return memberVariableName;
+}
+
+public string GetJSMemberName(ColumnSchema column)
+{
+	//string propertyName = GetPropertyName(column);
+	string propertyName = column.Name;
+	string memberVariableName = propertyName.Substring(0, 1).ToLower() + propertyName.Substring(1);
 	
 	return memberVariableName;
 }
@@ -80,14 +84,17 @@ public int GetPropertyNameLength(ColumnSchema column)
 {
 	return (GetPropertyName(column)).Length;
 }
-public int GetPropertyNameMaxLength()
+
+public string GetFullName(TableSchema table)
 {
-	int ret = 0;
-	foreach(ColumnSchema column in SourceTable.Columns)
-	{
-		ret = ret < GetPropertyNameLength(column)?GetPropertyNameLength(column):ret;
-	}
-	return ret;
+    var tableName=table.Name;
+    
+    if(tableName.Contains("_"))
+    {
+        return tableName.Replace("_","");
+    }
+    else
+        throw new Exception("数据库表命名错误！");
 }
 public string GetModuleName(TableSchema table)
 {
@@ -193,7 +200,7 @@ public string GetCSharpVariableType(ColumnSchema column)
             break;
 		case DbType.SByte: 
             tp= "bool";
-            isNullTag="?";
+                        isNullTag="?";
             break;
 		case DbType.Single:
             tp= "float";
@@ -235,7 +242,32 @@ public string GetCSharpVariableType(ColumnSchema column)
     else
         return tp;
 }
+public string GetJsType(ColumnSchema column)
+{
 
+	string tp= "string";
+	switch (column.DataType)
+	{
+		case DbType.Boolean:		
+        case DbType.SByte: 
+            tp= "boolean";
+            break;
+		case DbType.Byte:
+		case DbType.Currency: 
+		case DbType.Decimal:
+        case DbType.Double:
+		case DbType.Int16: 
+		case DbType.Int32: 
+		case DbType.Int64: 
+		case DbType.UInt16: 
+		case DbType.UInt32: 
+		case DbType.UInt64: 
+		case DbType.VarNumeric: 
+            tp= "number";
+            break;
+	}
+        return tp;
+}
 public string GetDataAnnotations(ColumnSchema column)
 {
     
@@ -345,8 +377,4 @@ public string GetReaderMethod(ColumnSchema column)
 			throw new Exception(table.Name+ex.Message);
 		}
     }
-public override string GetFileName()
-{
-	return this.GetName(this.SourceTable) + ".cs";
-}
 </script>

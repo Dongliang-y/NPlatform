@@ -4,49 +4,74 @@
 <%@ Assembly Name="System.Data" %>
 <%@ Import Namespace="SchemaExplorer" %>
 <%@ Import Namespace="System.Data" %>
-/***********************************************************
-**项目名称:NPlatform.Entity                                                                				   
-**功能描述:	 <%= GetName(SourceTable) %>   的摘要说明
-**作    者: 	此代码由CodeSmith生成。                                         			   
-**版 本 号:	1.0          
-**修改历史：
-************************************************************/
+import request from '/@/utils/request';
 
-namespace NPlatform.Domains.Entity.<%=GetModuleName(SourceTable) %>
-{
-    using NPlatform.Domains.Entity;
-    using System;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    
-	/// <summary>
-	///<%= GetName(SourceTable)%>，<%=SourceTable.Description.Replace("\n","").Replace("\r","")%>
-	/// </summary>
-	[Serializable]
-    [Table(name:"<%=SourceTable.Name%>")]
-    public partial class <%= GetName(SourceTable)%> : EntityBase<string>, I<%=GetModuleName(SourceTable)%><%=GetIsDelete(SourceTable.Columns)%>
-	{
-		<% 
-            for (int i = 0; i < SourceTable.Columns.Count; i++) { 
-                if(SourceTable.Columns[i].Name.ToUpper()=="ID")continue;
-        %>
-		/// <summary>
-		/// <%=SourceTable.Columns[i].Description.Replace("\n","").Replace("\r","")  %>
-		/// </summary>
-		<%=GetDataAnnotations(SourceTable.Columns[i]) %>
-        public <%= GetCSharpVariableType(SourceTable.Columns[i]) %> <%=  SourceTable.Columns[i].Name %> { get; set; }
-		<% if (i < SourceTable.Columns.Count - 1) Response.Write("\r\n"); %>	
-		<%}%>
-	}
+/**
+ * 以下为模拟接口地址，gitee 的不通，就换自己的真实接口地址
+ *
+ * （不建议写成 request.post(xxx)，因为这样 post 时，无法 params 与 data 同时传参）
+ *
+ * 后端控制菜单模拟json，路径在 https://gitee.com/lyt-top/vue-next-admin-images/tree/master/menu
+ * 后端控制路由，isRequestRoutes 为 true，则开启后端控制路由
+ * @method getAdminMenu 获取后端动态路由菜单(admin)
+ * @method getTestMenu 获取后端动态路由菜单(test)
+ */
+export function use<%=GetName(SourceTable) %>Api() {
+	return {
+		getPage: (params?: object) => {
+			return request({
+				url: '/api/<%= GetNameLow(SourceTable) %>/getPage',
+				method: 'get',
+				params,
+			});
+		},
+		add: (data: object) => {
+			return request({
+				url: '/api/<%= GetNameLow(SourceTable) %>/post',
+				method: 'post',
+				data,
+			});
+		},
+		update: (data: object) => {
+			return request({
+				url: '/api/<%= GetNameLow(SourceTable) %>/put',
+				method: 'put',
+				data,
+			});
+		},
+		delete: (id: string) => {
+			return request({
+				url: '/api/<%= GetNameLow(SourceTable) %>/delete/' + id,
+				method: 'delete',
+			});
+		},
+	};
 }
+
 <script runat="template">
 
+public string GetNameLow(TableSchema table)
+{
+    string tname=GetName(table);
+    string first=tname.Substring(0,1).ToLower();
+    string end=tname.Substring(1);
+    return first+end;
+}
 
 public string GetMemberVariableName(ColumnSchema column)
 {
 	//string propertyName = GetPropertyName(column);
 	string propertyName = column.Name;
 	string memberVariableName =  propertyName.ToLower();
+	
+	return memberVariableName;
+}
+
+public string GetJSMemberName(ColumnSchema column)
+{
+	//string propertyName = GetPropertyName(column);
+	string propertyName = column.Name;
+	string memberVariableName = propertyName.Substring(0, 1).ToLower() + propertyName.Substring(1);
 	
 	return memberVariableName;
 }
@@ -88,6 +113,18 @@ public int GetPropertyNameMaxLength()
 		ret = ret < GetPropertyNameLength(column)?GetPropertyNameLength(column):ret;
 	}
 	return ret;
+}
+
+public string GetFullName(TableSchema table)
+{
+    var tableName=table.Name;
+    
+    if(tableName.Contains("_"))
+    {
+        return tableName.Replace("_","");
+    }
+    else
+        throw new Exception("数据库表命名错误！");
 }
 public string GetModuleName(TableSchema table)
 {
@@ -193,7 +230,7 @@ public string GetCSharpVariableType(ColumnSchema column)
             break;
 		case DbType.SByte: 
             tp= "bool";
-            isNullTag="?";
+                        isNullTag="?";
             break;
 		case DbType.Single:
             tp= "float";
