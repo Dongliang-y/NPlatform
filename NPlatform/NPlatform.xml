@@ -2735,5 +2735,18 @@
         <member name="M:NPlatform.Result.TreeResult`1.ExecuteResultAsync(Microsoft.AspNetCore.Mvc.ActionContext)">
             <inheritdoc />
         </member>
+        <member name="M:DataDesensitiveConverter.#ctor(System.Char,System.Int32,System.Int32)">
+            <summary>
+            数据脱敏
+            </summary>
+            <param name="paddingChar">占位符</param>
+            <param name="preHold">头部字符保留长度</param>
+            <param name="endHold">尾部字符保留长度</param>
+        </member>
+        <member name="M:DataDesensitiveConverter.#ctor">
+            <summary>
+            数据脱敏,默认占位符  *， 首尾各留4字符，中间字符加密
+            </summary>
+        </member>
     </members>
 </doc>
