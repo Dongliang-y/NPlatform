@@ -6,9 +6,9 @@
     <OutputType>Library</OutputType>
     <RootNamespace>NPlatform</RootNamespace>
     <AssemblyName>NPlatform</AssemblyName>
-    <AssemblyVersion>2.0.0.5</AssemblyVersion>
+    <AssemblyVersion>2.0.0.6</AssemblyVersion>
     <Description>Not Platform 底层脚手架
-回滚 .NET CORE 6.0版本
+.NET CORE 6.0版本
 约束与规范了：
       applications 应用层
       DI 注入
@@ -22,14 +22,14 @@
 2021/11/10 完善领域服务基类，调整INResult基类实现，继承 JsonResult，以增加兼容性。领域服务改成泛型类型，需指定领域根类型。
 2023/2/22 更新.NET CORE 7.0版本，完善CQRS版本。
 2023/2/28 增加view方法
-	</Description>
-    <Version>2.0.0.5</Version>
+2023/11/08 增加数据脱敏、日期格式化的jsonconvert</Description>
+    <Version>2.0.0.6</Version>
     <Authors>yidongliang123@163.com</Authors>
     <Company></Company>
     <Product>基础框架</Product>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <FileVersion>2.0.0.5</FileVersion>
+    <FileVersion>2.0.0.6</FileVersion>
     <PackageId>NPlatform</PackageId>
     <PackageReleaseNotes>2023/2/22 更新.NET CORE 6.0版本，完善CQRS版本</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/Dongliang-y/NPlatform</PackageProjectUrl>
