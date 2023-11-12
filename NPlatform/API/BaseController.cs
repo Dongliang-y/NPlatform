@@ -22,11 +22,6 @@ namespace NPlatform.API
     public abstract class BaseController : ControllerBase
     {
         /// <summary>
-        /// redis service
-        /// </summary>
-        [Autowired]
-        public IRedisService _RedisService { get; set; }
-        /// <summary>
         /// 全局配置信息
         /// </summary>
         [Autowired]
