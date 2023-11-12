@@ -9,11 +9,6 @@
             controler 基类
             </summary>
         </member>
-        <member name="P:NPlatform.API.BaseController._RedisService">
-            <summary>
-            redis service
-            </summary>
-        </member>
         <member name="P:NPlatform.API.BaseController.Config">
             <summary>
             全局配置信息
