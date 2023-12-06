@@ -2366,6 +2366,13 @@
             </summary>
             <param name="message"></param>
         </member>
+        <member name="M:NPlatform.Result.FailResult`1.#ctor(System.String,`0)">
+            <summary>
+            错误信息
+            </summary>
+            <param name="message">消息</param>
+            <param name="data">附加数据</param>
+        </member>
         <member name="M:NPlatform.Result.FailResult`1.#ctor(System.String,System.Net.HttpStatusCode)">
             <summary>
             错误信息
@@ -2403,6 +2410,11 @@
         </member>
         <member name="M:NPlatform.Result.FailResult`1.ExecuteResultAsync(Microsoft.AspNetCore.Mvc.ActionContext)">
             <inheritdoc />
+        </member>
+        <member name="P:NPlatform.Result.FailResult`1.Data">
+            <summary>
+            附加数据
+            </summary>
         </member>
         <member name="P:NPlatform.Result.FailResult`1.Total">
             <summary>

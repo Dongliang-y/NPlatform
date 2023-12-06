@@ -32,6 +32,17 @@ namespace NPlatform.Result
         /// 错误信息
         /// </summary>
         /// <param name="message">消息</param>
+        /// <param name="data">附加数据</param>
+        public FailResult(string message,T data)
+        {
+            this.Message = message;
+            this.Data = data;
+        }
+
+        /// <summary>
+        /// 错误信息
+        /// </summary>
+        /// <param name="message">消息</param>
         /// <param name="httpCode">http状态码</param>
         public FailResult(string message, HttpStatusCode httpCode)
         {
@@ -83,6 +94,10 @@ namespace NPlatform.Result
         {
             await new JsonResult(this, SerializerSettings).ExecuteResultAsync(context);
         }
+        /// <summary>
+        /// 附加数据
+        /// </summary>
+        public object Data { get; set; }
 
         #region 不序列化返回的属性
         /// <summary>
@@ -91,10 +106,6 @@ namespace NPlatform.Result
         [JsonIgnore]
         [System.Xml.Serialization.XmlIgnore]
         public long Total { get; }
-
-        [JsonIgnore]
-        [System.Xml.Serialization.XmlIgnore]
-        public object Data { get => null; set => throw new NotImplementedException(); }
 
         [JsonIgnore]
         [System.Xml.Serialization.XmlIgnore]

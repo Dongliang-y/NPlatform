@@ -6,7 +6,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>NPlatform</RootNamespace>
     <AssemblyName>NPlatform</AssemblyName>
-    <AssemblyVersion>2.0.0.6</AssemblyVersion>
+    <AssemblyVersion>2.0.0.8</AssemblyVersion>
     <Description>
 		Not Platform 底层脚手架
 		.NET CORE 6.0版本
@@ -25,14 +25,15 @@
 		2023/2/28 增加view方法
 		2023/11/08 增加数据脱2023/11/12 调整base默认注入敏、日期格式化的jsonconvert
 		2023/11/12 调整base默认注入
+
 	</Description>
-    <Version>2.0.0.7</Version>
+    <Version>2.0.0.8</Version>
     <Authors>yidongliang123@163.com</Authors>
     <Company></Company>
     <Product>基础框架</Product>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <FileVersion>2.0.0.6</FileVersion>
+    <FileVersion>2.0.0.8</FileVersion>
     <PackageId>NPlatform</PackageId>
     <PackageReleaseNotes>2023/2/22 更新.NET CORE 6.0版本，完善CQRS版本</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/Dongliang-y/NPlatform</PackageProjectUrl>
@@ -91,7 +92,7 @@
     <PackageReference Include="Ocelot" Version="18.0.0" />
 	  <PackageReference Include="Ocelot.Provider.Kubernetes" Version="18.0.0" />
 	  <PackageReference Include="Ocelot.Provider.Polly" Version="18.0.0" />
-    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.20" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.3.7" />
     <PackageReference Include="System.Text.Json" Version="7.0.3" />
   </ItemGroup>
 
