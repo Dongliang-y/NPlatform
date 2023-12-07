@@ -19,15 +19,18 @@ namespace NPlatform.Domains.Services.Captchas
         /// <param name="subData">客户端提交的验证信息</param>
         /// <param name="imageSize">图片大小</param>
         /// <returns></returns>
-        public bool CheackCaptch(CharInfo[] old, CharInfo[] subData, int imageSize)
+
+        public bool CheckCaptcha(CharInfo[] old, CharInfo[] subData, int imageSize)
         {
-            if(old == null || subData == null) return false;
-            if(old.Length != subData.Length) return false;
-            for(var i=0;i<old.Length; i++)
+            if (old == null || subData == null || old.Length != subData.Length)
+                return false;
+
+            for (var i = 0; i < old.Length; i++)
             {
-                if (Math.Abs(old[i].X - subData[i].X) > imageSize / 2) return false;
-                if (Math.Abs(old[i].Y - subData[i].Y) > imageSize / 2) return false;
+                if (Math.Abs(old[i].X - subData[i].X) > imageSize / 2 || Math.Abs(old[i].Y - subData[i].Y) > imageSize / 2)
+                    return false;
             }
+
             return true;
         }
 
@@ -44,7 +47,7 @@ namespace NPlatform.Domains.Services.Captchas
                 throw new ArgumentNullException(nameof(skimage));
             }
             // 创建一个背景图
-            SKBitmap background = BgImage(backgroundPath);
+            SKBitmap background = LoadRandomBackgroundImage(backgroundPath);
             try
             {
                 var width = background.Width;
@@ -55,15 +58,13 @@ namespace NPlatform.Domains.Services.Captchas
                     var canvas = surface.Canvas;
                     canvas.DrawBitmap(background, new SKPoint(0, 0));
                     var count = skimage.Length;
-                    var widthArrays = GenerateRandomX(count, width);
-                    var heightArrays = GenerateRandomArray(count, width);
+                    var points = GenerateOrderedPoints(skimage.Length,background.Width,background.Height);
                     //随机旋转。
                     var rotationAngle = random.Next(0, 360);
                     CharInfo[] keyInfos = new CharInfo[count];
                     for (var i = 0; i < count; i++)
                     {
-                        SKPoint point = new SKPoint(widthArrays[i], heightArrays[i]);
-
+                        SKPoint point = points[i];
                         var img = skimage[i];
                         keyInfos[i] = new CharInfo() { Index = EncodeImageToBase64(img), X = point.X + skimage[i].Width / 2, Y = point.Y + skimage[i].Height / 2 };
                         //旋转。
@@ -73,7 +74,7 @@ namespace NPlatform.Domains.Services.Captchas
                         canvas.ResetMatrix();
                     }
 
-                    var base64String = EncodeSurfaceToBytes(surface);
+                    var base64String = EncodeSurfaceToBase64(surface);
                     // 输出 Base64 字符串
                     return (base64String, keyInfos);
                 }
@@ -99,9 +100,7 @@ namespace NPlatform.Domains.Services.Captchas
         public (string, CharInfo[]) CreateBase64Captch(string backgroundPath,int count,int fontSize)
         {
             // 创建一个背景图
-            SKBitmap background = BgImage(backgroundPath);
-            var width = background.Width;
-            var height = background.Height;
+            SKBitmap background = LoadRandomBackgroundImage(backgroundPath);
             try
             {
                 // 在背景图上创建SKCanvas对象
@@ -110,21 +109,20 @@ namespace NPlatform.Domains.Services.Captchas
                     var canvas = surface.Canvas;
                     canvas.DrawBitmap(background, new SKPoint(0, 0));
 
-                    var widthArrays = GenerateRandomX(count, width);
-                    var heightArrays = GenerateRandomArray(count, width);
+                    var points = GenerateOrderedPoints(count, background.Width, background.Height);
 
                     // 生成随机汉字
                     var chars = GenerateRandomChinese(count);
 
 
                     var rotationAngle = random.Next(0, 360);
-                    CharInfo[] points = new CharInfo[count];
-                    for (var i = 0; i < chars.Length; i++)
+                    CharInfo[] keyInfos = new CharInfo[count];
+                    for (var i = 0; i < count; i++)
                     {
-                        SKPoint point = new SKPoint(widthArrays[i], heightArrays[i]);
+                        SKPoint point = points[i];
 
                         string text = chars[i]; // 需要绘制的汉字
-                        points[i] = new CharInfo() { Index = text, X = point.X + fontSize / 2, Y = point.Y + fontSize / 2 };
+                        keyInfos[i] = new CharInfo() { Index = text, X = point.X + fontSize / 2, Y = point.Y + fontSize / 2 };
 
                         SKPaint paint = new SKPaint
                         {
@@ -140,10 +138,10 @@ namespace NPlatform.Domains.Services.Captchas
                         canvas.ResetMatrix();
                     }
 
-                    var base64String= EncodeSurfaceToBytes(surface);
+                    var base64String= EncodeSurfaceToBase64(surface);
 
                     // 输出 Base64 字符串
-                    return (base64String, points);
+                    return (base64String, keyInfos);
                 }
             }
             catch (Exception ex)
@@ -166,7 +164,7 @@ namespace NPlatform.Domains.Services.Captchas
             }
         }
 
-        private string EncodeSurfaceToBytes(SKSurface surface)
+        private string EncodeSurfaceToBase64(SKSurface surface)
         {
             using (var imageSurface = surface.Snapshot())
             {
@@ -220,49 +218,65 @@ namespace NPlatform.Domains.Services.Captchas
 
             return uniqueCharacters.ToArray();
         }
-        private int[] GenerateRandomX(int count, int max)
-        {
-            HashSet<int> points = new HashSet<int>();
-            int x = 1;
-            int span = max / count;
 
-            while (points.Count < count)
-            {
-                points.Add(random.Next(x, (points.Count+1)*span));
-                x = points.Count*span;
-            }
-            return points.ToArray();
-        }
-        private int[] GenerateRandomArray(int count,int max)
+        private List<SKPoint> GenerateOrderedPoints(int count, int maxWidth, int maxHeight)
         {
-            HashSet<int> points = new HashSet<int>();
-            while (points.Count < count)
+            var points = new List<SKPoint>();
+            var spanSum = 0;
+            var maxSpan = maxWidth / count;
+
+            for (var i = 0; i < count; i++)
             {
-                points.Add(random.Next(1,max));
+                var span = random.Next(1, maxSpan);
+                spanSum += span;
+                float x = spanSum;
+
+                // 避免坐标超出图片宽度
+                x = Math.Min(x, maxWidth - 1);
+
+                // 保证坐标之间的距离足够大，避免图片重叠
+                if (i > 0)
+                {
+                    var minDistance = 20; // 调整这个值以确保坐标之间的最小距离
+                    var lastX = points[i - 1].X;
+                    if (x - lastX < minDistance)
+                    {
+                        x = lastX + minDistance;
+                    }
+                }
+
+                var y = random.Next(1, maxHeight);
+
+                // 避免坐标超出图片高度
+                y = Math.Min(y, maxHeight - 1);
+
+                points.Add(new SKPoint(x, y));
             }
-            return points.ToArray();
+
+            return points;
         }
 
         /// <summary>
         /// 获取背景图
         /// </summary>
         /// <returns></returns>
-        private SKBitmap BgImage(string backgroundPath)
+        private SKBitmap LoadRandomBackgroundImage(string backgroundPath)
         {
-            var images = System.IO.Directory.GetFiles(backgroundPath,"*.jpg");
+            var images = Directory.GetFiles(backgroundPath, "*.jpg");
 
             if (images.Length == 0)
-            {
                 throw new Exception("验证码初始化失败！缺少|*.jpg|格式的背景图片。");
-            }
 
-            int num = random.Next(1, (images?.Length) ?? 2);
-
+            int num = random.Next(1, images.Length + 1);
             string path = images[num - 1];
             return SKBitmap.Decode(path);
         }
-
-
+    }
+    public class CharInfo
+    {
+        public string Index { get; set; }
+        public float X { get; set; }
+        public float Y { get; set; }
     }
 
 }
