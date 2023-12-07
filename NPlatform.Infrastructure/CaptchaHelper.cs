@@ -30,7 +30,6 @@ namespace NPlatform.Domains.Services.Captchas
                 if (Math.Abs(old[i].X - subData[i].X) > imageSize / 2 || Math.Abs(old[i].Y - subData[i].Y) > imageSize / 2)
                     return false;
             }
-
             return true;
         }
 
@@ -40,26 +39,25 @@ namespace NPlatform.Domains.Services.Captchas
         /// <param name="backgroundPath">背景图JPG格式</param>
         /// <param name="skimage">png格式小图片</param>
         /// <returns></returns>
-        public (string, CharInfo[]) CreateBase64Captch(string backgroundPath, SKImage[] skimage,int imageSize)
+        public (string, CharInfo[]) CreateBase64Captcha(string backgroundPath, SKImage[] skimage,int imageSize)
         {
             if (skimage is null)
             {
                 throw new ArgumentNullException(nameof(skimage));
             }
+
             // 创建一个背景图
             SKBitmap background = LoadRandomBackgroundImage(backgroundPath);
             try
             {
                 var width = background.Width;
                 var height = background.Height;
-                // 在背景图上创建SKCanvas对象
                 using (var surface = SKSurface.Create(new SKImageInfo(background.Width, background.Height)))
                 {
                     var canvas = surface.Canvas;
                     canvas.DrawBitmap(background, new SKPoint(0, 0));
                     var count = skimage.Length;
                     var points = GenerateOrderedPoints(skimage.Length,background.Width,background.Height);
-                    //随机旋转。
                     var rotationAngle = random.Next(0, 360);
                     CharInfo[] keyInfos = new CharInfo[count];
                     for (var i = 0; i < count; i++)
@@ -97,31 +95,26 @@ namespace NPlatform.Domains.Services.Captchas
         /// <param name="count">验证文字个数。</param>
         /// <param name="fontSize">字体大小</param>
         /// <returns></returns>
-        public (string, CharInfo[]) CreateBase64Captch(string backgroundPath,int count,int fontSize)
+        public (string, CharInfo[]) CreateBase64Captcha(string backgroundPath,int count,int fontSize)
         {
             // 创建一个背景图
             SKBitmap background = LoadRandomBackgroundImage(backgroundPath);
             try
             {
-                // 在背景图上创建SKCanvas对象
                 using (var surface = SKSurface.Create(new SKImageInfo(background.Width, background.Height)))
                 {
                     var canvas = surface.Canvas;
                     canvas.DrawBitmap(background, new SKPoint(0, 0));
 
                     var points = GenerateOrderedPoints(count, background.Width, background.Height);
-
-                    // 生成随机汉字
                     var chars = GenerateRandomChinese(count);
-
-
                     var rotationAngle = random.Next(0, 360);
                     CharInfo[] keyInfos = new CharInfo[count];
                     for (var i = 0; i < count; i++)
                     {
                         SKPoint point = points[i];
 
-                        string text = chars[i]; // 需要绘制的汉字
+                        string text = chars[i]; 
                         keyInfos[i] = new CharInfo() { Index = text, X = point.X + fontSize / 2, Y = point.Y + fontSize / 2 };
 
                         SKPaint paint = new SKPaint
@@ -133,14 +126,12 @@ namespace NPlatform.Domains.Services.Captchas
 
                         };
                         canvas.RotateDegrees(rotationAngle, point.X + fontSize / 2, point.Y + fontSize / 2);
-                        // 在背景图上绘制汉字
                         canvas.DrawText(text, point, paint);
                         canvas.ResetMatrix();
                     }
 
                     var base64String= EncodeSurfaceToBase64(surface);
 
-                    // 输出 Base64 字符串
                     return (base64String, keyInfos);
                 }
             }
@@ -153,6 +144,23 @@ namespace NPlatform.Domains.Services.Captchas
             {
                 background.Dispose();
             }
+        }
+
+
+        /// <summary>
+        /// 获取背景图
+        /// </summary>
+        /// <returns></returns>
+        private SKBitmap LoadRandomBackgroundImage(string backgroundPath)
+        {
+            var images = Directory.GetFiles(backgroundPath, "*.jpg");
+
+            if (images.Length == 0)
+                throw new Exception("验证码初始化失败！缺少|*.jpg|格式的背景图片。");
+
+            int num = random.Next(1, images.Length + 1);
+            string path = images[num - 1];
+            return SKBitmap.Decode(path);
         }
         private string EncodeImageToBase64(SKImage image)
         {
@@ -231,10 +239,8 @@ namespace NPlatform.Domains.Services.Captchas
                 spanSum += span;
                 float x = spanSum;
 
-                // 避免坐标超出图片宽度
                 x = Math.Min(x, maxWidth - 1);
 
-                // 保证坐标之间的距离足够大，避免图片重叠
                 if (i > 0)
                 {
                     var minDistance = 20; // 调整这个值以确保坐标之间的最小距离
@@ -246,30 +252,12 @@ namespace NPlatform.Domains.Services.Captchas
                 }
 
                 var y = random.Next(1, maxHeight);
-
-                // 避免坐标超出图片高度
                 y = Math.Min(y, maxHeight - 1);
 
                 points.Add(new SKPoint(x, y));
             }
 
             return points;
-        }
-
-        /// <summary>
-        /// 获取背景图
-        /// </summary>
-        /// <returns></returns>
-        private SKBitmap LoadRandomBackgroundImage(string backgroundPath)
-        {
-            var images = Directory.GetFiles(backgroundPath, "*.jpg");
-
-            if (images.Length == 0)
-                throw new Exception("验证码初始化失败！缺少|*.jpg|格式的背景图片。");
-
-            int num = random.Next(1, images.Length + 1);
-            string path = images[num - 1];
-            return SKBitmap.Decode(path);
         }
     }
     public class CharInfo
