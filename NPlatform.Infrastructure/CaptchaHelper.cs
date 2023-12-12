@@ -20,7 +20,7 @@ namespace NPlatform.Domains.Services.Captchas
         /// <param name="imageSize">图片大小</param>
         /// <returns></returns>
 
-        public bool CheckCaptcha(CharInfo[] old, CharInfo[] subData, int imageSize)
+        public static bool CheckCaptcha(CharInfo[] old, CharInfo[] subData, int imageSize)
         {
             if (old == null || subData == null || old.Length != subData.Length)
                 return false;
@@ -39,7 +39,7 @@ namespace NPlatform.Domains.Services.Captchas
         /// <param name="backgroundPath">背景图JPG格式</param>
         /// <param name="skimage">png格式小图片</param>
         /// <returns></returns>
-        public (string, CharInfo[]) CreateBase64Captcha(string backgroundPath, SKImage[] skimage,int imageSize)
+        public static (string, CharInfo[]) CreateBase64Captcha(string backgroundPath, SKImage[] skimage,int imageSize)
         {
             if (skimage is null)
             {
@@ -95,12 +95,25 @@ namespace NPlatform.Domains.Services.Captchas
         /// <param name="count">验证文字个数。</param>
         /// <param name="fontSize">字体大小</param>
         /// <returns></returns>
-        public (string, CharInfo[]) CreateBase64Captcha(string backgroundPath,int count,int fontSize)
+        public static (string,string, CharInfo[]) CreateBase64Captcha(string backgroundPath,int count,int fontSize)
         {
             // 创建一个背景图
             SKBitmap background = LoadRandomBackgroundImage(backgroundPath);
+
+            //// 提示图。
+            //var imageInfo = new SKImageInfo(
+            //width:350,
+            //height: 50,
+            //colorType: SKColorType.Bgra8888,
+            //alphaType: SKAlphaType.Premul);
+
+            //var surface = SKSurface.Create(imageInfo);
+
+           // var canvas = surface.Canvas;
             try
             {
+                string tipsText= "请按顺序依次点击：";
+
                 using (var surface = SKSurface.Create(new SKImageInfo(background.Width, background.Height)))
                 {
                     var canvas = surface.Canvas;
@@ -113,8 +126,8 @@ namespace NPlatform.Domains.Services.Captchas
                     for (var i = 0; i < count; i++)
                     {
                         SKPoint point = points[i];
-
-                        string text = chars[i]; 
+                        string text = chars[i];
+                        tipsText += $"“{text}”，";
                         keyInfos[i] = new CharInfo() { Index = text, X = point.X + fontSize / 2, Y = point.Y + fontSize / 2 };
 
                         SKPaint paint = new SKPaint
@@ -131,8 +144,8 @@ namespace NPlatform.Domains.Services.Captchas
                     }
 
                     var base64String= EncodeSurfaceToBase64(surface);
-
-                    return (base64String, keyInfos);
+                    var tips=CreateTips(tipsText);
+                    return (base64String, tips, keyInfos);
                 }
             }
             catch (Exception ex)
@@ -146,12 +159,48 @@ namespace NPlatform.Domains.Services.Captchas
             }
         }
 
+        private static string CreateTips(string text)
+        {
+            // 图片大小
+            int width = 30;
+            int height = 300;
+
+            // 创建 SKBitmap
+            using (var surface = SKSurface.Create(new SKImageInfo(width, height)))
+            {
+                var canvas = surface.Canvas;
+
+                // 绘制提示文字
+                SKPaint paint = new SKPaint
+                {
+                    Typeface = SKTypeface.FromFamilyName("黑体"),
+                    TextSize = 15,
+                    IsAntialias = true,
+                    Color = SKColors.Black,
+                };
+
+                canvas.DrawText(text, 0, 15, paint);
+
+                // 将 SKSurface 转换为 SKImage
+                var image = surface.Snapshot();
+                // 将 SKImage 编码为字节数组
+                using (var stream = new MemoryStream())
+                {
+                    image.Encode(SKEncodedImageFormat.Png, 100).SaveTo(stream);
+                    byte[] imageBytes = stream.ToArray();
+
+                    // 将字节数组转换为 Base64 字符串
+                    var base64String = $"data:image/png;base64,{Convert.ToBase64String(imageBytes)}";
+                    return base64String;
+                }
+            }
+        }
 
         /// <summary>
         /// 获取背景图
         /// </summary>
         /// <returns></returns>
-        private SKBitmap LoadRandomBackgroundImage(string backgroundPath)
+        private static SKBitmap LoadRandomBackgroundImage(string backgroundPath)
         {
             var images = Directory.GetFiles(backgroundPath, "*.jpg");
 
@@ -162,7 +211,7 @@ namespace NPlatform.Domains.Services.Captchas
             string path = images[num - 1];
             return SKBitmap.Decode(path);
         }
-        private string EncodeImageToBase64(SKImage image)
+        private static string EncodeImageToBase64(SKImage image)
         {
             using (var data = image.Encode())
             {
@@ -172,7 +221,7 @@ namespace NPlatform.Domains.Services.Captchas
             }
         }
 
-        private string EncodeSurfaceToBase64(SKSurface surface)
+        private static string EncodeSurfaceToBase64(SKSurface surface)
         {
             using (var imageSurface = surface.Snapshot())
             {
@@ -185,7 +234,7 @@ namespace NPlatform.Domains.Services.Captchas
             }
         }
 
-        private string GetImageMimeType(byte[] imageBytes)
+        private static string GetImageMimeType(byte[] imageBytes)
         {
             using (var codec = SKCodec.Create(new SKMemoryStream(imageBytes)))
             {
@@ -209,7 +258,7 @@ namespace NPlatform.Domains.Services.Captchas
             }
         }
 
-        private string[] GenerateRandomChinese(int count)
+        private static string[] GenerateRandomChinese(int count)
         {
             HashSet<string> uniqueCharacters = new HashSet<string>();
 
@@ -227,7 +276,7 @@ namespace NPlatform.Domains.Services.Captchas
             return uniqueCharacters.ToArray();
         }
 
-        private List<SKPoint> GenerateOrderedPoints(int count, int maxWidth, int maxHeight)
+        private static List<SKPoint> GenerateOrderedPoints(int count, int maxWidth, int maxHeight)
         {
             var points = new List<SKPoint>();
             var spanSum = 0;

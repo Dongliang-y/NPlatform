@@ -2549,5 +2549,43 @@
             <param name="filesPath">多个文件路径</param>
             <returns>string</returns>
         </member>
+        <member name="T:NPlatform.Domains.Services.Captchas.CaptchaHelper">
+            <summary>
+            图形验证码，生成一张随机的背景图， 以及按顺序返回小图片的坐标信息。
+            客户端也必须按顺序提交用户选择的坐标。
+            </summary>
+        </member>
+        <member name="M:NPlatform.Domains.Services.Captchas.CaptchaHelper.CheckCaptcha(NPlatform.Domains.Services.Captchas.CharInfo[],NPlatform.Domains.Services.Captchas.CharInfo[],System.Int32)">
+            <summary>
+            验证码校验
+            </summary>
+            <param name="old">服务端存储的验证信息</param>
+            <param name="subData">客户端提交的验证信息</param>
+            <param name="imageSize">图片大小</param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Domains.Services.Captchas.CaptchaHelper.CreateBase64Captcha(System.String,SkiaSharp.SKImage[],System.Int32)">
+            <summary>
+            创建验证码图片
+            </summary>
+            <param name="backgroundPath">背景图JPG格式</param>
+            <param name="skimage">png格式小图片</param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Domains.Services.Captchas.CaptchaHelper.CreateBase64Captcha(System.String,System.Int32,System.Int32)">
+            <summary>
+            创建验证码图片
+            </summary>
+            <param name="backgroundPath">背景图</param>
+            <param name="count">验证文字个数。</param>
+            <param name="fontSize">字体大小</param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Domains.Services.Captchas.CaptchaHelper.LoadRandomBackgroundImage(System.String)">
+            <summary>
+            获取背景图
+            </summary>
+            <returns></returns>
+        </member>
     </members>
 </doc>
