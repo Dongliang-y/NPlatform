@@ -2,6 +2,8 @@
 using System.IO;
 using System.Net.Http;
 using SkiaSharp;
+using Org.BouncyCastle.Utilities;
+using System.Drawing;
 
 namespace NPlatform.Domains.Services.Captchas
 {
@@ -17,24 +19,24 @@ namespace NPlatform.Domains.Services.Captchas
         /// </summary>
         /// <param name="old">服务端存储的验证信息</param>
         /// <param name="subData">客户端提交的验证信息</param>
-        /// <param name="imageSize">图片大小</param>
+        /// <param name="size">字体大小，或者文字图片的大小。</param>
         /// <returns></returns>
 
-        public static bool CheckCaptcha(CharInfo[] old, CharInfo[] subData, int imageSize)
+        public static bool CheckCaptcha(CharInfo[] old, CharInfo[] subData, int size=24)
         {
-            if (old == null || subData == null || old.Length != subData.Length)
+            if (old == null || subData == null || old.Length != subData.Length||subData.Length==0)
                 return false;
 
             for (var i = 0; i < old.Length; i++)
             {
-                if (Math.Abs(old[i].X - subData[i].X) > imageSize / 2 || Math.Abs(old[i].Y - subData[i].Y) > imageSize / 2)
+                if (Math.Abs(old[i].X - subData[i].X) > size / 2 || Math.Abs(old[i].Y - subData[i].Y) > size / 2)
                     return false;
             }
             return true;
         }
 
         /// <summary>
-        /// 创建验证码图片
+        /// 根据提供的随机文字图片，创建验证码图片
         /// </summary>
         /// <param name="backgroundPath">背景图JPG格式</param>
         /// <param name="skimage">png格式小图片</param>
@@ -89,27 +91,16 @@ namespace NPlatform.Domains.Services.Captchas
         }
 
         /// <summary>
-        /// 创建验证码图片
+        /// 随机创建指定数量文字的，创建验证码图片
         /// </summary>
         /// <param name="backgroundPath">背景图</param>
         /// <param name="count">验证文字个数。</param>
         /// <param name="fontSize">字体大小</param>
         /// <returns></returns>
-        public static (string,string, CharInfo[]) CreateBase64Captcha(string backgroundPath,int count,int fontSize)
+        public static (string,string, CharInfo[]) CreateBase64Captcha(string backgroundPath,int count,int fontSize=32)
         {
             // 创建一个背景图
             SKBitmap background = LoadRandomBackgroundImage(backgroundPath);
-
-            //// 提示图。
-            //var imageInfo = new SKImageInfo(
-            //width:350,
-            //height: 50,
-            //colorType: SKColorType.Bgra8888,
-            //alphaType: SKAlphaType.Premul);
-
-            //var surface = SKSurface.Create(imageInfo);
-
-           // var canvas = surface.Canvas;
             try
             {
                 string tipsText= "请按顺序依次点击：";
@@ -119,12 +110,13 @@ namespace NPlatform.Domains.Services.Captchas
                     var canvas = surface.Canvas;
                     canvas.DrawBitmap(background, new SKPoint(0, 0));
 
-                    var points = GenerateOrderedPoints(count, background.Width, background.Height);
+                    var points = GenerateOrderedPoints(count, background.Width-50, background.Height-50);
                     var chars = GenerateRandomChinese(count);
-                    var rotationAngle = random.Next(0, 360);
+
                     CharInfo[] keyInfos = new CharInfo[count];
                     for (var i = 0; i < count; i++)
                     {
+                        var rotationAngle = random.Next(0, 180);
                         SKPoint point = points[i];
                         string text = chars[i];
                         tipsText += $"“{text}”，";
@@ -134,12 +126,14 @@ namespace NPlatform.Domains.Services.Captchas
                         {
                             Typeface = SKTypeface.FromFamilyName("黑体"),
                             TextSize = fontSize,
+                            FakeBoldText=true,
                             IsAntialias = true,
-                            Color = SKColors.Red,
-
+                            Color = new SKColor((byte)random.Next(256), (byte)random.Next(256), (byte)random.Next(256)),
                         };
                         canvas.RotateDegrees(rotationAngle, point.X + fontSize / 2, point.Y + fontSize / 2);
+                        canvas.Save();  // 保存画布状态
                         canvas.DrawText(text, point, paint);
+                        canvas.Restore();  // 还原画布状态
                         canvas.ResetMatrix();
                     }
 
@@ -159,11 +153,12 @@ namespace NPlatform.Domains.Services.Captchas
             }
         }
 
+
         private static string CreateTips(string text)
         {
             // 图片大小
-            int width = 30;
-            int height = 300;
+            int width = 480;
+            int height = 30;
 
             // 创建 SKBitmap
             using (var surface = SKSurface.Create(new SKImageInfo(width, height)))
@@ -183,12 +178,14 @@ namespace NPlatform.Domains.Services.Captchas
 
                 // 将 SKSurface 转换为 SKImage
                 var image = surface.Snapshot();
+                //var fs=System.IO.File.OpenWrite(System.IO.Directory.GetCurrentDirectory() + "/tips.png");
+                //image.Encode(SKEncodedImageFormat.Png, 100).SaveTo(fs);
                 // 将 SKImage 编码为字节数组
                 using (var stream = new MemoryStream())
                 {
                     image.Encode(SKEncodedImageFormat.Png, 100).SaveTo(stream);
                     byte[] imageBytes = stream.ToArray();
-
+                    MemoryStream ms = new MemoryStream(imageBytes);
                     // 将字节数组转换为 Base64 字符串
                     var base64String = $"data:image/png;base64,{Convert.ToBase64String(imageBytes)}";
                     return base64String;
@@ -292,7 +289,7 @@ namespace NPlatform.Domains.Services.Captchas
 
                 if (i > 0)
                 {
-                    var minDistance = 20; // 调整这个值以确保坐标之间的最小距离
+                    var minDistance = 50; // 调整这个值以确保坐标之间的最小距离
                     var lastX = points[i - 1].X;
                     if (x - lastX < minDistance)
                     {

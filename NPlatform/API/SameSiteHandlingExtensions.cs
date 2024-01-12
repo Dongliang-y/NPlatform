@@ -83,6 +83,13 @@ namespace NPlatform.API
                 {
                     // 给每个 请求设置 Antiforgery token
                     var tokenSet = antiforgery.GetAndStoreTokens(context);
+                    context.Response.Cookies.Append("XSRF-TOKEN", tokenSet.RequestToken, new CookieOptions
+                    {
+                        HttpOnly = false, // 设置为 false，以便前端能够读取
+                        SameSite = SameSiteMode.None, // 设置为 None，以允许跨站点请求
+                        Secure = true // 请在使用 HTTPS 时设置为 true
+                    });
+
                 }
                 return next(context);
             });

@@ -8,7 +8,6 @@ namespace NPlatform.API
     using Microsoft.AspNetCore.Mvc;
     using NPlatform.Consts;
     using NPlatform.Dto;
-    using NPlatform.Infrastructure.Redis;
     using Org.BouncyCastle.Ocsp;
     using Microsoft.Extensions.DependencyInjection;
 

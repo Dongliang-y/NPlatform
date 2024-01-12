@@ -2561,12 +2561,12 @@
             </summary>
             <param name="old">服务端存储的验证信息</param>
             <param name="subData">客户端提交的验证信息</param>
-            <param name="imageSize">图片大小</param>
+            <param name="size">字体大小，或者文字图片的大小。</param>
             <returns></returns>
         </member>
         <member name="M:NPlatform.Domains.Services.Captchas.CaptchaHelper.CreateBase64Captcha(System.String,SkiaSharp.SKImage[],System.Int32)">
             <summary>
-            创建验证码图片
+            根据提供的随机文字图片，创建验证码图片
             </summary>
             <param name="backgroundPath">背景图JPG格式</param>
             <param name="skimage">png格式小图片</param>
@@ -2574,7 +2574,7 @@
         </member>
         <member name="M:NPlatform.Domains.Services.Captchas.CaptchaHelper.CreateBase64Captcha(System.String,System.Int32,System.Int32)">
             <summary>
-            创建验证码图片
+            随机创建指定数量文字的，创建验证码图片
             </summary>
             <param name="backgroundPath">背景图</param>
             <param name="count">验证文字个数。</param>
