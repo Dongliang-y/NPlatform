@@ -261,10 +261,10 @@ namespace NPlatform.Domains.Services.Captchas
 
             while (uniqueCharacters.Count < count)
             {
-                int unicodeValue = random.Next(0x4e00, 0x9fff + 1);
+                int unicodeValue = random.Next(0x4e00, 0x9fa5 + 1);
                 string character = char.ConvertFromUtf32(unicodeValue);
 
-                if (" "!= character )
+                if (!string.IsNullOrWhiteSpace(character))
                 {
                     uniqueCharacters.Add(character);
                 }
