@@ -10,13 +10,14 @@
 		支持 .net core 3.1\5.0
 		用于定义一些通用工具类、通用的常量、配置约定、等。
 		2023/2/22 更新.NET CORE 7.0版本，完善CQRS版本
+		2024/1/10 怎加图形验证码
 	</Description>
     <Product>NPlatform</Product>
     <Company>NPlatform</Company>
     <Authors>Dongliang Yi</Authors>
-    <Version>2.0.0.12</Version>
-    <AssemblyVersion>2.0.0.12</AssemblyVersion>
-    <FileVersion>2.0.0.12</FileVersion>
+    <Version>2.0.1.0</Version>
+    <AssemblyVersion>2.0.1.0</AssemblyVersion>
+    <FileVersion>2.0.1.0</FileVersion>
     <ApplicationIcon />
     <OutputType>Library</OutputType>
     <StartupObject />
