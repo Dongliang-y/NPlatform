@@ -19,22 +19,20 @@ namespace NPlatform.Domains.Services.Captchas
         /// </summary>
         /// <param name="old">服务端存储的验证信息</param>
         /// <param name="subData">客户端提交的验证信息</param>
-        /// <param name="size">字体大小，或者文字图片的大小。</param>
+        /// <param name="tolerance">容忍差值范围。</param>
         /// <returns></returns>
-
-        public static bool CheckCaptcha(CharInfo[] old, CharInfo[] subData, int size=24)
+        public static bool CheckCaptcha(CharInfo[] old, CharInfo[] subData, int tolerance = 12)
         {
-            if (old == null || subData == null || old.Length != subData.Length||subData.Length==0)
+            if (old == null || subData == null || old.Length != subData.Length || subData.Length == 0)
                 return false;
 
             for (var i = 0; i < old.Length; i++)
             {
-                if (Math.Abs(old[i].X - subData[i].X) > size / 2 || Math.Abs(old[i].Y - subData[i].Y) > size / 2)
+                if (Math.Abs(old[i].X - subData[i].X) > tolerance || Math.Abs(old[i].Y - subData[i].Y) > tolerance)
                     return false;
             }
             return true;
         }
-
         /// <summary>
         /// 根据提供的随机文字图片，创建验证码图片
         /// </summary>
@@ -258,52 +256,125 @@ namespace NPlatform.Domains.Services.Captchas
         private static string[] GenerateRandomChinese(int count)
         {
             HashSet<string> uniqueCharacters = new HashSet<string>();
+            // 获取GB2312编码页（表）
+            Encoding gb = Encoding.GetEncoding("gb2312");
 
-            while (uniqueCharacters.Count < count)
+            object[] bytes = CreateRegionCode(count);
+
+            for (int i = 0; i < count; i++)
             {
-                int unicodeValue = random.Next(0x4e00, 0x9fa5 + 1);
-                string character = char.ConvertFromUtf32(unicodeValue);
-
-                if (!string.IsNullOrWhiteSpace(character))
-                {
-                    uniqueCharacters.Add(character);
-                }
+                string temp = gb.GetString((byte[])Convert.ChangeType(bytes[i], typeof(byte[])));
+                uniqueCharacters.Add(temp);
             }
 
             return uniqueCharacters.ToArray();
         }
+        /**
+        此函数在汉字编码范围内随机创建含两个元素的十六进制字节数组，每个字节数组代表一个汉字，并将
+        四个字节数组存储在object数组中。
+        参数：strlength，代表需要产生的汉字个数
+        **/
+        private static object[] CreateRegionCode(int strlength)
+        {
+            //定义一个字符串数组储存汉字编码的组成元素
+            string[] rBase = new String[16] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f" };
 
+            Random rnd = new Random();
+
+            //定义一个object数组用来
+            object[] bytes = new object[strlength];
+
+            /**
+             每循环一次产生一个含两个元素的十六进制字节数组，并将其放入bytes数组中
+             每个汉字有四个区位码组成
+             区位码第1位和区位码第2位作为字节数组第一个元素
+             区位码第3位和区位码第4位作为字节数组第二个元素
+            **/
+            for (int i = 0; i < strlength; i++)
+            {
+                //区位码第1位
+                int r1 = rnd.Next(11, 14);
+                string str_r1 = rBase[r1].Trim();
+
+                //区位码第2位
+                rnd = new Random(r1 * unchecked((int)DateTime.Now.Ticks) + i); // 更换随机数发生器的 种子避免产生重复值
+                int r2;
+                if (r1 == 13)
+                {
+                    r2 = rnd.Next(0, 7);
+                }
+                else
+                {
+                    r2 = rnd.Next(0, 16);
+                }
+                string str_r2 = rBase[r2].Trim();
+
+                //区位码第3位
+                rnd = new Random(r2 * unchecked((int)DateTime.Now.Ticks) + i);
+                int r3 = rnd.Next(10, 16);
+                string str_r3 = rBase[r3].Trim();
+
+                //区位码第4位
+                rnd = new Random(r3 * unchecked((int)DateTime.Now.Ticks) + i);
+                int r4;
+                if (r3 == 10)
+                {
+                    r4 = rnd.Next(1, 16);
+                }
+                else if (r3 == 15)
+                {
+                    r4 = rnd.Next(0, 15);
+                }
+                else
+                {
+                    r4 = rnd.Next(0, 16);
+                }
+                string str_r4 = rBase[r4].Trim();
+
+                // 定义两个字节变量存储产生的随机汉字区位码
+                byte byte1 = Convert.ToByte(str_r1 + str_r2, 16);
+                byte byte2 = Convert.ToByte(str_r3 + str_r4, 16);
+                // 将两个字节变量存储在字节数组中
+                byte[] str_r = new byte[] { byte1, byte2 };
+
+                // 将产生的一个汉字的字节数组放入object数组中
+                bytes.SetValue(str_r, i);
+            }
+
+            return bytes;
+        }
         private static List<SKPoint> GenerateOrderedPoints(int count, int maxWidth, int maxHeight)
         {
             var points = new List<SKPoint>();
-            var spanSum = 0;
-            var maxSpan = maxWidth / count;
+            Random random = new Random();
 
-            for (var i = 0; i < count; i++)
+            // 生成四个不重叠的随机坐标
+            for (int i = 0; i < count; i++)
             {
-                var span = random.Next(1, maxSpan);
-                spanSum += span;
-                float x = spanSum;
-
-                x = Math.Min(x, maxWidth - 1);
-
-                if (i > 0)
+                double x, y;
+                do
                 {
-                    var minDistance = 50; // 调整这个值以确保坐标之间的最小距离
-                    var lastX = points[i - 1].X;
-                    if (x - lastX < minDistance)
-                    {
-                        x = lastX + minDistance;
-                    }
-                }
-
-                var y = random.Next(1, maxHeight);
-                y = Math.Min(y, maxHeight - 1);
-
-                points.Add(new SKPoint(x, y));
+                    x = random.NextDouble() * maxWidth; // 在 0 到 100 之间生成随机 X 坐标
+                    y = random.NextDouble() * maxHeight; // 在 0 到 100 之间生成随机 Y 坐标
+                } while (HasOverlap(points, x, y));
+                var pint = new SKPoint((float)x, (float)y);
+                points.Add(pint);
+                Console.WriteLine($"坐标 {i + 1}: ({x}, {y})");
             }
-
             return points;
+        }
+
+        static bool HasOverlap(List<SKPoint> coordinates, double x, double y)
+        {
+            foreach (var coord in coordinates)
+            {
+                double distance = Math.Sqrt(Math.Pow((coord.X - x), 2) + Math.Pow((coord.Y - y), 2));
+                if (distance < 5.0) // 设定一个阈值，表示两个坐标之间的最小距离
+                {
+                    return true; // 有重叠
+                }
+            }
+            return false; // 没有重叠
         }
     }
     public class CharInfo
