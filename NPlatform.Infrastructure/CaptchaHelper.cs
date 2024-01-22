@@ -100,7 +100,7 @@ namespace NPlatform.Domains.Services.Captchas
 
                         // 计算文本的中心点
                         float textCenterX = point.X + textWidth / 2;
-                        float textCenterY = point.Y + textHeight / 2;
+                        float textCenterY = point.Y + textHeight / 2 - paint.FontMetrics.Descent; // 考虑基线位置
 
                         // 将画布的原点移动到文本的中心
                         canvas.Translate(textCenterX, textCenterY);
@@ -117,6 +117,7 @@ namespace NPlatform.Domains.Services.Captchas
 
                         // 记录旋转后的文本中心点
                         keyInfos[i] = new CharInfo() { Index = text, X = textCenterX, Y = textCenterY };
+
                     }
 
                     var base64String= EncodeSurfaceToBase64(surface);
