@@ -21,7 +21,7 @@ namespace NPlatform.Domains.Services.Captchas
         /// <param name="subData">客户端提交的验证信息</param>
         /// <param name="tolerance">容忍差值范围。</param>
         /// <returns></returns>
-        public static bool CheckCaptcha(CharInfo[] old, CharInfo[] subData, int tolerance = 12)
+        public static bool CheckCaptcha(CharInfo[] old, CharInfo[] subData, int tolerance = 32)
         {
             if (old == null || subData == null || old.Length != subData.Length || subData.Length == 0)
                 return false;
@@ -33,61 +33,10 @@ namespace NPlatform.Domains.Services.Captchas
             }
             return true;
         }
-        /// <summary>
-        /// 根据提供的随机文字图片，创建验证码图片
-        /// </summary>
-        /// <param name="backgroundPath">背景图JPG格式</param>
-        /// <param name="skimage">png格式小图片</param>
-        /// <returns></returns>
-        public static (string, CharInfo[]) CreateBase64Captcha(string backgroundPath, SKImage[] skimage,int imageSize)
-        {
-            if (skimage is null)
-            {
-                throw new ArgumentNullException(nameof(skimage));
-            }
 
-            // 创建一个背景图
-            SKBitmap background = LoadRandomBackgroundImage(backgroundPath);
-            try
-            {
-                var width = background.Width;
-                var height = background.Height;
-                using (var surface = SKSurface.Create(new SKImageInfo(background.Width, background.Height)))
-                {
-                    var canvas = surface.Canvas;
-                    canvas.DrawBitmap(background, new SKPoint(0, 0));
-                    var count = skimage.Length;
-                    var points = GenerateOrderedPoints(skimage.Length,background.Width,background.Height);
-                    var rotationAngle = random.Next(0, 360);
-                    CharInfo[] keyInfos = new CharInfo[count];
-                    for (var i = 0; i < count; i++)
-                    {
-                        SKPoint point = points[i];
-                        var img = skimage[i];
-                        keyInfos[i] = new CharInfo() { Index = EncodeImageToBase64(img), X = point.X + skimage[i].Width / 2, Y = point.Y + skimage[i].Height / 2 };
-                        //旋转。
-                        canvas.RotateDegrees(rotationAngle, point.X + skimage[i].Width / 2, point.Y + skimage[i].Height / 2);
 
-                        canvas.DrawImage(skimage[i], point);
-                        canvas.ResetMatrix();
-                    }
-
-                    var base64String = EncodeSurfaceToBase64(surface);
-                    // 输出 Base64 字符串
-                    return (base64String, keyInfos);
-                }
-            }
-            catch(Exception ex )
-            {
-                Console.WriteLine($"An error occurred: {ex.Message}");
-                throw;
-            }
-            finally
-            {
-                background.Dispose();
-            }
-        }
-
+        private static int backWidth = 500;
+        private static int backHeight = 500;
         /// <summary>
         /// 随机创建指定数量文字的，创建验证码图片
         /// </summary>
@@ -103,22 +52,24 @@ namespace NPlatform.Domains.Services.Captchas
             {
                 string tipsText= "请按顺序依次点击：";
 
-                using (var surface = SKSurface.Create(new SKImageInfo(background.Width, background.Height)))
+                using (var surface = SKSurface.Create(new SKImageInfo(backWidth, backHeight)))
                 {
                     var canvas = surface.Canvas;
                     canvas.DrawBitmap(background, new SKPoint(0, 0));
 
-                    var points = GenerateOrderedPoints(count, background.Width-50, background.Height-50);
+                    var points = GenerateOrderedPoints(count, background.Width-80, background.Height-80);
+                    System.Text.Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
                     var chars = GenerateRandomChinese(count);
 
+                    Console.WriteLine($"CurrentDomain.BaseDirectory:{System.AppDomain.CurrentDomain.BaseDirectory}");
                     CharInfo[] keyInfos = new CharInfo[count];
                     for (var i = 0; i < count; i++)
                     {
-                        var rotationAngle = random.Next(0, 180);
+                        var rotationAngle = random.Next(0, 90);
                         SKPoint point = points[i];
                         string text = chars[i];
                         tipsText += $"“{text}”，";
-                        keyInfos[i] = new CharInfo() { Index = text, X = point.X + fontSize / 2, Y = point.Y + fontSize / 2 };
+   
 
                         SKPaint paint = new SKPaint
                         {
@@ -126,13 +77,46 @@ namespace NPlatform.Domains.Services.Captchas
                             TextSize = fontSize,
                             FakeBoldText=true,
                             IsAntialias = true,
-                            Color = new SKColor((byte)random.Next(256), (byte)random.Next(256), (byte)random.Next(256)),
+                            Color = GenerateBrightColor(),
                         };
-                        canvas.RotateDegrees(rotationAngle, point.X + fontSize / 2, point.Y + fontSize / 2);
-                        canvas.Save();  // 保存画布状态
-                        canvas.DrawText(text, point, paint);
-                        canvas.Restore();  // 还原画布状态
-                        canvas.ResetMatrix();
+                        // 指定字体文件路径为 msyh.ttc
+
+                        var chineseFontPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "msyh.ttc");
+
+                        if (File.Exists(chineseFontPath))
+                        {
+                            var typeface = SKTypeface.FromFile(chineseFontPath, 0); // 选择第一个字体（对于 TTC 文件）
+
+                            paint.Typeface = typeface;
+                        }
+
+
+                        // 设置文本对齐方式为居中
+                        paint.TextAlign = SKTextAlign.Center;
+
+                        // 计算文本的宽度和高度
+                        float textWidth = paint.MeasureText(text);
+                        float textHeight = paint.FontMetrics.Descent - paint.FontMetrics.Ascent;
+
+                        // 计算文本的中心点
+                        float textCenterX = point.X + textWidth / 2;
+                        float textCenterY = point.Y + textHeight / 2;
+
+                        // 将画布的原点移动到文本的中心
+                        canvas.Translate(textCenterX, textCenterY);
+
+                        // 旋转画布
+                        canvas.RotateDegrees(rotationAngle);
+
+                        // 在旋转后的坐标系中，文本的中心点现在是原点，所以我们在(0, 0)处绘制文本
+                        canvas.DrawText(text, 0, 0, paint);
+
+                        // 恢复画布的旋转和平移
+                        canvas.RotateDegrees(-rotationAngle);
+                        canvas.Translate(-textCenterX, -textCenterY);
+
+                        // 记录旋转后的文本中心点
+                        keyInfos[i] = new CharInfo() { Index = text, X = textCenterX, Y = textCenterY };
                     }
 
                     var base64String= EncodeSurfaceToBase64(surface);
@@ -152,6 +136,17 @@ namespace NPlatform.Domains.Services.Captchas
         }
 
 
+        public static SKColor GenerateBrightColor()
+        {
+            int red = random.Next(192, 256);  // 生成范围在 192-255 之间的红色分量，偏向红色
+            int green = random.Next(10, 152);  // 生成范围在 0-127 之间的绿色分量，减少绿色的可能性
+            int blue = random.Next(10, 152);   // 生成范围在 0-127 之间的蓝色分量
+
+            SKColor color = new SKColor((byte)red, (byte)green, (byte)blue);
+
+            return color;
+        }
+
         private static string CreateTips(string text)
         {
             // 图片大小
@@ -162,7 +157,6 @@ namespace NPlatform.Domains.Services.Captchas
             using (var surface = SKSurface.Create(new SKImageInfo(width, height)))
             {
                 var canvas = surface.Canvas;
-
                 // 绘制提示文字
                 SKPaint paint = new SKPaint
                 {
@@ -171,6 +165,17 @@ namespace NPlatform.Domains.Services.Captchas
                     IsAntialias = true,
                     Color = SKColors.Black,
                 };
+                // 指定字体文件路径为 msyh.ttc
+
+                var chineseFontPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "msyh.ttc");
+                Console.WriteLine($"CurrentDomain.BaseDirectory:{System.AppDomain.CurrentDomain.BaseDirectory}");
+
+                if (File.Exists(chineseFontPath))
+                {
+                    var typeface = SKTypeface.FromFile(chineseFontPath, 0); // 选择第一个字体（对于 TTC 文件）
+
+                    paint.Typeface = typeface;
+                }
 
                 canvas.DrawText(text, 0, 15, paint);
 
@@ -257,7 +262,7 @@ namespace NPlatform.Domains.Services.Captchas
         {
             HashSet<string> uniqueCharacters = new HashSet<string>();
             // 获取GB2312编码页（表）
-            Encoding gb = Encoding.GetEncoding("gb2312");
+            Encoding gb = Encoding.GetEncoding("GB2312");
 
             object[] bytes = CreateRegionCode(count);
 
@@ -269,6 +274,8 @@ namespace NPlatform.Domains.Services.Captchas
 
             return uniqueCharacters.ToArray();
         }
+
+        private static Random randCn = new Random(Guid.NewGuid().GetHashCode());
         /**
         此函数在汉字编码范围内随机创建含两个元素的十六进制字节数组，每个字节数组代表一个汉字，并将
         四个字节数组存储在object数组中。
@@ -279,7 +286,7 @@ namespace NPlatform.Domains.Services.Captchas
             //定义一个字符串数组储存汉字编码的组成元素
             string[] rBase = new String[16] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f" };
 
-            Random rnd = new Random();
+
 
             //定义一个object数组用来
             object[] bytes = new object[strlength];
@@ -293,41 +300,38 @@ namespace NPlatform.Domains.Services.Captchas
             for (int i = 0; i < strlength; i++)
             {
                 //区位码第1位
-                int r1 = rnd.Next(11, 14);
+                int r1 = randCn.Next(11, 14);
                 string str_r1 = rBase[r1].Trim();
 
                 //区位码第2位
-                rnd = new Random(r1 * unchecked((int)DateTime.Now.Ticks) + i); // 更换随机数发生器的 种子避免产生重复值
                 int r2;
                 if (r1 == 13)
                 {
-                    r2 = rnd.Next(0, 7);
+                    r2 = randCn.Next(0, 7);
                 }
                 else
                 {
-                    r2 = rnd.Next(0, 16);
+                    r2 = randCn.Next(0, 16);
                 }
                 string str_r2 = rBase[r2].Trim();
 
                 //区位码第3位
-                rnd = new Random(r2 * unchecked((int)DateTime.Now.Ticks) + i);
-                int r3 = rnd.Next(10, 16);
+                int r3 = randCn.Next(10, 16);
                 string str_r3 = rBase[r3].Trim();
 
                 //区位码第4位
-                rnd = new Random(r3 * unchecked((int)DateTime.Now.Ticks) + i);
                 int r4;
                 if (r3 == 10)
                 {
-                    r4 = rnd.Next(1, 16);
+                    r4 = randCn.Next(1, 16);
                 }
                 else if (r3 == 15)
                 {
-                    r4 = rnd.Next(0, 15);
+                    r4 = randCn.Next(0, 15);
                 }
                 else
                 {
-                    r4 = rnd.Next(0, 16);
+                    r4 = randCn.Next(0, 16);
                 }
                 string str_r4 = rBase[r4].Trim();
 
@@ -343,10 +347,11 @@ namespace NPlatform.Domains.Services.Captchas
 
             return bytes;
         }
+        private static Random randomPoint = new Random(Guid.NewGuid().GetHashCode());
         private static List<SKPoint> GenerateOrderedPoints(int count, int maxWidth, int maxHeight)
         {
             var points = new List<SKPoint>();
-            Random random = new Random();
+
 
             // 生成四个不重叠的随机坐标
             for (int i = 0; i < count; i++)
@@ -354,8 +359,8 @@ namespace NPlatform.Domains.Services.Captchas
                 double x, y;
                 do
                 {
-                    x = random.NextDouble() * maxWidth; // 在 0 到 100 之间生成随机 X 坐标
-                    y = random.NextDouble() * maxHeight; // 在 0 到 100 之间生成随机 Y 坐标
+                    x = randomPoint.NextDouble() * maxWidth; // 在 0 到 100 之间生成随机 X 坐标
+                    y = randomPoint.NextDouble() * maxHeight; // 在 0 到 100 之间生成随机 Y 坐标
                 } while (HasOverlap(points, x, y));
                 var pint = new SKPoint((float)x, (float)y);
                 points.Add(pint);
@@ -369,7 +374,7 @@ namespace NPlatform.Domains.Services.Captchas
             foreach (var coord in coordinates)
             {
                 double distance = Math.Sqrt(Math.Pow((coord.X - x), 2) + Math.Pow((coord.Y - y), 2));
-                if (distance < 5.0) // 设定一个阈值，表示两个坐标之间的最小距离
+                if (distance < 50.0) // 设定一个阈值，表示两个坐标之间的最小距离
                 {
                     return true; // 有重叠
                 }

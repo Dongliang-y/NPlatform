@@ -55,8 +55,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="HarmonyOS_Sans_Regular.ttf" />
     <None Remove="Loger\log4net.config" />
+    <None Remove="msyh.ttc" />
     <None Remove="Readme.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="HarmonyOS_Sans_Regular.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="msyh.ttc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -77,6 +88,7 @@
     <PackageReference Include="QRCoder" Version="1.4.3" />
     <PackageReference Include="ServiceStack.Redis" Version="6.3.0" />
     <PackageReference Include="SkiaSharp" Version="2.88.6" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.0" />
     <PackageReference Include="Snowflake.Core" Version="2.0.0" />
     <PackageReference Include="StackExchange.Redis" Version="2.6.66" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
