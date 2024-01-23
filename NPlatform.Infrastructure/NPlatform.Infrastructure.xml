@@ -2564,15 +2564,6 @@
             <param name="tolerance">容忍差值范围。</param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Domains.Services.Captchas.CaptchaHelper.CreateBase64Captcha(System.String,System.Int32,System.Int32)">
-            <summary>
-            随机创建指定数量文字的，创建验证码图片
-            </summary>
-            <param name="backgroundPath">背景图</param>
-            <param name="count">验证文字个数。</param>
-            <param name="fontSize">字体大小</param>
-            <returns></returns>
-        </member>
         <member name="M:NPlatform.Domains.Services.Captchas.CaptchaHelper.LoadRandomBackgroundImage(System.String)">
             <summary>
             获取背景图

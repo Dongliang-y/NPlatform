@@ -3,7 +3,6 @@ using System.IO;
 using System.Net.Http;
 using SkiaSharp;
 using Org.BouncyCastle.Utilities;
-using System.Drawing;
 
 namespace NPlatform.Domains.Services.Captchas
 {
@@ -13,7 +12,7 @@ namespace NPlatform.Domains.Services.Captchas
     /// </summary>
     public class CaptchaHelper {
 
-        private static readonly Random random = new Random();
+        private static readonly Random random = new Random(Guid.NewGuid().GetHashCode());
         /// <summary>
         /// 验证码校验
         /// </summary>
@@ -37,27 +36,20 @@ namespace NPlatform.Domains.Services.Captchas
 
         private static int backWidth = 500;
         private static int backHeight = 500;
-        /// <summary>
-        /// 随机创建指定数量文字的，创建验证码图片
-        /// </summary>
-        /// <param name="backgroundPath">背景图</param>
-        /// <param name="count">验证文字个数。</param>
-        /// <param name="fontSize">字体大小</param>
-        /// <returns></returns>
-        public static (string,string, CharInfo[]) CreateBase64Captcha(string backgroundPath,int count,int fontSize=32)
+
+        public static (string, string, CharInfo[]) CreateBase64Captcha(string backgroundPath, int count, int fontSize = 32)
         {
-            // 创建一个背景图
             SKBitmap background = LoadRandomBackgroundImage(backgroundPath);
             try
             {
-                string tipsText= "请按顺序依次点击：";
+                string tipsText = "请依次点击：";
 
                 using (var surface = SKSurface.Create(new SKImageInfo(backWidth, backHeight)))
                 {
                     var canvas = surface.Canvas;
                     canvas.DrawBitmap(background, new SKPoint(0, 0));
 
-                    var points = GenerateOrderedPoints(count, background.Width-80, background.Height-80);
+                    var points = GenerateOrderedPoints(count, 50,50);
                     System.Text.Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
                     var chars = GenerateRandomChinese(count);
 
@@ -65,65 +57,59 @@ namespace NPlatform.Domains.Services.Captchas
                     CharInfo[] keyInfos = new CharInfo[count];
                     for (var i = 0; i < count; i++)
                     {
-                        var rotationAngle = random.Next(0, 90);
+                        var rotationAngle = random.Next(0, 60);
                         SKPoint point = points[i];
                         string text = chars[i];
                         tipsText += $"“{text}”，";
-   
 
                         SKPaint paint = new SKPaint
                         {
                             Typeface = SKTypeface.FromFamilyName("黑体"),
                             TextSize = fontSize,
-                            FakeBoldText=true,
+                            FakeBoldText = true,
                             IsAntialias = true,
                             Color = GenerateBrightColor(),
                         };
-                        // 指定字体文件路径为 msyh.ttc
 
                         var chineseFontPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "msyh.ttc");
 
                         if (File.Exists(chineseFontPath))
                         {
-                            var typeface = SKTypeface.FromFile(chineseFontPath, 0); // 选择第一个字体（对于 TTC 文件）
-
+                            var typeface = SKTypeface.FromFile(chineseFontPath, 0);
                             paint.Typeface = typeface;
                         }
-                        //起点是左下角
-                        //canvas.DrawText(text, point, paint);
-                        //keyInfos[i] = new CharInfo() { Index = text, X = point.X, Y = point.Y };
 
-                        // 设置文本对齐方式为居中
-                         paint.TextAlign = SKTextAlign.Center;
+                        paint.TextAlign = SKTextAlign.Center;
 
-                        // 计算文本的宽度和高度
-                        float textWidth = paint.MeasureText(text);
-                        float textHeight = paint.FontMetrics.Descent - paint.FontMetrics.Ascent;
+                        SKPath textPath =  paint.GetTextPath(text, point.X, point.Y);
 
-                        // 计算文本的中心点
-                        float textCenterX = point.X + textWidth / 2;
-                        float textCenterY = point.Y + textHeight / 2 - paint.FontMetrics.Descent; // 考虑基线位置
+                        SKRect textBounds = new SKRect();
+                        textPath.GetBounds(out textBounds);
 
-                        // 将画布的原点移动到文本的中心
-                        canvas.Translate(textCenterX, textCenterY);
+                        float rotatedTextCenterX = textBounds.MidX;
+                        float rotatedTextCenterY = textBounds.MidY;
 
-                        // 旋转画布
-                        canvas.RotateDegrees(rotationAngle);
+                        SKPoint rotatedCenterPoint = new SKPoint(rotatedTextCenterX, rotatedTextCenterY);
+                        SKMatrix inverseMatrix = new SKMatrix();
+                        canvas.TotalMatrix.TryInvert(out inverseMatrix);
+                        inverseMatrix.MapPoints(new SKPoint[] { rotatedCenterPoint });
 
-                        // 在旋转后的坐标系中，文本的中心点现在是原点，所以我们在(0, 0)处绘制文本
-                        canvas.DrawText(text, 0, 0, paint);
+                        keyInfos[i] = new CharInfo() { Index = text, X = rotatedCenterPoint.X, Y = rotatedCenterPoint.Y };
+                        // 绘制小圆点
+                        SKPaint dotPaint = new SKPaint
+                        {
+                            Color = SKColors.Yellow,
+                            IsAntialias = true,
+                        };
+                        canvas.DrawCircle(rotatedCenterPoint.X, rotatedCenterPoint.Y, 3, dotPaint);
 
-                        // 恢复画布的旋转和平移
-                        canvas.RotateDegrees(-rotationAngle);
-                        canvas.Translate(-textCenterX, -textCenterY);
-
-                        // 记录旋转后的文本中心点
-                        keyInfos[i] = new CharInfo() { Index = text, X = textCenterX, Y = textCenterY };
-
+                        canvas.RotateDegrees(rotationAngle, rotatedCenterPoint.X, rotatedCenterPoint.Y);
+                        canvas.DrawPath(textPath, paint);
+                        canvas.RotateDegrees(-rotationAngle, rotatedCenterPoint.X, rotatedCenterPoint.Y);
                     }
 
-                    var base64String= EncodeSurfaceToBase64(surface);
-                    var tips=CreateTips(tipsText);
+                    var base64String = EncodeSurfaceToBase64(surface);
+                    var tips = CreateTips(tipsText);
                     return (base64String, tips, keyInfos);
                 }
             }
@@ -137,7 +123,6 @@ namespace NPlatform.Domains.Services.Captchas
                 background.Dispose();
             }
         }
-
 
         public static SKColor GenerateBrightColor()
         {
@@ -164,7 +149,7 @@ namespace NPlatform.Domains.Services.Captchas
                 SKPaint paint = new SKPaint
                 {
                     Typeface = SKTypeface.FromFamilyName("黑体"),
-                    TextSize = 15,
+                    TextSize = 18,
                     IsAntialias = true,
                     Color = SKColors.Black,
                 };
@@ -180,7 +165,7 @@ namespace NPlatform.Domains.Services.Captchas
                     paint.Typeface = typeface;
                 }
 
-                canvas.DrawText(text, 0, 15, paint);
+                canvas.DrawText(text, 0, 18, paint);
 
                 // 将 SKSurface 转换为 SKImage
                 var image = surface.Snapshot();
@@ -351,7 +336,7 @@ namespace NPlatform.Domains.Services.Captchas
             return bytes;
         }
         private static Random randomPoint = new Random(Guid.NewGuid().GetHashCode());
-        private static List<SKPoint> GenerateOrderedPoints(int count, int maxWidth, int maxHeight)
+        private static List<SKPoint> GenerateOrderedPoints(int count, int paddingWidth, int paddingHeight)
         {
             var points = new List<SKPoint>();
 
@@ -362,8 +347,8 @@ namespace NPlatform.Domains.Services.Captchas
                 double x, y;
                 do
                 {
-                    x = randomPoint.NextDouble() * maxWidth; // 在 0 到 100 之间生成随机 X 坐标
-                    y = randomPoint.NextDouble() * maxHeight; // 在 0 到 100 之间生成随机 Y 坐标
+                    x = randomPoint.Next(paddingWidth, backWidth-paddingWidth); // 在 0 到 100 之间生成随机 X 坐标
+                    y = randomPoint.Next(paddingHeight,backHeight-paddingHeight);  // 在 0 到 100 之间生成随机 Y 坐标
                 } while (HasOverlap(points, x, y));
                 var pint = new SKPoint((float)x, (float)y);
                 points.Add(pint);
