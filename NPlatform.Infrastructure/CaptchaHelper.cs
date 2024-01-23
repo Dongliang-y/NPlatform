@@ -89,10 +89,12 @@ namespace NPlatform.Domains.Services.Captchas
 
                             paint.Typeface = typeface;
                         }
-
+                        //起点是左下角
+                        //canvas.DrawText(text, point, paint);
+                        //keyInfos[i] = new CharInfo() { Index = text, X = point.X, Y = point.Y };
 
                         // 设置文本对齐方式为居中
-                        paint.TextAlign = SKTextAlign.Center;
+                         paint.TextAlign = SKTextAlign.Center;
 
                         // 计算文本的宽度和高度
                         float textWidth = paint.MeasureText(text);
