@@ -95,13 +95,13 @@ namespace NPlatform.Domains.Services.Captchas
                         inverseMatrix.MapPoints(new SKPoint[] { rotatedCenterPoint });
 
                         keyInfos[i] = new CharInfo() { Index = text, X = rotatedCenterPoint.X, Y = rotatedCenterPoint.Y };
-                        // 绘制小圆点
-                        SKPaint dotPaint = new SKPaint
-                        {
-                            Color = SKColors.Yellow,
-                            IsAntialias = true,
-                        };
-                        canvas.DrawCircle(rotatedCenterPoint.X, rotatedCenterPoint.Y, 3, dotPaint);
+                        //// 绘制小圆点
+                        //SKPaint dotPaint = new SKPaint
+                        //{
+                        //    Color = SKColors.Yellow,
+                        //    IsAntialias = true,
+                        //};
+                        //canvas.DrawCircle(rotatedCenterPoint.X, rotatedCenterPoint.Y, 3, dotPaint);
 
                         canvas.RotateDegrees(rotationAngle, rotatedCenterPoint.X, rotatedCenterPoint.Y);
                         canvas.DrawPath(textPath, paint);
