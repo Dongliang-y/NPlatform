@@ -61,10 +61,14 @@ namespace NPlatform.Domains.Services.Captchas
                         SKPoint point = points[i];
                         string text = chars[i];
                         tipsText += $"“{text}”，";
-                        
+                        // 获取宋体在字体集合中的下标
+                        var index = SKFontManager.Default.FontFamilies.ToList().IndexOf("宋体");
+                        // 创建宋体字形
+                        var songtiTypeface = SKFontManager.Default.GetFontStyles(index).CreateTypeface(0);
+
                         SKPaint paint = new SKPaint
                         {
-                            Typeface = SKTypeface.FromFamilyName("SimSun"),
+                            Typeface = songtiTypeface,
                             TextSize = fontSize,
                             FakeBoldText = true,
                             IsAntialias = true,
