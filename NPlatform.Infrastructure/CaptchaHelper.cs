@@ -141,25 +141,19 @@ namespace NPlatform.Domains.Services.Captchas
             using (var surface = SKSurface.Create(new SKImageInfo(width, height)))
             {
                 var canvas = surface.Canvas;
+
+                // 获取宋体在字体集合中的下标
+                var index = SKFontManager.Default.FontFamilies.ToList().IndexOf("宋体");
+                // 创建宋体字形
+                var songtiTypeface = SKFontManager.Default.GetFontStyles(index).CreateTypeface(0);
                 // 绘制提示文字
                 SKPaint paint = new SKPaint
                 {
-                    Typeface = SKTypeface.FromFamilyName("黑体"),
+                    Typeface = songtiTypeface,
                     TextSize = 18,
                     IsAntialias = true,
                     Color = SKColors.Black,
                 };
-                // 指定字体文件路径为 msyh.ttc
-
-                var chineseFontPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "msyh.ttc");
-                Console.WriteLine($"CurrentDomain.BaseDirectory:{System.AppDomain.CurrentDomain.BaseDirectory}");
-
-                if (File.Exists(chineseFontPath))
-                {
-                    var typeface = SKTypeface.FromFile(chineseFontPath, 0); // 选择第一个字体（对于 TTC 文件）
-
-                    paint.Typeface = typeface;
-                }
 
                 canvas.DrawText(text, 0, 18, paint);
 
