@@ -61,23 +61,15 @@ namespace NPlatform.Domains.Services.Captchas
                         SKPoint point = points[i];
                         string text = chars[i];
                         tipsText += $"“{text}”，";
-
+                        
                         SKPaint paint = new SKPaint
                         {
-                            Typeface = SKTypeface.FromFamilyName("黑体"),
+                            Typeface = SKTypeface.FromFamilyName("SimSun"),
                             TextSize = fontSize,
                             FakeBoldText = true,
                             IsAntialias = true,
                             Color = GenerateBrightColor(),
                         };
-
-                        var chineseFontPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "msyh.ttc");
-
-                        if (File.Exists(chineseFontPath))
-                        {
-                            var typeface = SKTypeface.FromFile(chineseFontPath, 0);
-                            paint.Typeface = typeface;
-                        }
 
                         paint.TextAlign = SKTextAlign.Center;
 
