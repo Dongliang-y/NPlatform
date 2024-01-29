@@ -65,8 +65,15 @@ namespace NPlatform.Domains.Services.Captchas
 
                         bool isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
                         SKTypeface typeface = SKTypeface.FromFamilyName("SimSun");
-                        if(isLinux)
-                            typeface = SKTypeface.FromFile("/usr/share/fonts/msyh.ttc");
+                        if (isLinux)
+                        {
+                            string currentDirectory = AppContext.BaseDirectory;
+                            var filePath = $"{currentDirectory}/msyh.ttc";
+                            Console.WriteLine($"{filePath}:是否存在-->{System.IO.Directory.Exists(filePath)}");
+                            
+                            typeface = SKTypeface.FromFile($"{currentDirectory}/msyh.ttc");
+                            Console.WriteLine($"msyh.ttc FamilyName:{typeface?.FamilyName}");
+                        }
                         Console.WriteLine(typeface.FamilyName + typeface.ToString());
 
                         SKPaint paint = new SKPaint
