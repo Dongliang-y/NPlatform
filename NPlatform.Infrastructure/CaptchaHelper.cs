@@ -3,6 +3,7 @@ using System.IO;
 using System.Net.Http;
 using SkiaSharp;
 using Org.BouncyCastle.Utilities;
+using System.Runtime.InteropServices;
 
 namespace NPlatform.Domains.Services.Captchas
 {
@@ -61,14 +62,16 @@ namespace NPlatform.Domains.Services.Captchas
                         SKPoint point = points[i];
                         string text = chars[i];
                         tipsText += $"“{text}”，";
-                        // 获取宋体在字体集合中的下标
-                        var index = SKFontManager.Default.FontFamilies.ToList().IndexOf("宋体");
-                        // 创建宋体字形
-                        var songtiTypeface = SKFontManager.Default.GetFontStyles(index).CreateTypeface(0);
+
+                        bool isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+                        SKTypeface typeface = SKTypeface.FromFamilyName("SimSun");
+                        if(isLinux)
+                            typeface = SKTypeface.FromFile("/usr/share/fonts/msyh.ttc");
+                        Console.WriteLine(typeface.FamilyName + typeface.ToString());
 
                         SKPaint paint = new SKPaint
                         {
-                            Typeface = songtiTypeface,
+                            Typeface = typeface,
                             TextSize = fontSize,
                             FakeBoldText = true,
                             IsAntialias = true,
