@@ -152,14 +152,21 @@ namespace NPlatform.Domains.Services.Captchas
             {
                 var canvas = surface.Canvas;
 
-                // 获取宋体在字体集合中的下标
-                var index = SKFontManager.Default.FontFamilies.ToList().IndexOf("宋体");
-                // 创建宋体字形
-                var songtiTypeface = SKFontManager.Default.GetFontStyles(index).CreateTypeface(0);
+                bool isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+                SKTypeface typeface = SKTypeface.FromFamilyName("SimSun");
+                if (isLinux)
+                {
+                    string currentDirectory = AppContext.BaseDirectory;
+                    var filePath = $"{currentDirectory}/msyh.ttc";
+                    Console.WriteLine($"{filePath}:是否存在-->{System.IO.Directory.Exists(filePath)}");
+
+                    typeface = SKTypeface.FromFile($"{currentDirectory}/msyh.ttc");
+                    Console.WriteLine($"msyh.ttc FamilyName:{typeface?.FamilyName}");
+                }
                 // 绘制提示文字
                 SKPaint paint = new SKPaint
                 {
-                    Typeface = songtiTypeface,
+                    Typeface = typeface,
                     TextSize = 18,
                     IsAntialias = true,
                     Color = SKColors.Black,
