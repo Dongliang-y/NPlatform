@@ -9,7 +9,6 @@
  **************************************************************/
 using NPlatform.Infrastructure.Config.Section;
 using Microsoft.Extensions.Configuration;
-using ServiceStack;
 
 namespace NPlatform.Infrastructure.Config
 {
@@ -93,8 +92,7 @@ namespace NPlatform.Infrastructure.Config
         /// <returns></returns>
         public static IRedisConfig GetRedisConfig(this IConfiguration configuration)
         {
-            new ArgumentNullException(nameof(configuration)).ThrowIfNull();
-
+            ArgumentNullException.ThrowIfNull(nameof(configuration));
             RedisConfig redisConfig = new RedisConfig();
             configuration.GetRequiredSection(nameof(RedisConfig)).Bind(redisConfig);
             return redisConfig;
@@ -102,7 +100,7 @@ namespace NPlatform.Infrastructure.Config
 
         public static IServiceConfig GetServiceConfig(this IConfiguration configuration)
         {
-            new ArgumentNullException(nameof(configuration)).ThrowIfNull();
+            ArgumentNullException.ThrowIfNull(nameof(configuration));
             ServiceConfig serviceConfig = new ServiceConfig();
             configuration.GetRequiredSection(nameof(ServiceConfig)).Bind(serviceConfig);
             return serviceConfig;
@@ -110,7 +108,7 @@ namespace NPlatform.Infrastructure.Config
 
         public static IAuthServerConfig GetAuthConfig(this IConfiguration configuration)
         {
-            new ArgumentNullException(nameof(configuration)).ThrowIfNull();
+            ArgumentNullException.ThrowIfNull(nameof(configuration));
             AuthServerConfig authConfig = new AuthServerConfig();
             configuration.GetRequiredSection(nameof(AuthServerConfig)).Bind(authConfig);
             return authConfig;

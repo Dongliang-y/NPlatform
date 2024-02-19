@@ -35,6 +35,11 @@ namespace NPlatform.Repositories
         /// SQLite 客户端驱动
         /// </summary>
         [Description("System.Data.SQLite")]
-        SQLite
+        SQLite,
+        /// <summary>
+        /// PostgreSQL 客户端驱动
+        /// </summary>
+        [Description("System.Data.PostgreSQL")]
+        PostgreSQL
     }
 }

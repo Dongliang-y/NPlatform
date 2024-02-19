@@ -1516,6 +1516,11 @@
             SQLite 客户端驱动
             </summary>
         </member>
+        <member name="F:NPlatform.Repositories.DBProvider.Npgsql">
+            <summary>
+            SqlSugar 客户端驱动
+            </summary>
+        </member>
         <member name="T:NPlatform.Repositories.IRepositories.IRepository`2">
             <summary>
             聚合内的工作单元接口
