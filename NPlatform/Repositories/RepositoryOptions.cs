@@ -101,7 +101,6 @@
         public RepositoryOptions()
         {
             this.queryFilters.Add(nameof(LogicDeleteFilter), new LogicDeleteFilter());
-            this.queryFilters.Add(nameof(TenantFilter), new TenantFilter());
             this.queryFilters.Add(nameof(ClientFilter), new ClientFilter());
         }
 

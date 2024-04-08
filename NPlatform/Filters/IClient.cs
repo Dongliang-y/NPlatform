@@ -2,8 +2,8 @@
 
 /*----------------------------------------------------------------
 * 项目名称 ：NPlatform.Domains.Entity
-* 类 名 称 ：ITenant
-* 类 描 述 ：是否是多租户过滤器接口
+* 类 名 称 ：IClient
+* 类 描 述 ：客户端过滤器接口
 * 命名空间 ：NPlatform.Domains.Entity
 * CLR 版本 ：4.0.30319.42000
 * 作    者 ：Dongliang Yi
@@ -17,7 +17,7 @@
 namespace NPlatform.Filters
 {
     /// <summary>
-    /// 多租户实体
+    /// 客户端
     /// </summary>
     public interface IClient : IFilterProperties
     {
