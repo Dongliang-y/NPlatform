@@ -2,7 +2,7 @@
 
   <PropertyGroup>
 	  <IsPackable>true</IsPackable>
-    <TargetFrameworks>net8.0</TargetFrameworks>
+    <TargetFrameworks>net7.0</TargetFrameworks>
     <OutputType>Library</OutputType>
     <RootNamespace>NPlatform</RootNamespace>
     <AssemblyName>NPlatform</AssemblyName>
