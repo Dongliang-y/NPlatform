@@ -1,4 +1,4 @@
-name: nupkg_build
+name: CI
 
 on:
   push:
@@ -12,7 +12,7 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # 1.Checks-out your repository under $GITHUB_WORKSPACE,  so your job can access it
+    # 1.Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
     # 2.runtime environment
     - name: Setup .NET Core
@@ -31,4 +31,5 @@ jobs:
     # 5. Push  package
     - name: Push generated package to GitHub registry
       run: |
-        .\nuget push .\bin\Release\*.nupkg -Source https://api.nuget.org/v3/index.json -SkipDuplicate -ApiKey ${{ secrets.NugetKey }} -NoSymbols
+        .\nuget push .\NPlatform\bin\Release\*.nupkg -Source https://api.nuget.org/v3/index.json -SkipDuplicate -ApiKey ${{ secrets.NugetKey }} -NoSymbols
+        .\nuget push .\NPlatform.Infrastructure\bin\Release\*.nupkg -Source https://api.nuget.org/v3/index.json -SkipDuplicate -ApiKey ${{ secrets.NugetKey }} -NoSymbols
