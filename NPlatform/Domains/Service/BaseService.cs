@@ -1,6 +1,5 @@
 ﻿namespace NPlatform.Domains.Service
 {
-    using Flurl.Http;
     using Microsoft.Extensions.Configuration;
     using NPlatform.AutoMap;
     using NPlatform.Result;
@@ -29,23 +28,6 @@
         /// </summary>
         [Autowired]
         public IMapperService MapperService { get; set; }
-
-        /// <summary>
-        /// Domain service base。
-        /// </summary>
-        public BaseService()
-        {
-            IPlatformHttpContext httpCtx = Context;
-            if (httpCtx != null && httpCtx.Context != null)
-            {
-                var authorization = httpCtx.Context.Request.Headers["Authorization"];
-                FlurlHttp.GlobalSettings.BeforeCall = t =>
-                {
-                    t.Request.Headers.Add("Authorization", authorization);
-                    t.Request.Headers.Add("Accept", "application/json, text/plain, */*");
-                };
-            }
-        }
 
         /// <summary>
         /// 集合分页

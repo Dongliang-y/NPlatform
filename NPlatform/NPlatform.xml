@@ -535,11 +535,6 @@
             mapper 对象
             </summary>
         </member>
-        <member name="M:NPlatform.Domains.Service.BaseService.#ctor">
-            <summary>
-            Domain service base。
-            </summary>
-        </member>
         <member name="M:NPlatform.Domains.Service.BaseService.SearchArrayPage``1(System.Linq.IQueryable{``0},System.Int32,System.Int32,System.Int64@)">
             <summary>
             集合分页
@@ -1516,9 +1511,9 @@
             SQLite 客户端驱动
             </summary>
         </member>
-        <member name="F:NPlatform.Repositories.DBProvider.Npgsql">
+        <member name="F:NPlatform.Repositories.DBProvider.PostgreSQL">
             <summary>
-            SqlSugar 客户端驱动
+            PostgreSQL 客户端驱动
             </summary>
         </member>
         <member name="T:NPlatform.Repositories.IRepositories.IRepository`2">
@@ -2012,7 +2007,7 @@
         </member>
         <member name="T:NPlatform.Filters.IClient">
             <summary>
-            多租户实体
+            客户端
             </summary>
         </member>
         <member name="P:NPlatform.Filters.IClient.ClientId">
@@ -2096,25 +2091,6 @@
             <returns>表达式</returns>
         </member>
         <member name="M:NPlatform.Filters.LogicDeleteFilter.SetFilterProperty``1(``0)">
-            <summary>
-            设置参数
-            </summary>
-            <typeparam name="T">实体类型</typeparam>
-            <param name="item">实体</param>
-        </member>
-        <member name="T:NPlatform.Filters.TenantFilter">
-            <summary>
-            租户过滤器
-            </summary>
-        </member>
-        <member name="M:NPlatform.Filters.TenantFilter.GetFilter``1">
-            <summary>
-            获取过滤器
-            </summary>
-            <typeparam name="T">过滤的类型</typeparam>
-            <returns>过滤表达式</returns>
-        </member>
-        <member name="M:NPlatform.Filters.TenantFilter.SetFilterProperty``1(``0)">
             <summary>
             设置参数
             </summary>
