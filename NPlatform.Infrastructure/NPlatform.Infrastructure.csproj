@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net7.0</TargetFrameworks>
+    <TargetFrameworks>net6.0</TargetFrameworks>
     <Description>
 		net8.0 版本
 	</Description>
     <Product>NPlatform</Product>
     <Company>NPlatform</Company>
     <Authors>Dongliang Yi</Authors>
-    <Version>3.0.0.1</Version>
-    <AssemblyVersion>3.0.0.1</AssemblyVersion>
-    <FileVersion>3.0.0.1</FileVersion>
+    <Version>3.0.0.3</Version>
+    <AssemblyVersion>3.0.0.3</AssemblyVersion>
+    <FileVersion>3.0.0.3</FileVersion>
     <ApplicationIcon />
     <OutputType>Library</OutputType>
     <StartupObject />
