@@ -2158,7 +2158,7 @@
             仓储配置项
             </summary>
         </member>
-        <member name="M:NPlatform.NPlatformStartup.Configure(Microsoft.AspNetCore.Builder.ConfigureHostBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:NPlatform.NPlatformStartup.Configure(Microsoft.AspNetCore.Builder.ConfigureHostBuilder,Microsoft.Extensions.Configuration.IConfiguration,NPlatform.Repositories.RepositoryOptions)">
             <summary>
             配置容器
             </summary>

@@ -57,19 +57,13 @@ namespace NPlatform
         /// <summary>
         /// 配置容器
         /// </summary>
-        public static void Configure(this ConfigureHostBuilder builder, IConfiguration config)
+        public static void Configure(this ConfigureHostBuilder builder, IConfiguration config, RepositoryOptions repositoryOptions )
         {
             // 加载配置
             Config = config;
             var svcConfig = Config.GetServiceConfig();
-            var options = new Repositories.RepositoryOptions()
-            {
-                DBProvider = DBProvider.MySqlClient,
-                MainConection = svcConfig.MainConection, //使用简单的数据库集群
-                MinorConnection = svcConfig.MinorConnection
-            };
             //  Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.ValidateAntiforgeryTokenAuthorizationFilter
-            Options = options;
+            Options = repositoryOptions;
             Console.WriteLine("ConfigureContainer");
             IOCService.Install(builder, Options, Config);
         }
