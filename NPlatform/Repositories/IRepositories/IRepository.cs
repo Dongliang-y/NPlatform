@@ -17,7 +17,6 @@
 
 namespace NPlatform.Repositories.IRepositories
 {
-    using Microsoft.EntityFrameworkCore;
     using NPlatform.Domains.Entity;
     using NPlatform.Repositories;
     using NPlatform.Result;
@@ -37,10 +36,6 @@ namespace NPlatform.Repositories.IRepositories
     public interface IRepository<TEntity, TPrimaryKey>
         where TEntity : EntityBase<TPrimaryKey>
     {
-        /// <summary>
-        /// CUD DbContext
-        /// </summary>
-        DbContext CUDContext { get; set; }
         /// <summary>
         /// this 重载
         /// </summary>
