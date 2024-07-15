@@ -103,7 +103,7 @@ namespace NPlatform.Repositories.IRepositories
         /// </summary>
         /// <param name="sorts">排序字段</param>
         /// <returns>结果</returns>
-        Task<IEnumerable<TEntity>> GetAllAsync(IEnumerable<SelectSort> sorts = null);
+        Task<IEnumerable<TEntity>> GetAllAsync(IEnumerable<SelectSort<TEntity>> sorts = null);
 
         /// <summary>
         /// 按条件查找第一个
@@ -118,7 +118,7 @@ namespace NPlatform.Repositories.IRepositories
         /// <param name="filter">表达式</param>
         /// <param name="sorts">排序</param>
         /// <returns>查询结果</returns>
-        Task<IEnumerable<TEntity>> GetListByExpAsync(Expression<Func<TEntity, bool>> filter, IEnumerable<SelectSort> sorts = null);
+        Task<IEnumerable<TEntity>> GetListByExpAsync(Expression<Func<TEntity, bool>> filter, IEnumerable<SelectSort<TEntity>> sorts = null);
 
         /// <summary>
         /// 指定字段范围查询，返回的实体只有这几个字段有值，目的是为了避免字段多时全字段查询（select *）
@@ -129,7 +129,7 @@ namespace NPlatform.Repositories.IRepositories
         /// <returns>实体集合</returns>
         Task<IEnumerable<TEntity>> GetListWithColumnsAsync(IEnumerable<string> columnNames,
             Expression<Func<TEntity, bool>> filter,
-            IEnumerable<SelectSort> sorts = null);
+            IEnumerable<SelectSort<TEntity>> sorts = null);
 
         /// <summary>
         /// 异步分页
@@ -143,7 +143,7 @@ namespace NPlatform.Repositories.IRepositories
             int pageIndex,
             int pageSize,
             Expression<Func<TEntity, bool>> filter,
-            IEnumerable<SelectSort> sorts);
+            IEnumerable<SelectSort<TEntity>> sorts);
 
 
         #region 统计

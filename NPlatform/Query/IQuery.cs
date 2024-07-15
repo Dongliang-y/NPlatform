@@ -8,6 +8,8 @@
  *  @version     2022/2/11 9:26:55  @Reviser  Initial Version
  **************************************************************/
 
+using NPlatform.Domains.Entity;
+
 namespace NPlatform.Query
 {
     /// <summary>
@@ -15,5 +17,6 @@ namespace NPlatform.Query
     /// </summary>
     public interface IQuery
     {
+        Expression<Func<TEntity, bool>> GetExp<TEntity>() where TEntity : IEntity;
     }
 }

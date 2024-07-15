@@ -1588,7 +1588,7 @@
             </summary>
             <param name="key">主键</param>
         </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.GetAllAsync(System.Collections.Generic.IEnumerable{NPlatform.Repositories.SelectSort})">
+        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.GetAllAsync(System.Collections.Generic.IEnumerable{NPlatform.Repositories.SelectSort{`0}})">
             <summary>
             异步查询所有数据
             </summary>
@@ -1602,7 +1602,7 @@
             <param name="filter">条件</param>
             <returns>结果对象</returns>
         </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.GetListByExpAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Collections.Generic.IEnumerable{NPlatform.Repositories.SelectSort})">
+        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.GetListByExpAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Collections.Generic.IEnumerable{NPlatform.Repositories.SelectSort{`0}})">
             <summary>
             根据表达式异步获取
             </summary>
@@ -1610,7 +1610,7 @@
             <param name="sorts">排序</param>
             <returns>查询结果</returns>
         </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.GetListWithColumnsAsync(System.Collections.Generic.IEnumerable{System.String},System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Collections.Generic.IEnumerable{NPlatform.Repositories.SelectSort})">
+        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.GetListWithColumnsAsync(System.Collections.Generic.IEnumerable{System.String},System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Collections.Generic.IEnumerable{NPlatform.Repositories.SelectSort{`0}})">
             <summary>
             指定字段范围查询，返回的实体只有这几个字段有值，目的是为了避免字段多时全字段查询（select *）
             </summary>
@@ -1619,7 +1619,7 @@
             <param name="sorts">排序字段</param>
             <returns>实体集合</returns>
         </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.GetPagedAsync(System.Int32,System.Int32,System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Collections.Generic.IEnumerable{NPlatform.Repositories.SelectSort})">
+        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.GetPagedAsync(System.Int32,System.Int32,System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Collections.Generic.IEnumerable{NPlatform.Repositories.SelectSort{`0}})">
             <summary>
             异步分页
             </summary>
@@ -1841,34 +1841,45 @@
             初始化默认的仓储配置
             </summary>
         </member>
-        <member name="T:NPlatform.Repositories.ISelectSort">
+        <member name="T:NPlatform.Repositories.ISelectSort`1">
             <summary>
             排序字段
             </summary>
         </member>
-        <member name="P:NPlatform.Repositories.ISelectSort.Field">
+        <member name="P:NPlatform.Repositories.ISelectSort`1.FieldExp">
             <summary>
             字段名
             </summary>
         </member>
-        <member name="P:NPlatform.Repositories.ISelectSort.IsAsc">
+        <member name="P:NPlatform.Repositories.ISelectSort`1.FieldName">
+            <summary>
+            字段名
+            </summary>
+        </member>
+        <member name="P:NPlatform.Repositories.ISelectSort`1.IsAsc">
             <summary>
             是否为 ASC排序
             </summary>
         </member>
-        <member name="T:NPlatform.Repositories.SelectSort">
+        <member name="T:NPlatform.Repositories.SelectSort`1">
             <summary>
             排序字段
             </summary>
+            <typeparam name="TEntity"></typeparam>
         </member>
-        <member name="P:NPlatform.Repositories.SelectSort.Field">
+        <member name="P:NPlatform.Repositories.SelectSort`1.FieldExp">
             <summary>
             字段名
             </summary>
         </member>
-        <member name="P:NPlatform.Repositories.SelectSort.IsAsc">
+        <member name="P:NPlatform.Repositories.SelectSort`1.IsAsc">
             <summary>
-            是否为 ASC排序
+             是否为 ASC排序
+            </summary>
+        </member>
+        <member name="P:NPlatform.Repositories.SelectSort`1.FieldName">
+            <summary>
+            字段名
             </summary>
         </member>
         <member name="T:NPlatform.Filters.BaseFilter">
@@ -2284,7 +2295,7 @@
             <typeparam name="T">表达式查询的对象</typeparam>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Query.QueryExp.GetSelectSorts">
+        <member name="M:NPlatform.Query.QueryExp.GetSelectSorts``1">
             <summary>
             获取排序字段SelectSorts
             </summary>
