@@ -44,17 +44,11 @@ namespace NPlatform.Repositories.IRepositories
         TEntity this[TPrimaryKey key] { get; set; }
 
         /// <summary>
-        /// 新增
-        /// </summary>
-        /// <param name="item">新增对象</param>
-        /// <returns>返回新增后的实体</returns>
-        Task<TEntity> AddAsync(TEntity item);
-
-        /// <summary>
         /// 异步新增
         /// </summary>
         /// <param name="items">实体对象</param>
-        Task<int> AddsAsync(IEnumerable<TEntity> items);
+        Task<int> AddsAsync(params TEntity[] items);
+
         /// <summary>
         /// 异步新增
         /// </summary>

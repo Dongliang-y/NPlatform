@@ -1533,14 +1533,7 @@
             <param name="key">主键</param>
             <returns>返回实体</returns>
         </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.AddAsync(`0)">
-            <summary>
-            新增
-            </summary>
-            <param name="item">新增对象</param>
-            <returns>返回新增后的实体</returns>
-        </member>
-        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.AddsAsync(System.Collections.Generic.IEnumerable{`0})">
+        <member name="M:NPlatform.Repositories.IRepositories.IRepository`2.AddsAsync(`0[])">
             <summary>
             异步新增
             </summary>
