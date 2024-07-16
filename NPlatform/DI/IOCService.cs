@@ -57,7 +57,7 @@ namespace NPlatform.DI
         /// <summary>
         /// IOC容器
         /// </summary>
-        private static ILifetimeScope Container
+        public static ILifetimeScope Container
         {
             get
             {
@@ -300,7 +300,7 @@ namespace NPlatform.DI
         /// 获取automapper配置
         /// </summary>
         /// <returns>返回map配置类型</returns>
-        public static IEnumerable<T> ResolveService<T>()
+        public static IEnumerable<T> ResolveDBContext<T>()
         {
             var result = container.Resolve<IEnumerable<T>>();
             return result.Select(t => (T)t);
