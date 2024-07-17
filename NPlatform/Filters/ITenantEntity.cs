@@ -21,7 +21,7 @@ namespace NPlatform.Filters
     /// <summary>
     /// 多租户实体
     /// </summary>
-    public interface ITenant
+    public interface ITenantEntity
     {
         /// <summary>
         /// 租户Id
