@@ -300,7 +300,7 @@ namespace NPlatform.DI
         /// 获取automapper配置
         /// </summary>
         /// <returns>返回map配置类型</returns>
-        public static IEnumerable<T> ResolveDBContext<T>()
+        public static IEnumerable<T> Resolve<T>()
         {
             var result = container.Resolve<IEnumerable<T>>();
             return result.Select(t => (T)t);
