@@ -82,6 +82,30 @@ namespace NPlatform.Query
             }
             return sorts;
         }
+
+        /// <summary>
+        /// 获取排序字段SelectSorts
+        /// </summary>
+        /// <typeparam name="T">表达式查询的对象</typeparam>
+        /// <returns></returns>
+        public string GetSelectSortsSql<TEntity>() where TEntity : IEntity
+        {
+            if (this.selectSorts == null)
+                return null;
+            var sorts = System.Text.Json.JsonSerializer.Deserialize<List<SelectSort<TEntity>>>(this.selectSorts);
+            var listSorts = new List<SelectSort<TEntity>>();
+            StringBuilder strExp = new StringBuilder();
+            for(var i=0;i<sorts.Count;i++)
+            {
+                var sort = sorts[i];
+                var asc = sort.IsAsc ? " asc" : " desc";
+                strExp.Append($"{sort.FieldName}{asc}");
+
+                if (i != sorts.Count - 1)
+                    strExp.Append(",");
+            }
+            return strExp.ToString();
+        }
         /// <summary>
         /// 创建表达式
         /// </summary>
