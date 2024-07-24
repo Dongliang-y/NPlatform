@@ -99,7 +99,7 @@ namespace NPlatform.Query
             {
                 var sort = sorts[i];
                 var asc = sort.IsAsc ? " asc" : " desc";
-                strExp.Append($"{sort.FieldName}{asc}");
+                strExp.Append($"{Safe.SqlFilterKeyword( Safe.FilterBadChar( sort.FieldName))}{asc}");
 
                 if (i != sorts.Count - 1)
                     strExp.Append(",");
