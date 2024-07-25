@@ -432,6 +432,12 @@
             </summary>
             <returns>返回map配置类型</returns>
         </member>
+        <member name="M:NPlatform.DI.IOCService.Resolve``1">
+            <summary>
+            获取automapper配置
+            </summary>
+            <returns>返回map配置类型</returns>
+        </member>
         <member name="T:NPlatform.Domains.Entity.EntityBase`1">
             <summary>
             Basic implementation of IEntity interface.
@@ -2067,12 +2073,12 @@
             结果过滤器
             </summary>
         </member>
-        <member name="T:NPlatform.Filters.ITenant">
+        <member name="T:NPlatform.Filters.ITenantEntity">
             <summary>
             多租户实体
             </summary>
         </member>
-        <member name="P:NPlatform.Filters.ITenant.TenantId">
+        <member name="P:NPlatform.Filters.ITenantEntity.TenantId">
             <summary>
             租户Id
             </summary>

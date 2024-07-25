@@ -9,6 +9,7 @@
  **************************************************************/
 using NPlatform.Infrastructure.Config.Section;
 using Microsoft.Extensions.Configuration;
+using StackExchange.Redis;
 
 namespace NPlatform.Infrastructure.Config
 {
@@ -95,7 +96,30 @@ namespace NPlatform.Infrastructure.Config
             ArgumentNullException.ThrowIfNull(nameof(configuration));
             RedisConfig redisConfig = new RedisConfig();
             configuration.GetRequiredSection(nameof(RedisConfig)).Bind(redisConfig);
-            return redisConfig;
+            if (redisConfig != null)
+            {
+                return redisConfig;
+            }
+            else
+            {
+
+                var REDIS_HOST = configuration["REDIS_HOST"];
+                var redispass = configuration["REDIS_PASSWORD"];
+                var RedisType = configuration["REDIS_REDISTYPE"];
+                var REDIS_DBNUM = Convert.ToInt32(configuration["REDIS_DBNUM"]);
+                if (!string.IsNullOrWhiteSpace(REDIS_HOST) && !string.IsNullOrWhiteSpace(redispass))
+                {
+                    return new RedisConfig()
+                    {
+                        Connections = new string[] { REDIS_HOST },
+                        Password = redispass,
+                        dbNum = REDIS_DBNUM,
+                        RedisType = RedisType
+                    };
+                }
+                else
+                    return null;
+            }
         }
 
         public static IServiceConfig GetServiceConfig(this IConfiguration configuration)
