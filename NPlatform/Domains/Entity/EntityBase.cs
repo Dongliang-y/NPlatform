@@ -25,10 +25,27 @@ namespace NPlatform.Domains.Entity
     public abstract partial class EntityBase<TPrimaryKey> : IEntity
     {
         /// <summary>
-        /// Unique identifier for this entity.
+        /// 主键
         /// </summary>
         [Key]
         public virtual TPrimaryKey Id { get; set; }
+
+
+        /// <summary>
+        /// 数据创建时间
+        /// </summary>
+
+        [Display(Name = "创建时间")]
+        public DateTime? CreateTime { get; set; } = DateTime.UtcNow;
+
+        /// <summary>
+        /// 数据创建人
+        /// </summary>
+
+        [Display(Name = "创建人")]
+        [StringLength(2000)]
+        public string CreateUser { get; set; }
+
 
         /// <inheritdoc />
         public static bool operator ==(EntityBase<TPrimaryKey> left, EntityBase<TPrimaryKey> right)
