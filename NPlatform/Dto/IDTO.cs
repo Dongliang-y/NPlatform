@@ -25,7 +25,7 @@ namespace NPlatform.Dto
         /// <summary>
         /// 聚合ID
         /// </summary>
-        public string AggregateId { get; set; }
+        public string Id { get; set; }
 
         //DTO绑定验证，使用Fluent API来实现
         public IEnumerable<ValidationResult> ValidationResult { get; }

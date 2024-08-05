@@ -20,14 +20,14 @@ namespace NPlatform.Events
         /// <summary>
         /// 聚合ID
         /// </summary>
-        public string AggregateId { get; set; }
+        public string Id { get; set; }
         /// <summary>
         /// 事件基类
         /// </summary>
         public EventBase(string aggregateId) : base(aggregateId)
         {
             this.CreateTime = DateTime.Now;
-            this.AggregateId = aggregateId;
+            this.Id = aggregateId;
         }
         /// <summary>
         /// 校验对象数据

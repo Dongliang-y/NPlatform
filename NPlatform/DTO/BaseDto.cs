@@ -19,15 +19,15 @@ namespace NPlatform.Dto
     public abstract class BaseDto : IDto
     {
         private IEnumerable<ValidationResult> _ValidationResult;
-        public BaseDto(string aggregateId)
+        public BaseDto(string Id)
         {
-            AggregateId = aggregateId;
+            this.Id = Id;
         }
         public BaseDto()
         {
         }
 
-        public string AggregateId { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// 获取校验结果

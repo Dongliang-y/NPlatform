@@ -448,7 +448,17 @@
         </member>
         <member name="P:NPlatform.Domains.Entity.EntityBase`1.Id">
             <summary>
-            Unique identifier for this entity.
+            主键
+            </summary>
+        </member>
+        <member name="P:NPlatform.Domains.Entity.EntityBase`1.CreateTime">
+            <summary>
+            数据创建时间
+            </summary>
+        </member>
+        <member name="P:NPlatform.Domains.Entity.EntityBase`1.CreateUser">
+            <summary>
+            数据创建人
             </summary>
         </member>
         <member name="M:NPlatform.Domains.Entity.EntityBase`1.op_Equality(NPlatform.Domains.Entity.EntityBase{`0},NPlatform.Domains.Entity.EntityBase{`0})">
@@ -629,7 +639,7 @@
             注意VO与DTO的区分，当需要组合多个DTO做汇总统计，或者DTO无法满足UI设计时，需要重新设计VO来包装DTO。
             </summary>
         </member>
-        <member name="P:NPlatform.Dto.IDto.AggregateId">
+        <member name="P:NPlatform.Dto.IDto.Id">
             <summary>
             聚合ID
             </summary>
@@ -659,7 +669,7 @@
             事件基类  
             </summary>
         </member>
-        <member name="P:NPlatform.Events.EventBase.AggregateId">
+        <member name="P:NPlatform.Events.EventBase.Id">
             <summary>
             聚合ID
             </summary>
