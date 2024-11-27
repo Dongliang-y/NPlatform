@@ -17,7 +17,6 @@ namespace NPlatform.API
     // [AllowAnonymous]
     [ApiController]
     [Authorize]
-    [Route("api/[controller]/[action]")]
     public abstract class BaseController : ControllerBase
     {
         /// <summary>

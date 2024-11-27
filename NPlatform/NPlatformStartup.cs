@@ -90,7 +90,7 @@ namespace NPlatform
                 var urlArray = urls.Split(';', StringSplitOptions.RemoveEmptyEntries);
                 if (urlArray.Length == 0)
                 {
-                    throw new Exception("必须在appsettings.json 配置 Urls项。");
+                    throw new Exception("必须在配置 Urls项。");
                 }
                 var uri = new Uri(urlArray[0]);
                 var httpCheck = new AgentServiceCheck()
