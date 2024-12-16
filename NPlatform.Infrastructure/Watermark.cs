@@ -1,8 +1,10 @@
 namespace NPlatform.Infrastructure
 {
+    using SkiaSharp;
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.IO;
+    using System.Security.Claims;
 
     /// <summary>
     /// 添加水印类 只支持添加图片水印
@@ -10,8 +12,6 @@ namespace NPlatform.Infrastructure
     public class Watermark
     {
         private int bottoamSpace;
-
-        private string drawedImagePath = null;
 
         private int lucencyPercent = 70;
 
@@ -40,21 +40,6 @@ namespace NPlatform.Infrastructure
             set
             {
                 this.bottoamSpace = value;
-            }
-        }
-
-        /// <summary>
-        /// 获取或设置在画的图片路径(水印图片)
-        /// </summary>
-        public string DrawedImagePath
-        {
-            get
-            {
-                return this.drawedImagePath;
-            }
-            set
-            {
-                this.drawedImagePath = value;
             }
         }
 
@@ -235,6 +220,65 @@ namespace NPlatform.Infrastructure
                 catch
                 {
                 }
+            }
+        }
+
+
+        private string ConvertToBase64String(SKBitmap image, SKEncodedImageFormat format)
+        {
+            using (SKData data = image.Encode(format, 100))
+            {
+                byte[] imageBytes = data.ToArray();
+                string base64String = Convert.ToBase64String(imageBytes);
+
+                return "data:image/png;base64," + base64String;
+            }
+        }
+
+        private async Task<SKBitmap> CreateImage(string waterStr,int width=150,int height=80,int TextSize=24)
+        {
+            // 创建一个 SKBitmap 对象
+            using (SKBitmap bitmap = new SKBitmap(width, height))
+            {
+                // 创建 SKCanvas 对象，用于在 SKBitmap 上进行绘制
+                using (SKCanvas canvas = new SKCanvas(bitmap))
+                {
+                    // 在 SKCanvas 上绘制文字并旋转30度
+                    using (SKPaint paint = new SKPaint())
+                    {
+                        paint.TextSize = 24;
+                        paint.IsAntialias = true;
+                        paint.Color = new SKColor(17, 17, 17);
+
+                        // 指定字体文件路径为 msyh.ttc
+
+                        var chineseFontPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "msyh.ttc");
+
+                        if (File.Exists(chineseFontPath))
+                        {
+                            var typeface = SKTypeface.FromFile(chineseFontPath, 0); // 选择第一个字体（对于 TTC 文件）
+                            paint.Typeface = typeface;
+                        }
+
+                        // 计算旋转后文字的边界框
+                        SKRect textBounds = new SKRect();
+                        paint.MeasureText(waterStr, ref textBounds);
+
+                        // 旋转变换
+                        canvas.Translate(bitmap.Width / 2, bitmap.Height / 2);
+                        canvas.RotateDegrees(-30);
+
+                        // 计算旋转后的文字位置
+                        SKPoint textLocation = new SKPoint(-textBounds.MidX, -textBounds.MidY);
+
+                        // 绘制文字
+                        canvas.DrawText(waterStr, textLocation, paint);
+
+                        // 重置变换
+                        canvas.ResetMatrix();
+                    }
+                }
+                return bitmap;
             }
         }
     }
