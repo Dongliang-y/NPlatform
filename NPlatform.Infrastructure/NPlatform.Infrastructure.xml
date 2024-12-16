@@ -2352,11 +2352,6 @@
             获取或设置水印在修改图片中距底部的高度
             </summary>
         </member>
-        <member name="P:NPlatform.Infrastructure.Watermark.DrawedImagePath">
-            <summary>
-            获取或设置在画的图片路径(水印图片)
-            </summary>
-        </member>
         <member name="P:NPlatform.Infrastructure.Watermark.LucencyPercent">
             <summary>
             获取或设置要绘制水印的透明度,注意是原来图片透明度的百分比
@@ -2377,26 +2372,10 @@
             获取或设置水印在修改图片中的右边距
             </summary>
         </member>
-        <member name="M:NPlatform.Infrastructure.Watermark.DrawImage">
+        <member name="M:NPlatform.Infrastructure.Watermark.AddWatermarkToImageAsync(System.String)">
             <summary>
-            开始绘制水印
+            给图片生产水印
             </summary>
-            <example>
-            <code>
-                Watermark wm = new Watermark();
-                wm.DrawedImagePath= Server.MapPath("") + "/upfile/" + "backlogo.gif";
-                wm.ModifyImagePath=path; 
-                wm.RightSpace=184;
-                wm.BottoamSpace=81;
-                wm.LucencyPercent=50;
-                wm.OutPath=Server.MapPath("") + "/upfile/" + fileName + "_new" + extension;
-                wm.DrawImage();
-                
-                //保存加水印过后的图片,删除原始图片 
-                mFileName=fileName + "_new" + extension;
-                if(File.Exists(path)) {  File.Delete(path); } 
-            </code>
-            </example>
         </member>
         <member name="T:NPlatform.Infrastructure.WinRAR">
             <summary>

@@ -1,4 +1,4 @@
-﻿using Ionic.Zip;
+﻿using System.IO.Compression;
 
 namespace NPlatform.Infrastructure
 {
@@ -12,22 +12,51 @@ namespace NPlatform.Infrastructure
         /// <returns>string</returns>
         public static string GetCompressPath(string dirPath, List<string> filesPath)
         {
-            var zipPath = string.Empty; // 返回压缩后的文件路径
-            var filePath = string.Empty;
-            using (ZipFile zip = new ZipFile(System.Text.Encoding.Default)) // System.Text.Encoding.Default设置中文附件名称乱码，不设置会出现乱码
+            var fileName = $"{DateTime.Now.ToString("yyyyMMddHHmmss")}.zip";
+            var zipPath = $"{dirPath}\\{fileName}";
+            // 创建ZIP文件并打开写入流
+            using (ZipArchive zipArchive = ZipFile.Open(zipPath, ZipArchiveMode.Create))
             {
-                foreach (var file in filesPath)
+                // 递归遍历源文件夹下的所有文件和子文件夹
+                foreach (string filePath in filesPath)
                 {
-                    zip.AddFile(file, "");
-                    // 第二个参数为空，说明压缩的文件不会存在多层文件夹。比如C:\test\a\b\c.doc 压缩后解压文件会出现c.doc
-                    // 如果改成zip.AddFile(file);则会出现多层文件夹压缩，比如C:\test\a\b\c.doc 压缩后解压文件会出现test\a\b\c.doc
+                    // 在ZIP文件中创建对应路径的条目
+                    ZipArchiveEntry entry = zipArchive.CreateEntry("/");
+                    // 读取原文件内容并写入到ZIP文件条目的流中
+                    using (FileStream fileStream = File.OpenRead(filePath))
+                    {
+                        using (Stream entryStream = entry.Open())
+                        {
+                            fileStream.CopyTo(entryStream);
+                        }
+                    }
                 }
-                var fileName = DateTime.Now.ToString("yyyyMMddHHmmss");
-                filePath = string.Format("{0}.zip", fileName);
-                zipPath = string.Format("{0}\\{1}.zip", dirPath, fileName);
-                zip.Save(zipPath);
             }
-            return filePath;
+            return zipPath;
+        }
+
+        public static void ZipFolder(string sourceFolderPath, string zipFilePath)
+        {
+            // 创建ZIP文件并打开写入流
+            using (ZipArchive zipArchive = ZipFile.Open(zipFilePath, ZipArchiveMode.Create))
+            {
+                // 递归遍历源文件夹下的所有文件和子文件夹
+                foreach (string filePath in Directory.EnumerateFiles(sourceFolderPath, "*", SearchOption.AllDirectories))
+                {
+                    // 获取文件相对于源文件夹的相对路径，这将作为ZIP文件中的条目路径
+                    string relativePath = filePath.Substring(sourceFolderPath.Length + 1).Replace('\\', '/');
+                    // 在ZIP文件中创建对应路径的条目
+                    ZipArchiveEntry entry = zipArchive.CreateEntry(relativePath);
+                    // 读取原文件内容并写入到ZIP文件条目的流中
+                    using (FileStream fileStream = File.OpenRead(filePath))
+                    {
+                        using (Stream entryStream = entry.Open())
+                        {
+                            fileStream.CopyTo(entryStream);
+                        }
+                    }
+                }
+            }
         }
     }
 }
