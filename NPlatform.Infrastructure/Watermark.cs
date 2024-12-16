@@ -102,128 +102,6 @@ namespace NPlatform.Infrastructure
                 this.rightSpace = value;
             }
         }
-
-        /// <summary>
-        /// 开始绘制水印
-        /// </summary>
-        /// <example>
-        /// <code>
-        ///     Watermark wm = new Watermark();
-        ///     wm.DrawedImagePath= Server.MapPath("") + "/upfile/" + "backlogo.gif";
-        ///     wm.ModifyImagePath=path; 
-        ///     wm.RightSpace=184;
-        ///     wm.BottoamSpace=81;
-        ///     wm.LucencyPercent=50;
-        ///     wm.OutPath=Server.MapPath("") + "/upfile/" + fileName + "_new" + extension;
-        ///     wm.DrawImage();
-        ///     
-        ///     //保存加水印过后的图片,删除原始图片 
-        ///     mFileName=fileName + "_new" + extension;
-        ///     if(File.Exists(path)) {  File.Delete(path); } 
-        /// </code>
-        /// </example>
-        public void DrawImage()
-        {
-            Image modifyImage = null;
-            Image drawedImage = null;
-            Graphics g = null;
-            try
-            {
-                modifyImage = Image.FromFile(this.ModifyImagePath); //建立图形对象
-                drawedImage = Image.FromFile(this.DrawedImagePath);
-                g = Graphics.FromImage(modifyImage);
-
-                int x = modifyImage.Width - this.rightSpace; //获取要绘制图形坐标
-                int y = modifyImage.Height - this.BottoamSpace;
-
-                float[][] matrixItems =
-                    {
-                        //设置颜色矩阵
-                        new float[] { 1, 0, 0, 0, 0 }, new float[] { 0, 1, 0, 0, 0 }, new float[] { 0, 0, 1, 0, 0 },
-                        new float[] { 0, 0, 0, (float)this.LucencyPercent / 100f, 0 }, new float[] { 0, 0, 0, 0, 1 }
-                    };
-
-                ColorMatrix colorMatrix = new ColorMatrix(matrixItems);
-                ImageAttributes imgAttr = new ImageAttributes();
-                imgAttr.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
-
-                g.DrawImage( //绘制阴影图像
-                    drawedImage,
-                    new Rectangle(x, y, drawedImage.Width, drawedImage.Height),
-                    0,
-                    0,
-                    drawedImage.Width,
-                    drawedImage.Height,
-                    GraphicsUnit.Pixel,
-                    imgAttr);
-
-                string[] allowImageType = { ".jpg", ".gif", ".png", ".bmp", ".tiff", ".wmf", ".ico" }; //保存文件
-                FileInfo file = new FileInfo(this.ModifyImagePath);
-                ImageFormat imageType = ImageFormat.Gif;
-                switch (file.Extension.ToLower())
-                {
-                    case ".jpg":
-                        imageType = ImageFormat.Jpeg;
-                        break;
-                    case ".gif":
-                        imageType = ImageFormat.Gif;
-                        break;
-                    case ".png":
-                        imageType = ImageFormat.Png;
-                        break;
-                    case ".bmp":
-                        imageType = ImageFormat.Bmp;
-                        break;
-                    case ".tif":
-                        imageType = ImageFormat.Tiff;
-                        break;
-                    case ".wmf":
-                        imageType = ImageFormat.Wmf;
-                        break;
-                    case ".ico":
-                        imageType = ImageFormat.Icon;
-                        break;
-                    default: break;
-                }
-
-                MemoryStream ms = new MemoryStream();
-                modifyImage.Save(ms, imageType);
-                byte[] imgData = ms.ToArray();
-                modifyImage.Dispose();
-                drawedImage.Dispose();
-                g.Dispose();
-                FileStream fs = null;
-                if (this.OutPath == null || this.OutPath == "")
-                {
-                    File.Delete(this.ModifyImagePath);
-                    fs = new FileStream(this.ModifyImagePath, FileMode.Create, FileAccess.Write);
-                }
-                else
-                {
-                    fs = new FileStream(this.OutPath, FileMode.Create, FileAccess.Write);
-                }
-
-                if (fs != null)
-                {
-                    fs.Write(imgData, 0, imgData.Length);
-                    fs.Close();
-                }
-            }
-            finally
-            {
-                try
-                {
-                    drawedImage.Dispose();
-                    modifyImage.Dispose();
-                    g.Dispose();
-                }
-                catch
-                {
-                }
-            }
-        }
-
-
         private string ConvertToBase64String(SKBitmap image, SKEncodedImageFormat format)
         {
             using (SKData data = image.Encode(format, 100))
@@ -281,5 +159,59 @@ namespace NPlatform.Infrastructure
                 return bitmap;
             }
         }
+
+        /// <summary>
+        /// 给图片生产水印
+        /// </summary>
+        public async Task AddWatermarkToImageAsync(string watermarkText)
+        {
+            if (string.IsNullOrEmpty(this.modifyImagePath) || !File.Exists(this.modifyImagePath))
+            {
+                throw new FileNotFoundException("ModifyImagePath is invalid.");
+            }
+
+            if (string.IsNullOrEmpty(this.outPath))
+            {
+                throw new ArgumentException("OutPath is not set.");
+            }
+
+            // Load the original image
+            using (var originalBitmap = SKBitmap.Decode(this.modifyImagePath))
+            {
+                if (originalBitmap == null)
+                {
+                    throw new Exception("Failed to load the original image.");
+                }
+
+                // Create the watermark image
+                using (var watermarkBitmap = await CreateImage(watermarkText))
+                {
+                    using (var canvas = new SKCanvas(originalBitmap))
+                    {
+                        int x = originalBitmap.Width - watermarkBitmap.Width - this.RightSpace;
+                        int y = originalBitmap.Height - watermarkBitmap.Height - this.BottoamSpace;
+
+                        // Set transparency
+                        var paint = new SKPaint
+                        {
+                            Color = SKColors.White.WithAlpha((byte)(255 * this.LucencyPercent / 100)),
+                            IsAntialias = true,
+                        };
+
+                        // Draw the watermark onto the original image
+                        canvas.DrawBitmap(watermarkBitmap, new SKPoint(x, y), paint);
+                    }
+
+                    // Save the modified image
+                    using (var image = SKImage.FromBitmap(originalBitmap))
+                    using (var data = image.Encode(SKEncodedImageFormat.Png, 100))
+                    using (var stream = File.OpenWrite(this.outPath))
+                    {
+                        data.SaveTo(stream);
+                    }
+                }
+            }
+        }
+
     }
 }
