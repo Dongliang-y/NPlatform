@@ -2337,46 +2337,6 @@
             <param name="intLength"></param>
             <returns></returns>
         </member>
-        <member name="T:NPlatform.Infrastructure.Watermark">
-            <summary>
-            添加水印类 只支持添加图片水印
-            </summary>
-        </member>
-        <member name="M:NPlatform.Infrastructure.Watermark.#ctor">
-            <summary>
-            构造函数
-            </summary>
-        </member>
-        <member name="P:NPlatform.Infrastructure.Watermark.BottoamSpace">
-            <summary>
-            获取或设置水印在修改图片中距底部的高度
-            </summary>
-        </member>
-        <member name="P:NPlatform.Infrastructure.Watermark.LucencyPercent">
-            <summary>
-            获取或设置要绘制水印的透明度,注意是原来图片透明度的百分比
-            </summary>
-        </member>
-        <member name="P:NPlatform.Infrastructure.Watermark.ModifyImagePath">
-            <summary>
-            获取或设置要修改的图像路径
-            </summary>
-        </member>
-        <member name="P:NPlatform.Infrastructure.Watermark.OutPath">
-            <summary>
-            获取或设置要输出图像的路径
-            </summary>
-        </member>
-        <member name="P:NPlatform.Infrastructure.Watermark.RightSpace">
-            <summary>
-            获取或设置水印在修改图片中的右边距
-            </summary>
-        </member>
-        <member name="M:NPlatform.Infrastructure.Watermark.AddWatermarkToImageAsync(System.String)">
-            <summary>
-            给图片生产水印
-            </summary>
-        </member>
         <member name="T:NPlatform.Infrastructure.WinRAR">
             <summary>
             WinRAR 操作类
