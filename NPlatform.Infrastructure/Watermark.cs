@@ -7,6 +7,9 @@ namespace NPlatform.Infrastructure
         public string OutputImagePath { get; set; }
         public int BottomSpace { get; set; } = 10;
         public int RightSpace { get; set; } = 10;
+        public int WaterWidth { get; set; } = 200;
+        public int WaterHeight { get; set; } = 80;
+        public int WaterTextSize { get; set; } = 24;
 
         private int _transparency = 70;
         public int Transparency
@@ -55,21 +58,21 @@ namespace NPlatform.Infrastructure
             data.SaveTo(stream);
         }
 
-        private async Task<SKBitmap> CreateWatermarkAsync(string text, int width = 150, int height = 80, int textSize = 24)
+        private async Task<SKBitmap> CreateWatermarkAsync(string text)
         {
-            var bitmap = new SKBitmap(width, height); // 不放入 using，返回未释放的对象
+            var bitmap = new SKBitmap(WaterWidth, WaterHeight); // 不放入 using，返回未释放的对象
             using (var canvas = new SKCanvas(bitmap))
             using (var paint = new SKPaint
             {
-                TextSize = textSize,
+                TextSize = WaterTextSize,
                 IsAntialias = true,
                 Color = new SKColor(17, 17, 17),
                 Typeface = SKTypeface.FromFile(DefaultFontPath) ?? SKTypeface.Default
             })
             {
                 canvas.Clear(SKColors.Transparent);
-                canvas.RotateDegrees(-30, width / 2, height / 2);
-                canvas.DrawText(text, width / 4, height / 2, paint);
+                canvas.RotateDegrees(-30, WaterWidth / 2, WaterHeight / 2);
+                canvas.DrawText(text, WaterWidth / 4, WaterHeight / 2, paint);
             }
 
             return bitmap;
