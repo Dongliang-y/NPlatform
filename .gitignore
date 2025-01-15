@@ -31,3 +31,9 @@
 *.out
 *.app
 /.vs/NPlatform/v16/*.suo
+/.vs
+/NPlatform/bin/Debug
+/NPlatform/bin
+/NPlatform/obj
+/NPlatform.Infrastructure/bin/Debug
+/TestPro
