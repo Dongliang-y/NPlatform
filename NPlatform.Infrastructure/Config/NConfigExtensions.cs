@@ -93,33 +93,49 @@ namespace NPlatform.Infrastructure.Config
         /// <returns></returns>
         public static IRedisConfig GetRedisConfig(this IConfiguration configuration)
         {
-            ArgumentNullException.ThrowIfNull(nameof(configuration));
-            RedisConfig redisConfig = new RedisConfig();
-            configuration.GetRequiredSection(nameof(RedisConfig)).Bind(redisConfig);
-            if (redisConfig != null)
-            {
-                return redisConfig;
-            }
-            else
-            {
+            // 检查配置是否为空
+            ArgumentNullException.ThrowIfNull(configuration, nameof(configuration));
 
-                var REDIS_HOST = configuration["REDIS_HOST"];
-                var redispass = configuration["REDIS_PASSWORD"];
-                var RedisType = configuration["REDIS_REDISTYPE"];
-                var REDIS_DBNUM = Convert.ToInt32(configuration["REDIS_DBNUM"]);
-                if (!string.IsNullOrWhiteSpace(REDIS_HOST) && !string.IsNullOrWhiteSpace(redispass))
+            // 尝试从 Section 读取配置
+            var section = configuration.GetSection(nameof(RedisConfig));
+            if (section.Exists())
+            {
+                var redisConfig = new RedisConfig();
+                section.Bind(redisConfig);
+
+                // 检查从 Section 读取的配置是否有效
+                if (IsValidRedisConfig(redisConfig))
                 {
-                    return new RedisConfig()
-                    {
-                        Connections = new string[] { REDIS_HOST },
-                        Password = redispass,
-                        dbNum = REDIS_DBNUM,
-                        RedisType = RedisType
-                    };
+                    return redisConfig;
                 }
-                else
-                    return null;
             }
+
+            // 如果 Section 配置无效，尝试从环境变量读取配置
+            var host = configuration["REDIS_HOST"];
+            var password = configuration["REDIS_PASSWORD"];
+            var redisType = configuration["REDIS_REDISTYPE"];
+            var dbNumString = configuration["REDIS_DBNUM"];
+
+            // 检查环境变量是否有效
+            if (!string.IsNullOrWhiteSpace(host) && int.TryParse(dbNumString, out int dbNum))
+            {
+                return new RedisConfig
+                {
+                    Connections = new[] { host },
+                    Password = password,
+                    dbNum = dbNum,
+                    RedisType = redisType
+                };
+            }
+
+            // 如果都没有有效的配置，返回 null
+            return null;
+        }
+
+        // 辅助方法，用于检查 RedisConfig 是否有效
+        private static bool IsValidRedisConfig(RedisConfig config)
+        {
+            return config != null && config.Connections != null && config.Connections.Length > 0;
         }
 
         public static IServiceConfig GetServiceConfig(this IConfiguration configuration)
