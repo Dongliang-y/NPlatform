@@ -115,7 +115,10 @@ namespace NPlatform.Infrastructure.Config
             var password = configuration["REDIS_PASSWORD"];
             var redisType = configuration["REDIS_REDISTYPE"];
             var dbNumString = configuration["REDIS_DBNUM"];
-
+            if (string.IsNullOrWhiteSpace(dbNumString))
+                dbNumString = "0";
+            if (string.IsNullOrWhiteSpace(redisType))
+                redisType = "Normal";
             // 检查环境变量是否有效
             if (!string.IsNullOrWhiteSpace(host) && int.TryParse(dbNumString, out int dbNum))
             {
