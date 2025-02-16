@@ -25,7 +25,7 @@ namespace NPlatform.Repositories.<%=GetModuleName(SourceTable)%>
     /// <summary> 
     /// <%=GetName(SourceTable)%>仓储操作
     /// </summary> 
-    public partial class <%=GetName(SourceTable)%>Repository : RepositoryBase<<%=GetName(SourceTable)%>, string>, I<%=GetName(SourceTable)%>Repository
+    public partial class <%=GetName(SourceTable)%>Repository : RepositoryBase<<%=GetName(SourceTable)%>>, I<%=GetName(SourceTable)%>Repository
     { 
         /// <summary>
         /// Initializes a new instance of the <see cref="<%=GetName(SourceTable)%>Repository"/> class.
