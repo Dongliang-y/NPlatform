@@ -8,6 +8,10 @@
  *  @version     2021/12/13 18:09:32  @Reviser  Initial Version
  **************************************************************/
 
+using System.ComponentModel.DataAnnotations;
+using NPlatform.Domains.Entity;
+using NPlatform.Repositories;
+
 namespace NPlatform.Query
 {
     /// <summary>
@@ -15,7 +19,32 @@ namespace NPlatform.Query
     /// </summary>
     public class QueryPageExp : QueryExp
     {
+        private string lambdaExp;
+        /// <summary>
+        /// 查询条件,Lambda 表达式格式的条件
+        /// </summary>
+        [StringLength(1500)]
+        public new string LambdaExp
+        {
+            set
+            {
+                lambdaExp = value;
+            }
+        }
 
+        private string selectSorts;
+        /// <summary>
+        /// 排序条件
+        /// </summary>
+        [StringLength(1500)]
+        [RegularExpression("^\\[(\\s)*\\{{1,}([\\s\\S]*)\\}{1,}(\\s)*\\]$", ErrorMessage = "排序条件必须是json格式的SelectSort对象结构，例如：[{\"field\":\"id\",\"isasc\":false},{\"field\":\"id\",\"isasc\":false}]")]
+        public new string SelectSorts
+        {
+            set
+            {
+                selectSorts = value;
+            }
+        }
         /// <summary>
         /// 是否统计总数
         /// </summary>
