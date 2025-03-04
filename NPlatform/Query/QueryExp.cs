@@ -70,18 +70,20 @@ namespace NPlatform.Query
                 {
                       FieldName = Safe.SqlFilterKeyword(Safe.FilterBadChar(sort.FieldName)),
                       IsAsc = sort.IsAsc,
-                      FieldExp=CreatePropertyNameExpression<TEntity>(sort.FieldName)
+                      FieldExp= CreateExpression<TEntity>(sort.FieldName)
                 });
 
             }
-            return sorts;
+            return listSorts;
         }
-        private Expression<Func<TEntity, object>> CreatePropertyNameExpression<TEntity>(string propertyName)
+        private Expression<Func<TEntity, object>> CreateExpression<TEntity>(string propertyName)
         {
             var parameter = Expression.Parameter(typeof(TEntity), "x");
             var property = Expression.Property(parameter, propertyName);
-            var conversion = Expression.Convert(property, typeof(object));
-            return Expression.Lambda<Func<TEntity, object>>(conversion, parameter);
+
+            // 不进行类型转换，直接使用属性访问表达式作为 Lambda 表达式的主体
+            var lambda = Expression.Lambda<Func<TEntity, object>>(property, parameter);
+            return lambda;
         }
         /// <summary>
         /// 创建表达式
