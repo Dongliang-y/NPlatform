@@ -20,20 +20,15 @@ namespace NPlatform.Query
     /// </summary>
     public class QueryExp : IQuery
     {
-        private string lambdaExp;
        /// <summary>
        /// 查询条件,Lambda 表达式格式的条件
        /// </summary>
        [StringLength(1500)]
         public string LambdaExp
         {
-            set
-            {
-                lambdaExp = value;
-            }
+            get;set;
         }
 
-        private string selectSorts;
         /// <summary>
         /// 排序条件
         /// </summary>
@@ -41,10 +36,7 @@ namespace NPlatform.Query
         [RegularExpression("^\\[(\\s)*\\{{1,}([\\s\\S]*)\\}{1,}(\\s)*\\]$", ErrorMessage = "排序条件必须是json格式的SelectSort对象结构，例如：[{\"field\":\"id\",\"isasc\":false},{\"field\":\"id\",\"isasc\":false}]")]
         public string SelectSorts
         {
-            set
-            {
-                selectSorts = value;
-            }
+            get; set;
         }
 
         /// <summary>
@@ -54,9 +46,9 @@ namespace NPlatform.Query
         /// <returns></returns>
         public Expression<Func<TEntity, bool>> GetExp<TEntity>() where TEntity : IEntity
         {
-            if (this.lambdaExp == null)
+            if (this.LambdaExp == null)
                 return CreateExpression<TEntity>();
-            Expression<Func<TEntity, bool>> exp = DynamicExpressionParser.ParseLambda<TEntity, bool>(new ParsingConfig(), true, this.lambdaExp);
+            Expression<Func<TEntity, bool>> exp = DynamicExpressionParser.ParseLambda<TEntity, bool>(new ParsingConfig(), true, this.LambdaExp);
             return exp;
         }
 
@@ -68,9 +60,9 @@ namespace NPlatform.Query
         /// <returns></returns>
         public IList<SelectSort<TEntity>> GetSelectSorts<TEntity>() where TEntity : IEntity
         {
-            if (this.selectSorts == null)
+            if (this.SelectSorts == null)
                 return null;
-            var sorts = System.Text.Json.JsonSerializer.Deserialize<List<SelectSort<TEntity>>>(this.selectSorts);
+            var sorts = System.Text.Json.JsonSerializer.Deserialize<List<SelectSort<TEntity>>>(this.SelectSorts);
             var listSorts=new List<SelectSort<TEntity>>();
             foreach (var sort in sorts)
             {

@@ -26,10 +26,7 @@ namespace NPlatform.Query
         [StringLength(1500)]
         public new string LambdaExp
         {
-            set
-            {
-                lambdaExp = value;
-            }
+            get; set;
         }
 
         private string selectSorts;
@@ -40,10 +37,7 @@ namespace NPlatform.Query
         [RegularExpression("^\\[(\\s)*\\{{1,}([\\s\\S]*)\\}{1,}(\\s)*\\]$", ErrorMessage = "排序条件必须是json格式的SelectSort对象结构，例如：[{\"field\":\"id\",\"isasc\":false},{\"field\":\"id\",\"isasc\":false}]")]
         public new string SelectSorts
         {
-            set
-            {
-                selectSorts = value;
-            }
+            get; set;
         }
         /// <summary>
         /// 是否统计总数
