@@ -79,15 +79,32 @@ namespace NPlatform.Query
             }
             return listSorts;
         }
+
+        // 创建 Expression<Func<TEntity, object>> 表达式
         private Expression<Func<TEntity, object>> CreateExpression<TEntity>(string propertyName)
         {
             var parameter = Expression.Parameter(typeof(TEntity), "x");
             var property = Expression.Property(parameter, propertyName);
 
-            // 不进行类型转换，直接使用属性访问表达式作为 Lambda 表达式的主体
-            var lambda = Expression.Lambda<Func<TEntity, object>>(property, parameter);
-            return lambda;
+            // 处理可为空类型的情况
+            if (property.Type.IsGenericType && property.Type.GetGenericTypeDefinition() == typeof(Nullable<>))
+            {
+                // 获取可为空类型的基础类型
+                var underlyingType = Nullable.GetUnderlyingType(property.Type);
+                // 创建一个条件表达式，用于处理可为空类型的值
+                var hasValueProperty = Expression.Property(property, "HasValue");
+                var valueProperty = Expression.Property(property, "Value");
+                var nullConstant = Expression.Constant(null, typeof(object));
+                var convertValue = Expression.Convert(valueProperty, typeof(object));
+                var condition = Expression.Condition(hasValueProperty, convertValue, nullConstant);
+
+                return Expression.Lambda<Func<TEntity, object>>(condition, parameter);
+            }
+
+            // 非可为空类型，直接返回属性访问表达式
+            return Expression.Lambda<Func<TEntity, object>>(property, parameter);
         }
+
         /// <summary>
         /// 创建表达式
         /// </summary>
