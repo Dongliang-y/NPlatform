@@ -19,26 +19,6 @@ namespace NPlatform.Query
     /// </summary>
     public class QueryPageExp : QueryExp
     {
-        private string lambdaExp;
-        /// <summary>
-        /// 查询条件,Lambda 表达式格式的条件
-        /// </summary>
-        [StringLength(1500)]
-        public new string LambdaExp
-        {
-            get; set;
-        }
-
-        private string selectSorts;
-        /// <summary>
-        /// 排序条件
-        /// </summary>
-        [StringLength(1500)]
-        [RegularExpression("^\\[(\\s)*\\{{1,}([\\s\\S]*)\\}{1,}(\\s)*\\]$", ErrorMessage = "排序条件必须是json格式的SelectSort对象结构，例如：[{\"field\":\"id\",\"isasc\":false},{\"field\":\"id\",\"isasc\":false}]")]
-        public new string SelectSorts
-        {
-            get; set;
-        }
         /// <summary>
         /// 是否统计总数
         /// </summary>
