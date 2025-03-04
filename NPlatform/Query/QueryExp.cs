@@ -69,12 +69,20 @@ namespace NPlatform.Query
                 listSorts.Add(new SelectSort<TEntity>()
                 {
                       FieldName = Safe.SqlFilterKeyword(Safe.FilterBadChar(sort.FieldName)),
-                       IsAsc = sort.IsAsc,
+                      IsAsc = sort.IsAsc,
+                      FieldExp=CreatePropertyNameExpression<TEntity>(sort.FieldName)
                 });
+
             }
             return sorts;
         }
-
+        private Expression<Func<TEntity, object>> CreatePropertyNameExpression<TEntity>(string propertyName)
+        {
+            var parameter = Expression.Parameter(typeof(TEntity), "x");
+            var property = Expression.Property(parameter, propertyName);
+            var conversion = Expression.Convert(property, typeof(object));
+            return Expression.Lambda<Func<TEntity, object>>(conversion, parameter);
+        }
         /// <summary>
         /// 创建表达式
         /// </summary>
