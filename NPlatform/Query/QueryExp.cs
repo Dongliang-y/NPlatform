@@ -47,7 +47,7 @@ namespace NPlatform.Query
         /// </summary>
         /// <typeparam name="T">表达式查询的对象</typeparam>
         /// <returns></returns>
-        public Expression<Func<TEntity, bool>> GetExp<TEntity>() where TEntity : IEntity
+        public Expression<Func<TEntity, bool>> GetExp<TEntity>() where TEntity : EntityBase<string>
         {
             if (this._LambdaExp == null)
                 return CreateExpression<TEntity>();
@@ -61,7 +61,7 @@ namespace NPlatform.Query
         /// </summary>
         /// <typeparam name="T">表达式查询的对象</typeparam>
         /// <returns></returns>
-        public IList<SelectSort<TEntity>> GetSelectSorts<TEntity>() where TEntity : IEntity
+        public IList<SelectSort<TEntity>> GetSelectSorts<TEntity>() where TEntity :  EntityBase<string>
         {
             if (this._SelectSorts == null)
                 return null;
@@ -109,9 +109,9 @@ namespace NPlatform.Query
         /// 创建表达式
         /// </summary>
         /// <returns>表达式</returns>
-        protected Expression<Func<TEntity, bool>> CreateExpression<TEntity>() where TEntity : IEntity
+        protected Expression<Func<TEntity, bool>> CreateExpression<TEntity>() where TEntity : EntityBase<string>
         {
-            Expression<Func<TEntity, bool>> expression = t => true;
+            Expression<Func<TEntity, bool>> expression = t =>t.Id!=null;
             return expression;
         }
 

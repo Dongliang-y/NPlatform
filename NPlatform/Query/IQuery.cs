@@ -17,6 +17,6 @@ namespace NPlatform.Query
     /// </summary>
     public interface IQuery
     {
-        Expression<Func<TEntity, bool>> GetExp<TEntity>() where TEntity : IEntity;
+        Expression<Func<TEntity, bool>> GetExp<TEntity>() where TEntity :  EntityBase<string>;
     }
 }
