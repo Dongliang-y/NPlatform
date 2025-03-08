@@ -109,7 +109,10 @@ namespace NPlatform.Result
 
         [JsonIgnore]
         [System.Xml.Serialization.XmlIgnore]
-        public object SerializerSettings { get; set; }
+        public object SerializerSettings { get; set; } =new JsonSerializerOptions
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.Never
+        };
 
 
         /// <summary>

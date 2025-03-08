@@ -54,7 +54,10 @@ namespace NPlatform.Result
 
         [System.Xml.Serialization.XmlIgnore]
         [JsonIgnore]
-        public object SerializerSettings { get; set; }
+        public object SerializerSettings { get; set; } = new JsonSerializerOptions
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.Never
+        };
 
         /// <inheritdoc />
         public async Task ExecuteResultAsync(ActionContext context)
