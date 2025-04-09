@@ -29,13 +29,13 @@
 		2024/2/19 .NET CORE 8.0版本
 		由于大部分生产环境不支持.NET8,回滚
 	</Description>
-    <Version>3.0.0.24</Version>
+    <Version>3.0.0.25</Version>
     <Authors>yidongliang123@163.com</Authors>
     <Company></Company>
     <Product>基础框架</Product>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <FileVersion>3.0.0.24</FileVersion>
+    <FileVersion>3.0.0.25</FileVersion>
     <PackageId>NPlatform</PackageId>
     <PackageReleaseNotes>NET CORE 版本</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/Dongliang-y/NPlatform</PackageProjectUrl>
