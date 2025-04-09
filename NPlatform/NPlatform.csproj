@@ -6,7 +6,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>NPlatform</RootNamespace>
     <AssemblyName>NPlatform</AssemblyName>
-    <AssemblyVersion>3.0.0.24</AssemblyVersion>
+    <AssemblyVersion>3.0.0.25</AssemblyVersion>
     <Description>
 		Not Platform 底层脚手架
 		.NET CORE 8.0版本
