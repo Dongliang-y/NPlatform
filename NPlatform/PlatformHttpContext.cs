@@ -119,7 +119,11 @@ namespace NPlatform
             get
             {
                 var uid = Claims.FirstOrDefault(t => t.Type == JwtClaimTypes.Id);
-                return uid != null ? uid.Value : "";
+                if(string.IsNullOrWhiteSpace(uid?.Value))
+                {
+                    uid = Claims.FirstOrDefault(t => t.Type == "sub");
+                }
+                return uid?.Value??"";
             }
         }
 
