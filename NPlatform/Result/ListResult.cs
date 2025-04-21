@@ -53,6 +53,12 @@ namespace NPlatform.Result
         [DataMember]
         public IEnumerable<T> Data { get; set; }
 
+        //
+        // 摘要:
+        //     Total summary calculation results.
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public object[] summary { get; set; }
+
         #region 不序列化返回的属性
         [JsonIgnore]
         [System.Xml.Serialization.XmlIgnore]
