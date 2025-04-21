@@ -90,11 +90,12 @@ namespace NPlatform.Result
         /// <summary>
         /// 数据列表内容对象
         /// </summary>
-        public ListResult(IEnumerable<T> list, long total, int? httpCode)
+        public ListResult(IEnumerable<T> list, long total, object[] sums, int? httpCode)
         {
             Total = total;
             this.StatusCode = httpCode;
             this.Data = list;
+            summary = sums;
         }
 
         /// <summary>
