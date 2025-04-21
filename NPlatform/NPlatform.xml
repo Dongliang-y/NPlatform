@@ -2289,16 +2289,6 @@
             查询条件
             </summary>
         </member>
-        <member name="T:NPlatform.Query.QueryExp">
-            <summary>
-            查询条件的封装
-            </summary>
-        </member>
-        <member name="P:NPlatform.Query.QueryExp.LambdaExp">
-            <summary>
-            查询条件,Lambda 表达式格式的条件
-            </summary>
-        </member>
         <member name="P:NPlatform.Query.QueryExp.SelectSorts">
             <summary>
             排序条件
@@ -2308,21 +2298,6 @@
             <summary>
             获取linq 格式的 的查询表达式
             </summary>
-            <typeparam name="T">表达式查询的对象</typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.Query.QueryExp.GetSelectSorts``1">
-            <summary>
-            获取排序字段SelectSorts
-            </summary>
-            <typeparam name="T">表达式查询的对象</typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.Query.QueryExp.CreateExpression``1">
-            <summary>
-            创建表达式
-            </summary>
-            <returns>表达式</returns>
         </member>
         <member name="T:NPlatform.Query.QueryPageExp">
             <summary>
