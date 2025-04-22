@@ -39,5 +39,11 @@ namespace NPlatform.Result
         /// </summary>
         /// <returns></returns>
         IList<T> ToList();
+
+        /// <summary>
+        /// Total summary 
+        /// </summary>
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public object[] summary { get; set; }
     }
 }
