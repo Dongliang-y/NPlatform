@@ -122,6 +122,10 @@ namespace NPlatform.Result
         [System.Xml.Serialization.XmlIgnore]
         IEnumerable<T> IListResult<T>.Data { get; } = null;
 
+        [JsonIgnore]
+        [System.Xml.Serialization.XmlIgnore]
+        public object[] summary { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         /// <summary>
         /// NotImplementedException
         /// </summary>

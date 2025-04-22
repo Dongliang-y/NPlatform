@@ -2424,6 +2424,11 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="P:NPlatform.Result.IListResult`1.summary">
+            <summary>
+            Total summary 
+            </summary>
+        </member>
         <member name="T:NPlatform.Result.INPResult">
             <summary>
             
@@ -2511,7 +2516,7 @@
             数据列表内容对象
             </summary>
         </member>
-        <member name="M:NPlatform.Result.ListResult`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Int64,System.Nullable{System.Int32})">
+        <member name="M:NPlatform.Result.ListResult`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Int64,System.Object[],System.Nullable{System.Int32})">
             <summary>
             数据列表内容对象
             </summary>
