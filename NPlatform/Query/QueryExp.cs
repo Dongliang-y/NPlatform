@@ -9,6 +9,7 @@ using NPlatform.Repositories;
 
 namespace NPlatform.Query
 {
+    [Obsolete("此类已废弃，不可使用，请改用  DataSourceLoadOptionsBase 。", true)]
     public class QueryExp : IQuery
     {
         private string _LambdaExp;
