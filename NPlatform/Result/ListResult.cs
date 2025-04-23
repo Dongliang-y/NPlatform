@@ -74,6 +74,12 @@ namespace NPlatform.Result
         /// <summary>
         /// 数据列表内容对象
         /// </summary>
+        public ListResult()
+        {
+        }
+        /// <summary>
+        /// 数据列表内容对象
+        /// </summary>
         public ListResult(IEnumerable<T> list, long total)
         {
             Total = total;

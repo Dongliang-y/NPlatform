@@ -10,7 +10,14 @@ namespace NPlatform.Result
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class FailResult<T> : IListResult<T>, ITreeResult<T>, INPResult
-    {
+    {        
+        /// <summary>
+        /// 错误信息
+        /// </summary>
+        /// <param name="ex"></param>
+        public FailResult()
+        {
+        }
         /// <summary>
         /// 错误信息
         /// </summary>
