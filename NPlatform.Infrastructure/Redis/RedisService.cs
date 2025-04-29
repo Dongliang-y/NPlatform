@@ -258,6 +258,25 @@ namespace NPlatform.Infrastructure.Redis
             return await Do(db => db.HashExistsAsync(key, dataKey));
         }
 
+
+        /// <summary>
+        /// 存储数据到hash表
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="dataKey"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public async Task<bool> GlobalHashSetAsync<T>(string key, string dataKey, T t)
+        {
+            key = $"Global{key}";
+            return await Do(db =>
+            {
+                string json = JsonSerializer.Serialize(t);
+                return db.HashSetAsync(key, dataKey, json);
+            });
+        }
+
         /// <summary>
         /// 存储数据到hash表
         /// </summary>
@@ -314,7 +333,19 @@ namespace NPlatform.Infrastructure.Redis
             string value = await Do(db => db.HashGetAsync(key, dataKey));
             return value == null ? default : JsonSerializer.Deserialize<T>(value);
         }
-
+        /// <summary>
+        /// 从hash表获取数据
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="dataKey"></param>
+        /// <returns></returns>
+        public async Task<T> GlobalHashGetAsync<T>(string key, string dataKey)
+        {
+            key = $"Global{key}";
+            string value = await Do(db => db.HashGetAsync(key, dataKey));
+            return value == null ? default : JsonSerializer.Deserialize<T>(value);
+        }
         /// <summary>
         /// 为数字增长val
         /// </summary>

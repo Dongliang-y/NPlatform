@@ -1811,6 +1811,16 @@
             <param name="dataKey"></param>
             <returns></returns>
         </member>
+        <member name="M:NPlatform.Infrastructure.Redis.RedisService.GlobalHashSetAsync``1(System.String,System.String,``0)">
+            <summary>
+            存储数据到hash表
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key"></param>
+            <param name="dataKey"></param>
+            <param name="t"></param>
+            <returns></returns>
+        </member>
         <member name="M:NPlatform.Infrastructure.Redis.RedisService.HashSetAsync``1(System.String,System.String,``0)">
             <summary>
             存储数据到hash表
@@ -1838,6 +1848,15 @@
             <returns></returns>
         </member>
         <member name="M:NPlatform.Infrastructure.Redis.RedisService.HashGeAsync``1(System.String,System.String)">
+            <summary>
+            从hash表获取数据
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key"></param>
+            <param name="dataKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.Redis.RedisService.GlobalHashGetAsync``1(System.String,System.String)">
             <summary>
             从hash表获取数据
             </summary>

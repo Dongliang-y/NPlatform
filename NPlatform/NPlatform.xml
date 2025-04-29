@@ -2325,6 +2325,12 @@
             </summary>
             <typeparam name="T"></typeparam>
         </member>
+        <member name="M:NPlatform.Result.FailResult`1.#ctor">
+            <summary>
+            错误信息
+            </summary>
+            <param name="ex"></param>
+        </member>
         <member name="M:NPlatform.Result.FailResult`1.#ctor(System.Exception)">
             <summary>
             错误信息
@@ -2504,6 +2510,11 @@
         <member name="P:NPlatform.Result.ListResult`1.StatusCode">
             <summary>
             状态码
+            </summary>
+        </member>
+        <member name="M:NPlatform.Result.ListResult`1.#ctor">
+            <summary>
+            数据列表内容对象
             </summary>
         </member>
         <member name="M:NPlatform.Result.ListResult`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Int64)">
