@@ -8,6 +8,12 @@ namespace NPlatform.Infrastructure.Redis
         ITransaction CreateTransaction();
         IDatabase GetDatabase();
         IServer GetServer(string hostAndPort);
+        Task<bool> GlobalHashDeleteAsync(string key, string dataKey);
+        Task<bool> GlobalHashExistsAsync(string key, string dataKey);
+        Task<T> GlobalHashGetAsync<T>(string key, string dataKey);
+        Task<bool> GlobalHashSetAsync<T>(string key, string dataKey, T t);
+        Task<string> GlobalStringGetAsync(string key);
+        Task<bool> GlobalStringSetAsync(string key, string value, TimeSpan? expiry = null);
         Task<double> HashDecrementAsync(string key, string dataKey, double val = 1);
         Task<long> HashDeleteAsync(string key, List<RedisValue> dataKeys);
         Task<bool> HashDeleteAsync(string key, string dataKey);

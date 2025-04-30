@@ -242,23 +242,43 @@ namespace NPlatform.Infrastructure.Redis
         }
         #endregion
 
+        #region Global全局
 
-        #region Hash
-
-
+        /// <summary>
+        /// 保存单个key value
+        /// </summary>
+        /// <param name="key">Redis Key</param>
+        /// <param name="value">保存的值</param>
+        /// <param name="expiry">过期时间</param>
+        /// <returns></returns>
+        public async Task<bool> GlobalStringSetAsync(string key, string value, TimeSpan? expiry = default)
+        {
+            key = $"Global{key}";
+            key = SetPrefix(key);
+            return await Do(db => db.StringSetAsync(key, value, expiry));
+        }
+        /// <summary>
+        /// 获取单个key的值
+        /// </summary>
+        /// <param name="key">Redis Key</param>
+        /// <returns></returns>
+        public async Task<string> GlobalStringGetAsync(string key)
+        {
+            key = $"Global{key}";
+            key = SetPrefix(key);
+            return await Do(db => db.StringGetAsync(key));
+        }
         /// <summary>
         /// 判断某个数据是否已经被缓存
         /// </summary>
         /// <param name="key"></param>
         /// <param name="dataKey"></param>
         /// <returns></returns>
-        public async Task<bool> HashExistsAsync(string key, string dataKey)
+        public async Task<bool> GlobalHashExistsAsync(string key, string dataKey)
         {
-            key = SetPrefix(key);
+            key = $"Global{key}";
             return await Do(db => db.HashExistsAsync(key, dataKey));
         }
-
-
         /// <summary>
         /// 存储数据到hash表
         /// </summary>
@@ -276,6 +296,49 @@ namespace NPlatform.Infrastructure.Redis
                 return db.HashSetAsync(key, dataKey, json);
             });
         }
+
+        /// <summary>
+        /// 从hash表获取数据
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="dataKey"></param>
+        /// <returns></returns>
+        public async Task<T> GlobalHashGetAsync<T>(string key, string dataKey)
+        {
+            key = $"Global{key}";
+            string value = await Do(db => db.HashGetAsync(key, dataKey));
+            return value == null ? default : JsonSerializer.Deserialize<T>(value);
+        }
+
+        /// <summary>
+        /// 移除hash中的某值
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="dataKey"></param>
+        /// <returns></returns>
+        public async Task<bool> GlobalHashDeleteAsync(string key, string dataKey)
+        {
+            key = $"Global{key}";
+            return await Do(db => db.HashDeleteAsync(key, dataKey));
+        }
+
+        #endregion
+        #region Hash
+
+
+        /// <summary>
+        /// 判断某个数据是否已经被缓存
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="dataKey"></param>
+        /// <returns></returns>
+        public async Task<bool> HashExistsAsync(string key, string dataKey)
+        {
+            key = SetPrefix(key);
+            return await Do(db => db.HashExistsAsync(key, dataKey));
+        }
+
 
         /// <summary>
         /// 存储数据到hash表
@@ -330,19 +393,6 @@ namespace NPlatform.Infrastructure.Redis
         public async Task<T> HashGeAsync<T>(string key, string dataKey)
         {
             key = SetPrefix(key);
-            string value = await Do(db => db.HashGetAsync(key, dataKey));
-            return value == null ? default : JsonSerializer.Deserialize<T>(value);
-        }
-        /// <summary>
-        /// 从hash表获取数据
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <param name="dataKey"></param>
-        /// <returns></returns>
-        public async Task<T> GlobalHashGetAsync<T>(string key, string dataKey)
-        {
-            key = $"Global{key}";
             string value = await Do(db => db.HashGetAsync(key, dataKey));
             return value == null ? default : JsonSerializer.Deserialize<T>(value);
         }

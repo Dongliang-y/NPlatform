@@ -1803,7 +1803,23 @@
             <param name="obj"></param>
             <returns></returns>
         </member>
-        <member name="M:NPlatform.Infrastructure.Redis.RedisService.HashExistsAsync(System.String,System.String)">
+        <member name="M:NPlatform.Infrastructure.Redis.RedisService.GlobalStringSetAsync(System.String,System.String,System.Nullable{System.TimeSpan})">
+            <summary>
+            保存单个key value
+            </summary>
+            <param name="key">Redis Key</param>
+            <param name="value">保存的值</param>
+            <param name="expiry">过期时间</param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.Redis.RedisService.GlobalStringGetAsync(System.String)">
+            <summary>
+            获取单个key的值
+            </summary>
+            <param name="key">Redis Key</param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.Redis.RedisService.GlobalHashExistsAsync(System.String,System.String)">
             <summary>
             判断某个数据是否已经被缓存
             </summary>
@@ -1819,6 +1835,31 @@
             <param name="key"></param>
             <param name="dataKey"></param>
             <param name="t"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.Redis.RedisService.GlobalHashGetAsync``1(System.String,System.String)">
+            <summary>
+            从hash表获取数据
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key"></param>
+            <param name="dataKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.Redis.RedisService.GlobalHashDeleteAsync(System.String,System.String)">
+            <summary>
+            移除hash中的某值
+            </summary>
+            <param name="key"></param>
+            <param name="dataKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.Redis.RedisService.HashExistsAsync(System.String,System.String)">
+            <summary>
+            判断某个数据是否已经被缓存
+            </summary>
+            <param name="key"></param>
+            <param name="dataKey"></param>
             <returns></returns>
         </member>
         <member name="M:NPlatform.Infrastructure.Redis.RedisService.HashSetAsync``1(System.String,System.String,``0)">
@@ -1848,15 +1889,6 @@
             <returns></returns>
         </member>
         <member name="M:NPlatform.Infrastructure.Redis.RedisService.HashGeAsync``1(System.String,System.String)">
-            <summary>
-            从hash表获取数据
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="key"></param>
-            <param name="dataKey"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NPlatform.Infrastructure.Redis.RedisService.GlobalHashGetAsync``1(System.String,System.String)">
             <summary>
             从hash表获取数据
             </summary>
