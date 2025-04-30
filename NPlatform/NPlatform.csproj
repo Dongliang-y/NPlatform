@@ -35,7 +35,7 @@
     <Product>基础框架</Product>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <FileVersion>3.0.0.33</FileVersion>
+    <FileVersion>3.0.1.0</FileVersion>
     <PackageId>NPlatform</PackageId>
     <PackageReleaseNotes>NET CORE 版本</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/Dongliang-y/NPlatform</PackageProjectUrl>
