@@ -17,7 +17,7 @@ namespace NPlatform.Query
     /// <summary>
     /// 查询条件的封装
     /// </summary>
-    [ObsoleteAttribute("此类已过期，不可使用，请改用  DataSourceLoadOptionsBase 。", true)]
+    [ObsoleteAttribute("此类已过期，不可使用，请改用  DataSourceLoadOptionsBase 。", false)]
     public class QueryPageExp : QueryExp
     {
         /// <summary>

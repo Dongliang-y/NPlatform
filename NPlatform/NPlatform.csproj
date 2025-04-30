@@ -6,7 +6,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>NPlatform</RootNamespace>
     <AssemblyName>NPlatform</AssemblyName>
-    <AssemblyVersion>3.0.0.33</AssemblyVersion>
+    <AssemblyVersion>3.0.1.0</AssemblyVersion>
     <Description>
 		Not Platform 底层脚手架
 		.NET CORE 8.0版本
@@ -29,7 +29,7 @@
 		2024/2/19 .NET CORE 8.0版本
 		由于大部分生产环境不支持.NET8,回滚
 	</Description>
-    <Version>3.0.0.33</Version>
+    <Version>3.0.1.0</Version>
     <Authors>yidongliang123@163.com</Authors>
     <Company></Company>
     <Product>基础框架</Product>
