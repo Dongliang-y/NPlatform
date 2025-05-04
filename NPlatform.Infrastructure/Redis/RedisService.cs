@@ -268,6 +268,7 @@ namespace NPlatform.Infrastructure.Redis
             key = SetPrefix(key);
             return await Do(db => db.StringGetAsync(key));
         }
+
         /// <summary>
         /// 判断某个数据是否已经被缓存
         /// </summary>
@@ -311,6 +312,27 @@ namespace NPlatform.Infrastructure.Redis
             return value == null ? default : JsonSerializer.Deserialize<T>(value);
         }
 
+        /// <summary>
+        /// 从hash表获取数据
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public async Task<Dictionary<string,T>> GlobalHashGetAllAsync<T>(string key)
+        {
+            try
+            {
+                key = $"Global{key}";
+                var entries = await Do(db => db.HashGetAllAsync(key));
+                return entries.ToDictionary(
+                    x => x.Name.ToString(),
+                    x => JsonSerializer.Deserialize<T>(x.Value)
+                );
+            }catch(Exception ex)
+            {
+                throw new Exception("获取全部字典失败");
+            }
+        }
         /// <summary>
         /// 移除hash中的某值
         /// </summary>
