@@ -344,7 +344,17 @@ namespace NPlatform.Infrastructure.Redis
             key = $"Global{key}";
             return await Do(db => db.HashDeleteAsync(key, dataKey));
         }
-
+        /// <summary>
+        /// 移除hash中的某值
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="dataKey"></param>
+        /// <returns></returns>
+        public async Task<bool> GlobalHashDeleteAllAsync(string key)
+        {
+            key = $"Global{key}";
+            return await Do(db => db.KeyDeleteAsync(key));
+        }
         #endregion
         #region Hash
 
