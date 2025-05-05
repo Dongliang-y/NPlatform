@@ -134,7 +134,7 @@ namespace NPlatform
         {
             get
             {
-                var account = Claims.FirstOrDefault(t => t.Type == JwtClaimTypes.Name);
+                var account = Claims.FirstOrDefault(t =>t.Type == JwtClaimTypes.Name || t.Type == ClaimTypes.Name);
                 return account != null ? account.Value : "";
             }
         }
@@ -146,7 +146,7 @@ namespace NPlatform
         {
             get
             {
-                var CnName = Claims.FirstOrDefault(t => t.Type == JwtClaimTypes.GivenName);
+                var CnName = Claims.FirstOrDefault(t => t.Type == JwtClaimTypes.GivenName||t.Type==ClaimTypes.GivenName);
                 return CnName != null ? CnName.Value : "";
             }
         }
@@ -175,6 +175,10 @@ namespace NPlatform
             get
             {
                 var roles = Claims.Where(t => t.Type == JwtClaimTypes.Role);
+                if(roles==null||roles.Count()==0)
+                {
+                    roles = Claims.Where(t => t.Type == ClaimTypes.Role).ToList();
+                }
                 return roles == null ? new List<Claim>() : roles.ToList();
             }
         }
