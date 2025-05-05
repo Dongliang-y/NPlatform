@@ -348,9 +348,8 @@ namespace NPlatform.Infrastructure.Redis
         /// 移除hash中的某值
         /// </summary>
         /// <param name="key"></param>
-        /// <param name="dataKey"></param>
         /// <returns></returns>
-        public async Task<bool> GlobalHashDeleteAllAsync(string key)
+        public async Task<bool> GlobalHashDeleteAsync(string key)
         {
             key = $"Global{key}";
             return await Do(db => db.KeyDeleteAsync(key));

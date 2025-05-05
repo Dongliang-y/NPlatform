@@ -9,6 +9,7 @@ namespace NPlatform.Infrastructure.Redis
         IDatabase GetDatabase();
         IServer GetServer(string hostAndPort);
         Task<bool> GlobalHashDeleteAsync(string key, string dataKey);
+        Task<bool> GlobalHashDeleteAsync(string key);
         Task<bool> GlobalHashExistsAsync(string key, string dataKey);
         Task<Dictionary<string, T>> GlobalHashGetAllAsync<T>(string key);
         Task<T> GlobalHashGetAsync<T>(string key, string dataKey);
