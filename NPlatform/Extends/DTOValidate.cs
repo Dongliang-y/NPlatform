@@ -25,8 +25,9 @@ namespace NPlatform.Extends
         /// 校验模型的属性值是否合法,例如在service层的主动校验实体属性
         /// </summary>
         /// <param name="dto">对象值</param>
+        /// <param name="newLineTag">错误消息换行符，默认br </param>
         /// <returns></returns>
-        public static INPResult Validates(this IDto dto)
+        public static INPResult Validates(this IDto dto,string newLineTag="<br/>")
         {
             ValidationContext context = new ValidationContext(dto, serviceProvider: null, items: null);
             List<ValidationResult> results = new List<ValidationResult>();
@@ -37,7 +38,7 @@ namespace NPlatform.Extends
                 StringBuilder strErrors = new StringBuilder();
                 foreach (var validationResult in results)
                 {
-                    strErrors.AppendLine(validationResult.ErrorMessage);
+                    strErrors.AppendLine($"{validationResult.ErrorMessage}{newLineTag}");
                 }
                 return new FailResult<IDto>(strErrors.ToString());
             }
