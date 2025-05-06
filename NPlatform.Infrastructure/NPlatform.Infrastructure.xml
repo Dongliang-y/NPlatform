@@ -1846,12 +1846,27 @@
             <param name="dataKey"></param>
             <returns></returns>
         </member>
+        <member name="M:NPlatform.Infrastructure.Redis.RedisService.GlobalHashGetAllAsync``1(System.String)">
+            <summary>
+            从hash表获取数据
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
         <member name="M:NPlatform.Infrastructure.Redis.RedisService.GlobalHashDeleteAsync(System.String,System.String)">
             <summary>
             移除hash中的某值
             </summary>
             <param name="key"></param>
             <param name="dataKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.Redis.RedisService.GlobalHashDeleteAsync(System.String)">
+            <summary>
+            移除hash中的某值
+            </summary>
+            <param name="key"></param>
             <returns></returns>
         </member>
         <member name="M:NPlatform.Infrastructure.Redis.RedisService.HashExistsAsync(System.String,System.String)">
