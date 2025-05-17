@@ -261,7 +261,8 @@
             {
                 return string.Empty;
             }
-
+            if (!decryptString.StartsWith("NPLA|"))
+                return decryptString;
             try
             {
                 // 1. Decode the Base64 string to bytes
@@ -387,7 +388,8 @@
                             byte[] encryptedData = msEncrypt.ToArray();
 
                             // 4. Convert the encrypted bytes to a Base64 string
-                            return Convert.ToBase64String(encryptedData);
+                            var enStr= Convert.ToBase64String(encryptedData);
+                            return $"NPLA|{enStr}";
                         }
                     }
                 }

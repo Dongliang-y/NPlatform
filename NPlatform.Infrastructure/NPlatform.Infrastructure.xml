@@ -514,39 +514,50 @@
             <returns>SHA256结果</returns>
         </member>
         <member name="T:NPlatform.Infrastructure.AES">
-            <summary> 
-            AES加密
-            </summary> 
+            <summary>
+            AES加密解密 (Modernized using System.Security.Cryptography.Aes)
+            </summary>
         </member>
         <member name="F:NPlatform.Infrastructure.AES.keys">
             <summary>
-            默认密钥向量
+            默认密钥向量 (Hardcoded IV - required for compatibility with original encryption)
+            This IV is 16 bytes, which is the standard block size for AES (128 bits).
+            </summary>
+        </member>
+        <member name="M:NPlatform.Infrastructure.AES.DeriveKeyBytes(System.String)">
+            <summary>
+            Helper method to replicate the original key derivation logic.
+            WARNING: This uses the original GetSubString method and potentially
+            non-standard padding with spaces. It is implemented here ONLY for
+            compatibility with the original encryption process.
             </summary>
         </member>
         <member name="M:NPlatform.Infrastructure.AES.Decode(System.String,System.String)">
             <summary>
-            AES解密字符串
+            AES解密字符串 (Modernized)
             </summary>
-            <param name="decryptString">待解密的字符串</param>
-            <param name="decryptKey">解密密钥,要求为8位,和加密密钥相同</param>
-            <returns>解密成功返回解密后的字符串,失败返源串</returns>
+            <param name="decryptString">待解密的Base64字符串</param>
+            <param name="decryptKey">解密密钥字符串 (used to derive the actual 32-byte key)</param>
+            <returns>解密成功返回解密后的字符串, 失败返回string.Empty</returns>
         </member>
         <member name="M:NPlatform.Infrastructure.AES.Encode(System.String,System.String)">
             <summary>
-            AES加密字符串
+            AES加密字符串 (Modernized)
             </summary>
             <param name="encryptString">待加密的字符串</param>
-            <param name="encryptKey">加密密钥,要求为8位</param>
-            <returns>加密成功返回加密后的字符串,失败返回源串</returns>
+            <param name="encryptKey">加密密钥字符串 (used to derive the actual 32-byte key)</param>
+            <returns>加密成功返回加密后的Base64字符串, 失败返回源串</returns>
         </member>
         <member name="M:NPlatform.Infrastructure.AES.GetSubString(System.String,System.Int32,System.String)">
             <summary>
             字符串如果操过指定长度则将超出的部分用指定字符串代替
+            (This method is kept AS-IS because the key derivation depends on it.
+            WARNING: Uses Encoding.Default which is system-dependent.)
             </summary>
             <param name="p_SrcString">要检查的字符串</param>
-            <param name="pLength">指定长度</param>
-            <param name="pTailString">用于替换的字符串</param>
-            <returns>截取后的字符串</returns>
+            <param name="pLength">指定长度 (Note: Used as byte length reference with Encoding.Default in original logic)</param>
+            <param name="pTailString">用于替换的字符串 (Original code passes string.Empty for key derivation)</param>
+            <returns>截取或原字符串</returns>
         </member>
         <member name="T:NPlatform.Infrastructure.RSA">
             <summary>
@@ -1532,6 +1543,195 @@
             <summary>
             系统跟踪日志。
             </summary>
+        </member>
+        <member name="T:NPlatform.Infrastructure.MaskingHelper">
+            <summary>
+            掩码助手类
+            </summary>
+        </member>
+        <member name="M:NPlatform.Infrastructure.MaskingHelper.MaskEmail(System.String)">
+            <summary>
+            掩码邮箱地址
+            例如: test@example.com -> t**t@example.com 或 te*****@example.com
+            这里采取保留开头和结尾少量字符，中间用星号代替的策略
+            </summary>
+            <param name="email">原始邮箱地址</param>
+            <returns>掩码后的邮箱地址</returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.MaskingHelper.MaskMobile(System.String)">
+            <summary>
+            掩码手机号码
+            例如: 13812345678 -> 138****5678
+            </summary>
+            <param name="mobile">原始手机号码</param>
+            <returns>掩码后的手机号码</returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.MaskingHelper.MaskCardNum(System.String)">
+            <summary>
+            掩码身份证号
+            例如: 34012319900101123X -> 340123********123X
+            </summary>
+            <param name="cardNum">原始身份证号</param>
+            <returns>掩码后的身份证号</returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.MaskingHelper.MaskBankAccountNumber(System.String)">
+            <summary>
+            掩码银行卡号
+            例如: 6228481234567890 -> 6228********7890
+            这里采取保留前4位和后4位，中间用星号代替的策略
+            </summary>
+            <param name="accountNumber">原始银行卡号</param>
+            <returns>掩码后的银行卡号</returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.MaskingHelper.MaskSocialProvidentFundAccount(System.String)">
+            <summary>
+            掩码社保或公积金账号
+            策略类似银行卡号或身份证，保留部分开头和结尾，掩码中间
+            </summary>
+            <param name="accountNumber">原始账号</param>
+            <returns>掩码后的账号</returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.MaskingHelper.MaskPassportNumber(System.String)">
+            <summary>
+            掩码护照号码
+            策略类似身份证，保留部分开头和结尾，掩码中间
+            </summary>
+            <param name="passportNumber">原始护照号码</param>
+            <returns>掩码后的护照号码</returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.MaskingHelper.MaskDriversLicenseNumber(System.String)">
+            <summary>
+            掩码驾驶证号码 (假设格式类似身份证，掩码中间)
+            </summary>
+            <param name="licenseNumber">原始驾驶证号码</param>
+            <returns>掩码后的驾驶证号码</returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.MaskingHelper.MaskWeixinQQ(System.String)">
+            <summary>
+            掩码微信号或QQ号
+            策略：保留开头和结尾少量字符，中间用星号代替
+            </summary>
+            <param name="value">原始微信号或QQ号</param>
+            <returns>掩码后的字符串</returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.MaskingHelper.MaskOfficeTelNum(System.String)">
+            <summary>
+            掩码办公电话号码 (处理有区号和无区号的情况，掩码号码中间部分)
+            注意: 电话号码格式复杂，此为简化处理。仅对纯数字进行掩码。
+            </summary>
+            <param name="officeTel">原始办公电话号码</param>
+            <returns>掩码后的电话号码</returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.MaskingHelper.MaskName(System.String)">
+            <summary>
+            掩码姓名 (通常保留姓氏，名字部分掩码)
+            例如: 张三 -> 张*
+            注意: 单名、复姓等情况可能需要特殊处理。此为基础实现。
+            </summary>
+            <param name="name">原始姓名</param>
+            <returns>掩码后的姓名</returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.MaskingHelper.MaskAddress(System.String,System.Int32)">
+            <summary>
+            掩码地址 (简单策略：保留前面一部分，后面用星号代替)
+            例如: 广东省深圳市南山区科技园科兴路1号 -> 广东省深圳市南山区科******
+            </summary>
+            <param name="address">原始地址</param>
+            <param name="charsToKeepFromStart">从开头保留的字符数</param>
+            <returns>掩码后的地址</returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.MaskingHelper.MaskNumericValue">
+            <summary>
+            掩码数值型敏感数据 (如工资明细的具体数字)
+            通常不是字符掩码，而是用占位符表示数据是敏感的。
+            </summary>
+            <returns>掩码后的字符串占位符</returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.MaskingHelper.IsMaskedMobile(System.String)">
+            <summary>
+            判断字符串是否看起来像一个掩码后的手机号码 (XXX****XXXX)
+            </summary>
+            <param name="value">要检查的字符串</param>
+            <returns>如果符合掩码手机号模式则返回 true，否则返回 false</returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.MaskingHelper.IsMaskedEmail(System.String)">
+            <summary>
+            判断字符串是否看起来像一个掩码后的邮箱地址 (例如 t**t@domain.com 或 prefix**@domain.com)
+            </summary>
+            <param name="value">要检查的字符串</param>
+            <returns>如果符合掩码邮箱模式则返回 true，否则返回 false</returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.MaskingHelper.IsMaskedCardNum(System.String)">
+            <summary>
+            判断字符串是否看起来像一个掩码后的身份证号 (前6位数字/字母 + 多个星号 + 后4位数字/字母)
+            </summary>
+            <param name="value">要检查的字符串</param>
+            <returns>如果符合掩码身份证号模式则返回 true，否则返回 false</returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.MaskingHelper.IsMaskedBankAccountNumber(System.String)">
+            <summary>
+            判断字符串是否看起来像一个掩码后的银行卡号 (前4位数字 + 多个星号 + 后4位数字)
+            </summary>
+            <param name="value">要检查的字符串</param>
+            <returns>如果符合掩码银行卡号模式则返回 true，否则返回 false</returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.MaskingHelper.IsMaskedSocialProvidentFundAccount(System.String)">
+            <summary>
+            判断字符串是否看起来像一个掩码后的社保或公积金账号 (前4位字母数字 + 多个星号 + 后4位字母数字)
+            </summary>
+            <param name="value">要检查的字符串</param>
+            <returns>如果符合掩码账号模式则返回 true，否则返回 false</returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.MaskingHelper.IsMaskedPassportNumber(System.String)">
+            <summary>
+            判断字符串是否看起来像一个掩码后的护照号码 (前2位字母数字 + 多个星号 + 后4位字母数字)
+            </summary>
+            <param name="value">要检查的字符串</param>
+            <returns>如果符合掩码护照号码模式则返回 true，否则返回 false</returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.MaskingHelper.IsMaskedDriversLicenseNumber(System.String)">
+            <summary>
+            判断字符串是否看起来像一个掩码后的驾驶证号码 (前6位字母数字 + 多个星号 + 后4位字母数字)
+            </summary>
+            <param name="value">要检查的字符串</param>
+            <returns>如果符合掩码驾驶证号码模式则返回 true，否则返回 false</returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.MaskingHelper.IsMaskedWeixinQQ(System.String)">
+            <summary>
+            判断字符串是否看起来像一个掩码后的微信号或QQ号 (前1位 + 多个星号 + 后1位)
+            </summary>
+            <param name="value">要检查的字符串</param>
+            <returns>如果符合掩码微信号/QQ号模式则返回 true，否则返回 false</returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.MaskingHelper.IsMaskedOfficeTelNum(System.String)">
+            <summary>
+            判断字符串是否看起来像一个掩码后的办公电话号码 (前4位数字 + 多个星号 + 后4位数字)
+            注意: 这个判断是基于 MaskOfficeTelNum 清理后返回纯数字+星号的情况。
+            </summary>
+            <param name="value">要检查的字符串</param>
+            <returns>如果符合掩码电话号码模式则返回 true，否则返回 false</returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.MaskingHelper.IsMaskedName(System.String)">
+            <summary>
+            判断字符串是否看起来像一个掩码后的姓名 (第一个字符 + 多个星号)
+            </summary>
+            <param name="value">要检查的字符串</param>
+            <returns>如果符合掩码姓名模式则返回 true，否则返回 false</returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.MaskingHelper.IsMaskedAddress(System.String)">
+            <summary>
+            判断字符串是否看起来像一个掩码后的地址 (任意字符 + 多个星号)
+            注意: 这个判断比较宽松，只检查是否包含星号且星号在非末尾位置，并且以星号结尾。
+            </summary>
+            <param name="value">要检查的字符串</param>
+            <returns>如果符合掩码地址模式则返回 true，否则返回 false</returns>
+        </member>
+        <member name="M:NPlatform.Infrastructure.MaskingHelper.IsMaskedNumericValue(System.String)">
+            <summary>
+            判断字符串是否是掩码后的数值型敏感数据占位符 ([保密])
+            </summary>
+            <param name="value">要检查的字符串</param>
+            <returns>如果是占位符 "[保密]" 则返回 true，否则返回 false</returns>
         </member>
         <member name="T:NPlatform.Infrastructure.MathExpression">
             <summary>
