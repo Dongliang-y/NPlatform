@@ -263,6 +263,8 @@
             }
             if (!decryptString.StartsWith("NPLA|"))
                 return decryptString;
+            else
+                decryptString = decryptString.Substring(5);
             try
             {
                 // 1. Decode the Base64 string to bytes
