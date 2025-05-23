@@ -10,12 +10,14 @@ namespace NPlatform.API
     using NPlatform.Dto;
     using Org.BouncyCastle.Ocsp;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
 
     /// <summary>
     /// controler 基类
     /// </summary>
     // [AllowAnonymous]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Authorize]
     public abstract class BaseController : ControllerBase
     {
