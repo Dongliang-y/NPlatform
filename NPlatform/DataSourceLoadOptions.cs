@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BZPT
+namespace NPlatform
 {
     /// <summary>
     /// DataSourceLoadOptions
@@ -33,7 +33,7 @@ namespace BZPT
                 dataSourceLoadOptions.Filter = new List<object>() { dataSourceLoadOptions.Filter, "and", customFilters };
             }
         }
-        public void OR( DataSourceLoadOptionsBase dataSourceLoadOptions, List<object> customFilters)
+        public void OR(DataSourceLoadOptionsBase dataSourceLoadOptions, List<object> customFilters)
         {
             if (customFilters == null || customFilters.Count == 0)
             {
@@ -55,7 +55,7 @@ namespace BZPT
         /// 检查 DataSourceLoadOptionsBase 的 Filter 属性是否包含名为 "IsDelete" 的条件。
         /// 假设 Filter 属性已经通过 JsonConverter 反序列化为 IList。
         /// </summary>
-        public bool HasIsDelete( DataSourceLoadOptionsBase loadOptions)
+        public bool HasIsDelete(DataSourceLoadOptionsBase loadOptions)
         {
             if (loadOptions == null || loadOptions.Filter == null)
             {
