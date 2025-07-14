@@ -391,6 +391,22 @@
             XSRF-TOKEN
             </summary>
         </member>
+        <member name="T:NPlatform.DataSourceLoadOptions">
+            <summary>
+            DataSourceLoadOptions
+            </summary>
+        </member>
+        <member name="M:NPlatform.DataSourceLoadOptions.HasIsDelete(DevExtreme.AspNet.Data.DataSourceLoadOptionsBase)">
+            <summary>
+            检查 DataSourceLoadOptionsBase 的 Filter 属性是否包含名为 "IsDelete" 的条件。
+            假设 Filter 属性已经通过 JsonConverter 反序列化为 IList。
+            </summary>
+        </member>
+        <member name="M:NPlatform.DataSourceLoadOptions.HasIsDeleteFilterRecursive(System.Object)">
+            <summary>
+            递归检查反序列化后的过滤条件列表是否包含 "IsDelete"。
+            </summary>
+        </member>
         <member name="T:NPlatform.DI.IOCService">
             <summary>
             ioc 管理类

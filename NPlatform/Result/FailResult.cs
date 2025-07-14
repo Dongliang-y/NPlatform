@@ -127,7 +127,7 @@ namespace NPlatform.Result
         /// </summary>
         [JsonIgnore]
         [System.Xml.Serialization.XmlIgnore]
-        IEnumerable<T> IListResult<T>.Data { get; } = null;
+        IEnumerable<T> IListResult<T>.Data { get; set; } = null;
 
         [JsonIgnore]
         [System.Xml.Serialization.XmlIgnore]
