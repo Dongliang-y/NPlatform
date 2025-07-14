@@ -77,7 +77,7 @@ namespace NPlatform.Result
         /// 消息
         /// </summary>
         [DataMember]
-        public string Message { get; }
+        public string Message { get; set; }
 
         /// <summary>
         ///  返回结果的服务id
@@ -112,7 +112,7 @@ namespace NPlatform.Result
         /// </summary>
         [JsonIgnore]
         [System.Xml.Serialization.XmlIgnore]
-        public long Total { get; }
+        public long Total { get; set; }
 
         [JsonIgnore]
         [System.Xml.Serialization.XmlIgnore]

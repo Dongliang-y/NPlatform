@@ -26,7 +26,7 @@ namespace NPlatform.Result
         /// 消息
         /// </summary>
         [DataMember]
-        public string Message { get; }
+        public string Message { get; set; }
 
         /// <summary>
         ///  返回结果的服务id
