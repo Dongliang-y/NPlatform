@@ -16,38 +16,38 @@ namespace NPlatform
     [ModelBinder(BinderType = typeof(DataSourceLoadOptionsBinder))]
     public class DataSourceLoadOptions : DataSourceLoadOptionsBase
     {
-        public void And(DataSourceLoadOptionsBase dataSourceLoadOptions, List<object> customFilters)
+        public void And( List<object> customFilters)
         {
             if (customFilters == null || customFilters.Count == 0)
             {
                 return; // 无额外筛选条件
             }
 
-            if (dataSourceLoadOptions.Filter == null || dataSourceLoadOptions.Filter.Count == 0)
+            if (this.Filter == null || this.Filter.Count == 0)
             {
-                dataSourceLoadOptions.Filter = customFilters;
+                this.Filter = customFilters;
             }
             else
             {
 
-                dataSourceLoadOptions.Filter = new List<object>() { dataSourceLoadOptions.Filter, "and", customFilters };
+                this.Filter = new List<object>() { this.Filter, "and", customFilters };
             }
         }
-        public void OR(DataSourceLoadOptionsBase dataSourceLoadOptions, List<object> customFilters)
+        public void OR( List<object> customFilters)
         {
             if (customFilters == null || customFilters.Count == 0)
             {
                 return; // 无额外筛选条件
             }
 
-            if (dataSourceLoadOptions.Filter == null || dataSourceLoadOptions.Filter.Count == 0)
+            if (this.Filter == null || this.Filter.Count == 0)
             {
-                dataSourceLoadOptions.Filter = customFilters;
+                this.Filter = customFilters;
             }
             else
             {
 
-                dataSourceLoadOptions.Filter = new List<object>() { dataSourceLoadOptions.Filter, "or", customFilters };
+                this.Filter = new List<object>() { this.Filter, "or", customFilters };
             }
         }
 
@@ -55,16 +55,16 @@ namespace NPlatform
         /// 检查 DataSourceLoadOptionsBase 的 Filter 属性是否包含名为 "IsDelete" 的条件。
         /// 假设 Filter 属性已经通过 JsonConverter 反序列化为 IList。
         /// </summary>
-        public bool HasIsDelete(DataSourceLoadOptionsBase loadOptions)
+        public bool HasIsDelete()
         {
-            if (loadOptions == null || loadOptions.Filter == null)
+            if (this == null || this.Filter == null)
             {
                 return false;
             }
 
             // Filter 属性已经是 IList，无需再次反序列化 JSON 字符串
             // 而是直接递归检查这个 IList 结构
-            return HasIsDeleteFilterRecursive(loadOptions.Filter);
+            return HasIsDeleteFilterRecursive(this.Filter);
         }
 
         /// <summary>
