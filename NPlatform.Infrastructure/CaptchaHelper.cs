@@ -50,7 +50,7 @@ namespace NPlatform.Domains.Services.Captchas
                     var canvas = surface.Canvas;
                     canvas.DrawBitmap(background, new SKPoint(0, 0));
 
-                    var points = GenerateOrderedPoints(count, 50, 50);
+                    var points = GenerateOrderedPoints(count, fontSize * 2, fontSize * 2);
                     System.Text.Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
                     var chars = GenerateRandomChinese(count);
 
@@ -110,6 +110,19 @@ namespace NPlatform.Domains.Services.Captchas
                         //canvas.DrawCircle(rotatedCenterPoint.X, rotatedCenterPoint.Y, 3, dotPaint);
 
                         canvas.RotateDegrees(rotationAngle, rotatedCenterPoint.X, rotatedCenterPoint.Y);
+                        // 先画描边
+                        var borderPaint = new SKPaint
+                        {
+                            Typeface = paint.Typeface,
+                            TextSize = paint.TextSize,
+                            FakeBoldText = true,
+                            IsAntialias = true,
+                            Color = SKColors.Black,
+                            Style = SKPaintStyle.Stroke,
+                            StrokeWidth = 2
+                        };
+                        canvas.DrawPath(textPath, borderPaint);
+
                         canvas.DrawPath(textPath, paint);
                         canvas.RotateDegrees(-rotationAngle, rotatedCenterPoint.X, rotatedCenterPoint.Y);
                     }
