@@ -35,8 +35,11 @@ namespace NPlatform.Domains.Services.Captchas
         private static int backWidth = 500;
         private static int backHeight = 500;
 
-        public static (string, string, CharInfo[]) CreateBase64Captcha(string backgroundPath, int count, int fontSize = 32)
+        public static (string, string, CharInfo[]) CreateBase64Captcha(string backgroundPath, int count, int fontSize = 32, int width = 500, int height = 500)
         {
+            backWidth = width;
+            backHeight = height;
+
             SKBitmap background = LoadRandomBackgroundImage(backgroundPath);
             try
             {
