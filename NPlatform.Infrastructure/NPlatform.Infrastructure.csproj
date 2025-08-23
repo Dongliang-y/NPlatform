@@ -7,9 +7,9 @@
     <Product>NPlatform</Product>
     <Company>NPlatform</Company>
     <Authors>Dongliang Yi</Authors>
-    <Version>3.0.1.13</Version>
-    <AssemblyVersion>3.0.1.13</AssemblyVersion>
-    <FileVersion>3.0.1.13</FileVersion>
+    <Version>3.0.1.14</Version>
+    <AssemblyVersion>3.0.1.14</AssemblyVersion>
+    <FileVersion>3.0.1.14</FileVersion>
     <ApplicationIcon />
     <OutputType>Library</OutputType>
     <StartupObject />

@@ -35,7 +35,8 @@ namespace NPlatform.Domains.Services.Captchas
         private static int backWidth = 500;
         private static int backHeight = 500;
 
-        public static (string, string, CharInfo[]) CreateBase64Captcha(string backgroundPath, int count, int fontSize = 32, int width = 500, int height = 500)
+        public static (string, string, CharInfo[]) CreateBase64Captcha(
+            string backgroundPath, int count, int fontSize = 32, int width = 500, int height = 500)
         {
             backWidth = width;
             backHeight = height;
@@ -50,11 +51,10 @@ namespace NPlatform.Domains.Services.Captchas
                     var canvas = surface.Canvas;
                     canvas.DrawBitmap(background, new SKPoint(0, 0));
 
-                    var points = GenerateOrderedPoints(count, fontSize * 2, fontSize * 2);
+                    var points = GenerateOrderedPoints(count, fontSize * 2, (fontSize * 2) + 10);
                     System.Text.Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
                     var chars = GenerateRandomChinese(count);
 
-                    Console.WriteLine($"CurrentDomain.BaseDirectory:{System.AppDomain.CurrentDomain.BaseDirectory}");
                     CharInfo[] keyInfos = new CharInfo[count];
                     for (var i = 0; i < count; i++)
                     {
@@ -69,12 +69,15 @@ namespace NPlatform.Domains.Services.Captchas
                         {
                             string currentDirectory = AppContext.BaseDirectory;
                             var filePath = $"{currentDirectory}/msyh.ttc";
-                            Console.WriteLine($"{filePath}:是否存在-->{System.IO.Directory.Exists(filePath)}");
-
-                            typeface = SKTypeface.FromFile($"{currentDirectory}/msyh.ttc");
-                            Console.WriteLine($"msyh.ttc FamilyName:{typeface?.FamilyName}");
+                            if (File.Exists(filePath))
+                            {
+                                typeface = SKTypeface.FromFile(filePath);
+                            }
                         }
-                        Console.WriteLine(typeface.FamilyName + typeface.ToString());
+
+                        // 根据文字位置获取对比色
+                        var textColor = GenerateContrastColor(background, point);
+                        var borderColor = GetBorderColorForText(textColor);
 
                         SKPaint paint = new SKPaint
                         {
@@ -82,47 +85,32 @@ namespace NPlatform.Domains.Services.Captchas
                             TextSize = fontSize,
                             FakeBoldText = true,
                             IsAntialias = true,
-                            Color = GenerateBrightColor(),
+                            Color = textColor,
+                            TextAlign = SKTextAlign.Center
                         };
 
-                        paint.TextAlign = SKTextAlign.Center;
-
                         SKPath textPath = paint.GetTextPath(text, point.X, point.Y);
-
-                        SKRect textBounds = new SKRect();
-                        textPath.GetBounds(out textBounds);
-
-                        float rotatedTextCenterX = textBounds.MidX;
-                        float rotatedTextCenterY = textBounds.MidY;
-
-                        SKPoint rotatedCenterPoint = new SKPoint(rotatedTextCenterX, rotatedTextCenterY);
-                        SKMatrix inverseMatrix = new SKMatrix();
-                        canvas.TotalMatrix.TryInvert(out inverseMatrix);
-                        inverseMatrix.MapPoints(new SKPoint[] { rotatedCenterPoint });
+                        textPath.GetBounds(out SKRect textBounds);
+                        SKPoint rotatedCenterPoint = new SKPoint(textBounds.MidX, textBounds.MidY);
 
                         keyInfos[i] = new CharInfo() { Index = text, X = rotatedCenterPoint.X, Y = rotatedCenterPoint.Y };
-                        //// 绘制小圆点
-                        //SKPaint dotPaint = new SKPaint
-                        //{
-                        //    Color = SKColors.Yellow,
-                        //    IsAntialias = true,
-                        //};
-                        //canvas.DrawCircle(rotatedCenterPoint.X, rotatedCenterPoint.Y, 3, dotPaint);
 
                         canvas.RotateDegrees(rotationAngle, rotatedCenterPoint.X, rotatedCenterPoint.Y);
-                        // 先画描边
+
+                        // 先画柔和描边
                         var borderPaint = new SKPaint
                         {
                             Typeface = paint.Typeface,
                             TextSize = paint.TextSize,
                             FakeBoldText = true,
                             IsAntialias = true,
-                            Color = SKColors.Black,
+                            Color = borderColor,
                             Style = SKPaintStyle.Stroke,
-                            StrokeWidth = 2
+                            StrokeWidth = Math.Max(1.5f, fontSize * 0.06f) // 自适应描边宽度
                         };
                         canvas.DrawPath(textPath, borderPaint);
 
+                        // 再画文字
                         canvas.DrawPath(textPath, paint);
                         canvas.RotateDegrees(-rotationAngle, rotatedCenterPoint.X, rotatedCenterPoint.Y);
                     }
@@ -143,15 +131,42 @@ namespace NPlatform.Domains.Services.Captchas
             }
         }
 
-        public static SKColor GenerateBrightColor()
+        // 根据背景位置生成对比度颜色
+        public static SKColor GenerateContrastColor(SKBitmap bg, SKPoint point)
         {
-            int red = random.Next(192, 256);  // 生成范围在 192-255 之间的红色分量，偏向红色
-            int green = random.Next(10, 152);  // 生成范围在 0-127 之间的绿色分量，减少绿色的可能性
-            int blue = random.Next(10, 152);   // 生成范围在 0-127 之间的蓝色分量
+            int px = (int)Math.Clamp(point.X, 0, bg.Width - 1);
+            int py = (int)Math.Clamp(point.Y, 0, bg.Height - 1);
+            SKColor bgColor = bg.GetPixel(px, py);
 
-            SKColor color = new SKColor((byte)red, (byte)green, (byte)blue);
+            double brightness = (0.299 * bgColor.Red + 0.587 * bgColor.Green + 0.114 * bgColor.Blue) / 255;
 
-            return color;
+            if (brightness > 0.6) // 背景亮 → 用柔和深色
+            {
+                return new SKColor((byte)random.Next(20, 80), (byte)random.Next(20, 80), (byte)random.Next(20, 80));
+            }
+            else // 背景暗 → 用柔和亮色
+            {
+                byte baseVal = 200;
+                return new SKColor((byte)(baseVal + random.Next(0, 40)),
+                                   (byte)(baseVal + random.Next(0, 40)),
+                                   (byte)(baseVal + random.Next(0, 40)));
+            }
+        }
+
+        // 根据文字颜色生成反差描边颜色
+        public static SKColor GetBorderColorForText(SKColor textColor)
+        {
+            double brightness = (0.299 * textColor.Red + 0.587 * textColor.Green + 0.114 * textColor.Blue) / 255;
+            if (brightness > 0.5)
+            {
+                // 文字亮 → 描边深且半透明
+                return new SKColor(0, 0, 0, 180);
+            }
+            else
+            {
+                // 文字暗 → 描边浅且半透明
+                return new SKColor(255, 255, 255, 180);
+            }
         }
 
         private static string CreateTips(string text)
