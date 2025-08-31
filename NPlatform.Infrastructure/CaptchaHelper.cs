@@ -1,8 +1,4 @@
-﻿using System.Net;
-using System.IO;
-using System.Net.Http;
-using SkiaSharp;
-using Org.BouncyCastle.Utilities;
+﻿using SkiaSharp;
 using System.Runtime.InteropServices;
 
 namespace NPlatform.Domains.Services.Captchas
@@ -11,7 +7,8 @@ namespace NPlatform.Domains.Services.Captchas
     /// 图形验证码，生成一张随机的背景图， 以及按顺序返回小图片的坐标信息。
     /// 客户端也必须按顺序提交用户选择的坐标。
     /// </summary>
-    public class CaptchaHelper {
+    public class CaptchaHelper
+    {
 
         private static readonly Random random = new Random(Guid.NewGuid().GetHashCode());
         /// <summary>
@@ -38,8 +35,12 @@ namespace NPlatform.Domains.Services.Captchas
         private static int backWidth = 500;
         private static int backHeight = 500;
 
-        public static (string, string, CharInfo[]) CreateBase64Captcha(string backgroundPath, int count, int fontSize = 32)
+        public static (string, string, CharInfo[]) CreateBase64Captcha(
+            string backgroundPath, int count, int fontSize = 32, int width = 500, int height = 500)
         {
+            backWidth = width;
+            backHeight = height;
+
             SKBitmap background = LoadRandomBackgroundImage(backgroundPath);
             try
             {
@@ -50,11 +51,10 @@ namespace NPlatform.Domains.Services.Captchas
                     var canvas = surface.Canvas;
                     canvas.DrawBitmap(background, new SKPoint(0, 0));
 
-                    var points = GenerateOrderedPoints(count, 50,50);
+                    var points = GenerateOrderedPoints(count, fontSize * 2, (fontSize * 2) + 10);
                     System.Text.Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
                     var chars = GenerateRandomChinese(count);
 
-                    Console.WriteLine($"CurrentDomain.BaseDirectory:{System.AppDomain.CurrentDomain.BaseDirectory}");
                     CharInfo[] keyInfos = new CharInfo[count];
                     for (var i = 0; i < count; i++)
                     {
@@ -69,12 +69,15 @@ namespace NPlatform.Domains.Services.Captchas
                         {
                             string currentDirectory = AppContext.BaseDirectory;
                             var filePath = $"{currentDirectory}/msyh.ttc";
-                            Console.WriteLine($"{filePath}:是否存在-->{System.IO.Directory.Exists(filePath)}");
-                            
-                            typeface = SKTypeface.FromFile($"{currentDirectory}/msyh.ttc");
-                            Console.WriteLine($"msyh.ttc FamilyName:{typeface?.FamilyName}");
+                            if (File.Exists(filePath))
+                            {
+                                typeface = SKTypeface.FromFile(filePath);
+                            }
                         }
-                        Console.WriteLine(typeface.FamilyName + typeface.ToString());
+
+                        // 根据文字位置获取对比色
+                        var textColor = GenerateContrastColor(background, point);
+                        var borderColor = GetBorderColorForText(textColor);
 
                         SKPaint paint = new SKPaint
                         {
@@ -82,34 +85,32 @@ namespace NPlatform.Domains.Services.Captchas
                             TextSize = fontSize,
                             FakeBoldText = true,
                             IsAntialias = true,
-                            Color = GenerateBrightColor(),
+                            Color = textColor,
+                            TextAlign = SKTextAlign.Center
                         };
 
-                        paint.TextAlign = SKTextAlign.Center;
-
-                        SKPath textPath =  paint.GetTextPath(text, point.X, point.Y);
-
-                        SKRect textBounds = new SKRect();
-                        textPath.GetBounds(out textBounds);
-
-                        float rotatedTextCenterX = textBounds.MidX;
-                        float rotatedTextCenterY = textBounds.MidY;
-
-                        SKPoint rotatedCenterPoint = new SKPoint(rotatedTextCenterX, rotatedTextCenterY);
-                        SKMatrix inverseMatrix = new SKMatrix();
-                        canvas.TotalMatrix.TryInvert(out inverseMatrix);
-                        inverseMatrix.MapPoints(new SKPoint[] { rotatedCenterPoint });
+                        SKPath textPath = paint.GetTextPath(text, point.X, point.Y);
+                        textPath.GetBounds(out SKRect textBounds);
+                        SKPoint rotatedCenterPoint = new SKPoint(textBounds.MidX, textBounds.MidY);
 
                         keyInfos[i] = new CharInfo() { Index = text, X = rotatedCenterPoint.X, Y = rotatedCenterPoint.Y };
-                        //// 绘制小圆点
-                        //SKPaint dotPaint = new SKPaint
-                        //{
-                        //    Color = SKColors.Yellow,
-                        //    IsAntialias = true,
-                        //};
-                        //canvas.DrawCircle(rotatedCenterPoint.X, rotatedCenterPoint.Y, 3, dotPaint);
 
                         canvas.RotateDegrees(rotationAngle, rotatedCenterPoint.X, rotatedCenterPoint.Y);
+
+                        // 先画柔和描边
+                        var borderPaint = new SKPaint
+                        {
+                            Typeface = paint.Typeface,
+                            TextSize = paint.TextSize,
+                            FakeBoldText = true,
+                            IsAntialias = true,
+                            Color = borderColor,
+                            Style = SKPaintStyle.Stroke,
+                            StrokeWidth = Math.Max(1.5f, fontSize * 0.06f) // 自适应描边宽度
+                        };
+                        canvas.DrawPath(textPath, borderPaint);
+
+                        // 再画文字
                         canvas.DrawPath(textPath, paint);
                         canvas.RotateDegrees(-rotationAngle, rotatedCenterPoint.X, rotatedCenterPoint.Y);
                     }
@@ -130,15 +131,42 @@ namespace NPlatform.Domains.Services.Captchas
             }
         }
 
-        public static SKColor GenerateBrightColor()
+        // 根据背景位置生成对比度颜色
+        public static SKColor GenerateContrastColor(SKBitmap bg, SKPoint point)
         {
-            int red = random.Next(192, 256);  // 生成范围在 192-255 之间的红色分量，偏向红色
-            int green = random.Next(10, 152);  // 生成范围在 0-127 之间的绿色分量，减少绿色的可能性
-            int blue = random.Next(10, 152);   // 生成范围在 0-127 之间的蓝色分量
+            int px = (int)Math.Clamp(point.X, 0, bg.Width - 1);
+            int py = (int)Math.Clamp(point.Y, 0, bg.Height - 1);
+            SKColor bgColor = bg.GetPixel(px, py);
 
-            SKColor color = new SKColor((byte)red, (byte)green, (byte)blue);
+            double brightness = (0.299 * bgColor.Red + 0.587 * bgColor.Green + 0.114 * bgColor.Blue) / 255;
 
-            return color;
+            if (brightness > 0.6) // 背景亮 → 用柔和深色
+            {
+                return new SKColor((byte)random.Next(20, 80), (byte)random.Next(20, 80), (byte)random.Next(20, 80));
+            }
+            else // 背景暗 → 用柔和亮色
+            {
+                byte baseVal = 200;
+                return new SKColor((byte)(baseVal + random.Next(0, 40)),
+                                   (byte)(baseVal + random.Next(0, 40)),
+                                   (byte)(baseVal + random.Next(0, 40)));
+            }
+        }
+
+        // 根据文字颜色生成反差描边颜色
+        public static SKColor GetBorderColorForText(SKColor textColor)
+        {
+            double brightness = (0.299 * textColor.Red + 0.587 * textColor.Green + 0.114 * textColor.Blue) / 255;
+            if (brightness > 0.5)
+            {
+                // 文字亮 → 描边深且半透明
+                return new SKColor(0, 0, 0, 180);
+            }
+            else
+            {
+                // 文字暗 → 描边浅且半透明
+                return new SKColor(255, 255, 255, 180);
+            }
         }
 
         private static string CreateTips(string text)
@@ -191,20 +219,60 @@ namespace NPlatform.Domains.Services.Captchas
             }
         }
 
+        ///// <summary>
+        ///// 获取背景图
+        ///// </summary>
+        ///// <returns></returns>
+        //private static SKBitmap LoadRandomBackgroundImage(string backgroundPath)
+        //{
+        //    var images = Directory.GetFiles(backgroundPath, "*.jpg");
+
+        //    if (images.Length == 0)
+        //        throw new Exception("验证码初始化失败！缺少|*.jpg|格式的背景图片。");
+
+        //    int num = random.Next(1, images.Length + 1);
+        //    string path = images[num - 1];
+        //    return SKBitmap.Decode(path);
+        //}
         /// <summary>
         /// 获取背景图
         /// </summary>
-        /// <returns></returns>
+        /// <param name="backgroundPath">背景图片所在的目录路径。</param>
+        /// <returns>加载的随机背景图 (SKBitmap)。</returns>
+        /// <exception cref="Exception">当目录中找不到任何 .jpg 或 .png 图片时抛出。</exception>
         private static SKBitmap LoadRandomBackgroundImage(string backgroundPath)
         {
-            var images = Directory.GetFiles(backgroundPath, "*.jpg");
+            // 使用 SearchOption.TopDirectoryOnly 可以在当前目录查找，如果需要递归查找子目录，可以改为 SearchOption.AllDirectories
+            // 合并查找 JPG 和 PNG 文件
+            string[] jpgImages = Directory.GetFiles(backgroundPath, "*.jpg", SearchOption.TopDirectoryOnly);
+            string[] pngImages = Directory.GetFiles(backgroundPath, "*.png", SearchOption.TopDirectoryOnly);
 
-            if (images.Length == 0)
-                throw new Exception("验证码初始化失败！缺少|*.jpg|格式的背景图片。");
+            // 将两个数组合并
+            string[] allImages = new string[jpgImages.Length + pngImages.Length];
+            jpgImages.CopyTo(allImages, 0);
+            pngImages.CopyTo(allImages, jpgImages.Length);
 
-            int num = random.Next(1, images.Length + 1);
-            string path = images[num - 1];
-            return SKBitmap.Decode(path);
+            if (allImages.Length == 0)
+            {
+                // 抛出更具体的异常信息，说明找不到什么格式的图片
+                throw new Exception($"验证码初始化失败！在目录 '{backgroundPath}' 中缺少 *.jpg 或 *.png 格式的背景图片。");
+            }
+
+            // 生成一个在 [0, allImages.Length - 1] 范围内的随机索引
+            // random.Next(maxValue) 返回一个小于 maxValue 的非负随机整数。
+            // 所以 random.Next(allImages.Length) 会返回 0 到 allImages.Length - 1 的一个值。
+            int randomIndex = random.Next(allImages.Length);
+            string path = allImages[randomIndex];
+
+            try
+            {
+                return SKBitmap.Decode(path);
+            }
+            catch (Exception ex)
+            {
+                // 捕获解码错误，并提供更详细的信息
+                throw new Exception($"验证码初始化失败！解码背景图片 '{path}' 时出错：{ex.Message}", ex);
+            }
         }
         private static string EncodeImageToBase64(SKImage image)
         {
@@ -222,7 +290,7 @@ namespace NPlatform.Domains.Services.Captchas
             {
                 using (var imageData = imageSurface.Encode())
                 {
-                    var imageBytes= imageData.ToArray();
+                    var imageBytes = imageData.ToArray();
                     var mime = GetImageMimeType(imageBytes);
                     return $"data:{mime};base64,{Convert.ToBase64String(imageBytes)}";
                 }
@@ -354,8 +422,8 @@ namespace NPlatform.Domains.Services.Captchas
                 double x, y;
                 do
                 {
-                    x = randomPoint.Next(paddingWidth, backWidth-paddingWidth); // 在 0 到 100 之间生成随机 X 坐标
-                    y = randomPoint.Next(paddingHeight,backHeight-paddingHeight);  // 在 0 到 100 之间生成随机 Y 坐标
+                    x = randomPoint.Next(paddingWidth, backWidth - paddingWidth); // 在 0 到 100 之间生成随机 X 坐标
+                    y = randomPoint.Next(paddingHeight, backHeight - paddingHeight);  // 在 0 到 100 之间生成随机 Y 坐标
                 } while (HasOverlap(points, x, y));
                 var pint = new SKPoint((float)x, (float)y);
                 points.Add(pint);

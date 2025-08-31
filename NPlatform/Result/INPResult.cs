@@ -27,7 +27,7 @@ namespace NPlatform.Result
         /// </summary>
         [DataMember]
         [JsonPropertyName("message")]
-        string Message { get; }
+        string Message { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="Net.Http.Headers.MediaTypeHeaderValue"/> representing the Content-Type header of the response.

@@ -25,14 +25,14 @@ namespace NPlatform.Result
         /// </summary>
         [DataMember]
         [JsonPropertyName("total")]
-        long Total { get; }
+        long Total { get; set; }
 
         /// <summary>
         /// 数据行
         /// </summary>
         [DataMember]
         [JsonPropertyName("value")]
-        new IEnumerable<T> Data { get; }
+        new IEnumerable<T> Data { get; set; }
 
         /// <summary>
         /// 把结果转成List集合

@@ -25,13 +25,13 @@ namespace NPlatform.Result
         /// 数据总数
         /// </summary>
         [DataMember]
-        public long Total { get; }
+        public long Total { get; set; }
 
         /// <summary>
         /// 消息
         /// </summary>
         [DataMember]
-        public string Message { get; }
+        public string Message { get; set; }
 
         /// <summary>
         ///  返回结果的服务id

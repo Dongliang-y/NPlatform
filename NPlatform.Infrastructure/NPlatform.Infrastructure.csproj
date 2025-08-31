@@ -1,27 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net7.0</TargetFrameworks>
+    <TargetFrameworks>net8.0</TargetFrameworks>
     <Description>
 	</Description>
     <Product>NPlatform</Product>
     <Company>NPlatform</Company>
     <Authors>Dongliang Yi</Authors>
-    <Version>3.0.1.10</Version>
-    <AssemblyVersion>3.0.1.10</AssemblyVersion>
-    <FileVersion>3.0.1.10</FileVersion>
+    <Version>3.0.1.14</Version>
+    <AssemblyVersion>3.0.1.14</AssemblyVersion>
+    <FileVersion>3.0.1.14</FileVersion>
     <ApplicationIcon />
     <OutputType>Library</OutputType>
     <StartupObject />
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReleaseNotes>
-		2021/11/8 配置管理部分调整，增加timeout配置
-		2021/10/18 ServiceConfig  增加主从库连接配置
-		2021/10/11 修改配置获取的BUG
-		2021/9/28 Not Platform 基础设施
-		2023/2/22 更新.NET CORE 7.0版本，完善CQRS版本
-		2024/1/24完善图形验证码
-		2024/2/19 net8.0 版本
+		NPlatform.Infrastructure 快速开发框架NPlatform 的脚手架，
+		整合常用的工具类基础设施等。
 	</PackageReleaseNotes>
     <PackageId>NPlatform.Infrastructure</PackageId>
     <PackageProjectUrl>https://github.com/Dongliang-y/NPlatform</PackageProjectUrl>
