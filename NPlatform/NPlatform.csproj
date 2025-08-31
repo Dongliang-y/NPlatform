@@ -10,9 +10,9 @@
 		Not Platform 快速开发框架的核心包。
 		包括基本的框架定义，核心接口、基类、微服务支持、sass支持等。
 	</Description>
-    <Version>3.0.1.11</Version>
-	  <AssemblyVersion>3.0.1.10</AssemblyVersion>
-	  <FileVersion>3.0.1.10</FileVersion>
+    <Version>3.0.1.12</Version>
+	  <AssemblyVersion>3.0.1.12</AssemblyVersion>
+	  <FileVersion>3.0.1.12</FileVersion>
     <Authors>yidongliang123@163.com</Authors>
     <Company></Company>
     <Product>基础框架</Product>
