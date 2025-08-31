@@ -12,21 +12,6 @@
 using NPlatform.Extends;
 using System.Net;
 using System.Runtime.
-/* 项目“NPlatform (net5.0)”的未合并的更改
-在此之前:
-using NPlatform;
-using System.Net;
-在此之后:
-using System.Net;
-*/
-
-/* 项目“NPlatform (net6.0)”的未合并的更改
-在此之前:
-using NPlatform;
-using System.Net;
-在此之后:
-using System.Net;
-*/
 Serialization;
 using System.Text.Json.Serialization;
 
@@ -42,7 +27,7 @@ namespace NPlatform.Result
         /// 消息
         /// </summary>
         [DataMember]
-        public string Message { get; }
+        public string Message { get; set;}
 
         /// <summary>
         ///  返回结果的服务id
